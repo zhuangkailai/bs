@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.output.UserMonitorPointRelationDataMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.base.UserMonitorPointRelationDataVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_UserID" jdbcType="VARCHAR" property="fkUserid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid"/>
+        <result column="DGIMN" jdbcType="VARCHAR" property="dgimn"/>
+        <result column="FK_MonitorPointType" jdbcType="VARCHAR" property="fkMonitorpointtype"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_UserID, FK_PollutionID, FK_MonitorPointID,DGIMN, FK_MonitorPointType, UpdateTime,
+    UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_UserMonitorPointRelationData
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_UserMonitorPointRelationData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+
+    <delete id="deleteByParamMap" parameterType="map">
+        <if test="(monitorpoints!= null) or (pollutionids!= null and pollutionids.size>0) or (pollutionid!=null and pollutionid!='')">
+            delete from T_BAS_UserMonitorPointRelationData
+            <where>
+                <choose>
+                    <when test="pollutionid!=null and pollutionid!=''">
+                        FK_PollutionID = #{pollutionid}
+                        <if test="userids != null and userids.size>0 ">
+                            and FK_UserID in
+                            <foreach item="item" index="index" collection="userids"
+                                     open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        </if>
+                    </when>
+                    <when test="monitorpoints != null and monitorpoints.size>0 ">
+                        and
+                        <foreach item="item" index="index" collection="monitorpoints"
+                                 open="(" separator="or" close=")">
+                            (FK_MonitorPointID=#{item.Fk_MonitorPointID} and FK_MonitorPointType=#{item.FK_MonitorPointTypeCode})
+                        </foreach>
+                        <if test="userids != null and userids.size>0 ">
+                            and FK_UserID in
+                            <foreach item="item" index="index" collection="userids"
+                                     open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        </if>
+                    </when>
+                    <when test="monitorpoints != null and monitorpoints.size==0 ">
+                        <if test="userids != null and userids.size>0 ">
+                            and FK_UserID in
+                            <foreach item="item" index="index" collection="userids"
+                                     open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        </if>
+                    </when>
+                    <when test="pollutionids != null and pollutionids.size>0 ">
+                        and FK_PollutionID in
+                        <foreach item="item" index="index" collection="pollutionids"
+                                 open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                        <if test="userids != null and userids.size>0 ">
+                            and FK_UserID in
+                            <foreach item="item" index="index" collection="userids"
+                                     open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        </if>
+                    </when>
+                </choose>
+            </where>
+        </if>
+
+    </delete>
+
+    <insert id="insert" parameterType="com.tjpu.sp.model.base.UserMonitorPointRelationDataVO">
+    insert into T_BAS_UserMonitorPointRelationData (PK_ID, FK_UserID, FK_PollutionID, 
+      FK_MonitorPointID,DGIMN, FK_MonitorPointType, UpdateTime,
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkUserid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, 
+      #{fkMonitorpointid,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, #{fkMonitorpointtype,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP},
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.base.UserMonitorPointRelationDataVO">
+        insert into T_BAS_UserMonitorPointRelationData
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkUserid != null">
+                FK_UserID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointID,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+            <if test="fkMonitorpointtype != null">
+                FK_MonitorPointType,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkUserid != null">
+                #{fkUserid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtype != null">
+                #{fkMonitorpointtype,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.base.UserMonitorPointRelationDataVO">
+        update T_BAS_UserMonitorPointRelationData
+        <set>
+            <if test="fkUserid != null">
+                FK_UserID = #{fkUserid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                DGIMN = #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtype != null">
+                FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.base.UserMonitorPointRelationDataVO">
+    update T_BAS_UserMonitorPointRelationData
+    set FK_UserID = #{fkUserid,jdbcType=VARCHAR},
+      FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      DGIMN = #{dgimn,jdbcType=VARCHAR},
+      FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+       Description: 批量添加数据权限信息
+       Param:
+       Author: xsm
+       Date: 2020/04/30 13:24
+   -->
+    <insert id="batchAdd">
+        <if test="list!=null and list.size>0">
+            insert into T_BAS_UserMonitorPointRelationData (PK_ID, FK_UserID, FK_PollutionID,
+            FK_MonitorPointID,DGIMN, FK_MonitorPointType, UpdateTime,
+            UpdateUser)
+            VALUES
+            <foreach collection="list" item="item" index="index" separator=",">
+                (#{item.pkId,jdbcType=VARCHAR}, #{item.fkUserid,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR},
+                #{item.fkMonitorpointid,jdbcType=VARCHAR}, #{item.dgimn,jdbcType=VARCHAR},
+                #{item.fkMonitorpointtype,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP},
+                #{item.updateuser,jdbcType=VARCHAR})
+            </foreach>
+        </if>
+    </insert>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取dgimn
+        param:
+        date: 2020/04/20 12:07
+    -->
+    <select id="getDGIMNByParamMap" resultType="map" parameterType="map">
+        SELECT
+        dgimn,
+        FK_MonitorPointType
+        FROM
+        T_BAS_UserMonitorPointRelationData
+        LEFT JOIN Base_UserInfo on T_BAS_UserMonitorPointRelationData.FK_UserID=Base_UserInfo.User_ID
+        <where>
+            dgimn is not null and len(dgimn)>0
+            <if test="userid !=null and userid != '' ">
+                and FK_UserID=#{userid}
+            </if>
+            <if test="usercode != null and usercode != ''">
+                or User_Code = #{usercode}
+            </if>
+        </where>
+    </select>
+
+    <!-- author:xsm description: 根据自定义参数获取用户企业关联信息  date: 2019/07/16 13:20-->
+    <select id="getUserMonitorPointRelationDataByParams" parameterType="map" resultType="map">
+        SELECT FK_UserID,FK_PollutionID, FK_MonitorPointID, FK_MonitorPointType,DGIMN,PUB_CODE_MonitorPointType.Name
+        monitorpointtypename,PUB_CODE_MonitorPointType.OrderIndex
+        from T_BAS_UserMonitorPointRelationData
+        LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =
+        PUB_CODE_MonitorPointType.Code AND PUB_CODE_MonitorPointType.IsUsed = 1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="userid!=null and userid!='' ">
+                and T_BAS_UserMonitorPointRelationData.FK_UserID =#{userid}
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =#{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in
+                <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and T_BAS_UserMonitorPointRelationData.FK_PollutionID =#{pollutionid}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getAllMonitorPointDataByParamMap" resultType="map" parameterType="map">
+        SELECT tt.Pollutionid,tt.PollutionName,tt.DGIMN,tt.outputname, tt.outputid, tt.FK_MonitorPointType,a.Name MonitorPointTypeName FROM (
+        SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_GASOutPutInfo.OutPutName
+        outputname,T_BAS_GASOutPutInfo.PK_ID outputid,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN AND
+        T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode=T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,1 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,37 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_WaterOutputInfo.OutPutType =3
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,40 FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN =
+        T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =40
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,41 FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN =
+        T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =41
+        ) tt LEFT JOIN  PUB_CODE_MonitorPointType a
+       on a.Code = tt.FK_MonitorPointType
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and tt.Pollutionid =#{pollutionid}
+            </if>
+        </trim>
+    </select>
+
+
+
+    <!-- author:xsm description: 批量修改数据权限关系表中MN  date: 2020/09/03 15:24-->
+    <select id="updataUserMonitorPointRelationDataByMnAndType" parameterType="map" >
+        update T_BAS_UserMonitorPointRelationData
+        set
+        DGIMN = #{newmn}
+        where DGIMN = #{oldmn} and FK_MonitorPointType = #{monitorpointtype}
+    </select>
+
+    <!-- author:xsm description: 批量删除数据权限关系表中MN  date: 2020/09/03 15:24-->
+    <select id="deleteUserMonitorPointRelationDataByMnAndType" parameterType="map" >
+        DELETE from T_BAS_UserMonitorPointRelationData
+        where DGIMN = #{oldmn} and FK_MonitorPointType = #{monitorpointtype}
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过自定义条件获取用户id
+        param:
+        date: 2020/09/19 14:33
+    -->
+    <select id="getUserIdByParamMap" parameterType="map" resultType="string">
+        SELECT DISTINCT
+            FK_UserID
+        FROM
+            T_BAS_UserMonitorPointRelationData
+        <where>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointID =#{monitorpointid}
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =#{monitorpointtype}
+            </if>
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and T_BAS_UserMonitorPointRelationData.FK_PollutionID =#{pollutionid}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getUserMonitorPointRelationData" resultMap="BaseResultMap" parameterType="map">
+        select * from T_BAS_UserMonitorPointRelationData
+    </select>
+
+    <!--
+        author:chengzq
+        description: 获取用户所有企业id和排口id
+        param:
+        date: 2021/03/18 10:54
+    -->
+    <select id="getMonitorPointIDsByUserid" resultType="string" parameterType="string">
+        SELECT
+            distinct
+            FK_MonitorPointID
+        FROM
+            T_BAS_UserMonitorPointRelationData
+            where
+            FK_UserId=#{userid}
+    </select>
+</mapper>

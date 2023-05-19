@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.ButtonMapper">
+    <resultMap id="BaseResultMap" type="com.pub.model.ButtonVO">
+        <id column="Button_ID" jdbcType="NVARCHAR" property="buttonId"/>
+        <result column="Button_Name" jdbcType="NVARCHAR" property="buttonName"/>
+        <result column="Button_Title" jdbcType="NVARCHAR" property="buttonTitle"/>
+        <result column="Button_Img" jdbcType="NVARCHAR" property="buttonImg"/>
+        <result column="Button_Code" jdbcType="NVARCHAR" property="buttonCode"/>
+        <result column="SortCode" jdbcType="INTEGER" property="sortcode"/>
+        <result column="Button_Type" jdbcType="NVARCHAR" property="buttonType"/>
+        <result column="Button_Remak" jdbcType="NVARCHAR" property="buttonRemak"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deletemark"/>
+        <result column="CreateDate" jdbcType="DATE" property="createdate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createuserid"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createusername"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifydate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyuserid"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyusername"/>
+        <result column="Button_Style" jdbcType="NVARCHAR" property="buttonStyle"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Button_ID, Button_Name, Button_Title, Button_Img, Button_Code, SortCode, Button_Type, 
+    Button_Remak, DeleteMark, CreateDate, CreateUserId, CreateUserName, ModifyDate, ModifyUserId, 
+    ModifyUserName,Button_Style
+  </sql>
+
+
+
+    <select id="getButtonNameByButtonid" resultMap="BaseResultMap">
+        SELECT Button_ID,Button_Name
+        FROM Base_Button
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="buttonidlist != null">
+                button_id IN
+                <foreach item="item" index="index" collection="buttonidlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="getButtonsByMenuIdAndUserId" resultMap="BaseResultMap">
+        SELECT
+        button.Button_ID,
+        button.Button_Name,
+        button.Button_Title,
+        button.Button_Img,
+        button.Button_Code,
+        button.SortCode,
+        button.Button_Type,
+        button.Button_Remak,
+        button.DeleteMark,
+        button.CreateDate,
+        button.CreateUserId,
+        button.CreateUserName,
+        button.ModifyDate,
+        button.ModifyUserId,
+        button.ModifyUserName,
+        Button_Style
+        FROM
+        Base_Button button
+        LEFT JOIN (
+        SELECT
+        ur.User_ID,
+        ur.Button_Id,
+        ur.Menu_Id
+        FROM
+        Base_UserRight ur
+        UNION
+        SELECT
+        urole.User_ID,
+        rr.Button_Id,
+        rr.Menu_Id
+        FROM
+        Base_UserRole urole
+        LEFT JOIN Base_RoleRight rr ON urole.Roles_ID = rr.Roles_ID
+        ) t1 ON button.Button_Id = t1.Button_Id
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND t1.menu_id = #{menuid}
+            AND t1.user_id = #{userid}
+        </trim>
+        order by SortCode
+    </select>
+
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.radiationsafety.RayDeviceMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.radiationsafety.RayDeviceVO">
+    <id column="PK_RayDeviceId" jdbcType="VARCHAR" property="pkRaydeviceid" />
+    <result column="FK_LicenceID" jdbcType="VARCHAR" property="fkLicenceid" />
+    <result column="FK_WorkPlaceID" jdbcType="VARCHAR" property="fkWorkplaceid" />
+    <result column="RayDeviceName" jdbcType="VARCHAR" property="raydevicename" />
+    <result column="FK_RayDeviceType" jdbcType="VARCHAR" property="fkRaydevicetype" />
+    <result column="RayDeviceQuantity" jdbcType="NUMERIC" property="raydevicequantity" />
+    <result column="FK_ActivityTypeCode" jdbcType="VARCHAR" property="fkActivitytypecode" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_RayDeviceId, FK_LicenceID, FK_WorkPlaceID, RayDeviceName, FK_RayDeviceType, RayDeviceQuantity, 
+    FK_ActivityTypeCode, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_HYFS_RayDevice
+    where PK_RayDeviceId = #{pkRaydeviceid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_HYFS_RayDevice
+    where PK_RayDeviceId = #{pkRaydeviceid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RayDeviceVO">
+    insert into T_HYFS_RayDevice (PK_RayDeviceId, FK_LicenceID, FK_WorkPlaceID, 
+      RayDeviceName, FK_RayDeviceType, RayDeviceQuantity, 
+      FK_ActivityTypeCode, UpdateUser, UpdateTime
+      )
+    values (#{pkRaydeviceid,jdbcType=VARCHAR}, #{fkLicenceid,jdbcType=VARCHAR}, #{fkWorkplaceid,jdbcType=VARCHAR}, 
+      #{raydevicename,jdbcType=VARCHAR}, #{fkRaydevicetype,jdbcType=VARCHAR}, #{raydevicequantity,jdbcType=NUMERIC}, 
+      #{fkActivitytypecode,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RayDeviceVO">
+    insert into T_HYFS_RayDevice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkRaydeviceid != null">
+        PK_RayDeviceId,
+      </if>
+      <if test="fkLicenceid != null">
+        FK_LicenceID,
+      </if>
+      <if test="fkWorkplaceid != null">
+        FK_WorkPlaceID,
+      </if>
+      <if test="raydevicename != null">
+        RayDeviceName,
+      </if>
+      <if test="fkRaydevicetype != null">
+        FK_RayDeviceType,
+      </if>
+      <if test="raydevicequantity != null">
+        RayDeviceQuantity,
+      </if>
+      <if test="fkActivitytypecode != null">
+        FK_ActivityTypeCode,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkRaydeviceid != null">
+        #{pkRaydeviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceid != null">
+        #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWorkplaceid != null">
+        #{fkWorkplaceid,jdbcType=VARCHAR},
+      </if>
+      <if test="raydevicename != null">
+        #{raydevicename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRaydevicetype != null">
+        #{fkRaydevicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="raydevicequantity != null">
+        #{raydevicequantity,jdbcType=NUMERIC},
+      </if>
+      <if test="fkActivitytypecode != null">
+        #{fkActivitytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RayDeviceVO">
+    update T_HYFS_RayDevice
+    <set>
+      <if test="fkLicenceid != null">
+        FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWorkplaceid != null">
+        FK_WorkPlaceID = #{fkWorkplaceid,jdbcType=VARCHAR},
+      </if>
+      <if test="raydevicename != null">
+        RayDeviceName = #{raydevicename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRaydevicetype != null">
+        FK_RayDeviceType = #{fkRaydevicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="raydevicequantity != null">
+        RayDeviceQuantity = #{raydevicequantity,jdbcType=NUMERIC},
+      </if>
+      <if test="fkActivitytypecode != null">
+        FK_ActivityTypeCode = #{fkActivitytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_RayDeviceId = #{pkRaydeviceid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RayDeviceVO">
+    update T_HYFS_RayDevice
+    set FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      FK_WorkPlaceID = #{fkWorkplaceid,jdbcType=VARCHAR},
+      RayDeviceName = #{raydevicename,jdbcType=VARCHAR},
+      FK_RayDeviceType = #{fkRaydevicetype,jdbcType=VARCHAR},
+      RayDeviceQuantity = #{raydevicequantity,jdbcType=NUMERIC},
+      FK_ActivityTypeCode = #{fkActivitytypecode,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_RayDeviceId = #{pkRaydeviceid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 通过自定义参数获取射线装置信息列表
+      param:
+      date: 2019/10/23 09:19
+  -->
+  <select id="getRayDeviceByParamMap" parameterType="map" resultType="map">
+      SELECT
+        t1.PK_RayDeviceId,
+        t2.LicenceNum,
+        t1.RayDeviceName,
+        t3.Name FKRayDeviceTypeName,
+        t1.RayDeviceQuantity,
+        t4.Name FKActivityTypeName
+        FROM
+        T_HYFS_RayDevice t1
+        LEFT JOIN T_HYFS_LicenceInfo t2 ON t1.FK_LicenceID= t2.PK_LicenceId
+        LEFT JOIN PUB_CODE_RaydeviceType t3 ON t1.FK_RayDeviceType=t3.Code
+        LEFT JOIN PUB_CODE_ActivityType t4 ON t1.FK_ActivityTypeCode=t4.Code
+        JOIN T_BAS_Pollution p  ON p.PK_PollutionID = t2.FK_PollutionID
+        <where>
+          <if test="fkpollutionid!=null and fkpollutionid!=''">
+            and t2.FK_PollutionID=#{fkpollutionid}
+          </if>
+          <if test="licenceid!=null and licenceid!=''">
+            and t2.PK_LicenceId=#{licenceid}
+          </if>
+          <if test="licencenum!=null and licencenum!=''">
+            and t2.LicenceNum LIKE concat('%',#{licencenum,jdbcType=VARCHAR},'%')
+          </if>
+          <if test="fkraydevicetypes!=null and fkraydevicetypes.size>0">
+            and t1.FK_RayDeviceType IN
+            <foreach collection="fkraydevicetypes" index="index" item="item" open="("
+                     separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
+        </where>
+  </select>
+  <!--
+      author:liyc
+      description: 获取射线装置详情信息
+      param:
+      date: 2019/10/23 09:26
+  -->
+  <select id="getRayDeviceDetailById" parameterType="java.lang.String" resultType="map">
+        SELECT
+          t2.LicenceNum,
+          t1.RayDeviceName,
+          t3.Name FKRayDeviceTypeName,
+          t1.RayDeviceQuantity,
+          t4.Name FKActivityTypeName
+          FROM
+          T_HYFS_RayDevice t1
+          LEFT JOIN T_HYFS_LicenceInfo t2 ON t1.FK_LicenceID= t2.PK_LicenceId
+          LEFT JOIN PUB_CODE_RaydeviceType t3 ON t1.FK_RayDeviceType=t3.Code
+          LEFT JOIN PUB_CODE_ActivityType t4 ON t1.FK_ActivityTypeCode=t4.Code
+          WHERE PK_RayDeviceId=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.useelectricfacilitymonitorpointset.UseElectricFacilityMonitorPointSetMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_UseElectricFacilityMonitorPointId" property="fkuseelectricfacilitymonitorpointid" jdbcType="VARCHAR" />
+    <result column="FK_PollutantCode" property="fkpollutantcode" jdbcType="VARCHAR" />
+    <result column="MinThreshold" property="minthreshold" jdbcType="DOUBLE" />
+    <result column="MaxThreshold" property="maxthreshold" jdbcType="DOUBLE" />
+    <result column="AlarmType" property="alarmtype" jdbcType="NUMERIC" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_UseElectricFacilityMonitorPointSet.PK_ID,
+    T_BAS_UseElectricFacilityMonitorPointSet.FK_UseElectricFacilityMonitorPointId,
+    T_BAS_UseElectricFacilityMonitorPointSet.FK_PollutantCode,
+    T_BAS_UseElectricFacilityMonitorPointSet.MinThreshold,
+    T_BAS_UseElectricFacilityMonitorPointSet.MaxThreshold,
+    T_BAS_UseElectricFacilityMonitorPointSet.AlarmType,
+    convert(varchar(19),T_BAS_UseElectricFacilityMonitorPointSet.UpdateTime,120)UpdateTime,
+    T_BAS_UseElectricFacilityMonitorPointSet.UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_UseElectricFacilityMonitorPointSet
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_UseElectricFacilityMonitorPointSet
+    where PK_ID = #{pkid}
+  </delete>
+  <delete id="deleteByfkuseelectricfacilitymonitorpointid" parameterType="string">
+    delete from T_BAS_UseElectricFacilityMonitorPointSet where FK_UseElectricFacilityMonitorPointId =#{fkuseelectricfacilitymonitorpointid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.useelectricfacilitymonitorpointset.UseElectricFacilityMonitorPointSetVO" >
+    insert into T_BAS_UseElectricFacilityMonitorPointSet
+    (PK_ID,
+    FK_UseElectricFacilityMonitorPointId,
+    FK_PollutantCode,
+    MinThreshold,
+    MaxThreshold,
+    AlarmType,
+    UpdateTime,
+    UpdateUser
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkuseelectricfacilitymonitorpointid,jdbcType=VARCHAR},
+    #{fkpollutantcode,jdbcType=VARCHAR},
+    #{minthreshold,jdbcType=DOUBLE},
+    #{maxthreshold,jdbcType=DOUBLE},
+    #{alarmtype,jdbcType=NUMERIC},
+    #{updatetime,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.useelectricfacilitymonitorpointset.UseElectricFacilityMonitorPointSetVO" >
+    update T_BAS_UseElectricFacilityMonitorPointSet
+    set
+    FK_UseElectricFacilityMonitorPointId=#{fkuseelectricfacilitymonitorpointid,jdbcType=VARCHAR},
+    FK_PollutantCode=#{fkpollutantcode,jdbcType=VARCHAR},
+    MinThreshold=#{minthreshold,jdbcType=DOUBLE},
+    MaxThreshold=#{maxthreshold,jdbcType=DOUBLE},
+    AlarmType=#{alarmtype,jdbcType=NUMERIC},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取用电设施监测点设置信息
+      param:
+      date: 2020/06/18 18:05
+  -->
+  <select id="getUseElectricFacilityMonitorPointSetByParamMap" parameterType="map" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from T_BAS_UseElectricFacilityMonitorPointSet
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_UseElectricFacilityMonitorPointSet.PK_ID = #{pkid}
+        </if>
+      </where>
+  </select>
+</mapper>

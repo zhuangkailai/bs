@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.RPSpecialGasPollutantConcentrationMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.RPSpecialGasPollutantConcentrationVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_ReportId" jdbcType="VARCHAR" property="fkReportid" />
+    <result column="RecordDate" jdbcType="TIMESTAMP" property="recorddate" />
+    <result column="FK_OutPutId" jdbcType="VARCHAR" property="fkOutputid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="MonitorFacility" jdbcType="VARCHAR" property="monitorfacility" />
+    <result column="EffectiveHourNum" jdbcType="NUMERIC" property="effectivehournum" />
+    <result column="LimitValue" jdbcType="DOUBLE" property="limitvalue" />
+    <result column="MinValue" jdbcType="DOUBLE" property="minvalue" />
+    <result column="MaxValue" jdbcType="DOUBLE" property="maxvalue" />
+    <result column="AvgValue" jdbcType="DOUBLE" property="avgvalue" />
+    <result column="OverNum" jdbcType="NUMERIC" property="overnum" />
+    <result column="OverRate" jdbcType="DOUBLE" property="overrate" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_ReportId, RecordDate, FK_OutPutId, FK_PollutantCode, MonitorFacility, EffectiveHourNum, 
+    LimitValue, MinValue, MaxValue, AvgValue, OverNum, OverRate, Remark, UpdateTime, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_RP_SpecialGasPollutantConcentration
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_RP_SpecialGasPollutantConcentration
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPSpecialGasPollutantConcentrationVO">
+    insert into T_RP_SpecialGasPollutantConcentration (PK_ID, FK_ReportId, RecordDate, 
+      FK_OutPutId, FK_PollutantCode, MonitorFacility, 
+      EffectiveHourNum, LimitValue, MinValue, 
+      MaxValue, AvgValue, OverNum, 
+      OverRate, Remark, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkReportid,jdbcType=VARCHAR}, #{recorddate,jdbcType=TIMESTAMP}, 
+      #{fkOutputid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, #{monitorfacility,jdbcType=VARCHAR}, 
+      #{effectivehournum,jdbcType=NUMERIC}, #{limitvalue,jdbcType=DOUBLE}, #{minvalue,jdbcType=DOUBLE}, 
+      #{maxvalue,jdbcType=DOUBLE}, #{avgvalue,jdbcType=DOUBLE}, #{overnum,jdbcType=NUMERIC}, 
+      #{overrate,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPSpecialGasPollutantConcentrationVO">
+    insert into T_RP_SpecialGasPollutantConcentration
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkReportid != null">
+        FK_ReportId,
+      </if>
+      <if test="recorddate != null">
+        RecordDate,
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutId,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="monitorfacility != null">
+        MonitorFacility,
+      </if>
+      <if test="effectivehournum != null">
+        EffectiveHourNum,
+      </if>
+      <if test="limitvalue != null">
+        LimitValue,
+      </if>
+      <if test="minvalue != null">
+        MinValue,
+      </if>
+      <if test="maxvalue != null">
+        MaxValue,
+      </if>
+      <if test="avgvalue != null">
+        AvgValue,
+      </if>
+      <if test="overnum != null">
+        OverNum,
+      </if>
+      <if test="overrate != null">
+        OverRate,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReportid != null">
+        #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddate != null">
+        #{recorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkOutputid != null">
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorfacility != null">
+        #{monitorfacility,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivehournum != null">
+        #{effectivehournum,jdbcType=NUMERIC},
+      </if>
+      <if test="limitvalue != null">
+        #{limitvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="minvalue != null">
+        #{minvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxvalue != null">
+        #{maxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="avgvalue != null">
+        #{avgvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="overnum != null">
+        #{overnum,jdbcType=NUMERIC},
+      </if>
+      <if test="overrate != null">
+        #{overrate,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPSpecialGasPollutantConcentrationVO">
+    update T_RP_SpecialGasPollutantConcentration
+    <set>
+      <if test="fkReportid != null">
+        FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddate != null">
+        RecordDate = #{recorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutId = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorfacility != null">
+        MonitorFacility = #{monitorfacility,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivehournum != null">
+        EffectiveHourNum = #{effectivehournum,jdbcType=NUMERIC},
+      </if>
+      <if test="limitvalue != null">
+        LimitValue = #{limitvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="minvalue != null">
+        MinValue = #{minvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxvalue != null">
+        MaxValue = #{maxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="avgvalue != null">
+        AvgValue = #{avgvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="overnum != null">
+        OverNum = #{overnum,jdbcType=NUMERIC},
+      </if>
+      <if test="overrate != null">
+        OverRate = #{overrate,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPSpecialGasPollutantConcentrationVO">
+    update T_RP_SpecialGasPollutantConcentration
+    set FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      RecordDate = #{recorddate,jdbcType=TIMESTAMP},
+      FK_OutPutId = #{fkOutputid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      MonitorFacility = #{monitorfacility,jdbcType=VARCHAR},
+      EffectiveHourNum = #{effectivehournum,jdbcType=NUMERIC},
+      LimitValue = #{limitvalue,jdbcType=DOUBLE},
+      MinValue = #{minvalue,jdbcType=DOUBLE},
+      MaxValue = #{maxvalue,jdbcType=DOUBLE},
+      AvgValue = #{avgvalue,jdbcType=DOUBLE},
+      OverNum = #{overnum,jdbcType=NUMERIC},
+      OverRate = #{overrate,jdbcType=DOUBLE},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--特殊时段有组织废气浓度数据 lip 2022/4/12 10:43 -->
+  <select id="getSpecialGasConcentrationListByParam" parameterType="map" resultType="map">
+
+   select
+	t2.outputcode,
+	t2.outputname,
+	t1.*,
+	convert ( varchar ( 10 ), t1.recorddate, 120 ) recorddatestring,
+	t3.name pollutantname
+from
+	t_rp_specialgaspollutantconcentration t1
+	inner join t_pwxk_gasoutputinfo t2 on t1.fk_outputid = t2.pk_id
+	inner join pub_code_pollutantfactor t3 on t3.pollutanttype = '2'
+	and t3.code = t1.fk_pollutantcode
+where
+	t1.fk_reportid = #{reportid}
+order by
+	t2.outputcode,
+	t2.outputname,
+	t3.orderindex
+
+  </select>
+
+</mapper>

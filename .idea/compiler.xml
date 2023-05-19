@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="park_business_web" />
+        <module name="park_business_dao" />
+        <module name="park_public_common" />
+        <module name="park_authsystem_web" />
+        <module name="park_public_model" />
+        <module name="park_common" />
+        <module name="park_authsystem_common" />
+        <module name="park_authsystem_service" />
+        <module name="park_authsystem_model" />
+        <module name="park_business_common" />
+        <module name="park_business_model" />
+        <module name="bs" />
+        <module name="park_business_service" />
+        <module name="route_gateway" />
+        <module name="park_servercenter" />
+        <module name="park_public_dao" />
+        <module name="park_public_web" />
+        <module name="park_authsystem_dao" />
+        <module name="park_public_service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="park_authsystem" options="-parameters" />
+      <module name="park_authsystem_common" options="-parameters" />
+      <module name="park_authsystem_dao" options="-parameters" />
+      <module name="park_authsystem_model" options="-parameters" />
+      <module name="park_authsystem_service" options="-parameters" />
+      <module name="park_authsystem_web" options="-parameters" />
+      <module name="park_business" options="-parameters -bootclasspath $PROJECT_DIR$/../../jdk1.8.0_351/jre/lib/rt.jar" />
+      <module name="park_business_common" options="-parameters -bootclasspath $PROJECT_DIR$/../../jdk1.8.0_351/jre/lib/rt.jar" />
+      <module name="park_business_dao" options="-parameters -bootclasspath $PROJECT_DIR$/../../jdk1.8.0_351/jre/lib/rt.jar" />
+      <module name="park_business_model" options="-parameters -bootclasspath $PROJECT_DIR$/../../jdk1.8.0_351/jre/lib/rt.jar" />
+      <module name="park_business_service" options="-parameters -bootclasspath $PROJECT_DIR$/../../jdk1.8.0_351/jre/lib/rt.jar" />
+      <module name="park_business_web" options="-parameters -bootclasspath $PROJECT_DIR$/../../jdk1.8.0_351/jre/lib/rt.jar" />
+      <module name="park_common" options="-parameters" />
+      <module name="park_public" options="-parameters" />
+      <module name="park_public_common" options="-parameters" />
+      <module name="park_public_dao" options="-parameters" />
+      <module name="park_public_model" options="-parameters" />
+      <module name="park_public_service" options="-parameters" />
+      <module name="park_public_web" options="-parameters" />
+      <module name="park_servercenter" options="-parameters" />
+      <module name="route_gateway" options="-parameters" />
+    </option>
+  </component>
+</project>

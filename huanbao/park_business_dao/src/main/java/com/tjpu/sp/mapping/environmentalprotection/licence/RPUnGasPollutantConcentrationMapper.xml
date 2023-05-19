@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.RPUnGasPollutantConcentrationMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.RPUnGasPollutantConcentrationVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_ReportId" jdbcType="VARCHAR" property="fkReportid" />
+    <result column="FK_OutPutId" jdbcType="VARCHAR" property="fkOutputid" />
+    <result column="MonitorTime" jdbcType="TIMESTAMP" property="monitortime" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="LimitValue" jdbcType="DOUBLE" property="limitvalue" />
+    <result column="MonitorFacility" jdbcType="VARCHAR" property="monitorfacility" />
+    <result column="MonitorValue" jdbcType="DOUBLE" property="monitorvalue" />
+    <result column="IsOver" jdbcType="NUMERIC" property="isover" />
+    <result column="OverReason" jdbcType="VARCHAR" property="overreason" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_ReportId, FK_OutPutId, MonitorTime, FK_PollutantCode, LimitValue, MonitorFacility, 
+    MonitorValue, IsOver, OverReason, Remark, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_RP_UnGasPollutantConcentration
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_RP_UnGasPollutantConcentration
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPUnGasPollutantConcentrationVO">
+    insert into T_RP_UnGasPollutantConcentration (PK_ID, FK_ReportId, FK_OutPutId, 
+      MonitorTime, FK_PollutantCode, LimitValue, 
+      MonitorFacility, MonitorValue, IsOver, 
+      OverReason, Remark, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkReportid,jdbcType=VARCHAR}, #{fkOutputid,jdbcType=VARCHAR}, 
+      #{monitortime,jdbcType=TIMESTAMP}, #{fkPollutantcode,jdbcType=VARCHAR}, #{limitvalue,jdbcType=DOUBLE}, 
+      #{monitorfacility,jdbcType=VARCHAR}, #{monitorvalue,jdbcType=DOUBLE}, #{isover,jdbcType=NUMERIC}, 
+      #{overreason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPUnGasPollutantConcentrationVO">
+    insert into T_RP_UnGasPollutantConcentration
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkReportid != null">
+        FK_ReportId,
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutId,
+      </if>
+      <if test="monitortime != null">
+        MonitorTime,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="limitvalue != null">
+        LimitValue,
+      </if>
+      <if test="monitorfacility != null">
+        MonitorFacility,
+      </if>
+      <if test="monitorvalue != null">
+        MonitorValue,
+      </if>
+      <if test="isover != null">
+        IsOver,
+      </if>
+      <if test="overreason != null">
+        OverReason,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReportid != null">
+        #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="monitortime != null">
+        #{monitortime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="limitvalue != null">
+        #{limitvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="monitorfacility != null">
+        #{monitorfacility,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorvalue != null">
+        #{monitorvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="isover != null">
+        #{isover,jdbcType=NUMERIC},
+      </if>
+      <if test="overreason != null">
+        #{overreason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPUnGasPollutantConcentrationVO">
+    update T_RP_UnGasPollutantConcentration
+    <set>
+      <if test="fkReportid != null">
+        FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutId = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="monitortime != null">
+        MonitorTime = #{monitortime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="limitvalue != null">
+        LimitValue = #{limitvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="monitorfacility != null">
+        MonitorFacility = #{monitorfacility,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorvalue != null">
+        MonitorValue = #{monitorvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="isover != null">
+        IsOver = #{isover,jdbcType=NUMERIC},
+      </if>
+      <if test="overreason != null">
+        OverReason = #{overreason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPUnGasPollutantConcentrationVO">
+    update T_RP_UnGasPollutantConcentration
+    set FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      FK_OutPutId = #{fkOutputid,jdbcType=VARCHAR},
+      MonitorTime = #{monitortime,jdbcType=TIMESTAMP},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      LimitValue = #{limitvalue,jdbcType=DOUBLE},
+      MonitorFacility = #{monitorfacility,jdbcType=VARCHAR},
+      MonitorValue = #{monitorvalue,jdbcType=DOUBLE},
+      IsOver = #{isover,jdbcType=NUMERIC},
+      OverReason = #{overreason,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--获取废水浓度数据 lip 2022/4/12 10:43 -->
+  <select id="getUnGasConcentrationListByParam" parameterType="map" resultType="map">
+  select
+    t2.monitorpointcode,
+    t2.monitorpointname,
+    t1.*,
+    CONVERT(VARCHAR(10),t1.MonitorTime,120) as monitortimestring,
+    t3.name pollutantname
+    from
+    t_rp_ungaspollutantconcentration t1
+    inner join t_bas_unorganizedmonitorpointinfo t2 on t1.fk_outputid = t2.pk_id
+    inner join pub_code_pollutantfactor t3 on t3.pollutanttype = '2'
+    and t3.code = t1.fk_pollutantcode
+    where
+    t1.fk_reportid = #{reportid}
+    order by
+    t2.monitorpointcode,
+    t2.monitorpointname,
+    t3.orderindex
+</select>
+</mapper>

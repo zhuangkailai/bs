@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.SoilPointMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.SoilPointVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_SoilPointTypeCode" jdbcType="VARCHAR" property="fkSoilpointtypecode" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="MonitorPointCode" jdbcType="VARCHAR" property="monitorpointcode" />
+    <result column="MonitorPointName" jdbcType="VARCHAR" property="monitorpointname" />
+    <result column="DGIMN" jdbcType="VARCHAR" property="dgimn" />
+    <result column="FK_ControlLevelCode" jdbcType="VARCHAR" property="fkControllevelcode" />
+    <result column="Longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="Latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="Status" jdbcType="NUMERIC" property="status" />
+    <result column="StationtYear" jdbcType="NUMERIC" property="stationtyear" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+    <result column="FK_ImgID" jdbcType="VARCHAR" property="fkImgid" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_SoilPointTypeCode, FK_PollutionID, MonitorPointCode, MonitorPointName, 
+    DGIMN, FK_ControlLevelCode, Longitude, Latitude, Status, StationtYear, OrderIndex, 
+    FK_ImgID, FK_FileID, Remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_SoilPointInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_SoilPointInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.SoilPointVO">
+    insert into T_BAS_SoilPointInfo (PK_ID, FK_SoilPointTypeCode, FK_PollutionID, 
+      MonitorPointCode, MonitorPointName, DGIMN, 
+      FK_ControlLevelCode, Longitude, Latitude, 
+      Status, StationtYear, OrderIndex, 
+      FK_ImgID, FK_FileID, Remark
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkSoilpointtypecode,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, 
+      #{monitorpointcode,jdbcType=VARCHAR}, #{monitorpointname,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, 
+      #{fkControllevelcode,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, 
+      #{status,jdbcType=NUMERIC}, #{stationtyear,jdbcType=NUMERIC}, #{orderindex,jdbcType=NUMERIC}, 
+      #{fkImgid,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.SoilPointVO">
+    insert into T_BAS_SoilPointInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkSoilpointtypecode != null">
+        FK_SoilPointTypeCode,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="monitorpointcode != null">
+        MonitorPointCode,
+      </if>
+      <if test="monitorpointname != null">
+        MonitorPointName,
+      </if>
+      <if test="dgimn != null">
+        DGIMN,
+      </if>
+      <if test="fkControllevelcode != null">
+        FK_ControlLevelCode,
+      </if>
+      <if test="longitude != null">
+        Longitude,
+      </if>
+      <if test="latitude != null">
+        Latitude,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="stationtyear != null">
+        StationtYear,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+      <if test="fkImgid != null">
+        FK_ImgID,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkSoilpointtypecode != null">
+        #{fkSoilpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorpointcode != null">
+        #{monitorpointcode,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorpointname != null">
+        #{monitorpointname,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkControllevelcode != null">
+        #{fkControllevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="stationtyear != null">
+        #{stationtyear,jdbcType=NUMERIC},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="fkImgid != null">
+        #{fkImgid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.SoilPointVO">
+    update T_BAS_SoilPointInfo
+    <set>
+      <if test="fkSoilpointtypecode != null">
+        FK_SoilPointTypeCode = #{fkSoilpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorpointcode != null">
+        MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorpointname != null">
+        MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        DGIMN = #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkControllevelcode != null">
+        FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        Longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        Latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="stationtyear != null">
+        StationtYear = #{stationtyear,jdbcType=NUMERIC},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="fkImgid != null">
+        FK_ImgID = #{fkImgid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.SoilPointVO">
+    update T_BAS_SoilPointInfo
+    set FK_SoilPointTypeCode = #{fkSoilpointtypecode,jdbcType=VARCHAR},
+      FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+      MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+      DGIMN = #{dgimn,jdbcType=VARCHAR},
+      FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      Status = #{status,jdbcType=NUMERIC},
+      StationtYear = #{stationtyear,jdbcType=NUMERIC},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      FK_ImgID = #{fkImgid,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 通过自定义参数获取土壤监测点信息列表
+      param:
+      date: 2019/12/17 12:01
+  -->
+  <select id="getSoilPointByParamMap" parameterType="map" resultType="map">
+      SELECT
+	t1.PK_ID pkid,
+	t1.MonitorPointName,
+	t1.MonitorPointCode,
+	t1.DGIMN,
+	t2.Name controllevename,
+	t1.Longitude,
+	t1.Latitude,
+	t3.Name SoilPointTypeName
+    FROM
+	T_BAS_SoilPointInfo t1
+	LEFT JOIN PUB_CODE_ControlLeve t2 ON t1.FK_ControlLevelCode= t2.Code
+	LEFT JOIN PUB_CODE_SoilPointType t3 ON t1.FK_SoilPointTypeCode=t3.Code
+      <where>
+          <if test="monitorpointname != null and monitorpointname !=''">
+              and t1.MonitorPointName LIKE  concat('%',#{monitorpointname,jdbcType=VARCHAR},'%')
+          </if>
+      </where>
+  </select>
+
+  <!--
+   * @author: lip
+   * @date: 2020/3/24 0024 上午 9:24
+   * @Description: 自定义查询条件获取土壤污染物信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getSoilPollutantsByParam" parameterType="map" resultType="map">
+      SELECT
+        t1.code pollutantcode,
+        t1.name pollutantname,
+        t1.pollutantunit,
+        t1.IsDefaultSelect,
+        t1.orderindex
+    FROM
+        pub_code_pollutantfactor t1 INNER JOIN T_BAS_SoilPollutantSet t2 on t2.FK_PollutantCode = t1.Code
+      <where>
+          <if test="pollutanttype != null and pollutanttype !=''">
+              and t1.pollutanttype  = #{pollutanttype}
+          </if>
+        <if test="outputid != null and outputid !=''">
+          and t2.FK_SoilPointID  = #{outputid}
+        </if>
+
+      </where>
+    order by t1.orderindex
+  </select>
+
+  <!--
+     * @author: lip
+     * @date: 2020/3/24 0024 上午 9:24
+     * @Description: 获取所有土壤监测点信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+  <select id="getAllSoilPointInfo"  resultType="map">
+    select
+      t1.monitorpointname,
+      t1.pk_id as monitorpointid,
+      t2.pollutionname,
+      t2.shortername
+    from
+      t_bas_soilpointinfo t1
+      left join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+      order by  t1.monitorpointname
+  </select>
+
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取土壤监测点信息
+      param:
+      date: 2020/03/26 14:38
+  -->
+  <select id="getSoilPointInfoByParamMap"  resultType="map" parameterType="map">
+    select
+      t1.monitorpointname,
+      t1.pk_id as monitorpointid,
+      t2.pk_pollutionid,
+      t2.pollutionname,
+      t1.fk_soilpointtypecode,
+      t1.Longitude,
+      t1.Latitude,
+      t2.shortername,
+      t3.name fk_soilpointtypename
+    from
+      t_bas_soilpointinfo t1
+      left join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+      left join PUB_CODE_SoilPointType t3 on t1.fk_soilpointtypecode = t3.code
+      <where>
+        <if test="pollutionname!=null and pollutionname!='' ">
+          and t2.pollutionname like concat('%',#{pollutionname},'%')
+        </if>
+        <if test="monitorpointname!=null and monitorpointname!='' ">
+          and t1.monitorpointname like concat('%',#{monitorpointname},'%')
+        </if>
+        <if test="fksoilpointtypecode!=null and fksoilpointtypecode!='' ">
+          and t1.FK_SoilPointTypeCode = #{fksoilpointtypecode}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+          and t1.pk_id = #{monitorpointid}
+        </if>
+        <if test="fkpollutionid!=null and fkpollutionid!='' ">
+          and t1.FK_PollutionID = #{fkpollutionid}
+        </if>
+      </where>
+      order by  t1.monitorpointname
+  </select>
+
+
+  <select id="getEntSoilPointByParamMap"  resultType="map" parameterType="map">
+    SELECT
+      *
+    FROM
+    (
+      SELECT
+      t2.pk_pollutionid pollutionid,
+      t2.shortername,
+      t1.pk_id monitorpointid,
+      t1.monitorpointname,
+      '1' as soilpointtype
+      FROM
+      t_bas_soilpointinfo t1
+      INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+      UNION
+      SELECT
+      t2.code pollutionid,
+      t2.name shortername,
+      t1.pk_id monitorpointid,
+      t1.monitorpointname,
+      t2.code as soilpointtype
+      FROM
+      t_bas_soilpointinfo t1
+      INNER JOIN pub_code_soilpointtype t2 ON t1.fk_soilpointtypecode = t2.code
+      AND t1.fk_pollutionid IS NULL
+    ) t
+      <where>
+        <if test="monitorpointids != null and monitorpointids.size>0">
+          and t.monitorpointid in
+          <foreach collection="monitorpointids" close=")" open="(" separator="," item="item">
+            #{item}
+          </foreach>
+        </if>
+        <if test="soilpointtype != null and soilpointtype!=''">
+          and soilpointtype = #{soilpointtype}
+        </if>
+      </where>
+  </select>
+
+     <!--
+          author:xsm
+          description: 土壤监测点位信息和其对监测污染物信息以及对应的污染物标准设置
+          param:
+          date: 2020/05/20 14:32
+        -->
+  <select id="getSoilPointsAndPollutantStandard" parameterType="map" resultType="java.util.Map">
+    SELECT
+    T_BAS_SoilPointInfo.PK_ID,
+    T_BAS_SoilPointInfo.DGIMN,
+    T_BAS_SoilPointInfo.MonitorPointName,
+    PUB_CODE_SoilPointType.Code AS SoilPointTypeCode,
+    PUB_CODE_SoilPointType.Name AS SoilPointTypeName,
+    PUB_CODE_PollutantFactor.Code AS PollutantCode,
+    PUB_CODE_PollutantFactor.Name AS PollutantName,
+    PUB_CODE_PollutantFactor.organicinorganic,
+    T_BAS_SoilPollutantOverStandardSet.NormalValue,
+    T_BAS_SoilPollutantOverStandardSet.OneLevel,
+    T_BAS_SoilPollutantOverStandardSet.TwoLevel,
+    T_BAS_SoilPollutantOverStandardSet.ThreeLevel,
+    T_BAS_SoilPollutantOverStandardSet.FourLevel
+    FROM
+    T_BAS_SoilPointInfo
+    INNER JOIN T_BAS_SoilPollutantOverStandardSet ON T_BAS_SoilPollutantOverStandardSet.FK_MonitorPonitID = T_BAS_SoilPointInfo.PK_ID
+    INNER JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_SoilPollutantOverStandardSet.FK_PollutantCode
+    AND PUB_CODE_PollutantFactor.PollutantType = '51'
+    AND PUB_CODE_PollutantFactor.IsUsed = 1
+    LEFT JOIN PUB_CODE_SoilPointType ON T_BAS_SoilPointInfo.FK_SoilPointTypeCode = PUB_CODE_SoilPointType.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+    <if test="organicinorganic != null and organicinorganic!=''">
+      and PUB_CODE_PollutantFactor.organicinorganic = #{organicinorganic}
+    </if>
+
+      <if test="monitorpointids != null and monitorpointids.size>0">
+        and T_BAS_SoilPointInfo.PK_ID in
+        <foreach collection="monitorpointids" close=")" open="(" separator="," item="item">
+          #{item}
+      </foreach>
+      </if>
+
+      <if test="fksoilpointtypecodes != null and fksoilpointtypecodes.size>0 ">
+        AND T_BAS_SoilPointInfo.FK_SoilPointTypeCode in
+        <foreach collection="fksoilpointtypecodes" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </select>
+
+
+  <select id="getSoilPointsAndPollutantStandardInfo" parameterType="map" resultType="java.util.Map">
+    SELECT
+    T_BAS_SoilPointInfo.PK_ID,
+    T_BAS_SoilPointInfo.DGIMN,
+    T_BAS_SoilPointInfo.MonitorPointName,
+    PUB_CODE_SoilPointType.Code AS SoilPointTypeCode,
+    PUB_CODE_SoilPointType.Name AS SoilPointTypeName,
+    PUB_CODE_PollutantFactor.Code AS PollutantCode,
+    PUB_CODE_PollutantFactor.Name AS PollutantName,
+    PUB_CODE_PollutantFactor.organicinorganic,
+    T_BAS_SoilPollutantOverStandardSet.NormalValue,
+    T_BAS_SoilPollutantOverStandardSet.OneLevel,
+    T_BAS_SoilPollutantOverStandardSet.TwoLevel,
+    T_BAS_SoilPollutantOverStandardSet.ThreeLevel,
+    T_BAS_SoilPollutantOverStandardSet.FourLevel
+    FROM
+    T_BAS_SoilPointInfo
+    left JOIN T_BAS_SoilPollutantOverStandardSet ON T_BAS_SoilPollutantOverStandardSet.FK_MonitorPonitID = T_BAS_SoilPointInfo.PK_ID
+    left JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_SoilPollutantOverStandardSet.FK_PollutantCode
+    AND PUB_CODE_PollutantFactor.PollutantType = '51'
+    AND PUB_CODE_PollutantFactor.IsUsed = 1
+    LEFT JOIN PUB_CODE_SoilPointType ON T_BAS_SoilPointInfo.FK_SoilPointTypeCode = PUB_CODE_SoilPointType.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="organicinorganic != null and organicinorganic!=''">
+        and PUB_CODE_PollutantFactor.organicinorganic = #{organicinorganic}
+      </if>
+      <if test="fksoilpointtypecodes != null and fksoilpointtypecodes.size>0 ">
+        AND T_BAS_SoilPointInfo.FK_SoilPointTypeCode in
+        <foreach collection="fksoilpointtypecodes" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </select>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.report.AnalysisReportConfigInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportConfigInfo">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="ReportType" jdbcType="NUMERIC" property="reporttype" />
+    <result column="ReportAttributeCode" jdbcType="VARCHAR" property="reportattributecode" />
+    <result column="ReportAttributeName" jdbcType="VARCHAR" property="reportattributename" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, ReportType, ReportAttributeCode, ReportAttributeName, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_Config_AnalysisReportConfigInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_Config_AnalysisReportConfigInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportConfigInfo">
+    insert into T_Config_AnalysisReportConfigInfo (PK_ID, ReportType, ReportAttributeCode, 
+      ReportAttributeName, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{reporttype,jdbcType=NUMERIC}, #{reportattributecode,jdbcType=VARCHAR}, 
+      #{reportattributename,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportConfigInfo">
+    insert into T_Config_AnalysisReportConfigInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="reporttype != null">
+        ReportType,
+      </if>
+      <if test="reportattributecode != null">
+        ReportAttributeCode,
+      </if>
+      <if test="reportattributename != null">
+        ReportAttributeName,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null">
+        #{reporttype,jdbcType=NUMERIC},
+      </if>
+      <if test="reportattributecode != null">
+        #{reportattributecode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportattributename != null">
+        #{reportattributename,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportConfigInfo">
+    update T_Config_AnalysisReportConfigInfo
+    <set>
+      <if test="reporttype != null">
+        ReportType = #{reporttype,jdbcType=NUMERIC},
+      </if>
+      <if test="reportattributecode != null">
+        ReportAttributeCode = #{reportattributecode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportattributename != null">
+        ReportAttributeName = #{reportattributename,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportConfigInfo">
+    update T_Config_AnalysisReportConfigInfo
+    set ReportType = #{reporttype,jdbcType=NUMERIC},
+      ReportAttributeCode = #{reportattributecode,jdbcType=VARCHAR},
+      ReportAttributeName = #{reportattributename,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

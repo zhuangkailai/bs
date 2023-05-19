@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.productiondevice.ProductionDeviceMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.productiondevice.ProductionDeviceVO">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="ParentID" property="parentid" jdbcType="VARCHAR"/>
+        <result column="MainFacilities" property="mainfacilities" jdbcType="VARCHAR"/>
+        <result column="DeviceName" property="devicename" jdbcType="VARCHAR"/>
+        <result column="Specifications" property="specifications" jdbcType="VARCHAR"/>
+        <result column="Params" property="params" jdbcType="VARCHAR"/>
+        <result column="Material" property="material" jdbcType="VARCHAR"/>
+        <result column="Num" property="num" jdbcType="NUMERIC"/>
+        <result column="Manufacturer" property="manufacturer" jdbcType="VARCHAR"/>
+        <result column="ManufacturerContacts" property="manufacturercontacts" jdbcType="VARCHAR"/>
+        <result column="Phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="FK_PollutionID" property="fkPollutionid" jdbcType="VARCHAR"/>
+        <result column="DeviceType" property="devicetype" jdbcType="NUMERIC"/>
+    </resultMap>
+    <resultMap id="BaseResultMapList" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="MainFacilities" property="MainFacilities" jdbcType="VARCHAR"/>
+        <collection property="child" ofType="java.util.Map" column="{parentid=PK_ID}" javaType="java.util.List"
+                    select="getProductionByParamMap"/>
+    </resultMap>
+    <resultMap id="ResultMapList" type="map">
+        <id column="parent_pkid" property="pkid" jdbcType="VARCHAR"/>
+        <result column="parent_MainFacilities" property="MainFacilities" jdbcType="VARCHAR"/>
+        <result column="parent_ManufacturerContacts" property="ManufacturerContacts" jdbcType="VARCHAR"/>
+        <result column="parent_Phone" property="Phone" jdbcType="VARCHAR"/>
+        <result column="parent_Remark" property="Remark" jdbcType="VARCHAR"/>
+        <collection property="child" ofType="java.util.Map" javaType="java.util.List">
+            <id column="child_pkid" property="pkId" jdbcType="VARCHAR"/>
+            <result column="DeviceName" property="devicename" jdbcType="VARCHAR"/>
+            <result column="Specifications" property="specifications" jdbcType="VARCHAR"/>
+            <result column="Params" property="params" jdbcType="VARCHAR"/>
+            <result column="Material" property="material" jdbcType="VARCHAR"/>
+            <result column="parentid" property="parentid" jdbcType="VARCHAR"/>
+            <result column="Num" property="num" jdbcType="NUMERIC"/>
+            <result column="Manufacturer" property="manufacturer" jdbcType="VARCHAR"/>
+            <result column="ManufacturerContacts" property="manufacturercontacts" jdbcType="VARCHAR"/>
+            <result column="Phone" property="phone" jdbcType="VARCHAR"/>
+            <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+            <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+            <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID PKID, ParentID, MainFacilities, DeviceName, Specifications, Params, Material, Num,
+    Manufacturer, ManufacturerContacts, Phone, Remark, UpdateUser, convert(varchar(19),UpdateTime,120)UpdateTime,FK_PollutionID FKPollutionID,DeviceType
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapList" parameterType="java.lang.String">
+    SELECT
+      t2.PK_ID child_pkid,
+      t1.PK_ID parent_pkid,
+      t1.ManufacturerContacts parent_ManufacturerContacts,
+      t1.Phone parent_Phone,
+      t1.Remark parent_Remark,
+      t1.MainFacilities parent_MainFacilities,
+      t2.DeviceName,
+      t2.parentid,
+      t2.Specifications,
+      t2.Params,
+      t2.Material,
+      t2.Manufacturer,
+      t2.ManufacturerContacts,
+      t2.Phone,
+      t2.Remark,
+      t2.UpdateUser,
+      convert(varchar(19),t2.UpdateTime,120)UpdateTime,
+      t2.Num
+    FROM
+      T_Bas_ProductionDevice t1
+    left JOIN T_Bas_ProductionDevice t2 ON t1.PK_ID= t2.ParentID
+    where t1.PK_ID= #{pkId,jdbcType=VARCHAR}
+    order by t1.ManufacturerContacts, t2.DeviceName
+  </select>
+
+    <select id="getProductionDeviceInfoByID" resultType="map" parameterType="java.lang.String">
+        SELECT
+            PK_ID,
+            ParentID,
+            MainFacilities,
+            DeviceName,
+            Specifications,
+            Params,
+            Material,
+            Num,
+            Manufacturer,
+            ManufacturerContacts,
+            Phone,
+            Remark,
+            UpdateUser,
+            CONVERT (VARCHAR(19), UpdateTime, 120) UpdateTime,
+            FK_PollutionID FKPollutionID,
+            DeviceType
+        FROM
+            T_Bas_ProductionDevice t1
+      where t1.PK_ID= #{pkId,jdbcType=VARCHAR}
+  </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_Bas_ProductionDevice
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.productiondevice.ProductionDeviceVO">
+    insert into T_Bas_ProductionDevice (PK_ID, ParentID, MainFacilities,
+      DeviceName, Specifications, Params,
+      Material, Num, Manufacturer,
+      ManufacturerContacts, Phone, Remark,
+      UpdateUser, UpdateTime, FK_PollutionID,
+      DeviceType)
+    values (#{pkId,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{mainfacilities,jdbcType=VARCHAR},
+      #{devicename,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR},
+      #{material,jdbcType=VARCHAR}, #{num,jdbcType=NUMERIC}, #{manufacturer,jdbcType=VARCHAR},
+      #{manufacturercontacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{fkPollutionid,jdbcType=VARCHAR},
+      #{devicetype,jdbcType=NUMERIC})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.productiondevice.ProductionDeviceVO">
+        insert into T_Bas_ProductionDevice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="parentid != null">
+                ParentID,
+            </if>
+            <if test="mainfacilities != null">
+                MainFacilities,
+            </if>
+            <if test="devicename != null">
+                DeviceName,
+            </if>
+            <if test="specifications != null">
+                Specifications,
+            </if>
+            <if test="params != null">
+                Params,
+            </if>
+            <if test="material != null">
+                Material,
+            </if>
+            <if test="num != null">
+                Num,
+            </if>
+            <if test="manufacturer != null">
+                Manufacturer,
+            </if>
+            <if test="manufacturercontacts != null">
+                ManufacturerContacts,
+            </if>
+            <if test="phone != null">
+                Phone,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="devicetype != null">
+                DeviceType,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                #{parentid,jdbcType=VARCHAR},
+            </if>
+            <if test="mainfacilities != null">
+                #{mainfacilities,jdbcType=VARCHAR},
+            </if>
+            <if test="devicename != null">
+                #{devicename,jdbcType=VARCHAR},
+            </if>
+            <if test="specifications != null">
+                #{specifications,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null">
+                #{params,jdbcType=VARCHAR},
+            </if>
+            <if test="material != null">
+                #{material,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=NUMERIC},
+            </if>
+            <if test="manufacturer != null">
+                #{manufacturer,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturercontacts != null">
+                #{manufacturercontacts,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="devicetype != null">
+                #{devicetype,jdbcType=NUMERIC},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.productiondevice.ProductionDeviceVO">
+        update T_Bas_ProductionDevice
+        <set>
+            <if test="parentid != null">
+                ParentID = #{parentid,jdbcType=VARCHAR},
+            </if>
+            <if test="mainfacilities != null">
+                MainFacilities = #{mainfacilities,jdbcType=VARCHAR},
+            </if>
+            <if test="devicename != null">
+                DeviceName = #{devicename,jdbcType=VARCHAR},
+            </if>
+            <if test="specifications != null">
+                Specifications = #{specifications,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null">
+                Params = #{params,jdbcType=VARCHAR},
+            </if>
+            <if test="material != null">
+                Material = #{material,jdbcType=VARCHAR},
+            </if>
+            <if test="num != null">
+                Num = #{num,jdbcType=NUMERIC},
+            </if>
+            <if test="manufacturer != null">
+                Manufacturer = #{manufacturer,jdbcType=VARCHAR},
+            </if>
+            <if test="manufacturercontacts != null">
+                ManufacturerContacts = #{manufacturercontacts,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                Phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="devicetype != null">
+                DeviceType = #{devicetype,jdbcType=NUMERIC},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.productiondevice.ProductionDeviceVO">
+    update T_Bas_ProductionDevice
+    set ParentID = #{parentid,jdbcType=VARCHAR},
+      MainFacilities = #{mainfacilities,jdbcType=VARCHAR},
+      DeviceName = #{devicename,jdbcType=VARCHAR},
+      Specifications = #{specifications,jdbcType=VARCHAR},
+      Params = #{params,jdbcType=VARCHAR},
+      Material = #{material,jdbcType=VARCHAR},
+      Num = #{num,jdbcType=NUMERIC},
+      Manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      ManufacturerContacts = #{manufacturercontacts,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      DeviceType = #{devicetype,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取生产装置信息
+        param:
+        date: 2019/11/13 14:44
+    -->
+    <select id="getProductionDeviceByParamMap" resultMap="BaseResultMapList" parameterType="map">
+        SELECT
+        PK_ID,
+        MainFacilities
+        FROM
+        T_Bas_ProductionDevice t1
+        <where>
+            ParentID is null
+
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and FK_PollutionID =#{fkpollutionid}
+            </if>
+            <if test="devicetype!=null and devicetype!='' ">
+                and devicetype =#{devicetype}
+            </if>
+            <choose>
+                <!--将生产装置名称和设备名称组合在一起查询 -->
+                <when test="composename!=null and composename!='' ">
+                    and (mainfacilities like concat('%',#{composename},'%')
+                        or exists (
+                        SELECT
+                        PK_ID
+                        FROM
+                        T_Bas_ProductionDevice t2
+                        <where>
+                            t1.PK_ID= t2.ParentID
+                            <if test="composename!=null and composename!='' ">
+                                and t2.DeviceName like concat('%',#{composename,jdbcType=VARCHAR},'%')
+                            </if>
+                            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                                and t2.FK_PollutionID =#{fkpollutionid}
+                            </if>
+                            <if test="devicetype!=null and devicetype!='' ">
+                                and devicetype =#{devicetype}
+                            </if>
+                        </where>
+                        )
+                    )
+                </when>
+                <otherwise>
+                    <if test="mainfacilities!=null and mainfacilities!='' ">
+                        and mainfacilities like concat('%',#{mainfacilities},'%')
+                    </if>
+                    <if test="devicename!=null and devicename!='' ">
+                        and exists (
+                        SELECT
+                        PK_ID
+                        FROM
+                        T_Bas_ProductionDevice t2
+                        <where>
+                            t1.PK_ID= t2.ParentID
+                            <if test="devicename!=null and devicename!='' ">
+                                and t2.DeviceName like concat('%',#{devicename,jdbcType=VARCHAR},'%')
+                            </if>
+                            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                                and t2.FK_PollutionID =#{fkpollutionid}
+                            </if>
+                            <if test="devicetype!=null and devicetype!='' ">
+                                and devicetype =#{devicetype}
+                            </if>
+                        </where>
+                        )
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        order by MainFacilities
+    </select>
+
+
+    <!--
+       author:xsm
+       description: 通过污染源ID获取生产装置信息
+       param:
+       date: 2019/11/13 14:44
+   -->
+    <select id="getProductionDeviceByPollutionid" resultMap="BaseResultMapList" parameterType="map">
+        SELECT
+        PK_ID,
+        MainFacilities
+        FROM
+        T_Bas_ProductionDevice
+        <where>
+            ParentID is null
+            <if test="fk_pollutionid!=null and fk_pollutionid!='' ">
+                and FK_PollutionID = #{fk_pollutionid}
+            </if>
+            <if test="devicetype!=null and devicetype!='' ">
+                and DeviceType = #{devicetype}
+            </if>
+        </where>
+        order by MainFacilities
+    </select>
+
+    <select id="getProductionByParamMap" parameterType="map" resultType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from T_Bas_ProductionDevice
+        <where>
+            <if test="parentid!=null and parentid!='' ">
+                ParentID = #{parentid,jdbcType=VARCHAR}
+            </if>
+            <if test="devicetype!=null and devicetype!='' ">
+                and devicetype =#{devicetype}
+            </if>
+        </where>
+        order by DeviceName
+    </select>
+
+
+    <delete id="deleteByParentid" parameterType="string">
+    delete from T_Bas_ProductionDevice where parentid=#{parentid}
+  </delete>
+
+  <select id="getProductionDeviceDetailById" parameterType="map" resultType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from T_Bas_ProductionDevice
+    <where>
+      <if test="pkid!=null and pkid!='' ">
+        T_Bas_ProductionDevice.PK_ID = #{pkid,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by DeviceName
+  </select>
+
+
+    <select id="getProductDeviceAndPollutionInfoByParamMap" resultType="map" parameterType="map">
+        SELECT tt.* FROM
+        (SELECT
+        t1.PK_ID pk_id,
+        t1.PK_ID monitorpointid,
+        t1.DeviceName monitorpointname,
+        t1.DeviceName outputname,
+        t1.DGIMN dgimn,
+        t1.Longitude,
+        t1.Latitude,
+        t1.FK_MajorHazardSourcesId,
+        t2.MajorHazardSourcesName,
+        t3.pk_pollutionid,
+        t4.status onlinestatus,
+        case t4.Status when 1 then '正常' when 0 then '离线' when 2 then
+        '超标' when 3 then '异常' END  onlinestatusname,
+        t4.AlarmLevel,
+        case when t4.Status = 1 THEN 1
+        WHEN t4.Status = 0 THEN 2
+        WHEN t4.Status = 2 THEN 3
+        WHEN t4.Status = 3 THEN 4 ELSE 6
+        end orderstatus,
+        t3.shortername,
+        (CAST(t3.ShorterName as varchar(20))+'-'+CAST(t2.MajorHazardSourcesName as varchar(20))) AS pollutionname
+        FROM
+        T_AQ_HazardSourceProductDevice t1,T_AQ_MajorHazardSources t2,T_BAS_Pollution t3,T_BAS_DeviceStatus t4
+        WHERE
+        t1.FK_MajorHazardSourcesId = t2.PK_ID
+        AND t2.FK_PollutionID= t3.PK_PollutionID
+        AND t1.DGIMN = t4.DGIMN) tt
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType=57
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON tt.pk_id = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND||OR">
+            <if test="dgimns!=null and dgimns.size>0">
+                and tt.dgimn in
+                <foreach collection="dgimns" item="dgimn" close=")" open="(" separator=",">
+                    #{dgimn}
+                </foreach>
+            </if>
+            <if test="devicestatus!=null and devicestatus!='' ">
+                and t4.status = #{devicestatus}
+            </if>
+            <if test="pollutionname !=null and pollutionname!=''">
+                AND tt.pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="pollutionid !=null and pollutionid!=''">
+                AND tt.pk_pollutionid like concat('%',#{pollutionid},'%')
+            </if>
+            <if test="shortername !=null and shortername!=''">
+                AND tt.shortername like concat('%',#{shortername},'%')
+            </if>
+            <if test="searchname!=null and searchname != ''">
+                AND (tt.shortername like concat('%',#{searchname},'%') or tt.monitorpointname like concat('%',#{searchname},'%'))
+            </if>
+            <if test="monitorpointname !=null and monitorpointname!=''">
+                AND tt.monitorpointname like concat('%',#{monitorpointname},'%')
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and tt.pk_id = #{monitorpointid}
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and tt.pk_id in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and tt.onlinestatus in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY tt.pollutionname,tt.outputname
+    </select>
+
+</mapper>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.parkinfo.controlrecords.ControlRecordsMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.controlrecords.ControlRecordsVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="DGIMN" jdbcType="VARCHAR" property="dgimn" />
+    <result column="HappenTime" jdbcType="TIMESTAMP" property="happentime" />
+    <result column="ControlDesc" jdbcType="VARCHAR" property="controldesc" />
+    <result column="PollutantCodes" jdbcType="VARCHAR" property="pollutantcodes" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, DGIMN, HappenTime, ControlDesc,PollutantCodes, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_ControlRecords
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+
+
+  <select id="getLastData" resultType="java.util.HashMap">
+   select
+	top 1
+      pk_id,
+      dgimn,
+      controldesc,
+      convert(varchar(19),happentime,120) happentime,
+      pollutantcodes
+      from
+          t_bas_controlrecords
+      where
+          happentime = (
+              select
+                  max (happentime)
+              from
+                  t_bas_controlrecords
+                  )
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_ControlRecords
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.controlrecords.ControlRecordsVO">
+    insert into T_BAS_ControlRecords (PK_ID, DGIMN, HappenTime, 
+        ControlDesc,PollutantCodes, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, #{happentime,jdbcType=TIMESTAMP}, 
+      #{controldesc,jdbcType=VARCHAR},
+      #{pollutantcodes,jdbcType=VARCHAR},
+       #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.controlrecords.ControlRecordsVO">
+    insert into T_BAS_ControlRecords
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="dgimn != null">
+        DGIMN,
+      </if>
+      <if test="happentime != null">
+        HappenTime,
+      </if>
+      <if test="controldesc != null">
+        ControlDesc,
+      </if>
+      <if test="pollutantcodes != null">
+        PollutantCodes,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="happentime != null">
+        #{happentime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="controldesc != null">
+        #{controldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantcodes != null">
+        #{pollutantcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.controlrecords.ControlRecordsVO">
+    update T_BAS_ControlRecords
+    <set>
+      <if test="dgimn != null">
+        DGIMN = #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="happentime != null">
+        HappenTime = #{happentime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="controldesc != null">
+        ControlDesc = #{controldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantcodes != null">
+        PollutantCodes = #{pollutantcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.controlrecords.ControlRecordsVO">
+    update T_BAS_ControlRecords
+    set DGIMN = #{dgimn,jdbcType=VARCHAR},
+      HappenTime = #{happentime,jdbcType=TIMESTAMP},
+      ControlDesc = #{controldesc,jdbcType=VARCHAR},
+      PollutantCodes = #{pollutantcodes,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+   * @author: lip
+   * @date: 2020/5/11 0011 下午 3:46
+   * @Description: 自定义查询条件获取管控建议记录数据
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getControlRecordsDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.pk_id,
+    t1.pollutantcodes,
+    t1.dgimn,
+    CONVERT ( VARCHAR ( 19 ), t1.happentime, 120 ) happentime,
+    t1.controldesc,
+    t2.monitorpointname
+    FROM
+    t_bas_controlrecords t1
+    INNER JOIN (
+     SELECT t1.dgimn, t1.monitorpointname FROM t_bas_othermonitorpoint t1
+     UNION
+     SELECT t1.dgimn, t1.monitorpointname FROM t_bas_unorganizedmonitorpointinfo t1
+     ) t2 ON t1.dgimn = t2.dgimn
+    <where>
+      <if test="dgimn !=null and dgimn !='' ">
+        and t1.dgimn = #{dgimn}
+      </if>
+      <if test="monitorpointname!=null and monitorpointname!='' ">
+        AND t2.monitorpointname LIKE CONCAT('%',#{monitorpointname},'%')
+      </if>
+      <if test="happentime !=null and happentime !='' ">
+        and CONVERT(VARCHAR(19),t1.happentime,120) = #{happentime}
+      </if>
+      <if test="starttime!=null and starttime!='' ">
+        AND CONVERT (VARCHAR (19),t1.happentime,120) >= #{starttime}
+      </if>
+      <if test="endtime!=null and endtime!='' ">
+        AND CONVERT (VARCHAR (19),t1.happentime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="pollutantcodes !=null and pollutantcodes !='' ">
+        and t1.pollutantcodes = #{pollutantcodes}
+      </if>
+    </where>
+    ORDER  by t1.happentime DESC
+
+  </select>
+
+  <select id="getAllStinkPoint" parameterType="map" resultType="map">
+    SELECT
+	*
+FROM
+	(
+	SELECT
+		t1.dgimn,
+		t1.pk_monitorpointid AS monitorpointid,
+		t1.monitorpointname,
+		t1.fk_monitorpointtypecode AS monitorpointtype
+	FROM
+		t_bas_othermonitorpoint t1 UNION
+	SELECT
+		t1.dgimn,
+		t1.pk_id AS monitorpointid,
+		t1.monitorpointname,
+		t1.fk_monitorpointtypecode AS monitorpointtype
+	FROM
+		t_bas_unorganizedmonitorpointinfo t1
+	) t
+WHERE
+	t.monitorpointtype IN ( '9', '40' )
+ORDER BY
+	t.monitorpointtype DESC,
+	t.monitorpointname
+
+  </select>
+
+  <select id="getEditOrDetailById" parameterType="String" resultType="map">
+    SELECT
+    t1.PK_ID,
+    t1.pollutantcodes,
+    t1.dgimn,
+    CONVERT ( VARCHAR ( 19 ), t1.happentime, 120 ) happentime,
+    t1.controldesc,
+    t2.monitorpointname
+    FROM
+    t_bas_controlrecords t1
+    INNER JOIN (
+    SELECT t1.dgimn, t1.monitorpointname FROM t_bas_othermonitorpoint t1
+    UNION
+    SELECT t1.dgimn, t1.monitorpointname FROM t_bas_unorganizedmonitorpointinfo t1
+    ) t2 ON t1.dgimn = t2.dgimn
+    where  t1.pk_id = #{pkid}
+
+  </select>
+
+
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesource.PollutaEventDetailInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.PollutaEventDetailInfoVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="FK_PolluteEventId" property="fkPolluteeventid" jdbcType="VARCHAR" />
+    <result column="FK_PollutantCode" property="fkPollutantcode" jdbcType="VARCHAR" />
+    <result column="FK_MonitorPointId" property="fkMonitorpointid" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, FK_PolluteEventId, FK_PollutantCode, FK_MonitorPointId, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_PollutantEventDetailInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_PollutantEventDetailInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.PollutaEventDetailInfoVO" >
+    insert into T_BAS_PollutantEventDetailInfo (PK_ID, FK_PolluteEventId, FK_PollutantCode,
+      FK_MonitorPointId, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPolluteeventid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{fkMonitorpointid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.PollutaEventDetailInfoVO" >
+    insert into T_BAS_PollutantEventDetailInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="fkPolluteeventid != null" >
+        FK_PolluteEventId,
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode,
+      </if>
+      <if test="fkMonitorpointid != null" >
+        FK_MonitorPointId,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPolluteeventid != null" >
+        #{fkPolluteeventid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null" >
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.PollutaEventDetailInfoVO" >
+    update T_BAS_PollutantEventDetailInfo
+    <set >
+      <if test="fkPolluteeventid != null" >
+        FK_PolluteEventId = #{fkPolluteeventid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null" >
+        FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.PollutaEventDetailInfoVO" >
+    update T_BAS_PollutantEventDetailInfo
+    set FK_PolluteEventId = #{fkPolluteeventid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 通过污染事件id查询事件详情信息
+      param:
+      date: 2019/08/29 13:55
+  -->
+  <select id="selectByPolluteeventid" parameterType="string" resultMap="BaseResultMap">
+      select * from T_BAS_PollutantEventDetailInfo WHERE FK_PolluteEventId=#{id}
+  </select>
+
+
+  <!--
+      author:chengzq
+      description: 通过污染事件id删除污染事件详情信息
+      param:
+      date: 2019/08/29 14:06
+  -->
+  <delete id="deleteByPolluteeventid" parameterType="string">
+    delete from T_BAS_PollutantEventDetailInfo WHERE FK_PolluteEventId=#{id}
+  </delete>
+
+  <!--
+      author:chengzq
+      description: 通过污染事件id获取监测点类型
+      param:
+      date: 2019/08/29 17:52
+  -->
+  <select id="selectMonitorInfoByPolluteeventid" parameterType="string" resultType="string">
+    SELECT
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+    FROM
+        T_BAS_PollutantEventDetailInfo
+        LEFT JOIN T_BAS_OtherMonitorPoint ON T_BAS_PollutantEventDetailInfo.FK_MonitorPointId= T_BAS_OtherMonitorPoint.PK_MonitorPointID
+    WHERE FK_PolluteEventId=#{id}
+  </select>
+</mapper>

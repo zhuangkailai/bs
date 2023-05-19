@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.extand.AppSuggestionMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.extand.AppSuggestionVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="AppType" jdbcType="NUMERIC" property="apptype" />
+    <result column="FeedbackUser" jdbcType="VARCHAR" property="feedbackuser" />
+    <result column="FeedbackUserAccount" jdbcType="VARCHAR" property="feedbackuseraccount" />
+    <result column="FeedbackTime" jdbcType="TIMESTAMP" property="feedbacktime" />
+    <result column="FeedbackSuggestion" jdbcType="VARCHAR" property="feedbacksuggestion" />
+    <result column="ContactInformation" jdbcType="VARCHAR" property="contactinformation" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, AppType, FeedbackUser, FeedbackUserAccount, FeedbackTime, FeedbackSuggestion, 
+    ContactInformation, FK_FileID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_AppSuggestion
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_AppSuggestion
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.extand.AppSuggestionVO">
+    insert into T_BAS_AppSuggestion (PK_ID, AppType, FeedbackUser, 
+      FeedbackUserAccount, FeedbackTime, FeedbackSuggestion, 
+      ContactInformation, FK_FileID)
+    values (#{pkId,jdbcType=VARCHAR}, #{apptype,jdbcType=NUMERIC}, #{feedbackuser,jdbcType=VARCHAR}, 
+      #{feedbackuseraccount,jdbcType=VARCHAR}, #{feedbacktime,jdbcType=TIMESTAMP}, #{feedbacksuggestion,jdbcType=VARCHAR}, 
+      #{contactinformation,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.extand.AppSuggestionVO">
+    insert into T_BAS_AppSuggestion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="apptype != null">
+        AppType,
+      </if>
+      <if test="feedbackuser != null">
+        FeedbackUser,
+      </if>
+      <if test="feedbackuseraccount != null">
+        FeedbackUserAccount,
+      </if>
+      <if test="feedbacktime != null">
+        FeedbackTime,
+      </if>
+      <if test="feedbacksuggestion != null">
+        FeedbackSuggestion,
+      </if>
+      <if test="contactinformation != null">
+        ContactInformation,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="apptype != null">
+        #{apptype,jdbcType=NUMERIC},
+      </if>
+      <if test="feedbackuser != null">
+        #{feedbackuser,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackuseraccount != null">
+        #{feedbackuseraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbacktime != null">
+        #{feedbacktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbacksuggestion != null">
+        #{feedbacksuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="contactinformation != null">
+        #{contactinformation,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.extand.AppSuggestionVO">
+    update T_BAS_AppSuggestion
+    <set>
+      <if test="apptype != null">
+        AppType = #{apptype,jdbcType=NUMERIC},
+      </if>
+      <if test="feedbackuser != null">
+        FeedbackUser = #{feedbackuser,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackuseraccount != null">
+        FeedbackUserAccount = #{feedbackuseraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbacktime != null">
+        FeedbackTime = #{feedbacktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbacksuggestion != null">
+        FeedbackSuggestion = #{feedbacksuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="contactinformation != null">
+        ContactInformation = #{contactinformation,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.extand.AppSuggestionVO">
+    update T_BAS_AppSuggestion
+    set AppType = #{apptype,jdbcType=NUMERIC},
+      FeedbackUser = #{feedbackuser,jdbcType=VARCHAR},
+      FeedbackUserAccount = #{feedbackuseraccount,jdbcType=VARCHAR},
+      FeedbackTime = #{feedbacktime,jdbcType=TIMESTAMP},
+      FeedbackSuggestion = #{feedbacksuggestion,jdbcType=VARCHAR},
+      ContactInformation = #{contactinformation,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getAppSuggestionInfosByParamMap" parameterType="map" resultType="map">
+    SELECT
+    PK_ID,
+    CASE WHEN AppType = 1 THEN '环保' WHEN  AppType = 2 THEN  '安全' END apptypename,
+    AppType,
+    FeedbackUser,
+    FeedbackUserAccount,
+    CONVERT (VARCHAR (20),FeedbackTime,120) FeedbackTime,
+    FeedbackSuggestion,
+    ContactInformation,
+    FK_FileID
+    FROM
+    T_BAS_AppSuggestion
+    <where>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),FeedbackTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),FeedbackTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="apptype!=null and apptype!='' ">
+        and AppType = #{apptype}
+      </if>
+      <if test="feedbackuser!=null and feedbackuser!='' ">
+        and FeedbackUser like concat('%', #{feedbackuser},'%')
+      </if>
+      <if test="feedbacksuggestion!=null and feedbacksuggestion!='' ">
+        and FeedbackSuggestion like concat('%', #{feedbacksuggestion},'%')
+      </if>
+    </where>
+    order by FeedbackTime desc
+  </select>
+
+
+  <!--
+      author:xsm
+      description: 根据id获取反馈意见详情信息
+      param:
+      date: 2020/09/24 16:57
+  -->
+  <select id="getAppSuggestionDetailById" resultType="map" parameterType="string">
+   SELECT
+    PK_ID,
+    CASE WHEN AppType = 1 THEN '环保' WHEN  AppType = 2 THEN  '安全' END apptypename,
+    AppType,
+    FeedbackUser,
+    FeedbackUserAccount,
+    CONVERT (VARCHAR (20),FeedbackTime,120) FeedbackTime,
+    FeedbackSuggestion,
+    ContactInformation,
+    FK_FileID
+    FROM
+    T_BAS_AppSuggestion
+    where  T_BAS_AppSuggestion.PK_ID=#{pkid}
+  </select>
+
+</mapper>

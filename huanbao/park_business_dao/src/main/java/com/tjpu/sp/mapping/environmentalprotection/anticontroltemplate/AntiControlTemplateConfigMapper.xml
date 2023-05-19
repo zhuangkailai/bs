@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.anticontroltemplate.AntiControlTemplateConfigMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.anticontroltemplate.AntiControlTemplateConfigVO">
+    <id column="PK_TemplateID" jdbcType="VARCHAR" property="pkTemplateid" />
+    <result column="AntControlCommand" jdbcType="VARCHAR" property="antcontrolcommand" />
+    <result column="TemplateFormat" jdbcType="VARCHAR" property="templateformat" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+    <result column="CommandExplain" jdbcType="VARCHAR" property="commandexplain" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_TemplateID, AntControlCommand, TemplateFormat, OrderIndex,CommandExplain
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SBFK_AntiControlTemplateConfig
+    where PK_TemplateID = #{pkTemplateid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SBFK_AntiControlTemplateConfig
+    where PK_TemplateID = #{pkTemplateid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.anticontroltemplate.AntiControlTemplateConfigVO">
+    insert into T_SBFK_AntiControlTemplateConfig (PK_TemplateID, AntControlCommand, 
+      TemplateFormat, OrderIndex,CommandExplain)
+    values (#{pkTemplateid,jdbcType=VARCHAR}, #{antcontrolcommand,jdbcType=VARCHAR}, 
+      #{templateformat,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC},#{commandexplain,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.anticontroltemplate.AntiControlTemplateConfigVO">
+    insert into T_SBFK_AntiControlTemplateConfig
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkTemplateid != null">
+        PK_TemplateID,
+      </if>
+      <if test="antcontrolcommand != null">
+        AntControlCommand,
+      </if>
+      <if test="templateformat != null">
+        TemplateFormat,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+      <if test="commandexplain != null">
+        CommandExplain,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkTemplateid != null">
+        #{pkTemplateid,jdbcType=VARCHAR},
+      </if>
+      <if test="antcontrolcommand != null">
+        #{antcontrolcommand,jdbcType=VARCHAR},
+      </if>
+      <if test="templateformat != null">
+        #{templateformat,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="commandexplain != null">
+        #{commandexplain,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.anticontroltemplate.AntiControlTemplateConfigVO">
+    update T_SBFK_AntiControlTemplateConfig
+    <set>
+      <if test="antcontrolcommand != null">
+        AntControlCommand = #{antcontrolcommand,jdbcType=VARCHAR},
+      </if>
+      <if test="templateformat != null">
+        TemplateFormat = #{templateformat,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="commandexplain != null">
+        CommandExplain = #{commandexplain,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_TemplateID = #{pkTemplateid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.anticontroltemplate.AntiControlTemplateConfigVO">
+    update T_SBFK_AntiControlTemplateConfig
+    set AntControlCommand = #{antcontrolcommand,jdbcType=VARCHAR},
+      TemplateFormat = #{templateformat,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      CommandExplain = #{commandexplain,jdbcType=VARCHAR}
+    where PK_TemplateID = #{pkTemplateid,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+     author:xsm
+     description: 通过自定义参数获取设备反控模板信息
+     param:
+     date: 2021/12/28 16:46
+ -->
+  <select id="getAntiControlTemplateDataByParamMap" parameterType="map" resultType="map">
+    SELECT
+    PK_TemplateID, AntControlCommand, TemplateFormat, OrderIndex,CommandExplain
+    FROM
+    T_SBFK_AntiControlTemplateConfig
+   ORDER BY OrderIndex
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取设备反控模板字段信息
+    param:
+    date: 2021/12/29 08:43
+-->
+  <select id="getAntiControlFieldDataByTemplateid" parameterType="String" resultType="map">
+    SELECT
+    pk_fieldid,fieldname, fieldcomments, fielddatatype, minlimit,maxlimit,fieldvaluesource,defaultvalue,controlvalueformat,fieldcategory,remarks
+    FROM
+    T_SBFK_AntiControlFieldConfig JOIN T_SBFK_TemplateFieldCofigRecord
+    ON T_SBFK_TemplateFieldCofigRecord.FK_FieldID = T_SBFK_AntiControlFieldConfig.PK_FieldID
+    WHERE T_SBFK_TemplateFieldCofigRecord.FK_TemplateID = #{fktemplateid}
+  </select>
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取设备反控模板字段信息
+    param:
+    date: 2021/12/29 08:43
+-->
+  <select id="getAntiControlFieldDataByParam" parameterType="map" resultType="map">
+    SELECT
+    pk_fieldid,
+    fieldname,
+    fieldcomments,
+    fielddatatype,
+    minlimit,
+    maxlimit,
+    fieldvaluesource,
+    defaultvalue,
+    controlvalueformat,
+    fieldcategory,
+    remarks
+    FROM
+    T_SBFK_AntiControlFieldConfig JOIN T_SBFK_TemplateFieldCofigRecord
+    ON T_SBFK_TemplateFieldCofigRecord.FK_FieldID = T_SBFK_AntiControlFieldConfig.PK_FieldID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="templateid != null and templateid !=''">
+        AND T_SBFK_TemplateFieldCofigRecord.FK_TemplateID = #{templateid}
+     </if>
+      <if test="fieldvaluesource != null and fieldvaluesource !=''">
+        AND T_SBFK_AntiControlFieldConfig.fieldvaluesource = #{fieldvaluesource}
+      </if>
+    </trim>
+  </select>
+
+  <!--
+   * @author: xsm
+   * @date: 2022/01/05 0005 上午 09:37
+   * @Description: 自定义查询条件获取污染物set信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getPointPollutantDataByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t.Code,t.Name pollutantname,
+    t.PollutantUnit
+    FROM
+    PUB_CODE_PollutantFactor t
+
+    <if test="monitorpointtype!=null and monitorpointtype==1">
+      JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+      JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID = t2.PK_ID
+      and t2.Dgimn = #{mn}
+    </if>
+    <if test="monitorpointtype!=null and monitorpointtype==37">
+      JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+      JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID = t2.PK_ID
+      and t2.DGIMN = #{mn}
+    </if>
+    <if test="monitorpointtype!=null and (monitorpointtype==2 or monitorpointtype==22 ) ">
+      JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+      join T_BAS_GASOutPutInfo t2 on t1.FK_GasOutPutID = t2.PK_ID
+      and t2.DGIMN = #{mn}
+    </if>
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t.isused = '1'
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID =#{pollutionid}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and t.PollutantType = #{monitorpointtype}
+      </if>
+    </trim>
+    ORDER BY t.OrderIndex
+  </select>
+
+
+  <!--
+ * @author: xsm
+ * @date: 2022/01/05 0005 上午 09:37
+ * @Description: 自定义查询条件获取某个点的访问密码信息
+ * @updateUser:
+ * @updateDate:
+ * @updateDescription:
+-->
+  <select id="getOnePointAccessPasswordByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t.dgimn,t.accesspassword
+    FROM
+    T_BAS_DeviceStatus t
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="mn!=null and mn!='' ">
+        and t.DGIMN =#{mn}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and t.FK_MonitorPointTypeCode = #{monitorpointtype}
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+     author:xsm
+     description: 获取现场端信息编码
+     param:
+     date: 2022/01/10 0010 16:43
+ -->
+  <select id="getInformationEncoding"  resultType="map">
+    SELECT
+    Code value,Name labelname
+    FROM
+    PUB_CODE_SceneInformationCode
+    ORDER BY OrderIndex
+  </select>
+</mapper>

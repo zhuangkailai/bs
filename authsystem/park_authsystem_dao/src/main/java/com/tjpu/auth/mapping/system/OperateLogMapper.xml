@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.OperateLogMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.OperateLogVO">
+    <id column="Base_Operate_Id" jdbcType="NVARCHAR" property="baseOperateId" />
+    <result column="Base_Operate_DB" jdbcType="NVARCHAR" property="baseOperateDb" />
+    <result column="Base_Operate_DT" jdbcType="NVARCHAR" property="baseOperateDt" />
+    <result column="Base_Operate_Type" jdbcType="NVARCHAR" property="baseOperateType" />
+    <result column="Base_Operate_PrimaryKey" jdbcType="NVARCHAR" property="baseOperatePrimaryKey" />
+    <result column="Base_Operate_Content" jdbcType="NVARCHAR" property="baseOperateContent" />
+    <result column="Base_Operate_Person" jdbcType="NVARCHAR" property="baseOperatePerson" />
+    <result column="Base_Operate_DateTime" jdbcType="TIMESTAMP" property="baseOperateDatetime" />
+    <result column="Base_Log_Type" jdbcType="NVARCHAR" property="baseLogType" />
+    <result column="Base_Operate_ConfigId" jdbcType="NVARCHAR" property="baseOperateConfigId" />
+    <result column="Base_Operate_Ip" jdbcType="NVARCHAR" property="baseOperateIp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Base_Operate_Id, Base_Operate_DB, Base_Operate_DT, Base_Operate_Type, Base_Operate_PrimaryKey, 
+    Base_Operate_Content, Base_Operate_Person, Base_Operate_DateTime, Base_Log_Type, 
+    Base_Operate_ConfigId,Base_Operate_Ip
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Base_OperateLog
+    where Base_Operate_Id = #{baseOperateId,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_OperateLog
+    where Base_Operate_Id = #{baseOperateId,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.auth.model.system.OperateLogVO">
+    insert into Base_OperateLog (Base_Operate_Id, Base_Operate_DB, Base_Operate_DT, 
+      Base_Operate_Type, Base_Operate_PrimaryKey, 
+      Base_Operate_Content, Base_Operate_Person, 
+      Base_Operate_DateTime, Base_Log_Type, Base_Operate_ConfigId,Base_Operate_Ip
+      )
+    values (#{baseOperateId,jdbcType=NVARCHAR}, #{baseOperateDb,jdbcType=NVARCHAR}, #{baseOperateDt,jdbcType=NVARCHAR}, 
+      #{baseOperateType,jdbcType=NVARCHAR}, #{baseOperatePrimaryKey,jdbcType=NVARCHAR}, 
+      #{baseOperateContent,jdbcType=NVARCHAR}, #{baseOperatePerson,jdbcType=NVARCHAR}, 
+      #{baseOperateDatetime,jdbcType=TIMESTAMP}, #{baseLogType,jdbcType=NVARCHAR}, #{baseOperateConfigId,jdbcType=NVARCHAR},
+      #{baseOperateIp,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.OperateLogVO">
+    insert into Base_OperateLog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="baseOperateId != null">
+        Base_Operate_Id,
+      </if>
+      <if test="baseOperateDb != null">
+        Base_Operate_DB,
+      </if>
+      <if test="baseOperateDt != null">
+        Base_Operate_DT,
+      </if>
+      <if test="baseOperateType != null">
+        Base_Operate_Type,
+      </if>
+      <if test="baseOperatePrimaryKey != null">
+        Base_Operate_PrimaryKey,
+      </if>
+      <if test="baseOperateContent != null">
+        Base_Operate_Content,
+      </if>
+      <if test="baseOperatePerson != null">
+        Base_Operate_Person,
+      </if>
+      <if test="baseOperateDatetime != null">
+        Base_Operate_DateTime,
+      </if>
+      <if test="baseLogType != null">
+        Base_Log_Type,
+      </if>
+      <if test="baseOperateConfigId != null">
+        Base_Operate_ConfigId,
+      </if>
+      <if test="baseOperateIp != null">
+        Base_Operate_Ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="baseOperateId != null">
+        #{baseOperateId,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateDb != null">
+        #{baseOperateDb,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateDt != null">
+        #{baseOperateDt,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateType != null">
+        #{baseOperateType,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperatePrimaryKey != null">
+        #{baseOperatePrimaryKey,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateContent != null">
+        #{baseOperateContent,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperatePerson != null">
+        #{baseOperatePerson,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateDatetime != null">
+        #{baseOperateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseLogType != null">
+        #{baseLogType,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateConfigId != null">
+        #{baseOperateConfigId,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateIp != null">
+        #{baseOperateIp,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.OperateLogVO">
+    update Base_OperateLog
+    <set>
+      <if test="baseOperateDb != null">
+        Base_Operate_DB = #{baseOperateDb,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateDt != null">
+        Base_Operate_DT = #{baseOperateDt,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateType != null">
+        Base_Operate_Type = #{baseOperateType,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperatePrimaryKey != null">
+        Base_Operate_PrimaryKey = #{baseOperatePrimaryKey,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateContent != null">
+        Base_Operate_Content = #{baseOperateContent,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperatePerson != null">
+        Base_Operate_Person = #{baseOperatePerson,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateDatetime != null">
+        Base_Operate_DateTime = #{baseOperateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseLogType != null">
+        Base_Log_Type = #{baseLogType,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateConfigId != null">
+        Base_Operate_ConfigId = #{baseOperateConfigId,jdbcType=NVARCHAR},
+      </if>
+      <if test="baseOperateIp != null">
+        Base_Operate_Ip = #{baseOperateIp,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where Base_Operate_Id = #{baseOperateId,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.OperateLogVO">
+    update Base_OperateLog
+    set Base_Operate_DB = #{baseOperateDb,jdbcType=NVARCHAR},
+      Base_Operate_DT = #{baseOperateDt,jdbcType=NVARCHAR},
+      Base_Operate_Type = #{baseOperateType,jdbcType=NVARCHAR},
+      Base_Operate_PrimaryKey = #{baseOperatePrimaryKey,jdbcType=NVARCHAR},
+      Base_Operate_Content = #{baseOperateContent,jdbcType=NVARCHAR},
+      Base_Operate_Person = #{baseOperatePerson,jdbcType=NVARCHAR},
+      Base_Operate_DateTime = #{baseOperateDatetime,jdbcType=TIMESTAMP},
+      Base_Log_Type = #{baseLogType,jdbcType=NVARCHAR},
+      Base_Operate_ConfigId = #{baseOperateConfigId,jdbcType=NVARCHAR},
+      Base_Operate_Ip = #{baseOperateId,jdbcType=NVARCHAR}
+    where Base_Operate_Id = #{baseOperateId,jdbcType=NVARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.SysMenuMapper">
+    <resultMap id="BaseResultMap" type="com.pub.model.SysMenuVO">
+        <id column="Menu_Id" jdbcType="NVARCHAR" property="menuId"/>
+        <result column="ParentId" jdbcType="NVARCHAR" property="parentId"/>
+        <result column="Menu_Name" jdbcType="NVARCHAR" property="menuName"/>
+        <result column="Menu_Title" jdbcType="NVARCHAR" property="menuTitle"/>
+        <result column="Menu_Img" jdbcType="NVARCHAR" property="menuImg"/>
+        <result column="Menu_Type" jdbcType="INTEGER" property="menuType"/>
+        <result column="NavigateUrl" jdbcType="NVARCHAR" property="navigateUrl"/>
+        <result column="Target" jdbcType="NVARCHAR" property="target"/>
+        <result column="AllowEdit" jdbcType="INTEGER" property="allowEdit"/>
+        <result column="AllowDelete" jdbcType="INTEGER" property="allowDelete"/>
+        <result column="SortCode" jdbcType="INTEGER" property="sortCode"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark"/>
+        <result column="CreateDate" jdbcType="DATE" property="createDate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifyDate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName"/>
+        <result column="Menu_Code" jdbcType="NVARCHAR" property="menuCode"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        Menu_Id, ParentId, Menu_Name, Menu_Title, Menu_Img, Menu_Type, NavigateUrl, Target,
+        AllowEdit, AllowDelete, SortCode, DeleteMark, CreateDate, CreateUserId, CreateUserName,
+        ModifyDate, ModifyUserId, ModifyUserName,Menu_Code
+    </sql>
+
+
+
+    <select id="getMenuVOByMenuCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_SysMenu
+        where menu_code = #{menucode,jdbcType=NVARCHAR}
+    </select>
+
+    <select id="getMenuNameByMenuid" resultMap="BaseResultMap">
+        SELECT Menu_Id,Menu_Name
+        FROM Base_SysMenu
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="menuidlist != null">
+                menu_id IN
+                <foreach item="item" index="index" collection="menuidlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+</mapper>

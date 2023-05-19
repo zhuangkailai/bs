@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.stopproductioninfo.MessageReadUserMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.MessageReadUserVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="MessageType" jdbcType="VARCHAR" property="messagetype" />
+    <result column="FK_RecordID" jdbcType="VARCHAR" property="fkRecordid" />
+    <result column="UserID" jdbcType="VARCHAR" property="userid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, MessageType, FK_RecordID, UserID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_MessageReadUser
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_MessageReadUser
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="deleteByRecordID" parameterType="java.lang.String">
+    delete from T_BAS_MessageReadUser
+    where FK_RecordID = #{fkrecordid}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.MessageReadUserVO">
+    insert into T_BAS_MessageReadUser (PK_ID, MessageType, FK_RecordID, 
+      UserID)
+    values (#{pkId,jdbcType=VARCHAR}, #{messagetype,jdbcType=VARCHAR}, #{fkRecordid,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.MessageReadUserVO">
+    insert into T_BAS_MessageReadUser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="messagetype != null">
+        MessageType,
+      </if>
+      <if test="fkRecordid != null">
+        FK_RecordID,
+      </if>
+      <if test="userid != null">
+        UserID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="messagetype != null">
+        #{messagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRecordid != null">
+        #{fkRecordid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.MessageReadUserVO">
+    update T_BAS_MessageReadUser
+    <set>
+      <if test="messagetype != null">
+        MessageType = #{messagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRecordid != null">
+        FK_RecordID = #{fkRecordid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        UserID = #{userid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.MessageReadUserVO">
+    update T_BAS_MessageReadUser
+    set MessageType = #{messagetype,jdbcType=VARCHAR},
+      FK_RecordID = #{fkRecordid,jdbcType=VARCHAR},
+      UserID = #{userid,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.extand.TextMessageMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.extand.TextMessageVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="UserName" jdbcType="VARCHAR" property="username" />
+    <result column="UserPhoneNumber" jdbcType="VARCHAR" property="userphonenumber" />
+    <result column="Message" jdbcType="VARCHAR" property="message" />
+    <result column="SendTime" jdbcType="TIMESTAMP" property="sendtime" />
+    <result column="SendUser" jdbcType="VARCHAR" property="senduser" />
+    <result column="SendStatus" jdbcType="NUMERIC" property="sendstatus" />
+    <result column="MessageType" jdbcType="VARCHAR" property="messagetype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, UserName, UserPhoneNumber, Message, SendTime, SendUser, SendStatus, MessageType
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_TextMessage
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TextMessage
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.extand.TextMessageVO">
+    insert into T_BAS_TextMessage (PK_ID, UserName, UserPhoneNumber, 
+      Message, SendTime, SendUser, 
+      SendStatus, MessageType)
+    values (#{pkId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{userphonenumber,jdbcType=VARCHAR}, 
+      #{message,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, #{senduser,jdbcType=VARCHAR}, 
+      #{sendstatus,jdbcType=NUMERIC}, #{messagetype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.extand.TextMessageVO">
+    insert into T_BAS_TextMessage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="userphonenumber != null">
+        UserPhoneNumber,
+      </if>
+      <if test="message != null">
+        Message,
+      </if>
+      <if test="sendtime != null">
+        SendTime,
+      </if>
+      <if test="senduser != null">
+        SendUser,
+      </if>
+      <if test="sendstatus != null">
+        SendStatus,
+      </if>
+      <if test="messagetype != null">
+        MessageType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphonenumber != null">
+        #{userphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null">
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="senduser != null">
+        #{senduser,jdbcType=VARCHAR},
+      </if>
+      <if test="sendstatus != null">
+        #{sendstatus,jdbcType=NUMERIC},
+      </if>
+      <if test="messagetype != null">
+        #{messagetype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.extand.TextMessageVO">
+    update T_BAS_TextMessage
+    <set>
+      <if test="username != null">
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphonenumber != null">
+        UserPhoneNumber = #{userphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        Message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null">
+        SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="senduser != null">
+        SendUser = #{senduser,jdbcType=VARCHAR},
+      </if>
+      <if test="sendstatus != null">
+        SendStatus = #{sendstatus,jdbcType=NUMERIC},
+      </if>
+      <if test="messagetype != null">
+        MessageType = #{messagetype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.extand.TextMessageVO">
+    update T_BAS_TextMessage
+    set UserName = #{username,jdbcType=VARCHAR},
+      UserPhoneNumber = #{userphonenumber,jdbcType=VARCHAR},
+      Message = #{message,jdbcType=VARCHAR},
+      SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      SendUser = #{senduser,jdbcType=VARCHAR},
+      SendStatus = #{sendstatus,jdbcType=NUMERIC},
+      MessageType = #{messagetype,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getTextMessageListData" parameterType="map"  resultType="map">
+    select
+      t1.pk_id,
+      t1.senduser,
+      t1.username,
+      t1.userphonenumber,
+      t1.message,
+      t1.sendstatus,
+      t1.messagetype,
+      convert(varchar(19),t1.sendtime,120) as sendtime
+    from
+    t_bas_textmessage t1
+    <trim prefix="where" prefixOverrides="AND|OR">
+
+      <if test="username!=null and username !='' ">
+        AND t1.username  like concat('%', #{username},'%')
+      </if>
+      <if test="userphonenumber!=null and userphonenumber !='' ">
+        AND t1.userphonenumber  like concat('%', #{userphonenumber},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (19),t1.sendtime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (19),t1.sendtime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+
+    </trim>
+    ORDER BY t1.sendtime DESC
+  </select>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/07/29 0029 上午 8:55
+    * @Description: 批量插入短信发送记录信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_TextMessage (PK_ID, UserName, UserPhoneNumber,
+    Message, SendTime, SendUser,
+    SendStatus, MessageType)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.username,jdbcType=VARCHAR}, #{item.userphonenumber,jdbcType=VARCHAR},
+      #{item.message,jdbcType=VARCHAR}, #{item.sendtime,jdbcType=TIMESTAMP}, #{item.senduser,jdbcType=VARCHAR},
+      #{item.sendstatus,jdbcType=NUMERIC}, #{item.messagetype,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>

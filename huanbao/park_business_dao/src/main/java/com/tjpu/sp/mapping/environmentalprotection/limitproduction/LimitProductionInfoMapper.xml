@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.limitproduction.LimitProductionInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionInfoVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="FK_Pollutionid" property="fkPollutionid" jdbcType="VARCHAR" />
+    <result column="FK_MonitorPointType" property="fkMonitorpointtype" jdbcType="VARCHAR" />
+    <result column="ExecuteStartTime" property="executestarttime" jdbcType="VARCHAR" />
+    <result column="ExecuteEndTime" property="executeendtime" jdbcType="VARCHAR" />
+    <result column="LimitProductionPercent" property="limitproductionpercent" jdbcType="DOUBLE" />
+    <result column="BenchmarkFlow" property="benchmarkflow" jdbcType="DOUBLE" />
+    <result column="StaggeringPeakStartTimePoint" property="staggeringpeakstarttimepoint" jdbcType="NUMERIC" />
+    <result column="StaggeringPeakEndTimePoint" property="staggeringpeakendtimepoint" jdbcType="NUMERIC" />
+    <result column="IsAllStop" property="isallstop" jdbcType="NUMERIC" />
+    <result column="FK_FileID" property="fkFileid" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="pollutionname" property="pollutionname" jdbcType="VARCHAR" />
+    <result column="LimitProductionRemark" property="limitproductionremark" jdbcType="VARCHAR" />
+    <result column="shortername" property="shortername" jdbcType="VARCHAR" />
+    <collection property="limitDetail" ofType="string" column="PK_ID" javaType="java.util.HashSet" select="selectDetailByid">
+      <result property="outputname" column="outputname"/>
+    </collection>
+  </resultMap>
+    <resultMap id="updateMap" type="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionInfoVO" >
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+        <result column="FK_Pollutionid" property="fkPollutionid" jdbcType="VARCHAR" />
+        <result column="FK_MonitorPointType" property="fkMonitorpointtype" jdbcType="VARCHAR" />
+        <result column="ExecuteStartTime" property="executestarttime" jdbcType="VARCHAR" />
+        <result column="ExecuteEndTime" property="executeendtime" jdbcType="VARCHAR" />
+        <result column="LimitProductionPercent" property="limitproductionpercent" jdbcType="DOUBLE" />
+        <result column="BenchmarkFlow" property="benchmarkflow" jdbcType="DOUBLE" />
+        <result column="StaggeringPeakStartTimePoint" property="staggeringpeakstarttimepoint" jdbcType="NUMERIC" />
+        <result column="StaggeringPeakEndTimePoint" property="staggeringpeakendtimepoint" jdbcType="NUMERIC" />
+        <result column="IsAllStop" property="isallstop" jdbcType="NUMERIC" />
+        <result column="FK_FileID" property="fkFileid" jdbcType="VARCHAR" />
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+        <result column="pollutionname" property="pollutionname" jdbcType="VARCHAR" />
+        <result column="LimitProductionRemark" property="limitproductionremark" jdbcType="VARCHAR" />
+        <result column="shortername" property="shortername" jdbcType="VARCHAR" />
+        <collection property="limitDetail" ofType="string" column="PK_ID" javaType="java.util.HashSet" select="selectDetailidByid">
+            <result property="outputname" column="fk_outputid"/>
+        </collection>
+    </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, FK_Pollutionid, FK_MonitorPointType, ExecuteStartTime, ExecuteEndTime, LimitProductionPercent, 
+    BenchmarkFlow, StaggeringPeakStartTimePoint, StaggeringPeakEndTimePoint, IsAllStop, 
+    FK_FileID, UpdateTime, UpdateUser,LimitProductionRemark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_LimitProductionInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_LimitProductionInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionInfoVO" >
+    insert into T_BAS_LimitProductionInfo (PK_ID, FK_Pollutionid, FK_MonitorPointType,
+      ExecuteStartTime, ExecuteEndTime, LimitProductionPercent,
+      BenchmarkFlow, StaggeringPeakStartTimePoint,
+      StaggeringPeakEndTimePoint, IsAllStop,
+      FK_FileID, UpdateTime, UpdateUser,LimitProductionRemark
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointtype,jdbcType=VARCHAR},
+      #{executestarttime,jdbcType=TIMESTAMP}, #{executeendtime,jdbcType=TIMESTAMP}, #{limitproductionpercent,jdbcType=DOUBLE},
+      #{benchmarkflow,jdbcType=DOUBLE}, #{staggeringpeakstarttimepoint,jdbcType=NUMERIC},
+      #{staggeringpeakendtimepoint,jdbcType=NUMERIC}, #{isallstop,jdbcType=NUMERIC},
+      #{fkFileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{limitproductionremark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionInfoVO" >
+    insert into T_BAS_LimitProductionInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null" >
+        FK_Pollutionid,
+      </if>
+      <if test="fkMonitorpointtype != null" >
+        FK_MonitorPointType,
+      </if>
+      <if test="executestarttime != null" >
+        ExecuteStartTime,
+      </if>
+      <if test="executeendtime != null" >
+        ExecuteEndTime,
+      </if>
+      <if test="limitproductionpercent != null" >
+        LimitProductionPercent,
+      </if>
+      <if test="benchmarkflow != null" >
+        BenchmarkFlow,
+      </if>
+      <if test="staggeringpeakstarttimepoint != null" >
+        StaggeringPeakStartTimePoint,
+      </if>
+      <if test="staggeringpeakendtimepoint != null" >
+        StaggeringPeakEndTimePoint,
+      </if>
+      <if test="isallstop != null" >
+        IsAllStop,
+      </if>
+      <if test="fkFileid != null" >
+        FK_FileID,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser,
+      </if>
+      <if test="limitproductionremark != null" >
+          LimitProductionRemark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null" >
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtype != null" >
+        #{fkMonitorpointtype,jdbcType=VARCHAR},
+      </if>
+      <if test="executestarttime != null" >
+        #{executestarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeendtime != null" >
+        #{executeendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitproductionpercent != null" >
+        #{limitproductionpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="benchmarkflow != null" >
+        #{benchmarkflow,jdbcType=DOUBLE},
+      </if>
+      <if test="staggeringpeakstarttimepoint != null" >
+        #{staggeringpeakstarttimepoint,jdbcType=NUMERIC},
+      </if>
+      <if test="staggeringpeakendtimepoint != null" >
+        #{staggeringpeakendtimepoint,jdbcType=NUMERIC},
+      </if>
+      <if test="isallstop != null" >
+        #{isallstop,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFileid != null" >
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="limitproductionremark != null" >
+        #{limitproductionremark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionInfoVO" >
+    update T_BAS_LimitProductionInfo
+    <set >
+      <if test="fkPollutionid != null" >
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtype != null" >
+        FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      </if>
+      <if test="executestarttime != null" >
+        ExecuteStartTime = #{executestarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeendtime != null" >
+        ExecuteEndTime = #{executeendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitproductionpercent != null" >
+        LimitProductionPercent = #{limitproductionpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="benchmarkflow != null" >
+        BenchmarkFlow = #{benchmarkflow,jdbcType=DOUBLE},
+      </if>
+      <if test="staggeringpeakstarttimepoint != null" >
+        StaggeringPeakStartTimePoint = #{staggeringpeakstarttimepoint,jdbcType=NUMERIC},
+      </if>
+      <if test="staggeringpeakendtimepoint != null" >
+        StaggeringPeakEndTimePoint = #{staggeringpeakendtimepoint,jdbcType=NUMERIC},
+      </if>
+      <if test="isallstop != null" >
+        IsAllStop = #{isallstop,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFileid != null" >
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="limitproductionremark != null" >
+          LimitProductionRemark = #{limitproductionremark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionInfoVO" >
+    update T_BAS_LimitProductionInfo
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      ExecuteStartTime = #{executestarttime,jdbcType=TIMESTAMP},
+      ExecuteEndTime = #{executeendtime,jdbcType=TIMESTAMP},
+      LimitProductionPercent = #{limitproductionpercent,jdbcType=DOUBLE},
+      BenchmarkFlow = #{benchmarkflow,jdbcType=DOUBLE},
+      StaggeringPeakStartTimePoint = #{staggeringpeakstarttimepoint,jdbcType=NUMERIC},
+      StaggeringPeakEndTimePoint = #{staggeringpeakendtimepoint,jdbcType=NUMERIC},
+      IsAllStop = #{isallstop,jdbcType=NUMERIC},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      LimitProductionRemark = #{limitproductionremark,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取排口限产信息
+      param:
+      date: 2019/06/24 19:11
+  -->
+  <select id="getLimitProductionInfoByParamMap" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+        T_BAS_LimitProductionInfo.PK_ID,
+        T_BAS_LimitProductionInfo.FK_Pollutionid,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.shortername,
+        case FK_MonitorPointType when '1' then '废水' when '2' then '废气' when '37' then '雨水' end FK_MonitorPointType,
+        LimitProductionPercent,
+        convert(varchar(10),T_BAS_LimitProductionInfo.ExecuteStartTime,120) ExecuteStartTime,
+        convert(varchar(10),T_BAS_LimitProductionInfo.ExecuteEndTime,120) ExecuteEndTime,
+        T_BAS_LimitProductionInfo.StaggeringPeakStartTimePoint,
+        T_BAS_LimitProductionInfo.StaggeringPeakEndTimePoint,
+        BenchmarkFlow,
+        IsAllStop,
+		FK_FileID
+    FROM
+        T_BAS_LimitProductionInfo
+    JOIN T_BAS_Pollution on T_BAS_LimitProductionInfo.FK_Pollutionid=T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_MonitorPointType on T_BAS_LimitProductionInfo.FK_MonitorPointType=PUB_CODE_MonitorPointType.Code
+    left join PUB_CODE_PollutionClass on PUB_CODE_PollutionClass.code=T_BAS_Pollution.fk_pollutionclass
+    left join PUB_CODE_IndustryType on PUB_CODE_IndustryType.code=T_BAS_Pollution.fk_industrytype
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and T_BAS_Pollution.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="outputname!=null and outputname!='' ">
+          and T_BAS_LimitProductionInfo.PK_ID in(
+
+          SELECT
+          T_BAS_LimitProductionDetailInfo.FK_LimitProductionID
+          FROM
+          T_BAS_LimitProductionInfo
+          JOIN T_BAS_LimitProductionDetailInfo on T_BAS_LimitProductionInfo.PK_ID=T_BAS_LimitProductionDetailInfo.FK_LimitProductionID
+          JOIN T_BAS_WaterOutputInfo ON T_BAS_LimitProductionDetailInfo.FK_OutPutID= T_BAS_WaterOutputInfo.PK_ID
+          WHERE
+          T_BAS_WaterOutputInfo.outputname LIKE concat ( '%',#{outputname}, '%' ) and T_BAS_LimitProductionInfo.FK_MonitorPointType=1
+          union
+          SELECT
+          T_BAS_LimitProductionDetailInfo.FK_LimitProductionID
+          FROM
+          T_BAS_LimitProductionInfo
+          JOIN T_BAS_LimitProductionDetailInfo on T_BAS_LimitProductionInfo.PK_ID=T_BAS_LimitProductionDetailInfo.FK_LimitProductionID
+          JOIN T_BAS_GASOutPutInfo on T_BAS_LimitProductionDetailInfo.FK_OutPutID= T_BAS_GASOutPutInfo.PK_ID
+          where (
+          T_BAS_GASOutPutInfo.outputname like concat('%',#{outputname},'%') and T_BAS_LimitProductionInfo.FK_MonitorPointType=2
+          )
+
+          )
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and FK_MonitorPointType=#{monitorpointtype}
+      </if>
+      <if test="pollutionclass!=null and pollutionclass.size>0 ">
+          and PUB_CODE_PollutionClass.code in
+          <foreach collection="pollutionclass" item="item" close=")" open="(" separator=",">
+              #{item}
+          </foreach>
+      </if>
+      <if test="industrytype!=null and industrytype!='' ">
+        and PUB_CODE_IndustryType.code=#{industrytype}
+      </if>
+      <if test="executestarttime!=null and executestarttime!='' ">
+        and convert(varchar(10),T_BAS_LimitProductionInfo.ExecuteStartTime,120)>=convert(varchar(10),#{executestarttime},120)
+      </if>
+      <if test="executeendtime!=null and executeendtime!='' ">
+        and convert(varchar(10),T_BAS_LimitProductionInfo.ExecuteEndTime,120)<![CDATA[<=]]>convert(varchar(10),#{executeendtime},120)
+      </if>
+    </trim>
+      order by T_BAS_Pollution.pollutionname,
+      FK_MonitorPointType,
+      T_BAS_LimitProductionInfo.ExecuteStartTime desc
+  </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过限产信息id查询限产排口名称
+        param:
+        date: 2019/06/27 16:59
+    -->
+    <select id="selectDetailByid" resultType="string" parameterType="string" >
+        SELECT
+            case isallstop when '0' then case FK_MonitorPointType when '1' then T_BAS_WaterOutputInfo.outputname when '37' then T_BAS_WaterOutputInfo.outputname when '2' then T_BAS_GASOutPutInfo.outputname end when '1' then '全部停产' end outputname
+        FROM
+            T_BAS_LimitProductionInfo
+        left JOIN T_BAS_LimitProductionDetailInfo on T_BAS_LimitProductionInfo.PK_ID=T_BAS_LimitProductionDetailInfo.FK_LimitProductionID
+        LEFT JOIN T_BAS_GASOutPutInfo on T_BAS_LimitProductionDetailInfo.FK_Outputid=T_BAS_GASOutPutInfo.pk_id
+        LEFT JOIN T_BAS_WaterOutputInfo on T_BAS_LimitProductionDetailInfo.FK_Outputid=T_BAS_WaterOutputInfo.pk_id
+        where
+        T_BAS_LimitProductionDetailInfo.FK_LimitProductionID=#{id}
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过限产信息id查询限产排口id
+        param:
+        date: 2019/06/27 16:59
+    -->
+    <select id="selectDetailidByid" resultType="string" parameterType="string">
+        SELECT
+            T_BAS_LimitProductionDetailInfo.fk_outputid
+        FROM
+            T_BAS_LimitProductionInfo
+        left JOIN T_BAS_LimitProductionDetailInfo on T_BAS_LimitProductionInfo.PK_ID=T_BAS_LimitProductionDetailInfo.FK_LimitProductionID
+        where
+        T_BAS_LimitProductionDetailInfo.FK_LimitProductionID=#{id}
+    </select>
+
+    <!--
+      author:chengzq
+      description: 通过id获取排口限产信息
+      param:
+      date: 2019/06/21 11:03
+  -->
+    <select id="getLimitProductionInfoByID" resultMap="updateMap" parameterType="string">
+        SELECT
+            T_BAS_LimitProductionInfo.PK_ID,
+            T_BAS_LimitProductionInfo.fk_pollutionid,
+            T_BAS_LimitProductionInfo.FK_MonitorPointType,
+            LimitProductionPercent,
+            CONVERT ( VARCHAR ( 10 ), T_BAS_LimitProductionInfo.ExecuteStartTime, 120 ) ExecuteStartTime,
+            CONVERT ( VARCHAR ( 10 ), T_BAS_LimitProductionInfo.ExecuteEndTime, 120 ) ExecuteEndTime,
+            T_BAS_LimitProductionInfo.StaggeringPeakStartTimePoint,
+            T_BAS_LimitProductionInfo.StaggeringPeakEndTimePoint,
+            BenchmarkFlow,
+            IsAllStop,
+            FK_FileID,
+            LimitProductionRemark,
+            benchmarkflow
+        FROM
+            T_BAS_LimitProductionInfo
+        where T_BAS_LimitProductionInfo.pk_id=#{id}
+
+    </select>
+
+    <!--
+      author:chengzq
+      description: 通过id查询排口限产信息详情
+      param:
+      date: 2019/06/24 19:11
+  -->
+    <select id="getLimitProductionInfoDetailByID" resultMap="BaseResultMap" parameterType="string">
+        SELECT
+        T_BAS_LimitProductionInfo.PK_ID,
+        T_BAS_LimitProductionInfo.fk_pollutionid,
+        T_BAS_Pollution.pollutionname,
+        case FK_MonitorPointType when '1' then '废水' when '2' then '废气' when '37' then '雨水' end FK_MonitorPointType,
+        LimitProductionPercent,
+        convert(varchar(10),T_BAS_LimitProductionInfo.ExecuteStartTime,120) ExecuteStartTime,
+        convert(varchar(10),T_BAS_LimitProductionInfo.ExecuteEndTime,120) ExecuteEndTime,
+        T_BAS_LimitProductionInfo.StaggeringPeakStartTimePoint,
+        T_BAS_LimitProductionInfo.StaggeringPeakEndTimePoint,
+        BenchmarkFlow,
+        IsAllStop,
+        FK_FileID,
+        T_BAS_LimitProductionInfo.UpdateUser,
+        convert(varchar(19),T_BAS_LimitProductionInfo.UpdateTime,120) UpdateTime,
+        LimitProductionRemark,
+        benchmarkflow
+        FROM
+        T_BAS_LimitProductionInfo
+        JOIN T_BAS_Pollution on T_BAS_LimitProductionInfo.FK_Pollutionid=T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN PUB_CODE_MonitorPointType on T_BAS_LimitProductionInfo.FK_MonitorPointType=PUB_CODE_MonitorPointType.Code
+        where T_BAS_LimitProductionInfo.PK_ID=#{pkid}
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 验证同一污染源，同一类型监测点在表内有没有时间重叠的数据
+        param:
+        date: 2019/06/25 16:46
+    -->
+    <select id="isHaveData" resultType="int" parameterType="map">
+        select count(*) from  T_BAS_LimitProductionInfo
+        where fk_pollutionid=#{pollutionid}
+        and FK_MonitorPointType=#{monitortype}
+        and ((ExecuteStartTime<![CDATA[<=]]>#{executestarttime} and ExecuteEndTime>=#{executestarttime}) or
+        (ExecuteStartTime<![CDATA[<=]]>#{executeendtime} and ExecuteEndTime>=#{executeendtime}) )
+    </select>
+</mapper>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.WaterTreatmentFacilityMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.WaterTreatmentFacilityVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="WaterType" jdbcType="VARCHAR" property="watertype" />
+    <result column="PollutantNames" jdbcType="VARCHAR" property="pollutantnames" />
+
+    <result column="TreatmentNum" jdbcType="VARCHAR" property="treatmentnum" />
+    <result column="TreatmentName" jdbcType="VARCHAR" property="treatmentname" />
+    <result column="TechnologyDesc" jdbcType="VARCHAR" property="technologydesc" />
+    <result column="HandleWaterQuantity" jdbcType="DOUBLE" property="handlewaterquantity" />
+    <result column="IsFeasibletTechnology" jdbcType="VARCHAR" property="isfeasiblettechnology" />
+    <result column="IsInvolvingBsinessSecrets" jdbcType="VARCHAR" property="isinvolvingbsinesssecrets" />
+
+    <result column="OtherTreatmentInfo" jdbcType="VARCHAR" property="othertreatmentinfo" />
+    <result column="FK_OutPutpkID" jdbcType="VARCHAR" property="fkOutputpkid" />
+    <result column="OutputType" jdbcType="VARCHAR" property="outputtype" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateDate" jdbcType="TIMESTAMP" property="updatedate" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, WaterType, PollutantNames,   TreatmentNum, TreatmentName,
+    TechnologyDesc, HandleWaterQuantity, IsFeasibletTechnology, IsInvolvingBsinessSecrets, 
+     OtherTreatmentInfo, FK_OutPutpkID, OutputType, Remark, UpdateDate,
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_WaterTreatmentFacility
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_WaterTreatmentFacility
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.WaterTreatmentFacilityVO">
+    insert into T_GJ_WaterTreatmentFacility (PK_ID, FK_PollutionID, WaterType, 
+      PollutantNames,  TreatmentNum,
+      TreatmentName, TechnologyDesc, HandleWaterQuantity, 
+      IsFeasibletTechnology, IsInvolvingBsinessSecrets, 
+      OtherTreatmentInfo, FK_OutPutpkID,
+      OutputType, Remark, UpdateDate, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{watertype,jdbcType=VARCHAR}, 
+      #{pollutantnames,jdbcType=VARCHAR},  #{treatmentnum,jdbcType=VARCHAR},
+      #{treatmentname,jdbcType=VARCHAR}, #{technologydesc,jdbcType=VARCHAR}, #{handlewaterquantity,jdbcType=DOUBLE}, 
+      #{isfeasiblettechnology,jdbcType=VARCHAR}, #{isinvolvingbsinesssecrets,jdbcType=VARCHAR}, 
+       #{othertreatmentinfo,jdbcType=VARCHAR}, #{fkOutputpkid,jdbcType=VARCHAR},
+      #{outputtype,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.WaterTreatmentFacilityVO">
+    insert into T_GJ_WaterTreatmentFacility
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="watertype != null">
+        WaterType,
+      </if>
+      <if test="pollutantnames != null">
+        PollutantNames,
+      </if>
+
+      <if test="treatmentnum != null">
+        TreatmentNum,
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName,
+      </if>
+      <if test="technologydesc != null">
+        TechnologyDesc,
+      </if>
+      <if test="handlewaterquantity != null">
+        HandleWaterQuantity,
+      </if>
+      <if test="isfeasiblettechnology != null">
+        IsFeasibletTechnology,
+      </if>
+      <if test="isinvolvingbsinesssecrets != null">
+        IsInvolvingBsinessSecrets,
+      </if>
+
+      <if test="othertreatmentinfo != null">
+        OtherTreatmentInfo,
+      </if>
+      <if test="fkOutputpkid != null">
+        FK_OutPutpkID,
+      </if>
+      <if test="outputtype != null">
+        OutputType,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatedate != null">
+        UpdateDate,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="watertype != null">
+        #{watertype,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantnames != null">
+        #{pollutantnames,jdbcType=VARCHAR},
+      </if>
+
+      <if test="treatmentnum != null">
+        #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="technologydesc != null">
+        #{technologydesc,jdbcType=VARCHAR},
+      </if>
+      <if test="handlewaterquantity != null">
+        #{handlewaterquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="isfeasiblettechnology != null">
+        #{isfeasiblettechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="isinvolvingbsinesssecrets != null">
+        #{isinvolvingbsinesssecrets,jdbcType=VARCHAR},
+      </if>
+
+      <if test="othertreatmentinfo != null">
+        #{othertreatmentinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputpkid != null">
+        #{fkOutputpkid,jdbcType=VARCHAR},
+      </if>
+      <if test="outputtype != null">
+        #{outputtype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.WaterTreatmentFacilityVO">
+    update T_GJ_WaterTreatmentFacility
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="watertype != null">
+        WaterType = #{watertype,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantnames != null">
+        PollutantNames = #{pollutantnames,jdbcType=VARCHAR},
+      </if>
+
+      <if test="treatmentnum != null">
+        TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="technologydesc != null">
+        TechnologyDesc = #{technologydesc,jdbcType=VARCHAR},
+      </if>
+      <if test="handlewaterquantity != null">
+        HandleWaterQuantity = #{handlewaterquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="isfeasiblettechnology != null">
+        IsFeasibletTechnology = #{isfeasiblettechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="isinvolvingbsinesssecrets != null">
+        IsInvolvingBsinessSecrets = #{isinvolvingbsinesssecrets,jdbcType=VARCHAR},
+      </if>
+
+      <if test="othertreatmentinfo != null">
+        OtherTreatmentInfo = #{othertreatmentinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputpkid != null">
+        FK_OutPutpkID = #{fkOutputpkid,jdbcType=VARCHAR},
+      </if>
+      <if test="outputtype != null">
+        OutputType = #{outputtype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.WaterTreatmentFacilityVO">
+    update T_GJ_WaterTreatmentFacility
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      WaterType = #{watertype,jdbcType=VARCHAR},
+      PollutantNames = #{pollutantnames,jdbcType=VARCHAR},
+
+      TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      TechnologyDesc = #{technologydesc,jdbcType=VARCHAR},
+      HandleWaterQuantity = #{handlewaterquantity,jdbcType=DOUBLE},
+      IsFeasibletTechnology = #{isfeasiblettechnology,jdbcType=VARCHAR},
+      IsInvolvingBsinessSecrets = #{isinvolvingbsinesssecrets,jdbcType=VARCHAR},
+
+      OtherTreatmentInfo = #{othertreatmentinfo,jdbcType=VARCHAR},
+      FK_OutPutpkID = #{fkOutputpkid,jdbcType=VARCHAR},
+      OutputType = #{outputtype,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+      t1.pk_id as pkid,
+      t1.fk_outputpkid as fkoutputpkid,
+      t1.fk_pollutionid as fkpollutionid,
+      t1.handlewaterquantity,
+      t1.isfeasiblettechnology,
+      t1.isinvolvingbsinesssecrets,
+      t1.othertreatmentinfo,
+      t1.pollutantnames,
+      t1.technologydesc,
+      t1.treatmentname,
+      t1.treatmentnum,
+      t1.watertype,
+      t3.name outputtypename,
+      t2.outputcode,
+      t2.outputname,
+      t2.isrequirement,
+      t4.directorindirect,
+      t4.name draindirection,
+      t5.name outputrulename,
+      t1.remark
+    from
+      t_gj_watertreatmentfacility t1
+      left join t_bas_wateroutputinfo t2 on t1.fk_outputpkid = t2.pk_id
+      left join pub_code_outputattribute t3 on t3.code = t2.fk_outputproperty
+      left join pub_code_draindirection t4 on t4.code = t2.fk_draindirection
+      left join pub_code_outputrule t5 on t5.code = t2.fk_outputrule
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="treatmentnum!=null and treatmentnum!='' ">
+        and t1.treatmentnum like concat('%', #{treatmentnum},'%')
+      </if>
+      <if test="treatmentname!=null and treatmentname!='' ">
+        and t1.treatmentname like concat('%', #{treatmentname},'%')
+      </if>
+    </where>
+    order by  t1.watertype, t1.treatmentnum
+  </select>
+
+
+  <select id="getWaterFacilityDataListByParam" parameterType="map" resultType="map">
+    select
+    t1.pk_id as pkid,
+    t1.treatmentname,
+    t1.treatmentnum,
+    t1.remark
+    from
+    t_gj_watertreatmentfacility t1
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+    </where>
+    order by t1.treatmentnum
+  </select>
+
+
+  <select id="getWaterOutPutByPollutionId" parameterType="map" resultType="map">
+    SELECT
+      t1.pk_id,
+      t1.outputname,
+      t1.outputcode,
+      t1.isrequirement,
+      t2.name draindirection,
+      t4.name outputrulename,
+      t2.DirectorIndirect,
+      t3.Name outputtypename
+    FROM
+      t_bas_wateroutputinfo t1
+      LEFT JOIN PUB_CODE_DrainDirection t2 ON t2.code = t1.FK_DrainDirection
+      LEFT JOIN pub_code_outputattribute t3 ON t3.Code = t1.FK_OutputProperty
+      LEFT JOIN pub_code_outputrule t4 ON t4.Code = t1.FK_OutputRule
+    <where>
+      (t1.outputtype = '1' or t1.outputtype is null)
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and fk_pollutionid = #{pollutionid}
+      </if>
+      <if test="directorindirect!=null and directorindirect!='' ">
+        and t2.directorindirect = #{directorindirect}
+      </if>
+    </where>
+    order by t1.outputcode,t1.outputname
+  </select>
+</mapper>

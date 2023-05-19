@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.EntWorkDynamicMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.EntWorkDynamicVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="DynamicTime" jdbcType="TIMESTAMP" property="dynamictime" />
+    <result column="DynamicTitle" jdbcType="VARCHAR" property="dynamictitle" />
+    <result column="DynamicDes" jdbcType="VARCHAR" property="dynamicdes" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, DynamicTime, DynamicTitle, DynamicDes, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_EntWorkDynamic
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_EntWorkDynamic
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.EntWorkDynamicVO">
+    insert into T_GJ_EntWorkDynamic (PK_ID, FK_PollutionID, DynamicTime, 
+      DynamicTitle, DynamicDes, UpdateUser, 
+      UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{dynamictime,jdbcType=TIMESTAMP}, 
+      #{dynamictitle,jdbcType=VARCHAR}, #{dynamicdes,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntWorkDynamicVO">
+    insert into T_GJ_EntWorkDynamic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="dynamictime != null">
+        DynamicTime,
+      </if>
+      <if test="dynamictitle != null">
+        DynamicTitle,
+      </if>
+      <if test="dynamicdes != null">
+        DynamicDes,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="dynamictime != null">
+        #{dynamictime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dynamictitle != null">
+        #{dynamictitle,jdbcType=VARCHAR},
+      </if>
+      <if test="dynamicdes != null">
+        #{dynamicdes,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntWorkDynamicVO">
+    update T_GJ_EntWorkDynamic
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="dynamictime != null">
+        DynamicTime = #{dynamictime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dynamictitle != null">
+        DynamicTitle = #{dynamictitle,jdbcType=VARCHAR},
+      </if>
+      <if test="dynamicdes != null">
+        DynamicDes = #{dynamicdes,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.EntWorkDynamicVO">
+    update T_GJ_EntWorkDynamic
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      DynamicTime = #{dynamictime,jdbcType=TIMESTAMP},
+      DynamicTitle = #{dynamictitle,jdbcType=VARCHAR},
+      DynamicDes = #{dynamicdes,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+      pk_id,
+      fk_pollutionid,
+      convert ( varchar ( 10 ), dynamictime, 120 ) dynamictime,
+      dynamictitle,
+      dynamicdes
+    from
+    t_gj_entworkdynamic
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),dynamictime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),dynamictime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </where>
+    order by dynamictime DESC
+  </select>
+
+  <!--获取编辑回显或详情数据 lip 2021/8/30 9:37 -->
+  <select id="getEditOrDetailsDataById" parameterType="String" resultType="map">
+    select
+      pk_id,
+      fk_pollutionid,
+      convert ( varchar ( 10 ), dynamictime, 120 ) dynamictime,
+      dynamictitle,
+      dynamicdes
+    from
+    t_gj_entworkdynamic
+    where pk_id = #{id}
+  </select>
+</mapper>

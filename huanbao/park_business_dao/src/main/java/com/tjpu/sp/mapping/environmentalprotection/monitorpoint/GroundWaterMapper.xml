@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.GroundWaterMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.GroundWaterVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_WaterBodyCode" jdbcType="VARCHAR" property="fkWaterbodycode"/>
+        <result column="MonitorPointCode" jdbcType="VARCHAR" property="monitorpointcode"/>
+        <result column="MonitorPointName" jdbcType="VARCHAR" property="monitorpointname"/>
+        <result column="FK_ControlLevelCode" jdbcType="VARCHAR" property="fkControllevelcode"/>
+        <result column="FK_WaterBodyTypeCode" jdbcType="VARCHAR" property="fkWaterbodytypecode"/>
+        <result column="FK_FunWaterQaulityCode" jdbcType="VARCHAR" property="fkFunwaterqaulitycode"/>
+        <result column="DGIMN" jdbcType="VARCHAR" property="dgimn"/>
+        <result column="Longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="Latitude" jdbcType="DOUBLE" property="latitude"/>
+        <result column="Status" jdbcType="NUMERIC" property="status"/>
+        <result column="StationtYear" jdbcType="NUMERIC" property="stationtyear"/>
+        <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex"/>
+        <result column="FK_ImgID" jdbcType="VARCHAR" property="fkImgid"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="Remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_WaterBodyCode, MonitorPointCode, MonitorPointName, FK_ControlLevelCode, 
+    FK_WaterBodyTypeCode, FK_FunWaterQaulityCode, DGIMN, Longitude, Latitude, Status, 
+    StationtYear, OrderIndex, FK_ImgID, FK_FileID, Remark
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_GroundWaterPointInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_GroundWaterPointInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GroundWaterVO">
+    insert into T_BAS_GroundWaterPointInfo (PK_ID, FK_WaterBodyCode, MonitorPointCode, 
+      MonitorPointName, FK_ControlLevelCode, FK_WaterBodyTypeCode, 
+      FK_FunWaterQaulityCode, DGIMN, Longitude, 
+      Latitude, Status, StationtYear, 
+      OrderIndex, FK_ImgID, FK_FileID, 
+      Remark)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkWaterbodycode,jdbcType=VARCHAR}, #{monitorpointcode,jdbcType=VARCHAR}, 
+      #{monitorpointname,jdbcType=VARCHAR}, #{fkControllevelcode,jdbcType=VARCHAR}, #{fkWaterbodytypecode,jdbcType=VARCHAR}, 
+      #{fkFunwaterqaulitycode,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{status,jdbcType=NUMERIC}, #{stationtyear,jdbcType=NUMERIC}, 
+      #{orderindex,jdbcType=NUMERIC}, #{fkImgid,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GroundWaterVO">
+        insert into T_BAS_GroundWaterPointInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkWaterbodycode != null">
+                FK_WaterBodyCode,
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode,
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName,
+            </if>
+            <if test="fkControllevelcode != null">
+                FK_ControlLevelCode,
+            </if>
+            <if test="fkWaterbodytypecode != null">
+                FK_WaterBodyTypeCode,
+            </if>
+            <if test="fkFunwaterqaulitycode != null">
+                FK_FunWaterQaulityCode,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="stationtyear != null">
+                StationtYear,
+            </if>
+            <if test="orderindex != null">
+                OrderIndex,
+            </if>
+            <if test="fkImgid != null">
+                FK_ImgID,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterbodycode != null">
+                #{fkWaterbodycode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="fkControllevelcode != null">
+                #{fkControllevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterbodytypecode != null">
+                #{fkWaterbodytypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFunwaterqaulitycode != null">
+                #{fkFunwaterqaulitycode,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="stationtyear != null">
+                #{stationtyear,jdbcType=NUMERIC},
+            </if>
+            <if test="orderindex != null">
+                #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="fkImgid != null">
+                #{fkImgid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GroundWaterVO">
+        update T_BAS_GroundWaterPointInfo
+        <set>
+            <if test="fkWaterbodycode != null">
+                FK_WaterBodyCode = #{fkWaterbodycode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="fkControllevelcode != null">
+                FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterbodytypecode != null">
+                FK_WaterBodyTypeCode = #{fkWaterbodytypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFunwaterqaulitycode != null">
+                FK_FunWaterQaulityCode = #{fkFunwaterqaulitycode,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                DGIMN = #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="stationtyear != null">
+                StationtYear = #{stationtyear,jdbcType=NUMERIC},
+            </if>
+            <if test="orderindex != null">
+                OrderIndex = #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="fkImgid != null">
+                FK_ImgID = #{fkImgid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GroundWaterVO">
+    update T_BAS_GroundWaterPointInfo
+    set FK_WaterBodyCode = #{fkWaterbodycode,jdbcType=VARCHAR},
+      MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+      MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+      FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+      FK_WaterBodyTypeCode = #{fkWaterbodytypecode,jdbcType=VARCHAR},
+      FK_FunWaterQaulityCode = #{fkFunwaterqaulitycode,jdbcType=VARCHAR},
+      DGIMN = #{dgimn,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      Status = #{status,jdbcType=NUMERIC},
+      StationtYear = #{stationtyear,jdbcType=NUMERIC},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      FK_ImgID = #{fkImgid,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+    <!--
+        author:liyc
+        description: 通过自定义参数获取地下水监测点信息列表
+        param:
+        date: 2019/12/14 13:13
+    -->
+    <select id="getGroundWaterInfoByParamMap" resultType="map" parameterType="map">
+        SELECT
+        t1.PK_ID pkid,
+        t1.MonitorPointName,
+        t1.MonitorPointCode,
+        t1.DGIMN,
+        t1.Longitude,
+        t1.Latitude,
+        t3.Name waterqualityclassname
+        FROM
+        T_BAS_GroundWaterPointInfo t1
+        LEFT JOIN PUB_CODE_WaterQualityClass t3 ON t1.FK_FunWaterQaulityCode= t3.Code
+        <where>
+            <if test="monitorpointname != null and monitorpointname !=''">
+                and t1.MonitorPointName LIKE concat('%',#{monitorpointname,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getTargetLevelByDgimn" resultType="String" parameterType="String">
+       SELECT
+        t1.FK_FunWaterQaulityCode
+        FROM
+        T_BAS_GroundWaterPointInfo t1
+        where t1.DGIMN = #{dgimn}
+  </select>
+    <!--
+        author:liyc
+        description: 获取地下水监测点详情信息
+        param:
+        date: 2019/12/14 14:57
+    -->
+    <select id="getGroundWaterDetailById" parameterType="java.lang.String" resultType="map">
+     SELECT
+	t1.MonitorPointName,
+	t1.MonitorPointCode,
+	t2.Name controllevename,
+	t1.FK_ImgID FKImgID,
+	t3.Name waterqualityclassname,
+	CASE t1.Status WHEN 1 THEN '正常' WHEN 0 THEN '停用' END Status,
+	t1.Longitude,
+	t1.Latitude,
+	t1.StationtYear,
+	t1.DGIMN
+    FROM
+	T_BAS_GroundWaterPointInfo t1
+	LEFT JOIN PUB_CODE_ControlLeve t2 ON t1.FK_ControlLevelCode= t2.Code
+	LEFT JOIN PUB_CODE_WaterQualityClass t3 ON t1.FK_FunWaterQaulityCode= t3.Code
+	WHERE t1.PK_ID=#{id,jdbcType=VARCHAR}
+  </select>
+
+
+    <!--
+        author:chengzq
+        description: 动态条件获取地下水监测点信息
+        param:
+        date: 2021/04/13 10:36
+    -->
+    <select id="getOnlineGroundWaterInfoByParamMap" parameterType="map" resultType="java.util.Map">
+        SELECT
+        T_BAS_GroundWaterPointInfo.pk_id,
+        T_BAS_GroundWaterPointInfo.pk_id AS monitorpointid,
+        T_BAS_GroundWaterPointInfo.MonitorPointName AS monitorpointname,
+        T_BAS_GroundWaterPointInfo.MonitorPointName outputname,
+        T_BAS_GroundWaterPointInfo.DGIMN AS dgimn,
+        '6' monitorpointtype,
+        T_BAS_DeviceStatus.Status AS onlinestatus,
+        T_BAS_GroundWaterPointInfo.Status status,
+        case T_BAS_DeviceStatus.Status when '1' then '正常' when '0' then '离线' when '2' then '超标' when '3' then '异常' end
+        onlinestatusname,
+        T_BAS_DeviceStatus.AlarmLevel,
+        PUB_CODE_WaterQualityClass.Name AS waterqualityclass,
+        T_BAS_GroundWaterPointInfo.fk_funwaterqaulitycode,
+        T_BAS_GroundWaterPointInfo.Longitude,
+        T_BAS_GroundWaterPointInfo.Latitude,
+        case when (T_BAS_GroundWaterPointInfo.Status = 0) then 6 ELSE (case when T_BAS_DeviceStatus.Status = 1 THEN 1
+        WHEN T_BAS_DeviceStatus.Status = 0 THEN 2
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN 3
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN 4 end) end orderstatus,
+        PUB_CODE_ControlLeve.name fk_controllevelname,
+        CONVERT (VARCHAR (20),T_BAS_DeviceStatus.UpdateTime,120) updatetime
+        FROM
+        T_BAS_GroundWaterPointInfo
+        JOIN T_BAS_DeviceStatus ON T_BAS_GroundWaterPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        LEFT JOIN PUB_CODE_WaterQualityClass ON PUB_CODE_WaterQualityClass.Code =
+        T_BAS_GroundWaterPointInfo.FK_FunWaterQaulityCode
+        left join PUB_CODE_ControlLeve on PUB_CODE_ControlLeve.code=T_BAS_GroundWaterPointInfo.FK_ControlLevelCode
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = 7
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_GroundWaterPointInfo.pk_id = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_GroundWaterPointInfo.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="searchname!=null and searchname != ''">
+                AND T_BAS_GroundWaterPointInfo.MonitorPointName LIKE CONCAT('%',#{searchname},'%')
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and PK_WaterStationID = #{monitorpointid}
+            </if>
+            <if test="devicestatus!=null and devicestatus!='' ">
+                and T_BAS_DeviceStatus.status = #{devicestatus}
+            </if>
+            <if test="pointstatus!=null and pointstatus!='' ">
+                and T_BAS_GroundWaterPointInfo.status = #{pointstatus}
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and T_BAS_GroundWaterPointInfo.DGIMN = #{dgimn}
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and T_BAS_GroundWaterPointInfo.dgimn in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="outputids !=null and outputids.size>0">
+                and PK_WaterStationID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and T_BAS_DeviceStatus.status in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        /* ORDER BY T_BAS_GroundWaterPointInfo.MonitorPointName*/
+        ORDER BY T_BAS_GroundWaterPointInfo.MonitorPointCode
+    </select>
+
+
+</mapper>

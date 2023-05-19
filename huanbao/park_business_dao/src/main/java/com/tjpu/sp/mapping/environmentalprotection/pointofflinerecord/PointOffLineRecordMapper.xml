@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.pointofflinerecord.PointOffLineRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.pointofflinerecord.PointOffLineRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="DGIMN" jdbcType="VARCHAR" property="dgimn" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="OffLineTime" jdbcType="TIMESTAMP" property="offlinetime" />
+    <result column="RecoveryTime" jdbcType="TIMESTAMP" property="recoverytime" />
+    <result column="IsRead" jdbcType="NUMERIC" property="isread" />
+    <result column="ReadUser" jdbcType="VARCHAR" property="readuser" />
+    <result column="ReadTime" jdbcType="TIMESTAMP" property="readtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, DGIMN, FK_MonitorPointTypeCode, OffLineTime, RecoveryTime, IsRead, ReadUser, 
+    ReadTime, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_PointOffLineRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_PointOffLineRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.pointofflinerecord.PointOffLineRecordVO">
+    insert into T_BAS_PointOffLineRecord (PK_ID, DGIMN, FK_MonitorPointTypeCode, 
+      OffLineTime, RecoveryTime, IsRead, 
+      ReadUser, ReadTime, UpdateTime
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{offlinetime,jdbcType=TIMESTAMP}, #{recoverytime,jdbcType=TIMESTAMP}, #{isread,jdbcType=NUMERIC}, 
+      #{readuser,jdbcType=VARCHAR}, #{readtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.pointofflinerecord.PointOffLineRecordVO">
+    insert into T_BAS_PointOffLineRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="dgimn != null">
+        DGIMN,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="offlinetime != null">
+        OffLineTime,
+      </if>
+      <if test="recoverytime != null">
+        RecoveryTime,
+      </if>
+      <if test="isread != null">
+        IsRead,
+      </if>
+      <if test="readuser != null">
+        ReadUser,
+      </if>
+      <if test="readtime != null">
+        ReadTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="offlinetime != null">
+        #{offlinetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recoverytime != null">
+        #{recoverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isread != null">
+        #{isread,jdbcType=NUMERIC},
+      </if>
+      <if test="readuser != null">
+        #{readuser,jdbcType=VARCHAR},
+      </if>
+      <if test="readtime != null">
+        #{readtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.pointofflinerecord.PointOffLineRecordVO">
+    update T_BAS_PointOffLineRecord
+    <set>
+      <if test="dgimn != null">
+        DGIMN = #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="offlinetime != null">
+        OffLineTime = #{offlinetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recoverytime != null">
+        RecoveryTime = #{recoverytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isread != null">
+        IsRead = #{isread,jdbcType=NUMERIC},
+      </if>
+      <if test="readuser != null">
+        ReadUser = #{readuser,jdbcType=VARCHAR},
+      </if>
+      <if test="readtime != null">
+        ReadTime = #{readtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.pointofflinerecord.PointOffLineRecordVO">
+    update T_BAS_PointOffLineRecord
+    set DGIMN = #{dgimn,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      OffLineTime = #{offlinetime,jdbcType=TIMESTAMP},
+      RecoveryTime = #{recoverytime,jdbcType=TIMESTAMP},
+      IsRead = #{isread,jdbcType=NUMERIC},
+      ReadUser = #{readuser,jdbcType=VARCHAR},
+      ReadTime = #{readtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+     author:xsm
+     description: 通过自定义参数获取设备离线数据列表
+     param:
+     date: 2021/05/13 17:28
+  -->
+  <select id="getPointOffLineRecordsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_PointOffLineRecord.PK_ID,
+    T_BAS_PointOffLineRecord.DGIMN,
+    alltype.PollutionName,
+    alltype.MonitorPointName,
+    convert(varchar(20),OffLineTime,120) OffLineTime,
+    convert(varchar(20),RecoveryTime,120) RecoveryTime,
+    case IsRead when 1 then '是' when 0 then '否' end IsRead,
+    ReadUser,
+    T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode MonitorPointTypeCode,
+    PUB_CODE_MonitorPointType.Name MonitorPointTypeName,
+    convert(varchar(20),ReadTime,120) ReadTime
+    from
+    T_BAS_PointOffLineRecord
+    LEFT JOIN
+    (
+    SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+    monitorpointid,T_BAS_Pollution.PollutionName,T_BAS_GASOutPutInfo.OutPutName Monitorpointname
+     FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '1'
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '3'
+    UNION
+    SELECT
+    T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+    monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+    FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+    T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+    monitorpointid,'' PollutionName,T_BAS_AirMonitorStation.MonitorPointName FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+    monitorpointid,'' PollutionName,T_BAS_WaterStationInfo.MonitorPointName FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT
+    T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+    monitorpointid,'' PollutionName,T_BAS_OtherMonitorPoint.MonitorPointName FROM T_BAS_OtherMonitorPoint
+    ) alltype ON T_BAS_PointOffLineRecord.DGIMN =alltype.DGIMN and T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode =alltype.FK_MonitorPointTypeCode
+    LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and alltype.PollutionName like concat ('%',#{pollutionname},'%')
+      </if>
+      <if test="monitorpointname !=null and monitorpointname !='' ">
+        and alltype.MonitorPointName like concat ('%',#{monitorpointname},'%')
+      </if>
+      <if test="monitorpointtype !=null and monitorpointtype !='' ">
+        and T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode = #{monitorpointtype}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),T_BAS_PointOffLineRecord.OffLineTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),T_BAS_PointOffLineRecord.OffLineTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by T_BAS_PointOffLineRecord.OffLineTime DESC ,alltype.PollutionName,alltype.MonitorPointName
+  </select>
+
+
+  <!--
+     author:xsm
+     description: 通过自定义参数获取设备离线详情
+     param:
+     date: 2021/05/13 16:59
+  -->
+  <select id="getPointOffLineRecordDetailById" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_PointOffLineRecord.PK_ID,
+    T_BAS_PointOffLineRecord.DGIMN,
+    alltype.PollutionName,
+    alltype.MonitorPointName,
+    convert(varchar(20),OffLineTime,120) OffLineTime,
+    convert(varchar(20),RecoveryTime,120) RecoveryTime,
+    case IsRead when 1 then '是' when 0 then '否' end IsRead,
+    ReadUser,
+    T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode MonitorPointTypeCode,
+    PUB_CODE_MonitorPointType.Name MonitorPointTypeName,
+    convert(varchar(20),ReadTime,120) ReadTime,
+    convert(varchar(20),T_BAS_PointOffLineRecord.UpdateTime,120) UpdateTime
+    from
+    T_BAS_PointOffLineRecord
+    LEFT JOIN
+    (
+    SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+    monitorpointid,T_BAS_Pollution.PollutionName,T_BAS_GASOutPutInfo.OutPutName Monitorpointname
+    FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '1'
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '3'
+    UNION
+    SELECT
+    T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+    monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+    FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+    T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+    monitorpointid,'' PollutionName,T_BAS_AirMonitorStation.MonitorPointName FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+    monitorpointid,'' PollutionName,T_BAS_WaterStationInfo.MonitorPointName FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT
+    T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+    monitorpointid,'' PollutionName,T_BAS_OtherMonitorPoint.MonitorPointName FROM T_BAS_OtherMonitorPoint
+    ) alltype ON T_BAS_PointOffLineRecord.DGIMN =alltype.DGIMN and T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode =alltype.FK_MonitorPointTypeCode
+    LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+    where T_BAS_PointOffLineRecord.PK_ID = #{id}
+  </select>
+
+
+  <!--author:xsm description: 根据自定义参数获取离线点位信息  param: date: 2021/05/14 11:52 -->
+  <select id="getNowPointOffLineRecordsByParamMap" parameterType="map" resultType="map">
+    SELECT
+    T_BAS_PointOffLineRecord.PK_ID,
+    T_BAS_PointOffLineRecord.DGIMN,
+    alltype.PollutionName,
+    alltype.MonitorPointName,
+    convert(varchar(20),OffLineTime,120) OffLineTime,
+    '3' messagetype,
+    convert (varchar (20),OffLineTime,120) UpdateTime,
+    CASE WHEN alltype.PollutionName !=''THEN alltype.PollutionName+'_'+alltype.MonitorPointName+'离线'
+    ELSE  alltype.MonitorPointName+'离线' END messagestr,
+    case  when t4.PK_ID IS NOT NULL then '1' ELSE '0' end isread,
+    T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode MonitorPointTypeCode
+    FROM
+    T_BAS_PointOffLineRecord
+     JOIN
+    (
+    SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+    monitorpointid,T_BAS_Pollution.PollutionName,T_BAS_GASOutPutInfo.OutPutName Monitorpointname
+    FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '1'
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '3'
+    UNION
+    SELECT
+    T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+    monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+    FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+    T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+    monitorpointid,'' PollutionName,T_BAS_AirMonitorStation.MonitorPointName FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+    monitorpointid,'' PollutionName,T_BAS_WaterStationInfo.MonitorPointName FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT
+    T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+    monitorpointid,'' PollutionName,T_BAS_OtherMonitorPoint.MonitorPointName FROM T_BAS_OtherMonitorPoint
+    ) alltype ON T_BAS_PointOffLineRecord.DGIMN =alltype.DGIMN and T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode =alltype.FK_MonitorPointTypeCode
+    LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="userid!=null and userid!='' ">
+        and T_BAS_MessageReadUser.UserID = #{userid}
+      </if>
+      <if test="messagetype!=null and messagetype!='' ">
+        and T_BAS_MessageReadUser.MessageType = #{messagetype}
+      </if>
+
+    </trim>
+    )t4 on t4.FK_RecordID = T_BAS_PointOffLineRecord.PK_ID
+    where (T_BAS_PointOffLineRecord.RecoveryTime is null or T_BAS_PointOffLineRecord.RecoveryTime ='')
+    ORDER  BY T_BAS_PointOffLineRecord.OffLineTime
+  </select>
+
+  <!--author:xsm description: 根据自定义参数获取企业离线点位信息  param: date: 2021/09/13 11:05 -->
+  <select id="getEntPointOffLineRecordsByParamMap" parameterType="map" resultType="map">
+    SELECT
+    T_BAS_PointOffLineRecord.PK_ID,
+    T_BAS_PointOffLineRecord.DGIMN,
+    alltype.PollutionName,
+    alltype.PK_PollutionID pollutionid,
+    alltype.MonitorPointName,
+    convert(varchar(20),OffLineTime,120) OffLineTime,
+    '3' messagetype,
+    convert (varchar (20),OffLineTime,120) UpdateTime,
+    <choose>
+      <when test="isentflag =='yes'">
+        alltype.MonitorPointName+'离线' messagestr,
+      </when>
+      <otherwise>
+        alltype.PollutionName +'_'+ alltype.MonitorPointName+'离线' messagestr,
+      </otherwise>
+    </choose>
+    case  when t4.PK_ID IS NOT NULL then '1' ELSE '0' end isread,
+    T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode MonitorPointTypeCode
+    FROM
+    T_BAS_PointOffLineRecord
+    LEFT JOIN
+    (
+    SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+    monitorpointid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PK_PollutionID,T_BAS_GASOutPutInfo.OutPutName Monitorpointname
+    FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PK_PollutionID,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '1'
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PK_PollutionID,T_BAS_WaterOutputInfo.OutPutName Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '3'
+    UNION
+    SELECT
+    T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+    monitorpointid,
+    T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PK_PollutionID,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+    FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+    T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+    ) alltype ON T_BAS_PointOffLineRecord.DGIMN =alltype.DGIMN and T_BAS_PointOffLineRecord.FK_MonitorPointTypeCode =alltype.FK_MonitorPointTypeCode
+    <if test="userid != null and userid!=''">
+      join (
+      SELECT
+      FK_MonitorPointID
+      FROM
+      T_BAS_UserMonitorPointRelationData
+      WHERE
+      T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_BAS_UserMonitorPointRelationData.FK_PollutionID = #{pollutionid}
+      </if>
+      GROUP BY
+      FK_MonitorPointID
+      ) relation ON  alltype.monitorpointid = relation.FK_MonitorPointID
+    </if>
+    LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="userid!=null and userid!='' ">
+        and T_BAS_MessageReadUser.UserID = #{userid}
+      </if>
+      <if test="messagetype!=null and messagetype!='' ">
+        and T_BAS_MessageReadUser.MessageType = #{messagetype}
+      </if>
+    </trim>
+    )t4 on t4.FK_RecordID = T_BAS_PointOffLineRecord.PK_ID
+    where (T_BAS_PointOffLineRecord.RecoveryTime is null or T_BAS_PointOffLineRecord.RecoveryTime ='')
+    <if test="isread!=null and isread=='0'.toString() ">
+      and t4.PK_ID IS  NULL
+    </if>
+    ORDER  BY T_BAS_PointOffLineRecord.OffLineTime
+  </select>
+</mapper>

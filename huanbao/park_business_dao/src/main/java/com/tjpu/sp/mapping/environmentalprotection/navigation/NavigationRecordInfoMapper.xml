@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.navigation.NavigationRecordInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.navigation.NavigationRecordInfoVO">
+    <id column="PK_NavigationID" jdbcType="VARCHAR" property="pkNavigationid" />
+    <result column="NavigationDate" jdbcType="TIMESTAMP" property="navigationdate" />
+    <result column="Starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="Endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="DGIMN" jdbcType="VARCHAR" property="dgimn" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_NavigationID, NavigationDate, Starttime, Endtime, UpdateTime, UpdateUser, DGIMN
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_NavigationRecordInfo
+    where PK_NavigationID = #{pkNavigationid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_NavigationRecordInfo
+    where PK_NavigationID = #{pkNavigationid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationRecordInfoVO">
+    insert into T_BAS_NavigationRecordInfo (PK_NavigationID, NavigationDate, 
+      Starttime, Endtime, UpdateTime, 
+      UpdateUser, DGIMN)
+    values (#{pkNavigationid,jdbcType=VARCHAR}, #{navigationdate,jdbcType=TIMESTAMP}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationRecordInfoVO">
+    insert into T_BAS_NavigationRecordInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkNavigationid != null">
+        PK_NavigationID,
+      </if>
+      <if test="navigationdate != null">
+        NavigationDate,
+      </if>
+      <if test="starttime != null">
+        Starttime,
+      </if>
+      <if test="endtime != null">
+        Endtime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="dgimn != null">
+        DGIMN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkNavigationid != null">
+        #{pkNavigationid,jdbcType=VARCHAR},
+      </if>
+      <if test="navigationdate != null">
+        #{navigationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        #{dgimn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationRecordInfoVO">
+    update T_BAS_NavigationRecordInfo
+    <set>
+      <if test="navigationdate != null">
+        NavigationDate = #{navigationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="starttime != null">
+        Starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        Endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        DGIMN = #{dgimn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_NavigationID = #{pkNavigationid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationRecordInfoVO">
+    update T_BAS_NavigationRecordInfo
+    set NavigationDate = #{navigationdate,jdbcType=TIMESTAMP},
+      Starttime = #{starttime,jdbcType=TIMESTAMP},
+      Endtime = #{endtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      DGIMN = #{dgimn,jdbcType=VARCHAR}
+    where PK_NavigationID = #{pkNavigationid,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+     author:xsm
+     description: 通过自定义参数获取走航记录信息
+     param:
+     date: 2020/08/31 15:01
+ -->
+  <select id="getNavigationRecordInfosByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_NavigationRecordInfo.PK_NavigationID id,
+    CONVERT (VARCHAR (10),T_BAS_NavigationRecordInfo.NavigationDate,120) NavigationDate,
+    CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Starttime,108) Starttime,
+    CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Endtime,108) Endtime,
+    CONVERT (VARCHAR (20),T_BAS_NavigationRecordInfo.UpdateTime,120) updatetime,
+    T_BAS_NavigationRecordInfo.UpdateUser,
+    T_BAS_NavigationRecordInfo.DGIMN
+    from
+    T_BAS_NavigationRecordInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Starttime,108) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Endtime,108) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by T_BAS_NavigationRecordInfo.NavigationDate desc
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id查询详情
+ param:
+ date: 2019/11/07 18:33
+-->
+  <select id="getNavigationRecordInfoDetailByID" resultType="map" parameterType="string">
+    SELECT
+    T_BAS_NavigationRecordInfo.PK_NavigationID id,
+    CONVERT (VARCHAR (10),T_BAS_NavigationRecordInfo.NavigationDate,120) NavigationDate,
+    CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Starttime,108) Starttime,
+    CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Endtime,108) Endtime,
+    CONVERT (VARCHAR (20),T_BAS_NavigationRecordInfo.UpdateTime,120) updatetime,
+    T_BAS_NavigationRecordInfo.UpdateUser,
+    T_BAS_NavigationRecordInfo.DGIMN
+    from
+    T_BAS_NavigationRecordInfo
+    where T_BAS_NavigationRecordInfo.PK_NavigationID = #{pkid}
+  </select>
+
+
+  <!-- author:xsm description: 根据监测时间段返回按日分组的走航信息 date: 2020/08/31 13:36-->
+  <select id="getNavigationDataGroupByNavigationDateByMonth" parameterType="map" resultType="map">
+    SELECT tt.NavigationDate,
+    MAX(flag) flag
+    FROM(
+    SELECT CONVERT (VARCHAR(10),t.NavigationDate,120) NavigationDate,
+    CASE  WHEN (t.Starttime IS NOT NULL  AND  t.Endtime IS NOT NULL) THEN 1 WHEN (t.Starttime IS NOT NULL  AND  t.Endtime IS  NULL) THEN 2 END flag
+    FROM T_BAS_NavigationRecordInfo t
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.NavigationDate,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.NavigationDate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    ) tt
+    GROUP BY CONVERT (VARCHAR(10),tt.NavigationDate,120)
+  </select>
+
+
+
+  <!-- author:xsm description: 根据监测时间段返回该日的走航情况 date: 2020/08/31 13:36-->
+  <select id="getNavigationDataByNavigationDate" parameterType="map" resultType="map">
+    SELECT
+    T_BAS_NavigationRecordInfo.PK_NavigationID id,
+    T_BAS_NavigationRecordInfo.DGIMN,
+    CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Starttime,108) Starttime,
+    CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Endtime,108) Endtime
+    FROM T_BAS_NavigationRecordInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),NavigationDate,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),NavigationDate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order BY CONVERT (VARCHAR (5),T_BAS_NavigationRecordInfo.Starttime,108)
+  </select>
+</mapper>

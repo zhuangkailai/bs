@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.SelfMonitorDataInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.SelfMonitorDataInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionId" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="FK_OutputId" jdbcType="VARCHAR" property="fkOutputid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="SamplingTime" jdbcType="TIMESTAMP" property="samplingtime" />
+    <result column="Concentration" jdbcType="DOUBLE" property="concentration" />
+    <result column="ZSConcentration" jdbcType="DOUBLE" property="zsconcentration" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionId, FK_MonitorPointTypeCode, FK_OutputId, FK_PollutantCode, SamplingTime, 
+    Concentration,ZSConcentration, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_DT_SelfMonitorDataInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_DT_SelfMonitorDataInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorDataInfoVO">
+    insert into T_DT_SelfMonitorDataInfo (PK_ID, FK_PollutionId, FK_MonitorPointTypeCode, 
+      FK_OutputId, FK_PollutantCode, SamplingTime, 
+      Concentration,ZSConcentration, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{fkOutputid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, #{samplingtime,jdbcType=TIMESTAMP}, 
+      #{concentration,jdbcType=DOUBLE},
+      #{zsconcentration,jdbcType=DOUBLE},
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorDataInfoVO">
+    insert into T_DT_SelfMonitorDataInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionId,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutputId,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="samplingtime != null">
+        SamplingTime,
+      </if>
+      <if test="concentration != null">
+        Concentration,
+      </if>
+       <if test="zsconcentration != null">
+        ZSConcentration,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingtime != null">
+        #{samplingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="concentration != null">
+        #{concentration,jdbcType=DOUBLE},
+      </if>
+      <if test="zsconcentration != null">
+        #{zsconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorDataInfoVO">
+    update T_DT_SelfMonitorDataInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutputId = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingtime != null">
+        SamplingTime = #{samplingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="concentration != null">
+        Concentration = #{concentration,jdbcType=DOUBLE},
+      </if>
+       <if test="zsconcentration != null">
+        ZSConcentration = #{zsconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorDataInfoVO">
+    update T_DT_SelfMonitorDataInfo
+    set FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      FK_OutputId = #{fkOutputid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      SamplingTime = #{samplingtime,jdbcType=TIMESTAMP},
+      Concentration = #{concentration,jdbcType=DOUBLE},
+      ZSConcentration = #{zsconcentration,jdbcType=DOUBLE},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+    t1.pk_id,
+    <choose>
+      <when test="monitortpointtype=='1'.toString() or monitortpointtype=='2'.toString()">
+        t2.outputname as monitorpointname,
+      </when>
+      <otherwise>
+        t2.MonitorPointName as monitorpointname,
+      </otherwise>
+    </choose>
+    t1.concentration,
+    t1.zsconcentration,
+    convert ( varchar ( 19 ), t1.samplingtime, 120 ) samplingtime,
+    t3.name pollutantname,
+    t3.pollutantunit,
+    t4.pollutionname
+    from
+    t_dt_selfmonitordatainfo t1
+    <choose>
+      <when test="monitortpointtype=='1'.toString()">
+          inner join t_bas_wateroutputinfo t2 on t1.fk_outputid = t2.pk_id
+      </when>
+      <when test="monitortpointtype=='2'.toString()">
+        inner join t_bas_gasoutputinfo t2 on t1.fk_outputid = t2.pk_id
+      </when>
+      <otherwise>
+        inner join T_BAS_UnorganizedMonitorPointInfo t2 on t1.PK_ID = t2.pk_id
+      </otherwise>
+    </choose>
+    inner join pub_code_pollutantfactor t3 on t3.code = t1.fk_pollutantcode
+    and t3.pollutanttype = #{monitortpointtype}
+    inner join t_bas_pollution t4 on t4.pk_pollutionid = t1.fk_pollutionid
+    <where>
+      <if test="samplingtime!=null and samplingtime!='' ">
+        convert ( varchar ( 4 ), t1.samplingtime, 120 ) =#{samplingtime}
+      </if>
+
+      <if test="pollutionid!=null and pollutionid!='' ">
+       and  t1.fk_pollutionid =#{pollutionid}
+      </if>
+    </where>
+    order by  t1.samplingtime desc
+  </select>
+
+</mapper>

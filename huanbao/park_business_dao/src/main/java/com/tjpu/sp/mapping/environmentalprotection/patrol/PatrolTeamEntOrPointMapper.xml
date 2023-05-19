@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.patrol.PatrolTeamEntOrPointMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamEntOrPointVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionId" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_TeamId" jdbcType="VARCHAR" property="fkTeamid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="FK_MonitorPointId" jdbcType="VARCHAR" property="fkMonitorpointid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionId, FK_TeamId,FK_MonitorPointTypeCode, FK_MonitorPointId, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_PatrolTeamEntOrPoint
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_PatrolTeamEntOrPoint
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByFkId" parameterType="java.lang.String">
+    delete from T_BAS_PatrolTeamEntOrPoint
+    where FK_TeamId = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamEntOrPointVO">
+    insert into T_BAS_PatrolTeamEntOrPoint (PK_ID, FK_PollutionId,FK_TeamId, FK_MonitorPointTypeCode,
+      FK_MonitorPointId, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR},
+     #{fkPollutionid,jdbcType=VARCHAR},
+     #{fkTeamid,jdbcType=VARCHAR},
+     #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      #{fkMonitorpointid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamEntOrPointVO">
+    insert into T_BAS_PatrolTeamEntOrPoint
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionId,
+      </if>
+
+      <if test="fkTeamid != null">
+        FK_TeamId,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointId,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+
+       <if test="fkTeamid != null">
+        #{fkTeamid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamEntOrPointVO">
+    update T_BAS_PatrolTeamEntOrPoint
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+
+       <if test="fkTeamid != null">
+         FK_TeamId = #{fkTeamid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamEntOrPointVO">
+    update T_BAS_PatrolTeamEntOrPoint
+    set
+    FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+    FK_TeamId = #{fkTeamid,jdbcType=VARCHAR},
+    FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getEntOrPointDataListById" resultType="map" parameterType="string">
+    select
+	t1.fk_pollutionid,
+	t2.pollutionname,
+	t1.fk_monitorpointtypecode,
+	t1.fk_monitorpointid,
+	t4.monitorpointname,
+	t3.name as industrytype,
+	t6.name as pollutionclassname,
+	t5.name as monitorpointtypename
+  from
+	t_bas_patrolteamentorpoint t1
+	left join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+	left join pub_code_industrytype t3 on t3.code = t2.fk_industrytype
+	left join pub_code_pollutionclass t6 on t6.code = t2.fk_pollutionclass
+	left join t_bas_othermonitorpoint t4 on t1.fk_monitorpointid = t4.pk_monitorpointid
+	left join pub_code_monitorpointtype t5 on t5.code = t1.fk_monitorpointtypecode
+    where FK_TeamId = #{pkid}
+  </select>
+
+
+  <select id="getEntOrPointDataList" resultType="map">
+   SELECT
+	t1.fk_teamid,
+	t2.pollutionname,
+	t4.monitorpointname,
+	t5.name monitorpointtypename
+  FROM
+      t_bas_patrolteamentorpoint t1
+      INNER JOIN t_bas_patrolteam t3 ON t1.fk_teamid = t3.pk_id
+      LEFT JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+      LEFT JOIN t_bas_othermonitorpoint t4 ON t1.fk_monitorpointid = t4.pk_monitorpointid
+      LEFT JOIN pub_code_monitorpointtype t5 ON t5.code = t1.fk_monitorpointtypecode
+  </select>
+
+  <select id="getPointDataListByParamMap" resultType="map" parameterType="map">
+    select
+      t1.pk_monitorpointid,
+      t1.monitorpointname,
+      t3.name as monitorpointtypename,
+      t1.fk_monitorpointtypecode,
+      t4.teamname,
+      t5.user_name as leader,
+      t6.user_name as reviewer,
+      t2.fk_teamid as pk_id,
+      t2.pk_id as pkpointdataid
+    from
+      t_bas_othermonitorpoint t1
+      left join t_bas_patrolteamentorpoint t2 on t1.pk_monitorpointid = t2.fk_monitorpointid
+      left join t_bas_patrolteam t4 on t4.pk_id = t2.fk_teamid
+      left join base_userinfo t5 on t5.user_id = t4.fk_userid
+      left join pub_code_monitorpointtype t3 on t3.code = t1.fk_monitorpointtypecode
+      left join base_userinfo t6 on t6.user_id = t4.fk_reviewerid
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointname !=null and monitorpointname !='' ">
+        and t1.monitorpointname like concat('%',#{monitorpointname},'%')
+      </if>
+    </trim>
+    order by t1.fk_monitorpointtypecode,t1.monitorpointname
+  </select>
+
+
+  <select id="getEntDataListByParamMap" resultType="map" parameterType="map">
+    select
+    t1.pk_pollutionid,
+    t1.pollutionname,
+    t4.teamname,
+    t5.user_name as leader,
+    t2.fk_teamid as pk_id,
+    t2.pk_id as pkpointdataid,
+    t6.user_name as reviewer
+    from
+    t_bas_pollution t1
+    left join t_bas_patrolteamentorpoint t2 on t1.pk_pollutionid = t2.fk_pollutionid
+    left join t_bas_patrolteam t4 on t4.pk_id = t2.fk_teamid
+    left join base_userinfo t5 on t5.user_id = t4.fk_userid
+    left join base_userinfo t6 on t6.user_id = t4.fk_reviewerid
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and t1.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+    </trim>
+    order by t1.pollutionname
+  </select>
+
+
+</mapper>

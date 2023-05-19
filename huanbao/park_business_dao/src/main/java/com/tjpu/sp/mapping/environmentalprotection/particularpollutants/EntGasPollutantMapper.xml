@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.particularpollutants.EntGasPollutantMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.particularpollutants.EntGasPollutantVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_Pollutionid" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, FK_PollutantCode, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntGasPollutant
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntGasPollutant
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByFId" parameterType="java.lang.String">
+    delete from T_BAS_EntGasPollutant
+    where FK_Pollutionid = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.EntGasPollutantVO">
+    insert into T_BAS_EntGasPollutant (PK_ID, FK_Pollutionid, FK_PollutantCode, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.EntGasPollutantVO">
+    insert into T_BAS_EntGasPollutant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.EntGasPollutantVO">
+    update T_BAS_EntGasPollutant
+    <set>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.EntGasPollutantVO">
+    update T_BAS_EntGasPollutant
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <!--获取列表数据 lip 2022/7/26 9:11 -->
+  <select id="getDataListByParam" parameterType="map" resultType="map">
+    select
+      t1.PK_ID,
+      t2.pk_pollutionid,
+      t2.pollutionname,
+      t3.name,
+      t3.code ,
+      t3.orderindex,
+      convert(varchar(19),t1.updatetime,120)updatetime,
+    t1.updateuser
+    from
+      t_bas_entgaspollutant t1
+      inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+      inner join pub_code_pollutantfactor t3 on t3.code = t1.fk_pollutantcode
+      and t3.pollutanttype in ( '10' )
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t2.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t2.pollutionid =#{pollutionid}
+      </if>
+    </trim>
+    order by t3.orderindex
+  </select>
+  
+  
+</mapper>

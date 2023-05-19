@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.assess.EntAssessmentInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.assess.EntAssessmentInfoVO">
+    <id column="PK_DataId" jdbcType="VARCHAR" property="pkDataid" />
+    <result column="CheckTime" jdbcType="TIMESTAMP" property="checktime" />
+    <result column="CheckPeople" jdbcType="VARCHAR" property="checkpeople" />
+    <result column="FK_PollutionId" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="TotalReduceScore" jdbcType="DOUBLE" property="totalreducescore" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_DataId, CheckTime, CheckPeople, FK_PollutionId, TotalReduceScore, Remark, UpdateUser, 
+    UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_KH_EntAssessmentInfo
+    where PK_DataId = #{pkDataid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_KH_EntAssessmentInfo
+    where PK_DataId = #{pkDataid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.assess.EntAssessmentInfoVO">
+    insert into T_KH_EntAssessmentInfo (PK_DataId, CheckTime, CheckPeople, 
+      FK_PollutionId, TotalReduceScore, Remark, 
+      UpdateUser, UpdateTime)
+    values (#{pkDataid,jdbcType=VARCHAR}, #{checktime,jdbcType=TIMESTAMP}, #{checkpeople,jdbcType=VARCHAR}, 
+      #{fkPollutionid,jdbcType=VARCHAR}, #{totalreducescore,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.assess.EntAssessmentInfoVO">
+    insert into T_KH_EntAssessmentInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkDataid != null">
+        PK_DataId,
+      </if>
+      <if test="checktime != null">
+        CheckTime,
+      </if>
+      <if test="checkpeople != null">
+        CheckPeople,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionId,
+      </if>
+      <if test="totalreducescore != null">
+        TotalReduceScore,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkDataid != null">
+        #{pkDataid,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkpeople != null">
+        #{checkpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="totalreducescore != null">
+        #{totalreducescore,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.assess.EntAssessmentInfoVO">
+    update T_KH_EntAssessmentInfo
+    <set>
+      <if test="checktime != null">
+        CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkpeople != null">
+        CheckPeople = #{checkpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="totalreducescore != null">
+        TotalReduceScore = #{totalreducescore,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_DataId = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.assess.EntAssessmentInfoVO">
+    update T_KH_EntAssessmentInfo
+    set CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      CheckPeople = #{checkpeople,jdbcType=VARCHAR},
+      FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      TotalReduceScore = #{totalreducescore,jdbcType=DOUBLE},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_DataId = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getEntAssessInfoListByParam" resultType="map" parameterType="map">
+    SELECT
+    t1.pk_dataid,
+    t2.pollutionname,
+    t2.pk_pollutionid,
+    t2.address,
+    t2.environmentalmanager,
+    t2.linkmanphone,
+    CONVERT ( VARCHAR ( 10 ), t1.checktime, 120 ) checktime,
+    t1.checkpeople,
+    t1.totalreducescore
+    FROM
+    t_kh_entassessmentinfo t1
+    INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and t2.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="starttime!=null and starttime!='' ">
+        and convert(VARCHAR(10),t1.checktime,120) >=#{starttime}
+      </if>
+      <if test="endtime!=null and endtime!='' ">
+        and convert(VARCHAR(10),t1.checktime,120)<![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    ORDER BY t1.checktime desc
+  </select>
+
+
+  <select id="getAddItemDataList" resultType="map" parameterType="map">
+    select
+    t1.pk_dataid,
+	t1.assesstype as assesstypecode,
+    case when t1.assesstype = '1' then
+		'日常检查'
+		when t1.assesstype = '2' then
+		'环保事件'
+		when t1.assesstype = '3' then
+		'环保检查' else ''
+	end assesstypename,
+	t1.assessitem,
+	t1.reducescore
+    from
+        t_kh_assessmentscorerule t1
+    order by
+        t1.orderindex
+  </select>
+
+</mapper>

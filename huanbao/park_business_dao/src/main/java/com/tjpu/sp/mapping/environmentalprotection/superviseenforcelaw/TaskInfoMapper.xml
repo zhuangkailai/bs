@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.superviseenforcelaw.TaskInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.superviseenforcelaw.TaskInfoVO">
+        <id column="PK_TaskId" jdbcType="VARCHAR" property="pkTaskid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="TaskName" jdbcType="VARCHAR" property="taskname"/>
+        <result column="TaskID" jdbcType="VARCHAR" property="taskid"/>
+        <result column="PublishTime" jdbcType="VARCHAR" property="publishtime"/>
+        <result column="EndTime" jdbcType="VARCHAR" property="endtime"/>
+        <result column="TaskStatus" jdbcType="VARCHAR" property="taskstatus"/>
+        <result column="ExecutePersion" jdbcType="VARCHAR" property="executepersion"/>
+        <result column="CompleteTime" jdbcType="VARCHAR" property="completetime"/>
+        <result column="FK_TaskSourceCode" jdbcType="VARCHAR" property="fkTasksourcecode"/>
+        <result column="FK_TaskTypeCode" jdbcType="VARCHAR" property="fkTasktypecode"/>
+        <result column="TaskRemark" jdbcType="VARCHAR" property="taskremark"/>
+        <result column="FK_EnerLvlCode" jdbcType="VARCHAR" property="fkEnerlvlcode"/>
+        <result column="Opinion" jdbcType="VARCHAR" property="opinion"/>
+        <result column="Belong" jdbcType="VARCHAR" property="belong"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="Remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_TaskId, FK_PollutionID, TaskName, TaskID, PublishTime, EndTime, TaskStatus, ExecutePersion,
+    CompleteTime, FK_TaskSourceCode, FK_TaskTypeCode, TaskRemark, FK_EnerLvlCode, Opinion, 
+    Belong, FK_FileID, Remark,UpdateUser, UpdateTime
+  </sql>
+    <sql id="Base_Column_ListTwo">
+    PK_TaskId, FK_PollutionID, TaskName, TaskID, convert(varchar(10),T_JCZF_TaskInfo.PublishTime,120) publishtime,
+     convert(varchar(10),T_JCZF_TaskInfo.CompleteTime,120) CompleteTime , TaskStatus, ExecutePersion,
+    EndTime, FK_TaskSourceCode, FK_TaskTypeCode, TaskRemark, FK_EnerLvlCode, Opinion,
+    Belong, FK_FileID, Remark,UpdateUser, convert(varchar(20),T_JCZF_TaskInfo.UpdateTime,120) UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_ListTwo"/>
+        from T_JCZF_TaskInfo
+        where PK_TaskId = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_JCZF_TaskInfo
+    where PK_TaskId = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.superviseenforcelaw.TaskInfoVO">
+    insert into T_JCZF_TaskInfo (PK_TaskId, FK_PollutionID, TaskName,
+      TaskID, PublishTime, EndTime, 
+      TaskStatus, ExecutePersion, CompleteTime, 
+      FK_TaskSourceCode, FK_TaskTypeCode, TaskRemark, 
+      FK_EnerLvlCode, Opinion, Belong, 
+      FK_FileID, Remark,UpdateUser, UpdateTime
+      )
+    values (#{pkTaskid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{taskname,jdbcType=VARCHAR},
+      #{taskid,jdbcType=VARCHAR}, #{publishtime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR},
+      #{taskstatus,jdbcType=VARCHAR}, #{executepersion,jdbcType=VARCHAR}, #{completetime,jdbcType=VARCHAR},
+      #{fkTasksourcecode,jdbcType=VARCHAR}, #{fkTasktypecode,jdbcType=VARCHAR}, #{taskremark,jdbcType=VARCHAR}, 
+      #{fkEnerlvlcode,jdbcType=VARCHAR}, #{opinion,jdbcType=VARCHAR}, #{belong,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.superviseenforcelaw.TaskInfoVO">
+        insert into T_JCZF_TaskInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkTaskid != null">
+                PK_TaskId,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="taskname != null">
+                TaskName,
+            </if>
+            <if test="taskid != null">
+                TaskID,
+            </if>
+            <if test="publishtime != null">
+                PublishTime,
+            </if>
+            <if test="endtime != null">
+                EndTime,
+            </if>
+            <if test="taskstatus != null">
+                TaskStatus,
+            </if>
+            <if test="executepersion != null">
+                ExecutePersion,
+            </if>
+            <if test="completetime != null">
+                CompleteTime,
+            </if>
+            <if test="fkTasksourcecode != null">
+                FK_TaskSourceCode,
+            </if>
+            <if test="fkTasktypecode != null">
+                FK_TaskTypeCode,
+            </if>
+            <if test="taskremark != null">
+                TaskRemark,
+            </if>
+            <if test="fkEnerlvlcode != null">
+                FK_EnerLvlCode,
+            </if>
+            <if test="opinion != null">
+                Opinion,
+            </if>
+            <if test="belong != null">
+                Belong,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkTaskid != null">
+                #{pkTaskid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="taskname != null">
+                #{taskname,jdbcType=VARCHAR},
+            </if>
+            <if test="taskid != null">
+                #{taskid,jdbcType=VARCHAR},
+            </if>
+            <if test="publishtime != null">
+                #{publishtime,jdbcType=VARCHAR},
+            </if>
+            <if test="endtime != null">
+                #{endtime,jdbcType=VARCHAR},
+            </if>
+            <if test="taskstatus != null">
+                #{taskstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="executepersion != null">
+                #{executepersion,jdbcType=VARCHAR},
+            </if>
+            <if test="completetime != null">
+                #{completetime,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTasksourcecode != null">
+                #{fkTasksourcecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTasktypecode != null">
+                #{fkTasktypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="taskremark != null">
+                #{taskremark,jdbcType=VARCHAR},
+            </if>
+            <if test="fkEnerlvlcode != null">
+                #{fkEnerlvlcode,jdbcType=VARCHAR},
+            </if>
+            <if test="opinion != null">
+                #{opinion,jdbcType=VARCHAR},
+            </if>
+            <if test="belong != null">
+                #{belong,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.superviseenforcelaw.TaskInfoVO">
+        update T_JCZF_TaskInfo
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="taskname != null">
+                TaskName = #{taskname,jdbcType=VARCHAR},
+            </if>
+            <if test="taskid != null">
+                TaskID = #{taskid,jdbcType=VARCHAR},
+            </if>
+            <if test="publishtime != null">
+                PublishTime = #{publishtime,jdbcType=VARCHAR},
+            </if>
+            <if test="endtime != null">
+                EndTime = #{endtime,jdbcType=VARCHAR},
+            </if>
+            <if test="taskstatus != null">
+                TaskStatus = #{taskstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="executepersion != null">
+                ExecutePersion = #{executepersion,jdbcType=VARCHAR},
+            </if>
+            <if test="completetime != null">
+                CompleteTime = #{completetime,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTasksourcecode != null">
+                FK_TaskSourceCode = #{fkTasksourcecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTasktypecode != null">
+                FK_TaskTypeCode = #{fkTasktypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="taskremark != null">
+                TaskRemark = #{taskremark,jdbcType=VARCHAR},
+            </if>
+            <if test="fkEnerlvlcode != null">
+                FK_EnerLvlCode = #{fkEnerlvlcode,jdbcType=VARCHAR},
+            </if>
+            <if test="opinion != null">
+                Opinion = #{opinion,jdbcType=VARCHAR},
+            </if>
+            <if test="belong != null">
+                Belong = #{belong,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_TaskId = #{pkTaskid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.superviseenforcelaw.TaskInfoVO">
+    update T_JCZF_TaskInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      TaskName = #{taskname,jdbcType=VARCHAR},
+      TaskID = #{taskid,jdbcType=VARCHAR},
+      PublishTime = #{publishtime,jdbcType=VARCHAR},
+      EndTime = #{endtime,jdbcType=VARCHAR},
+      TaskStatus = #{taskstatus,jdbcType=VARCHAR},
+      ExecutePersion = #{executepersion,jdbcType=VARCHAR},
+      CompleteTime = #{completetime,jdbcType=VARCHAR},
+      FK_TaskSourceCode = #{fkTasksourcecode,jdbcType=VARCHAR},
+      FK_TaskTypeCode = #{fkTasktypecode,jdbcType=VARCHAR},
+      TaskRemark = #{taskremark,jdbcType=VARCHAR},
+      FK_EnerLvlCode = #{fkEnerlvlcode,jdbcType=VARCHAR},
+      Opinion = #{opinion,jdbcType=VARCHAR},
+      Belong = #{belong,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_TaskId = #{pkTaskid,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--
+       author:xsm
+       description: 通过自定义参数获取执法任务信息
+       param:
+       date: 2019/10/16 13:41
+   -->
+    <select id="getEnforceLawTaskInfosByParamMap" resultType="map" parameterType="map">
+        SELECT
+        PK_TaskId id,
+        TaskID taskid,
+        TaskName taskname,
+        convert(varchar(10),T_JCZF_TaskInfo.PublishTime,120) publishtime,
+        T_JCZF_TaskInfo.EndTime,
+        ExecutePersion executepersion,
+        PUB_CODE_TaskSource.Name tasksourcename,
+        PUB_CODE_TaskType.Name tasktypename,
+        PUB_CODE_EnerLvl.Name enerlvlname
+        FROM T_JCZF_TaskInfo LEFT JOIN PUB_CODE_TaskSource ON T_JCZF_TaskInfo.FK_TaskSourceCode =
+        PUB_CODE_TaskSource.Code
+        LEFT JOIN PUB_CODE_TaskType ON T_JCZF_TaskInfo.FK_TaskTypeCode = PUB_CODE_TaskType.Code
+        LEFT JOIN PUB_CODE_EnerLvl ON T_JCZF_TaskInfo.FK_EnerLvlCode = PUB_CODE_EnerLvl.Code
+        JOIN T_BAS_Pollution ON T_JCZF_TaskInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+                and T_JCZF_TaskInfo.Fk_PollutionID = #{fk_pollutionid}
+            </if>
+            <if test="tasktypecodes !=null and tasktypecodes.size>0 ">
+                and T_JCZF_TaskInfo.FK_TaskTypeCode in
+                <foreach collection="tasktypecodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="enerlvlcodes !=null and enerlvlcodes.size>0 ">
+                and T_JCZF_TaskInfo.FK_EnerLvlCode in
+                <foreach collection="enerlvlcodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="tasksourcecodes !=null and tasksourcecodes.size>0 ">
+                and T_JCZF_TaskInfo.FK_TaskSourceCode in
+                <foreach collection="tasksourcecodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by T_JCZF_TaskInfo.TaskID
+    </select>
+
+    <!--
+       author:xsm
+       description: 通过id查询执法任务详情
+       param:
+       date: 2019/10/16 14:33
+   -->
+    <select id="getEnforceLawTaskInfoDetailByID" resultType="map" parameterType="string">
+   SELECT PK_TaskId pkid,
+          T_BAS_Pollution.PollutionName,
+          TaskName,
+          TaskID,
+          convert(varchar(10),T_JCZF_TaskInfo.PublishTime,120) publishtime,
+          T_JCZF_TaskInfo.EndTime,
+          TaskStatus,
+          ExecutePersion,
+          convert(varchar(10),T_JCZF_TaskInfo.CompleteTime,120) CompleteTime,
+          PUB_CODE_TaskSource.Name tasksourcename,
+          PUB_CODE_TaskType.Name tasktypename,
+          PUB_CODE_EnerLvl.Name enerlvlname,
+          TaskRemark,
+          Opinion,
+          Belong,
+          FK_FileID fkFileid,
+          T_JCZF_TaskInfo.Remark,
+          T_JCZF_TaskInfo.UpdateUser,
+          convert(varchar(20),T_JCZF_TaskInfo.UpdateTime,120) UpdateTime
+          FROM T_JCZF_TaskInfo
+          LEFT JOIN PUB_CODE_TaskSource ON T_JCZF_TaskInfo.FK_TaskSourceCode = PUB_CODE_TaskSource.Code
+          LEFT JOIN PUB_CODE_TaskType ON T_JCZF_TaskInfo.FK_TaskTypeCode = PUB_CODE_TaskType.Code
+		  LEFT JOIN PUB_CODE_EnerLvl ON T_JCZF_TaskInfo.FK_EnerLvlCode = PUB_CODE_EnerLvl.Code
+          JOIN T_BAS_Pollution ON T_JCZF_TaskInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where T_JCZF_TaskInfo.PK_TaskId = #{pkid}
+  </select>
+    <!--
+       author:liyc
+       description: 根据企业id统计监察执法信息
+       param:
+       date: 2019/11/05 18:46
+   -->
+    <select id="countEnforceLawTaskByPollutionId" parameterType="java.lang.String" resultType="map">
+        SELECT
+         t2.Code,
+         t2.Name,
+         COUNT ( PK_TaskId ) VALUE
+    FROM
+        T_JCZF_TaskInfo t1
+        JOIN PUB_CODE_TaskType t2 ON t1.FK_TaskTypeCode= t2.Code
+        WHERE t1.FK_PollutionID=#{pollutionid}
+        GROUP BY
+        t2.Code,
+        t2.Name
+    </select>
+</mapper>

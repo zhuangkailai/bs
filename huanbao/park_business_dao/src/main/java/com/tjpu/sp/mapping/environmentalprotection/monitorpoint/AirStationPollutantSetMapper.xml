@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.AirStationPollutantSetMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirStationPollutantSetVO" >
+    <id column="PK_DataID" property="pkDataid" jdbcType="VARCHAR" />
+    <result column="FK_AirMonintPointID" property="fkAirmonintpointid" jdbcType="VARCHAR" />
+    <result column="FK_PollutantCode" property="fkPollutantcode" jdbcType="VARCHAR" />
+    <result column="FK_StandardID" property="fkStandardid" jdbcType="VARCHAR" />
+    <result column="StandardMaxValue" property="standardmaxvalue" jdbcType="DOUBLE" />
+    <result column="StandardMinValue" property="standardminvalue" jdbcType="DOUBLE" />
+    <result column="MonitorWay" property="monitorway" jdbcType="NUMERIC" />
+    <result column="iseffectivetransmission" property="iseffectivetransmission" jdbcType="NUMERIC" />
+    <result column="AlarmType" property="alarmtype" jdbcType="NUMERIC" />
+    <result column="AlarmControlTimes" property="alarmcontroltimes" jdbcType="NUMERIC" />
+    <result column="ExceptionMaxValue" property="exceptionmaxvalue" jdbcType="DOUBLE" />
+    <result column="ExceptionMinValue" property="exceptionminvalue" jdbcType="DOUBLE" />
+    <result column="ConcentrationChangeWarnPercent" property="concentrationchangewarnpercent" jdbcType="DOUBLE" />
+    <result column="changebasevalue" property="changebasevalue" jdbcType="DOUBLE" />
+    <result column="PollutantRatio" property="pollutantratio" jdbcType="DOUBLE"/>
+    <result column="ZeroValueTimes" property="zerovaluetimes" jdbcType="NUMERIC" />
+    <result column="ContinuityValueTimes" property="continuityvaluetimes" jdbcType="NUMERIC" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <!-- 一对一标准 -->
+    <association property="standardVO" javaType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+      <id column="PK_StandardID" jdbcType="VARCHAR" property="pkStandardid" />
+      <result column="StandardName" jdbcType="VARCHAR" property="standardname" />
+    </association>
+
+    <!-- 一对一污染物 -->
+    <association property="pollutantFactorVO" javaType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+      <result column="pollutantcode" property="code" jdbcType="VARCHAR" />
+      <result column="pollutantname" property="name" jdbcType="VARCHAR" />
+      <result column="isshowflow" property="isshowflow" jdbcType="NUMERIC" />
+      <result column="IsDefaultSelect" property="isdefaultselect" jdbcType="NUMERIC"/>
+    </association>
+    <!-- 一对多 earlyWarningSetVOS-->
+    <collection property="earlyWarningSetVOS" ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+      <result column="ConcenAlarmMinValue" jdbcType="DOUBLE" property="concenalarmminvalue" />
+      <result column="ConcenAlarmMaxValue" jdbcType="DOUBLE" property="concenalarmmaxvalue" />
+      <association property="alarmLevelVO" javaType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO">
+        <result column="alarmlevelcode" property="code" jdbcType="VARCHAR" />
+        <result column="alarmlevelname" property="name" jdbcType="VARCHAR" />
+      </association>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_DataID, FK_AirMonintPointID, FK_PollutantCode, FK_StandardID, StandardMaxValue, 
+    StandardMinValue, MonitorWay, alarmtype, AlarmControlTimes, ExceptionMaxValue,iseffectivetransmission,
+    ExceptionMinValue, ZeroValueTimes, ContinuityValueTimes, UpdateTime,concentrationchangewarnpercent, UpdateUser,changebasevalue,PollutantRatio
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_AirStationPollutantSet
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_AirStationPollutantSet
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirStationPollutantSetVO" >
+    insert into T_BAS_AirStationPollutantSet (PK_DataID, FK_AirMonintPointID, FK_PollutantCode, 
+      FK_StandardID, StandardMaxValue, StandardMinValue, 
+      MonitorWay, alarmtype, AlarmControlTimes,iseffectivetransmission,
+      ExceptionMaxValue, ExceptionMinValue, ZeroValueTimes, 
+      ContinuityValueTimes, UpdateTime, UpdateUser,concentrationchangewarnpercent,changebasevalue,PollutantRatio
+      )
+    values (#{pkDataid,jdbcType=VARCHAR}, #{fkAirmonintpointid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{fkStandardid,jdbcType=VARCHAR}, #{standardmaxvalue,jdbcType=DOUBLE}, #{standardminvalue,jdbcType=DOUBLE}, 
+      #{monitorway,jdbcType=NUMERIC}, #{alarmtype,jdbcType=NUMERIC}, #{alarmcontroltimes,jdbcType=NUMERIC},#{iseffectivetransmission,jdbcType=NUMERIC},
+      #{exceptionmaxvalue,jdbcType=DOUBLE}, #{exceptionminvalue,jdbcType=DOUBLE}, #{zerovaluetimes,jdbcType=NUMERIC}, 
+      #{continuityvaluetimes,jdbcType=NUMERIC}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{concentrationchangewarnpercent,jdbcType=DOUBLE}, #{changebasevalue,jdbcType=DOUBLE}
+      ,#{pollutantratio,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirStationPollutantSetVO" >
+    insert into T_BAS_AirStationPollutantSet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkDataid != null" >
+        PK_DataID,
+      </if>
+      <if test="fkAirmonintpointid != null" >
+        FK_AirMonintPointID,
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode,
+      </if>
+      <if test="fkStandardid != null" >
+        FK_StandardID,
+      </if>
+      <if test="standardmaxvalue != null" >
+        StandardMaxValue,
+      </if>
+      <if test="standardminvalue != null" >
+        StandardMinValue,
+      </if>
+      <if test="monitorway != null" >
+        MonitorWay,
+      </if>
+      <if test="alarmtype != null" >
+        alarmtype,
+      </if>
+      <if test="alarmcontroltimes != null" >
+        AlarmControlTimes,
+      </if>
+      <if test="exceptionmaxvalue != null" >
+        ExceptionMaxValue,
+      </if>
+      <if test="exceptionminvalue != null" >
+        ExceptionMinValue,
+      </if>
+      <if test="zerovaluetimes != null" >
+        ZeroValueTimes,
+      </if>
+      <if test="continuityvaluetimes != null" >
+        ContinuityValueTimes,
+      </if>
+      <if test="iseffectivetransmission != null" >
+        iseffectivetransmission,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser,
+      </if>
+      <if test="concentrationchangewarnpercent != null" >
+        concentrationchangewarnpercent,
+      </if>
+      <if test="changebasevalue != null" >
+        changebasevalue,
+      </if>
+      <if test="pollutantratio != null">
+        pollutantratio,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkDataid != null" >
+        #{pkDataid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkAirmonintpointid != null" >
+        #{fkAirmonintpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardid != null" >
+        #{fkStandardid,jdbcType=VARCHAR},
+      </if>
+      <if test="standardmaxvalue != null" >
+        #{standardmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="standardminvalue != null" >
+        #{standardminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="monitorway != null" >
+        #{monitorway,jdbcType=NUMERIC},
+      </if>
+      <if test="alarmtype != null" >
+        #{alarmtype,jdbcType=NUMERIC},
+      </if>
+      <if test="alarmcontroltimes != null" >
+        #{alarmcontroltimes,jdbcType=NUMERIC},
+      </if>
+      <if test="exceptionmaxvalue != null" >
+        #{exceptionmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="exceptionminvalue != null" >
+        #{exceptionminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="zerovaluetimes != null" >
+        #{zerovaluetimes,jdbcType=NUMERIC},
+      </if>
+      <if test="continuityvaluetimes != null" >
+        #{continuityvaluetimes,jdbcType=NUMERIC},
+      </if>
+      <if test="iseffectivetransmission != null" >
+        #{iseffectivetransmission,jdbcType=NUMERIC},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="concentrationchangewarnpercent != null" >
+        #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="changebasevalue != null" >
+        #{changebasevalue,jdbcType=DOUBLE},
+      </if>
+      <if test="pollutantratio != null">
+        #{pollutantratio,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirStationPollutantSetVO" >
+    update T_BAS_AirStationPollutantSet
+    <set >
+      <if test="fkAirmonintpointid != null" >
+        FK_AirMonintPointID = #{fkAirmonintpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardid != null" >
+        FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+      </if>
+      <if test="standardmaxvalue != null" >
+        StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="standardminvalue != null" >
+        StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="monitorway != null" >
+        MonitorWay = #{monitorway,jdbcType=NUMERIC},
+      </if>
+      <if test="alarmtype != null" >
+        alarmtype = #{alarmtype,jdbcType=NUMERIC},
+      </if>
+      <if test="alarmcontroltimes != null" >
+        AlarmControlTimes = #{alarmcontroltimes,jdbcType=NUMERIC},
+      </if>
+      <if test="exceptionmaxvalue != null" >
+        ExceptionMaxValue = #{exceptionmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="exceptionminvalue != null" >
+        ExceptionMinValue = #{exceptionminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="zerovaluetimes != null" >
+        ZeroValueTimes = #{zerovaluetimes,jdbcType=NUMERIC},
+      </if>
+      <if test="continuityvaluetimes != null" >
+        ContinuityValueTimes = #{continuityvaluetimes,jdbcType=NUMERIC},
+      </if>
+      <if test="iseffectivetransmission != null" >
+        iseffectivetransmission = #{iseffectivetransmission,jdbcType=NUMERIC},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="concentrationchangewarnpercent != null" >
+        concentrationchangewarnpercent = #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="changebasevalue != null" >
+        changebasevalue = #{changebasevalue,jdbcType=DOUBLE},
+      </if>
+      <if test="pollutantratio != null">
+        PollutantRatio = #{pollutantratio,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirStationPollutantSetVO" >
+    update T_BAS_AirStationPollutantSet
+    set FK_AirMonintPointID = #{fkAirmonintpointid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+      StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+      StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+      MonitorWay = #{monitorway,jdbcType=NUMERIC},
+      alarmtype = #{alarmtype,jdbcType=NUMERIC},
+      AlarmControlTimes = #{alarmcontroltimes,jdbcType=NUMERIC},
+      ExceptionMaxValue = #{exceptionmaxvalue,jdbcType=DOUBLE},
+      ExceptionMinValue = #{exceptionminvalue,jdbcType=DOUBLE},
+      ZeroValueTimes = #{zerovaluetimes,jdbcType=NUMERIC},
+      ContinuityValueTimes = #{continuityvaluetimes,jdbcType=NUMERIC},
+      iseffectivetransmission = #{iseffectivetransmission,jdbcType=NUMERIC},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      concentrationchangewarnpercent = #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+      changebasevalue = #{changebasevalue,jdbcType=DOUBLE},
+      PollutantRatio = #{pollutantratio,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+      author:chengzq
+      description: 通过监测点id查询空气站相关污染物
+      param:
+      date: 2019/05/28 10:16
+  -->
+  <select id="getAirStationPollutantSetByOutputId" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    t1.PK_DataID,
+    t4.Code pollutantcode,
+    t4.Name pollutantname,
+    t4.IsDefaultSelect,
+    t1.FK_PollutantCode,
+    t4.PollutantUnit,
+    t1.MonitorWay,
+    t5.PK_StandardID,
+    t5.StandardName,
+    t1.StandardMaxValue,
+    t1.StandardMinValue,
+    t1.ExceptionMaxValue,
+    t1.ExceptionMinValue,
+    t1.alarmtype,
+    t1.AlarmControlTimes,
+    t1.ZeroValueTimes,
+    t1.ContinuityValueTimes,
+    t7.Code alarmlevelcode,
+    t7.Name alarmlevelname,
+    t6.ConcenAlarmMaxValue,
+    t6.ConcenAlarmMinValue,
+    t1.ConcentrationChangeWarnPercent,
+    t1.ChangeBaseValue,
+    t1.iseffectivetransmission,
+    t1.PollutantRatio
+    FROM
+    T_BAS_AirStationPollutantSet t1
+    INNER JOIN T_BAS_AirMonitorStation t3 ON t1.FK_AirMonintPointID = t3.PK_AirID
+    INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused='1'
+    AND t4.PollutantType = '5'
+    LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+    LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_AirMonintPointID
+    AND t6.FK_PollutantCode = t1.FK_PollutantCode
+    LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+    where t1.FK_AirMonintPointID = #{outputid,jdbcType=VARCHAR}
+    <if test="pollutantcode != null and pollutantcode!=''">
+      and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+    </if>
+    order by
+    t1.FK_PollutantCode,
+    t7.Code
+  </select>
+  <!--
+      author:chengzq
+      description: 通过监测点id查询空气站相关污染物
+      param:
+      date: 2019/05/28 10:16
+  -->
+  <select id="getAirStationPollutantSetsByMonitorId" parameterType="map" resultType="map">
+    SELECT
+    t1.pk_dataid,
+    t4.code pollutantcode,
+    t4.name pollutantname,
+    t1.fk_pollutantcode,
+    t4.pollutantunit,
+    t4.IsShowFlow isshowflow,
+    t1.monitorway,
+    t5.pk_standardid,
+    t5.standardname,
+    t1.standardmaxvalue,
+    t1.standardminvalue,
+    t1.exceptionmaxvalue,
+    t1.exceptionminvalue,
+    t1.alarmtype,
+    t1.alarmcontroltimes,
+    t1.zerovaluetimes,
+    t1.continuityvaluetimes,
+    t7.code alarmlevelcode,
+    t7.name alarmlevelname,
+    t1.MonitorStatus,
+    t6.concenalarmmaxvalue,
+    t6.concenalarmminvalue
+    FROM
+    T_BAS_AirStationPollutantSet t1
+    INNER JOIN T_BAS_AirMonitorStation t3 ON t1.FK_AirMonintPointID = t3.PK_AirID
+    INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code
+    AND t4.PollutantType = '5'
+    LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+    LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_AirMonintPointID
+    AND t6.FK_PollutantCode = t1.FK_PollutantCode
+    LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+    where t1.FK_AirMonintPointID = #{outputid,jdbcType=VARCHAR}
+    <if test="pollutantcode != null and pollutantcode!=''">
+      and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+    </if>
+
+    <if test="monitorpointid != null and monitorpointid!=''">
+      and t3.PK_AirID = #{monitorpointid,jdbcType=VARCHAR}
+    </if>
+    ORDER by t4.OrderIndex,
+    t1.FK_PollutantCode,
+    t7.Code
+  </select>
+
+  <!--
+        author:xsm
+        description: 通过监测点id查询空气站相关污染物
+        param:
+        date: 2019/12/05 6:16
+    -->
+  <select id="getAirStationPollutantSetInfoByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.pk_dataid,
+    t4.code pollutantcode,
+    t4.name pollutantname,
+    t1.fk_pollutantcode,
+    t4.pollutantunit,
+    t1.MonitorStatus
+    FROM
+    T_BAS_AirStationPollutantSet t1
+    INNER JOIN T_BAS_AirMonitorStation t3 ON t1.FK_AirMonintPointID = t3.PK_AirID
+    INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code
+    AND t4.PollutantType = '5'
+    where t1.FK_AirMonintPointID = #{outputid,jdbcType=VARCHAR}
+    ORDER by t4.OrderIndex
+  </select>
+
+
+  <!--
+   * @author: lip
+   * @date: 2019/6/5 0005 下午 3:34
+   * @Description: 获取城市空气质量污染物设置信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+
+  <select id="getCityAirPollutantSetInfo" parameterType="map" resultType="map">
+    SELECT
+    DISTINCT
+    t3.Code pollutantcode,
+    t3.Name pollutantname,
+    t3.PollutantUnit pollutantunit,
+    t3.OrderIndex
+    FROM
+    T_BAS_AirStationPollutantSet t1,
+    T_BAS_AirMonitorStation t2,
+    PUB_CODE_PollutantFactor t3
+    where t1.FK_AirMonintPointID = t2.PK_AirID
+    and t1.FK_PollutantCode = t3.Code
+    and t3.IsUsed = '1'
+    and t3.PollutantType = '5'
+    ORDER BY t3.OrderIndex
+  </select>
+
+  <!--* @author: xsm * @date: 2019/7/8 0008 下午 1:48 * @Description: 批量新增空气质量污染物设置信息,只存储点位与污染物的关系，不存储标准值等-->
+  <insert id="batchInsert" parameterType="map">
+    insert into T_BAS_AirStationPollutantSet (PK_DataID, FK_AirMonintPointID, FK_PollutantCode,
+    UpdateTime, UpdateUser
+    )
+    values
+    <foreach collection="pollutants" item="items" index="index" separator=",">
+      (#{items.pkDataid},
+      #{items.fkAirmonintpointid},
+      #{items.fkPollutantcode},
+      #{items.updatetime},
+      #{items.updateuser}
+      )
+    </foreach>
+  </insert>
+</mapper>

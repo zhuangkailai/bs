@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.checkentinfo.EntCheckFeedbackRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.checkentinfo.EntCheckFeedbackRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="CheckTime" jdbcType="TIMESTAMP" property="checktime" />
+    <result column="FeedbackContent" jdbcType="VARCHAR" property="feedbackcontent" />
+    <result column="FeedbackUser" jdbcType="VARCHAR" property="feedbackuser" />
+    <result column="FeedbackTime" jdbcType="TIMESTAMP" property="feedbacktime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="IsUpdate" jdbcType="NUMERIC" property="isupdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, CheckTime, FeedbackContent, FeedbackUser, FeedbackTime, UpdateUser, 
+    UpdateTime,IsUpdate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_EntCheckFeedbackRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectByPollutionidAndCheckTime" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_GJ_EntCheckFeedbackRecord
+    where FK_PollutionID = #{pollutionid}
+    and convert(varchar(10),CheckTime,120) =  #{checktime}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_EntCheckFeedbackRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.EntCheckFeedbackRecordVO">
+    insert into T_GJ_EntCheckFeedbackRecord (PK_ID, FK_PollutionID, CheckTime, 
+      FeedbackContent, FeedbackUser, FeedbackTime, 
+      UpdateUser, UpdateTime,IsUpdate)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{checktime,jdbcType=TIMESTAMP}, 
+      #{feedbackcontent,jdbcType=VARCHAR}, #{feedbackuser,jdbcType=VARCHAR}, #{feedbacktime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{isupdate,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.EntCheckFeedbackRecordVO">
+    insert into T_GJ_EntCheckFeedbackRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="checktime != null">
+        CheckTime,
+      </if>
+      <if test="feedbackcontent != null">
+        FeedbackContent,
+      </if>
+      <if test="feedbackuser != null">
+        FeedbackUser,
+      </if>
+      <if test="feedbacktime != null">
+        FeedbackTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="isupdate != null">
+        IsUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackcontent != null">
+        #{feedbackcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackuser != null">
+        #{feedbackuser,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbacktime != null">
+        #{feedbacktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isupdate != null">
+        #{isupdate,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.EntCheckFeedbackRecordVO">
+    update T_GJ_EntCheckFeedbackRecord
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackcontent != null">
+        FeedbackContent = #{feedbackcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackuser != null">
+        FeedbackUser = #{feedbackuser,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbacktime != null">
+        FeedbackTime = #{feedbacktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isupdate != null">
+        IsUpdate = #{isupdate,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.EntCheckFeedbackRecordVO">
+    update T_GJ_EntCheckFeedbackRecord
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      FeedbackContent = #{feedbackcontent,jdbcType=VARCHAR},
+      FeedbackUser = #{feedbackuser,jdbcType=VARCHAR},
+      FeedbackTime = #{feedbacktime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      IsUpdate = #{isupdate,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+ author:xsm
+ description: 获取企业检查反馈详情
+ param:
+ date: 2021/08/30 17:49
+ -->
+  <select id="getEntCheckFeedbackRecordDetailByParam" parameterType="map" resultType="map">
+    SELECT top 1
+    PK_ID pkid,
+    FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    convert(varchar(10),T_GJ_EntCheckFeedbackRecord.CheckTime,120) CheckTime,
+    FeedbackContent,
+    FeedbackUser,
+    convert(varchar(19),T_GJ_EntCheckFeedbackRecord.FeedbackTime,120) FeedbackTime,
+    T_GJ_EntCheckFeedbackRecord.UpdateUser,
+    convert(varchar(19),T_GJ_EntCheckFeedbackRecord.UpdateTime,120)
+    FROM
+    T_GJ_EntCheckFeedbackRecord
+    LEFT JOIN T_BAS_Pollution  ON T_GJ_EntCheckFeedbackRecord.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_GJ_EntCheckFeedbackRecord.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checkdate!=null and checkdate!='' ">
+        and convert(varchar(10),T_GJ_EntCheckFeedbackRecord.CheckTime,120)= #{checkdate}
+      </if>
+
+    </trim>
+
+  </select>
+
+
+  <!--
+author:xsm
+description: 根据污染源ID获取所有未读的企业检查反馈数据
+param:
+date: 2021/09/10 11:58
+-->
+  <select id="getEntCheckFeedbackRecordDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    case  when t4.PK_ID IS NOT NULL then '1' ELSE '0' end isread,
+    <if test="messagetype!=null and messagetype!='' ">
+      #{messagetype} messagetype,
+    </if>
+    convert(varchar(10),t.CheckTime,120) CheckTime,
+    t.FeedbackContent,
+    t.FeedbackUser,
+    convert(varchar(19),t.FeedbackTime,120) FeedbackTime,
+    t.UpdateUser,
+    convert(varchar(19),t.FeedbackTime,120) UpdateTime
+    FROM
+    T_GJ_EntCheckFeedbackRecord t
+    LEFT JOIN T_BAS_Pollution  ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="userid!=null and userid!='' ">
+        and T_BAS_MessageReadUser.UserID = #{userid}
+      </if>
+      <if test="messagetype!=null and messagetype!='' ">
+        and T_BAS_MessageReadUser.MessageType = #{messagetype}
+      </if>
+    </trim>
+    )t4 on t4.FK_RecordID = t.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t4.PK_ID IS  NULL
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t.FK_PollutionID = #{pollutionid}
+      </if>
+    </trim>
+  </select>
+</mapper>

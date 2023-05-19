@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.knowledgestore.KnowledgeStoreInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.base.knowledgestore.KnowledgeStoreInfo">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="StoreName" jdbcType="VARCHAR" property="storename"/>
+        <result column="FK_StoreTypeCode" jdbcType="VARCHAR" property="fkStoretypecode"/>
+        <result column="FileID" jdbcType="DOUBLE" property="fileid"/>
+        <result column="Remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="PublishUnit" jdbcType="VARCHAR" property="publishunit"/>
+        <result column="PublishTime" jdbcType="VARCHAR" property="publishtime"/>
+        <result column="ImplementationTime" jdbcType="VARCHAR" property="implementationtime"/>
+        <result column="Abstract" jdbcType="VARCHAR" property="Abstract"/>
+        <result column="KeyWords" jdbcType="VARCHAR" property="keyWords"/>
+        <result column="ApplicableType" jdbcType="VARCHAR" property="applicableType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, StoreName, FK_StoreTypeCode, FileID, Remark, UpdateTime, UpdateUser,PublishUnit,PublishTime,ImplementationTime,Abstract,KeyWords,ApplicableType
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_KnowledgeStoreInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <select id="getKnowledgeStoresByParam" resultType="java.util.Map">
+        select
+        T_BAS_KnowledgeStoreInfo.PK_ID,
+        T_BAS_KnowledgeStoreInfo.StoreName,
+        T_BAS_KnowledgeStoreInfo.PublishUnit,
+        CONVERT(varchar(10), T_BAS_KnowledgeStoreInfo.PublishTime,120) AS PublishTime,
+        CONVERT(varchar(10), T_BAS_KnowledgeStoreInfo.ImplementationTime,120) AS ImplementationTime,
+        T_BAS_KnowledgeStoreInfo.FK_StoreTypeCode AS StoreTypeCode,
+        T_BAS_KnowledgeStoreInfo.FileID,
+        T_BAS_KnowledgeStoreInfo.Remark,
+        Abstract,
+        KeyWords,
+        ApplicableType,
+        CONVERT(varchar(19), T_BAS_KnowledgeStoreInfo.UpdateTime,120) AS UpdateTime,
+        T_BAS_KnowledgeStoreInfo.UpdateUser,
+        tt.name storetype,
+        CASE WHEN tt.parentcode IS NULL THEN tt.name ELSE tt.parentname END  StoreTypeName,
+        CASE WHEN tt.parentcode IS NULL THEN '' ELSE tt.name END  childname
+        from T_BAS_KnowledgeStoreInfo LEFT JOIN
+        (SELECT
+        PUB_CODE_StoreType.code,
+        PUB_CODE_StoreType.name,
+        PUB_CODE_StoreType.parentcode,
+        store.name parentname
+        FROM
+        PUB_CODE_StoreType
+        LEFT JOIN (SELECT
+        code,
+        name FROM PUB_CODE_StoreType ) store  ON PUB_CODE_StoreType.parentcode = store.code) tt ON T_BAS_KnowledgeStoreInfo.FK_StoreTypeCode=tt.code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="storename != null and storename!=''">
+                AND T_BAS_KnowledgeStoreInfo.StoreName like '%'+#{storename}+'%'
+            </if>
+
+            <if test="storetmark != null and storetmark=='law'">
+                AND (T_BAS_KnowledgeStoreInfo.FK_StoreTypeCode = '1' OR tt.parentcode= '1')
+            </if>
+            <if test="storetmark != null and storetmark!='law'">
+                AND  T_BAS_KnowledgeStoreInfo.FK_StoreTypeCode != '1'
+                and (tt.parentcode!= '1' or  tt.parentcode is null)
+            </if>
+            <if test="storetypecode != null and storetypecode!=''">
+                AND (T_BAS_KnowledgeStoreInfo.FK_StoreTypeCode = #{storetypecode}
+                OR tt.parentcode= #{storetypecode})
+            </if>
+            <if test="publishunit != null and publishunit!=''">
+                AND T_BAS_KnowledgeStoreInfo.PublishUnit like '%'+#{publishunit}+'%'
+            </if>
+            <if test="keywords!=null and keywords!='' ">
+                and T_BAS_KnowledgeStoreInfo.KeyWords LIKE '%'+#{keywords}+'%'
+            </if>
+        </trim>
+    </select>
+    <!--
+      author:zhangzc
+      description: 获取知识库类型
+      param:
+      date: 2019/9/3 16:50
+    -->
+    <select id="getKnowledgeStoresType" resultType="java.util.Map">
+     SELECT
+        Code,
+        Name
+    FROM
+        PUB_CODE_StoreType WHERE ParentCode IS NULL
+    ORDER BY
+        OrderIndex
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_KnowledgeStoreInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.base.knowledgestore.KnowledgeStoreInfo">
+    insert into T_BAS_KnowledgeStoreInfo (PK_ID, StoreName, FK_StoreTypeCode, 
+      FileID, Remark, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{storename,jdbcType=VARCHAR}, #{fkStoretypecode,jdbcType=VARCHAR}, 
+      #{fileid,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.base.knowledgestore.KnowledgeStoreInfo">
+        insert into T_BAS_KnowledgeStoreInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="storename != null">
+                StoreName,
+            </if>
+            <if test="fkStoretypecode != null">
+                FK_StoreTypeCode,
+            </if>
+            <if test="fileid != null">
+                FileID,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="storename != null">
+                #{storename,jdbcType=VARCHAR},
+            </if>
+            <if test="fkStoretypecode != null">
+                #{fkStoretypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fileid != null">
+                #{fileid,jdbcType=DOUBLE},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.base.knowledgestore.KnowledgeStoreInfo">
+        update T_BAS_KnowledgeStoreInfo
+        <set>
+            <if test="storename != null">
+                StoreName = #{storename,jdbcType=VARCHAR},
+            </if>
+            <if test="fkStoretypecode != null">
+                FK_StoreTypeCode = #{fkStoretypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fileid != null">
+                FileID = #{fileid,jdbcType=DOUBLE},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.base.knowledgestore.KnowledgeStoreInfo">
+    update T_BAS_KnowledgeStoreInfo
+    set StoreName = #{storename,jdbcType=VARCHAR},
+      FK_StoreTypeCode = #{fkStoretypecode,jdbcType=VARCHAR},
+      FileID = #{fileid,jdbcType=DOUBLE},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--
+     author:xsm
+     description: 分组统计各类别知识库信息
+     param:
+     date: 2021/8/24 16:50
+   -->
+    <select id="countKnowledgeStoreGroupByStoreType" resultType="java.util.Map">
+       SELECT COUNT(T_BAS_KnowledgeStoreInfo.PK_ID) num, PUB_CODE_StoreType.Code,PUB_CODE_StoreType.Name,PUB_CODE_StoreType.OrderIndex
+        FROM
+        T_BAS_KnowledgeStoreInfo
+        JOIN PUB_CODE_StoreType ON T_BAS_KnowledgeStoreInfo.FK_StoreTypeCode = PUB_CODE_StoreType.Code
+        GROUP BY PUB_CODE_StoreType.Code,PUB_CODE_StoreType.Name,PUB_CODE_StoreType.OrderIndex
+        ORDER BY PUB_CODE_StoreType.OrderIndex
+    </select>
+</mapper>

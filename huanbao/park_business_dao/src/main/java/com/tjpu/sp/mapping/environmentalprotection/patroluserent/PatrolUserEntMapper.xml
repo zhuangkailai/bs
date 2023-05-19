@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.patroluserent.PatrolUserEntMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_PollutionId" property="fkpollutionid" jdbcType="VARCHAR" />
+    <result column="PatrolTeam" property="patrolteam" jdbcType="VARCHAR" />
+    <result column="PatrolTime" property="patroltime" jdbcType="VARCHAR" />
+    <result column="FK_PatrolPersonnelId" property="fkpatrolpersonnelid" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="FK_GroupLeaderId" property="fkgroupleaderid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="PollutionDataListMap" type="map" >
+    <id column="resultid" property="resultid" jdbcType="VARCHAR" />
+    <result column="PK_PollutionID" property="fkpollutionid" jdbcType="VARCHAR" />
+    <result column="PK_MonitorPointID" property="pkmonitorpointid" jdbcType="VARCHAR" />
+    <result column="monitorpointname" property="monitorpointname" jdbcType="VARCHAR" />
+    <result column="FK_MonitorPointTypeCode" property="fkmonitorpointtypecode" jdbcType="VARCHAR" />
+    <result column="PollutionName" property="pollutionname" jdbcType="VARCHAR" />
+    <result column="PatrolTeam" property="patrolteam" jdbcType="VARCHAR" />
+    <result column="patroltime" property="patroltime" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="FK_GroupLeaderId" property="fkgroupleaderid" jdbcType="VARCHAR" />
+    <result column="FKGroupLeaderName" property="fkgroupleadername" jdbcType="VARCHAR" />
+    <collection property="users" ofType="map" javaType="java.util.Set">
+      <id column="User_ID" property="userid" jdbcType="VARCHAR" />
+      <result column="User_Name" property="username" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <resultMap id="MonitorDataListMap" type="map" >
+    <id column="resultid" property="resultid" jdbcType="VARCHAR" />
+    <result column="PK_MonitorPointID" property="pkmonitorpointid" jdbcType="VARCHAR" />
+    <result column="monitorpointname" property="monitorpointname" jdbcType="VARCHAR" />
+    <result column="DGIMN" property="dgimn" jdbcType="VARCHAR" />
+    <result column="FK_MonitorPointTypeCode" property="fkmonitorpointtypecode" jdbcType="VARCHAR" />
+    <result column="FK_MonitorPointTypeName" property="fkmonitorpointtypename" jdbcType="VARCHAR" />
+    <result column="PatrolTeam" property="patrolteam" jdbcType="VARCHAR" />
+    <result column="patroltime" property="patroltime" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="FK_GroupLeaderId" property="fkgroupleaderid" jdbcType="VARCHAR" />
+    <result column="FKGroupLeaderName" property="fkgroupleadername" jdbcType="VARCHAR" />
+    <collection property="users" ofType="map" javaType="java.util.Set">
+      <id column="User_ID" property="userid" jdbcType="VARCHAR" />
+      <result column="User_Name" property="username" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <resultMap id="PatrolTeamDataListMap" type="map" >
+    <id column="PatrolTeam" property="patrolteam" jdbcType="VARCHAR" />
+    <result column="FK_GroupLeaderId" property="fkgroupleaderid" jdbcType="VARCHAR" />
+    <result column="FKGroupLeaderName" property="fkgroupleadername" jdbcType="VARCHAR" />
+    <result column="PatrolTime" property="patroltime" jdbcType="VARCHAR" />
+    <collection property="types" ofType="map" javaType="java.util.Set">
+      <id column="FK_MonitorPointTypeCode" property="fkmonitorpointtypecode" jdbcType="VARCHAR" />
+      <result column="FK_MonitorPointTypeName" property="fkmonitorpointtypename" jdbcType="VARCHAR" />
+      <collection property="data"  ofType="map" javaType="java.util.Set">
+        <id column="patroidleveltwo" property="patroidleveltwo" jdbcType="VARCHAR" />
+        <result column="PK_PollutionID" property="fkpollutionid" jdbcType="VARCHAR" />
+        <result column="PollutionName" property="pollutionname" jdbcType="VARCHAR" />
+        <result column="Fk_MonitorPointID" property="fkmonitorpointid" jdbcType="VARCHAR" />
+        <result column="dgimn" property="dgimn" jdbcType="VARCHAR" />
+        <result column="monitorpointname" property="monitorpointname" jdbcType="VARCHAR" />
+        <result column="FK_MonitorPointTypeCode" property="fkmonitorpointtypecode" jdbcType="VARCHAR" />
+        <result column="FK_MonitorPointTypeName" property="fkmonitorpointtypename" jdbcType="VARCHAR" />
+      </collection>
+      <collection property="users" ofType="map" javaType="java.util.Set">
+        <id column="User_ID" property="userid" jdbcType="VARCHAR" />
+        <result column="User_Name" property="username" jdbcType="VARCHAR" />
+      </collection>
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    PK_ID,
+    FK_PollutionId,
+    PatrolTeam,
+    convert(varchar(19),PatrolTime,120)PatrolTime,
+    FK_PatrolPersonnelId,
+    Description,
+    FK_GroupLeaderId,
+    convert(varchar(19),UpdateTime,120)UpdateTime,
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_PatrolUserEnt
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_PatrolUserEnt
+    where PK_ID = #{pkid}
+  </delete>
+  <delete id="deleteByPatrolTeam" parameterType="map" >
+    delete from T_BAS_PatrolUserEnt where PatrolTeam=#{patrolteam} and convert(varchar(7),patroltime,120) = convert(varchar(7),#{patroltime},120)
+  </delete>
+
+  <delete id="deleteByPollutionIDAndPatrolTime" parameterType="map" >
+    delete from T_BAS_PatrolUserEnt where  FK_PollutionId = #{pollutionid} and convert(varchar(7),PatrolTime,120) =#{patroltime}
+  </delete>
+  <delete id="deleteByMonitorpointInfo" parameterType="map" >
+    <if test="monitorpoints!=null and monitorpoints.size>0">
+      delete from T_BAS_PatrolUserEnt where
+      <foreach collection="monitorpoints" item="item" separator="or" close=")" open="(">
+        (Fk_MonitorPointID = #{item.monitorpointid} and FK_MonitorPointTypeCode = #{item.monitorpointtype} and  PatrolTeam=#{item.patrolteam} and convert(varchar(7),patroltime,120) = convert(varchar(7),#{item.patroltime},120))
+      </foreach>
+    </if>
+  </delete>
+
+    <delete id="deleteByPollutionID" parameterType="java.lang.String" >
+        delete from T_BAS_PatrolUserEnt
+        where FK_PollutionId = #{fkpollutionid,jdbcType=VARCHAR}
+    </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.patroluserent.PatrolUserEntVO" >
+    insert into T_BAS_PatrolUserEnt
+    (PK_ID,
+    FK_PollutionId,
+    PatrolTeam,
+    PatrolTime,
+    FK_PatrolPersonnelId,
+    Description,
+    FK_GroupLeaderId,
+    Fk_MonitorPointID,
+    FK_MonitorPointTypeCode,
+    UpdateTime,
+    UpdateUser
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkpollutionid,jdbcType=VARCHAR},
+    #{patrolteam,jdbcType=VARCHAR},
+    #{patroltime,jdbcType=TIMESTAMP},
+    #{fkpatrolpersonnelid,jdbcType=VARCHAR},
+    #{description,jdbcType=VARCHAR},
+    #{fkgroupleaderid,jdbcType=VARCHAR},
+    #{fkmonitorpointid,jdbcType=VARCHAR},
+    #{fkmonitorpointtypecode,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=TIMESTAMP},
+    #{updateuser,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <insert id="insertBatch" parameterType="java.util.List" >
+    <if test="list !=null and list.size>0">
+      insert into T_BAS_PatrolUserEnt
+      (PK_ID,
+      FK_PollutionId,
+      PatrolTeam,
+      PatrolTime,
+      FK_PatrolPersonnelId,
+      Description,
+      FK_GroupLeaderId,
+      Fk_MonitorPointID,
+      FK_MonitorPointTypeCode,
+      UpdateTime,
+      UpdateUser
+      )
+      values
+      <foreach collection="list" separator="," item="item">
+        (#{item.pkid,jdbcType=VARCHAR},
+        #{item.fkpollutionid,jdbcType=VARCHAR},
+        #{item.patrolteam,jdbcType=VARCHAR},
+        #{item.patroltime,jdbcType=TIMESTAMP},
+        #{item.fkpatrolpersonnelid,jdbcType=VARCHAR},
+        #{item.description,jdbcType=VARCHAR},
+        #{item.fkgroupleaderid,jdbcType=VARCHAR},
+        #{item.fkmonitorpointid,jdbcType=VARCHAR},
+        #{item.fkmonitorpointtypecode,jdbcType=VARCHAR},
+        #{item.updatetime,jdbcType=TIMESTAMP},
+        #{item.updateuser,jdbcType=VARCHAR}
+        )
+      </foreach>
+    </if>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.patroluserent.PatrolUserEntVO" >
+    update T_BAS_PatrolUserEnt
+    set
+    FK_PollutionId=#{fkpollutionid,jdbcType=VARCHAR},
+    PatrolTeam=#{patrolteam,jdbcType=VARCHAR},
+    PatrolTime=#{patroltime,jdbcType=TIMESTAMP},
+    FK_PatrolPersonnelId=#{fkpatrolpersonnelid,jdbcType=VARCHAR},
+    Description=#{description,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=TIMESTAMP},
+    FK_GroupLeaderId=#{fkgroupleaderid,jdbcType=TIMESTAMP},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+  <!--
+    author:chengzq
+    description: 通过自定义参数获取企业下巡查人员分配信息
+    param:
+    date: 2020/04/29 18:05
+  -->
+  <select id="getPatrolUserEntByParamMap" parameterType="map" resultMap="PollutionDataListMap">
+    SELECT
+    PK_PollutionID resultid,
+    PollutionName,
+    PK_PollutionID,
+    '' PK_MonitorPointID,
+    '' monitorpointname,
+    '' FK_MonitorPointTypeCode,
+    convert(varchar(7),patroltime,120) patroltime,
+    PatrolTeam,
+    t1.User_Name,
+    t1.User_ID,
+    Description,
+    FK_GroupLeaderId,
+    t2.User_Name FKGroupLeaderName
+    FROM
+    T_BAS_PatrolUserEnt
+    RIGHT JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_PatrolUserEnt.FK_PollutionId
+    <if test="patroltime!=null and patroltime!=''">
+      and convert(varchar(7),patroltime,120) = #{patroltime}
+    </if>
+    LEFT JOIN Base_UserInfo t1 ON t1.User_ID = T_BAS_PatrolUserEnt.FK_PatrolPersonnelId
+    LEFT JOIN Base_UserInfo t2 ON t2.User_ID = T_BAS_PatrolUserEnt.FK_GroupLeaderId
+    <where>
+      <if test="flag!=null and flag ">
+        and T_BAS_Pollution.PK_PollutionID= T_BAS_PatrolUserEnt.FK_PollutionId
+      </if>
+      <if test="patroltime!=null and patroltime!='' and flag ">
+        and convert(varchar(7),patroltime,120) = #{patroltime}
+      </if>
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+    </where>
+    order by PollutionName,PatrolTeam
+  </select>
+
+
+  <select id="getMonitorPatrolUserEntByParamMap" parameterType="map" resultMap="MonitorDataListMap">
+    SELECT
+    t_bas_othermonitorpoint.PK_MonitorPointID+T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode resultid,
+    t_bas_othermonitorpoint.PK_MonitorPointID,
+    t_bas_othermonitorpoint.monitorpointname,
+    t_bas_othermonitorpoint.FK_MonitorPointTypeCode,
+    t3.name FK_MonitorPointTypeName,
+    convert(varchar(7),patroltime,120) patroltime,
+    case when len(PatrolTeam)=0 then '1' when PatrolTeam is null then '1'  else '0'+PatrolTeam end orderindex,
+    PatrolTeam,
+    t1.User_Name,
+    t1.User_ID,
+    Description,
+    DGIMN,
+    FK_GroupLeaderId,
+    t2.User_Name FKGroupLeaderName
+    FROM
+    T_BAS_PatrolUserEnt
+    RIGHT JOIN t_bas_othermonitorpoint ON t_bas_othermonitorpoint.PK_MonitorPointID=
+    T_BAS_PatrolUserEnt.Fk_MonitorPointID and
+    t_bas_othermonitorpoint.FK_MonitorPointTypeCode=T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode
+    <if test="patroltime!=null and patroltime!=''">
+      and convert(varchar(7),patroltime,120) = #{patroltime}
+    </if>
+    LEFT JOIN Base_UserInfo t1 ON t1.User_ID = T_BAS_PatrolUserEnt.FK_PatrolPersonnelId
+    LEFT JOIN Base_UserInfo t2 ON t2.User_ID = T_BAS_PatrolUserEnt.FK_GroupLeaderId
+    left join PUB_CODE_MonitorPointType t3 on t_bas_othermonitorpoint.FK_MonitorPointTypeCode=t3.code
+    <where>
+      t_bas_othermonitorpoint.FK_MonitorPointTypeCode in (9,10,12,33)
+      <if test="flag!=null and flag ">
+        and t_bas_othermonitorpoint.PK_MonitorPointID= T_BAS_PatrolUserEnt.Fk_MonitorPointID
+      </if>
+      <if test="patroltime!=null and patroltime!='' and flag ">
+        and convert(varchar(7),patroltime,120) = #{patroltime}
+      </if>
+      <if test="monitorpointname !=null and monitorpointname !='' ">
+        and t_bas_othermonitorpoint.monitorpointname like concat('%',#{monitorpointname},'%')
+      </if>
+    </where>
+    order by orderindex,t_bas_othermonitorpoint.FK_MonitorPointTypeCode,monitorpointname
+  </select>
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取每个组下巡查人员分配信息
+      param:
+      date: 2020/04/29 18:05
+    -->
+  <select id="getPatrolUserEntPatroTeamByParamMap" parameterType="map" resultMap="PatrolTeamDataListMap">
+    select * from (
+    SELECT
+    concat(T_BAS_PatrolUserEnt.Fk_PollutionID, T_BAS_PatrolUserEnt.Fk_MonitorPointID) patroidleveltwo,
+    PollutionName,
+    PK_PollutionID,
+    T_BAS_PatrolUserEnt.Fk_MonitorPointID,
+    '' monitorpointname,
+    concat(T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode,'')FK_MonitorPointTypeCode,
+    t3.name FK_MonitorPointTypeName,
+    PatrolTeam,
+    '' dgimn,
+    t1.User_Name,
+    t1.User_ID,
+    Description,
+    FK_GroupLeaderId,
+    convert(varchar(7),PatrolTime,120)PatrolTime,
+    t2.User_Name FKGroupLeaderName
+    FROM
+    T_BAS_PatrolUserEnt
+    JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_PatrolUserEnt.FK_PollutionId
+    left JOIN Base_UserInfo t1 ON t1.User_ID = T_BAS_PatrolUserEnt.FK_PatrolPersonnelId
+    left JOIN Base_UserInfo t2 ON t2.User_ID = T_BAS_PatrolUserEnt.FK_GroupLeaderId
+    left join PUB_CODE_MonitorPointType t3 on T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode=t3.Code
+    <where>
+      <if test="patroltime!=null and patroltime!=''">
+        and convert(varchar(7),patroltime,120) = convert(varchar(7),#{patroltime},120)
+      </if>
+      <if test="patrolteam !=null and patrolteam !='' ">
+        and patrolteam like concat('%',#{patrolteam},'%')
+      </if>
+    </where>
+    union
+    SELECT
+    concat(T_BAS_PatrolUserEnt.Fk_PollutionID, T_BAS_PatrolUserEnt.Fk_MonitorPointID) patroidleveltwo,
+    '',
+    Fk_PollutionID,
+    T_BAS_PatrolUserEnt.Fk_MonitorPointID,
+    t_bas_othermonitorpoint.monitorpointname,
+    concat(T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode,'')FK_MonitorPointTypeCode,
+    t3.name FK_MonitorPointTypeName,
+    PatrolTeam,
+    dgimn,
+    t1.User_Name,
+    t1.User_ID,
+    Description,
+    FK_GroupLeaderId,
+    convert(varchar(7),PatrolTime,120)PatrolTime,
+    t2.User_Name FKGroupLeaderName
+    FROM
+    T_BAS_PatrolUserEnt
+    JOIN t_bas_othermonitorpoint ON t_bas_othermonitorpoint.PK_MonitorPointID= T_BAS_PatrolUserEnt.Fk_MonitorPointID and
+    t_bas_othermonitorpoint.FK_MonitorPointTypeCode=T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode
+    left JOIN Base_UserInfo t1 ON t1.User_ID = T_BAS_PatrolUserEnt.FK_PatrolPersonnelId
+    left JOIN Base_UserInfo t2 ON t2.User_ID = T_BAS_PatrolUserEnt.FK_GroupLeaderId
+    left join PUB_CODE_MonitorPointType t3 on T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode=t3.Code
+    <where>
+      <if test="patroltime!=null and patroltime!=''">
+        and convert(varchar(7),patroltime,120) = convert(varchar(7),#{patroltime},120)
+      </if>
+      <if test="patrolteam !=null and patrolteam !='' ">
+        and patrolteam like concat('%',#{patrolteam},'%')
+      </if>
+    </where>
+    ) t
+    order by PatrolTeam
+  </select>
+
+
+  <!--
+   author:xsm
+   description: 通过污染源ID和日期时间获取某企业某月巡查人员信息
+   param:
+   date: 2020/04/30 18:05
+ -->
+  <select id="getPatrolPersonnelIdsByPolluionid" parameterType="map" resultType="map">
+    SELECT
+    PollutionName,
+    PK_PollutionID,
+    PatrolTeam,
+    User_Name,
+    User_ID userid,
+    Description
+    FROM
+    T_BAS_PatrolUserEnt
+    RIGHT JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_PatrolUserEnt.FK_PollutionId
+    LEFT JOIN Base_UserInfo ON Base_UserInfo.User_ID = T_BAS_PatrolUserEnt.FK_PatrolPersonnelId
+    <where>
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and T_BAS_PatrolUserEnt.FK_PollutionId = #{pollutionid}
+      </if>
+      <if test="monitorpointid !=null and monitorpointid !='' ">
+        and T_BAS_PatrolUserEnt.Fk_MonitorPointID = #{monitorpointid}
+      </if>
+      <if test="monitorpointtype !=null and monitorpointtype !='' ">
+        and T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode = #{monitorpointtype}
+      </if>
+      <if test="patrolteam !=null and patrolteam !='' ">
+        and T_BAS_PatrolUserEnt.PatrolTeam = #{patrolteam}
+      </if>
+      <if test="patroltime!=null and patroltime!=''">
+        and convert(varchar(7),patroltime,120) = #{patroltime}
+      </if>
+    </where>
+  </select>
+
+  <!--
+    author:xsm
+    description: 通过监测点ID和日期时间获取某企业某月巡查人员信息
+    param:
+    date: 2020/04/30 18:05
+  -->
+  <select id="getPatrolPersonnelIdsByMonitorPointID" parameterType="map" resultType="map">
+    SELECT
+    PatrolTeam,
+    User_Name,
+    User_ID userid,
+    Description,
+    Fk_MonitorPointID,
+    FK_PatrolPersonnelId,
+    FK_MonitorPointTypeCode
+    FROM
+    T_BAS_PatrolUserEnt
+    LEFT JOIN Base_UserInfo ON Base_UserInfo.User_ID = T_BAS_PatrolUserEnt.FK_PatrolPersonnelId
+    <where>
+      <if test="monitorpointid !=null and monitorpointid !='' ">
+        and T_BAS_PatrolUserEnt.Fk_MonitorPointID = #{monitorpointid}
+      </if>
+      <if test="monitorpointtype !=null and monitorpointtype !='' ">
+        and T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode = #{monitorpointtype}
+      </if>
+      <if test="patroltime!=null and patroltime!=''">
+        and convert(varchar(7),patroltime,120) = #{patroltime}
+      </if>
+      <if test="patrolteam !=null and patrolteam !='' ">
+        and T_BAS_PatrolUserEnt.PatrolTeam = #{patrolteam}
+      </if>
+    </where>
+  </select>
+
+  <!--
+  author:xsm
+  description: 通过监测点ID和日期时间获取该点位某月巡查人员信息（包含排口）
+  param:
+  date: 2020/04/30 18:05
+-->
+  <select id="getPatrolPersonnelIdsByPointid" parameterType="map" resultType="map">
+    SELECT
+    tt.PatrolTeam,
+    Base_UserInfo.User_Name,
+    Base_UserInfo.User_ID userid,
+    tt.Description
+    FROM
+    (
+    SELECT
+    T_BAS_PatrolUserEnt.*,pointtable.monitorpointid
+    FROM
+    (
+    SELECT t2.PK_ID monitorpointid,t2.FK_Pollutionid,'1' monitorpointtype from T_BAS_WaterOutputInfo t2
+    LEFT JOIN T_BAS_Pollution p ON t2.FK_Pollutionid = p.PK_PollutionID
+    WHERE (t2.OutPutType !=3 or t2.OutPutType is null)
+    UNION
+    SELECT t3.PK_ID monitorpointid,t3.FK_Pollutionid,'37' monitorpointtype from T_BAS_WaterOutputInfo t3
+    LEFT JOIN T_BAS_Pollution p ON t3.FK_Pollutionid = p.PK_PollutionID
+    WHERE t3.OutPutType =3
+    UNION
+    SELECT t4.PK_ID monitorpointid,t4.FK_Pollutionid,t4.FK_MonitorPointTypeCode monitorpointtype from T_BAS_GASOutPutInfo t4
+    LEFT JOIN T_BAS_Pollution p ON t4.FK_Pollutionid = p.PK_PollutionID
+    UNION
+    SELECT t5.PK_ID monitorpointid,t5.FK_Pollutionid,t5.FK_MonitorPointTypeCode monitorpointtype from
+    T_BAS_UnorganizedMonitorPointInfo t5
+    LEFT JOIN T_BAS_Pollution p ON t5.FK_Pollutionid = p.PK_PollutionID
+    WHERE t5.FK_MonitorPointTypeCode in(40,41)
+    ) pointtable  JOIN T_BAS_PatrolUserEnt ON  pointtable.FK_Pollutionid = T_BAS_PatrolUserEnt.FK_PollutionId
+    UNION ALL
+    SELECT T_BAS_PatrolUserEnt.*,t6.PK_MonitorPointID monitorpointid  from T_BAS_OtherMonitorPoint t6
+    JOIN T_BAS_PatrolUserEnt ON  t6.PK_MonitorPointID = T_BAS_PatrolUserEnt.Fk_MonitorPointID
+    AND t6.FK_MonitorPointTypeCode =T_BAS_PatrolUserEnt.FK_MonitorPointTypeCode
+    WHERE t6.FK_MonitorPointTypeCode in(9,10,33,12)
+    ) tt
+    LEFT JOIN Base_UserInfo ON Base_UserInfo.User_ID = tt.FK_PatrolPersonnelId
+    <where>
+      <if test="monitorpointid !=null and monitorpointid !='' ">
+        and tt.monitorpointid = #{monitorpointid}
+      </if>
+      <if test="patrolteam !=null and patrolteam !='' ">
+        and tt.PatrolTeam = #{patrolteam}
+      </if>
+      <if test="patroltime!=null and patroltime!=''">
+        and convert(varchar(7),tt.PatrolTime,120) = #{patroltime}
+      </if>
+    </where>
+  </select>
+
+  <!--
+      author:chengzq
+      description: 通过自定义条件统计巡查人员个数
+      param:
+      date: 2020/09/14 15:34
+  -->
+  <select id="countPatrolUserEntByParams" resultType="integer" parameterType="map">
+    SELECT
+      COUNT ( * ) count
+    FROM
+        T_BAS_PatrolUserEnt
+    WHERE
+        PatrolTeam = #{patrolteam}
+        AND CONVERT ( VARCHAR ( 7 ), PatrolTime, 120 ) = CONVERT ( VARCHAR ( 7 ), #{patroltime}, 120 )
+  </select>
+
+
+  <select id="getPatrolUserEntByParams" parameterType="map" resultType="map">
+    select * from T_BAS_PatrolUserEnt where PatrolTeam=#{patrolteam} and CONVERT ( VARCHAR ( 7 ), PatrolTime, 120 ) = CONVERT ( VARCHAR ( 7 ), #{patroltime}, 120 )
+  </select>
+
+
+</mapper>

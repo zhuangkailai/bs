@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.checkcontentdescription.CheckContentDescriptionMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.checkcontentdescription.CheckContentDescriptionVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CheckItemDataID" jdbcType="VARCHAR" property="fkCheckitemdataid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CheckItemDataID, Remark, FK_FileID, UpdateUser, UpdateTime, OrderIndex
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_CheckContentDescription
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_CheckContentDescription
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteCheckContentDescriptionByCheckEntID" parameterType="java.lang.String">
+    delete from T_GJ_CheckContentDescription
+    where PK_ID IN (
+    SELECT T_GJ_CheckContentDescription.PK_ID FROM
+    T_GJ_CheckContentDescription JOIN T_GJ_CheckItemData ON T_GJ_CheckContentDescription.FK_CheckItemDataID = T_GJ_CheckItemData.PK_ID
+    JOIN T_GJ_CheckEntInfo ON T_GJ_CheckItemData.FK_CheckEntID = T_GJ_CheckItemData.PK_ID
+    WHERE T_GJ_CheckEntInfo.PK_ID = #{pkId}
+    )
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.checkcontentdescription.CheckContentDescriptionVO">
+    insert into T_GJ_CheckContentDescription (PK_ID, FK_CheckItemDataID, Remark, 
+      FK_FileID, UpdateUser, UpdateTime, 
+      OrderIndex)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkCheckitemdataid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{orderindex,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkcontentdescription.CheckContentDescriptionVO">
+    insert into T_GJ_CheckContentDescription
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkCheckitemdataid != null">
+        FK_CheckItemDataID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkCheckitemdataid != null">
+        #{fkCheckitemdataid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkcontentdescription.CheckContentDescriptionVO">
+    update T_GJ_CheckContentDescription
+    <set>
+      <if test="fkCheckitemdataid != null">
+        FK_CheckItemDataID = #{fkCheckitemdataid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.checkcontentdescription.CheckContentDescriptionVO">
+    update T_GJ_CheckContentDescription
+    set FK_CheckItemDataID = #{fkCheckitemdataid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/07/14 0014 下午 15:37
+    * @Description: 批量插入检查内容说明信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_GJ_CheckContentDescription (PK_ID, FK_CheckItemDataID, Remark,
+    FK_FileID, UpdateUser, UpdateTime,
+    OrderIndex)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkCheckitemdataid,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},
+      #{item.fkFileid,jdbcType=VARCHAR}, #{item.updateuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP},
+      #{item.orderindex,jdbcType=NUMERIC})
+    </foreach>
+  </insert>
+
+  <!--
+   author:xsm
+   description: 根据污染源ID、检查日期、检查类型获取检查内容的备注说明和附件
+   param:
+   date: 2021/07/14 16:40
+-->
+  <select id="getCheckContentDescriptionFileDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID checkitemdataid,
+    t3.PK_ID remarkinfoid,
+    t3.Remark,
+    t3.FK_FileID,
+    t4.FilePath,
+    t4.OriginalFileName filename
+    FROM
+    T_GJ_CheckItemData  t1
+    JOIN  T_GJ_CheckEntInfo t2  ON  t1.FK_CheckEntID = t2.PK_ID
+    JOIN  T_GJ_CheckContentDescription t3 ON t1.PK_ID = t3.FK_CheckItemDataID
+    LEFT JOIN  T_BAS_FileInfo t4 ON t3.FK_FileID = t4.FileFlag AND (t4.FileFlag  is not null and t4.FileFlag !='')
+    LEFT JOIN T_GJ_CheckProblemExpound t5 ON t5.FK_CheckItemDataID = t1.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="problemids !=null and problemids.size>0">
+        t5.PK_ID in
+        <foreach collection="problemids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="checktime!=null and checktime!='' ">
+        AND convert(varchar(10),t2.CheckTime,120) = #{checktime}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t2.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and t2.FK_CheckTypeCode = #{checktypecode}
+      </if>
+    </trim>
+    order by t1.PK_ID,t3.OrderIndex
+  </select>
+</mapper>

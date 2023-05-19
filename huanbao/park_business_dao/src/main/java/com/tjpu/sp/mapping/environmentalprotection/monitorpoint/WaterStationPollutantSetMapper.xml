@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.WaterStationPollutantSetMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationPollutantSetVO">
+        <id column="PK_DataID" property="pkDataid" jdbcType="VARCHAR"/>
+        <result column="FK_WaterPointID" property="fkWaterpointid" jdbcType="VARCHAR"/>
+        <result column="FK_PollutantCode" property="fkPollutantcode" jdbcType="VARCHAR"/>
+        <result column="FK_StandardID" property="fkStandardid" jdbcType="VARCHAR"/>
+        <result column="StandardMaxValue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        <result column="StandardMinValue" property="standardminvalue" jdbcType="DOUBLE"/>
+        <result column="MonitorWay" property="monitorway" jdbcType="NUMERIC"/>
+        <result column="AlarmType" property="alarmtype" jdbcType="NUMERIC"/>
+        <result column="AlarmControlTimes" property="alarmcontroltimes" jdbcType="NUMERIC"/>
+        <result column="ExceptionMaxValue" property="exceptionmaxvalue" jdbcType="DOUBLE"/>
+        <result column="ExceptionMinValue" property="exceptionminvalue" jdbcType="DOUBLE"/>
+        <result column="ZeroValueTimes" property="zerovaluetimes" jdbcType="NUMERIC"/>
+        <result column="ContinuityValueTimes" property="continuityvaluetimes" jdbcType="NUMERIC"/>
+        <result column="isEffectiveTransmission" property="iseffectivetransmission" jdbcType="NUMERIC"/>
+        <result column="ConcentrationChangeWarnPercent" property="concentrationchangewarnpercent" jdbcType="DOUBLE"/>
+        <result column="changebasevalue" property="changebasevalue" jdbcType="DOUBLE"/>
+        <result column="PollutantRatio" property="pollutantratio" jdbcType="DOUBLE"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <!-- 一对一标准 -->
+        <association property="standardVO" javaType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+            <id column="PK_StandardID" jdbcType="VARCHAR" property="pkStandardid"/>
+            <result column="StandardName" jdbcType="VARCHAR" property="standardname"/>
+        </association>
+
+        <!-- 一对一污染物 -->
+        <association property="pollutantFactorVO" javaType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+            <result column="pollutantcode" property="code" jdbcType="VARCHAR"/>
+            <result column="pollutantname" property="name" jdbcType="VARCHAR"/>
+            <result column="PollutantUnit" property="pollutantunit" jdbcType="VARCHAR"/>
+            <result column="IsShowFlow" property="isshowflow" jdbcType="NUMERIC"/>
+            <result column="IsDefaultSelect" property="isdefaultselect" jdbcType="NUMERIC"/>
+        </association>
+        <!-- 一对多 earlyWarningSetVOS-->
+        <collection property="earlyWarningSetVOS" ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+            <result column="ConcenAlarmMinValue" jdbcType="DOUBLE" property="concenalarmminvalue"/>
+            <result column="ConcenAlarmMaxValue" jdbcType="DOUBLE" property="concenalarmmaxvalue"/>
+            <association property="alarmLevelVO" javaType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO">
+                <result column="alarmlevelcode" property="code" jdbcType="VARCHAR"/>
+                <result column="alarmlevelname" property="name" jdbcType="VARCHAR"/>
+            </association>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_DataID, FK_WaterPointID, FK_PollutantCode, FK_StandardID, StandardMaxValue, StandardMinValue, 
+    MonitorWay, AlarmType, AlarmControlTimes, ExceptionMaxValue, ExceptionMinValue, ZeroValueTimes,  isEffectiveTransmission,
+    ContinuityValueTimes, ConcentrationChangeWarnPercent, UpdateTime, UpdateUser,changebasevalue,PollutantRatio
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_WaterStationPollutantSet
+        where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_WaterStationPollutantSet
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationPollutantSetVO">
+    insert into T_BAS_WaterStationPollutantSet (PK_DataID, FK_WaterPointID, FK_PollutantCode, 
+      FK_StandardID, StandardMaxValue, StandardMinValue, 
+      MonitorWay, AlarmType, AlarmControlTimes, 
+      ExceptionMaxValue, ExceptionMinValue, ZeroValueTimes, isEffectiveTransmission,
+      ContinuityValueTimes, ConcentrationChangeWarnPercent, changebasevalue,
+      UpdateTime, UpdateUser,PollutantRatio)
+    values (#{pkDataid,jdbcType=VARCHAR}, #{fkWaterpointid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{fkStandardid,jdbcType=VARCHAR}, #{standardmaxvalue,jdbcType=DOUBLE}, #{standardminvalue,jdbcType=DOUBLE}, 
+      #{monitorway,jdbcType=NUMERIC}, #{alarmtype,jdbcType=NUMERIC}, #{alarmcontroltimes,jdbcType=NUMERIC}, 
+      #{exceptionmaxvalue,jdbcType=DOUBLE}, #{exceptionminvalue,jdbcType=DOUBLE}, #{zerovaluetimes,jdbcType=NUMERIC}, #{isEffectiveTransmission,jdbcType=NUMERIC},
+      #{continuityvaluetimes,jdbcType=NUMERIC}, #{concentrationchangewarnpercent,jdbcType=DOUBLE}, #{changebasevalue,jdbcType=DOUBLE},
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},#{pollutantratio,jdbcType=DOUBLE})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationPollutantSetVO">
+        insert into T_BAS_WaterStationPollutantSet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkDataid != null">
+                PK_DataID,
+            </if>
+            <if test="fkWaterpointid != null">
+                FK_WaterPointID,
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode,
+            </if>
+            <if test="fkStandardid != null">
+                FK_StandardID,
+            </if>
+            <if test="standardmaxvalue != null">
+                StandardMaxValue,
+            </if>
+            <if test="standardminvalue != null">
+                StandardMinValue,
+            </if>
+            <if test="monitorway != null">
+                MonitorWay,
+            </if>
+            <if test="alarmtype != null">
+                AlarmType,
+            </if>
+            <if test="alarmcontroltimes != null">
+                AlarmControlTimes,
+            </if>
+            <if test="exceptionmaxvalue != null">
+                ExceptionMaxValue,
+            </if>
+            <if test="exceptionminvalue != null">
+                ExceptionMinValue,
+            </if>
+            <if test="zerovaluetimes != null">
+                ZeroValueTimes,
+            </if>
+            <if test="continuityvaluetimes != null">
+                ContinuityValueTimes,
+            </if>
+            <if test="iseffectivetransmission != null">
+                isEffectiveTransmission,
+            </if>
+            <if test="concentrationchangewarnpercent != null">
+                ConcentrationChangeWarnPercent,
+            </if>
+            <if test="changebasevalue != null">
+                changebasevalue,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="pollutantratio != null">
+                pollutantratio,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkDataid != null">
+                #{pkDataid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterpointid != null">
+                #{fkWaterpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkStandardid != null">
+                #{fkStandardid,jdbcType=VARCHAR},
+            </if>
+            <if test="standardmaxvalue != null">
+                #{standardmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="standardminvalue != null">
+                #{standardminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="monitorway != null">
+                #{monitorway,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmtype != null">
+                #{alarmtype,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmcontroltimes != null">
+                #{alarmcontroltimes,jdbcType=NUMERIC},
+            </if>
+            <if test="exceptionmaxvalue != null">
+                #{exceptionmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="exceptionminvalue != null">
+                #{exceptionminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="zerovaluetimes != null">
+                #{zerovaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="continuityvaluetimes != null">
+                #{continuityvaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="iseffectivetransmission != null">
+                #{iseffectivetransmission,jdbcType=NUMERIC},
+            </if>
+            <if test="concentrationchangewarnpercent != null">
+                #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+            </if>
+            <if test="changebasevalue != null">
+                #{changebasevalue,jdbcType=DOUBLE},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="pollutantratio != null">
+                #{pollutantratio,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationPollutantSetVO">
+        update T_BAS_WaterStationPollutantSet
+        <set>
+            <if test="fkWaterpointid != null">
+                FK_WaterPointID = #{fkWaterpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkStandardid != null">
+                FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+            </if>
+            <if test="standardmaxvalue != null">
+                StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="standardminvalue != null">
+                StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="monitorway != null">
+                MonitorWay = #{monitorway,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmtype != null">
+                AlarmType = #{alarmtype,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmcontroltimes != null">
+                AlarmControlTimes = #{alarmcontroltimes,jdbcType=NUMERIC},
+            </if>
+            <if test="exceptionmaxvalue != null">
+                ExceptionMaxValue = #{exceptionmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="exceptionminvalue != null">
+                ExceptionMinValue = #{exceptionminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="zerovaluetimes != null">
+                ZeroValueTimes = #{zerovaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="continuityvaluetimes != null">
+                ContinuityValueTimes = #{continuityvaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="iseffectivetransmission != null">
+                isEffectiveTransmission = #{iseffectivetransmission,jdbcType=NUMERIC},
+            </if>
+            <if test="concentrationchangewarnpercent != null">
+                ConcentrationChangeWarnPercent = #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+            </if>
+            <if test="changebasevalue != null">
+                changebasevalue = #{changebasevalue,jdbcType=DOUBLE},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="pollutantratio != null">
+                PollutantRatio = #{pollutantratio,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationPollutantSetVO">
+    update T_BAS_WaterStationPollutantSet
+    set FK_WaterPointID = #{fkWaterpointid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+      StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+      StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+      MonitorWay = #{monitorway,jdbcType=NUMERIC},
+      AlarmType = #{alarmtype,jdbcType=NUMERIC},
+      AlarmControlTimes = #{alarmcontroltimes,jdbcType=NUMERIC},
+      ExceptionMaxValue = #{exceptionmaxvalue,jdbcType=DOUBLE},
+      ExceptionMinValue = #{exceptionminvalue,jdbcType=DOUBLE},
+      ZeroValueTimes = #{zerovaluetimes,jdbcType=NUMERIC},
+      ContinuityValueTimes = #{continuityvaluetimes,jdbcType=NUMERIC},
+      isEffectiveTransmission = #{iseffectivetransmission,jdbcType=NUMERIC},
+      ConcentrationChangeWarnPercent = #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+      changebasevalue = #{changebasevalue,jdbcType=DOUBLE},
+      PollutantRatio = #{pollutantratio,jdbcType=DOUBLE},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--
+          author:chengzq
+          description: 根据排口ID获取水质监测点污染物设置表信息
+          param:
+          date: 2019/05/28 15:34
+      -->
+    <select id="getWaterStationPollutantSetByOutputId" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+            t1.PK_DataID,
+            t4.Code pollutantcode,
+            t4.Name pollutantname,
+            t1.FK_PollutantCode,
+            t4.PollutantUnit,
+            t4.IsShowFlow,
+            t4.IsDefaultSelect,
+            t1.MonitorWay,
+            t5.PK_StandardID,
+            t5.StandardName,
+            t1.StandardMaxValue,
+            t1.StandardMinValue,
+            t1.ExceptionMaxValue,
+            t1.ExceptionMinValue,
+            t1.AlarmType,
+            t1.AlarmControlTimes,
+            t1.ZeroValueTimes,
+            t1.ContinuityValueTimes,
+            t1.isEffectiveTransmission,
+            t7.Code alarmlevelcode,
+            t7.Name alarmlevelname,
+            t6.ConcenAlarmMaxValue,
+            t6.ConcenAlarmMinValue,
+            t1.ConcentrationChangeWarnPercent
+        FROM
+          T_BAS_WaterStationPollutantSet t1
+        INNER JOIN T_BAS_WaterStationInfo t3 ON t1.FK_WaterPointID = t3.PK_WaterStationID
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused='1'
+        <if test="pollutanttype != null and pollutanttype!=''">
+            and t4.PollutantType = #{pollutanttype,jdbcType=VARCHAR}
+        </if>
+        LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+        LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_WaterPointID
+        AND t6.FK_PollutantCode = t1.FK_PollutantCode
+        LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+        where t1.FK_WaterPointID = #{outputid,jdbcType=VARCHAR}
+        <if test="pollutantcode != null and pollutantcode!=''">
+            and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+        </if>
+        ORDER by t4.OrderIndex,
+        t1.FK_PollutantCode,
+        t7.Code
+    </select>
+
+    <select id="getWaterStationAllPollutantsByIDAndType" parameterType="map" resultType="map">
+        select DISTINCT t2.FK_PollutantCode code,t3.name,t2.FK_PollutantCode pollutantcode,t3.name pollutantname,t2.MonitorStatus,
+        t2.standardmaxvalue,
+        t2.standardminvalue,
+        t3.PollutantUnit
+        from T_BAS_WaterStationInfo t1 JOIN T_BAS_WaterStationPollutantSet t2 ON t1.PK_WaterStationID = t2.FK_WaterPointID
+        JOIN PUB_CODE_PollutantFactor t3 ON t2.FK_PollutantCode = t3.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pkidlist!=null and pkidlist.size>0">
+                and t1.PK_WaterStationID in
+                <foreach collection="pkidlist" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="outputid != null and outputid!=''">
+                and t2.FK_WaterPointID = #{outputid,jdbcType=VARCHAR}
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND t3.PollutantType = #{monitorpointtype}
+            </if>
+        </trim>
+        ORDER BY t2.FK_PollutantCode
+    </select>
+
+    <!--
+      author:liyc
+      description: 通过水质监测点id查询该监测站点相关污染物
+      param:
+      date: 2019/09/26 14:09
+  -->
+    <select id="getWaterStationPollutantSetsByMonitorId" parameterType="map" resultType="map">
+        SELECT
+        t1.pk_dataid,
+        t4.code pollutantcode,
+        t4.name pollutantname,
+        t1.fk_pollutantcode,
+        t4.pollutantunit,
+        t4.IsShowFlow isshowflow,
+        t1.monitorway,
+        t5.pk_standardid,
+        t5.standardname,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        t1.exceptionmaxvalue,
+        t1.exceptionminvalue,
+        t1.alarmtype,
+        t1.alarmcontroltimes,
+        t1.zerovaluetimes,
+        t1.continuityvaluetimes,
+        t7.code alarmlevelcode,
+        t7.name alarmlevelname,
+        t6.concenalarmmaxvalue,
+        t6.concenalarmminvalue
+        FROM
+        T_BAS_WaterStationPollutantSet t1
+        INNER JOIN T_BAS_WaterStationInfo t3 ON t1.FK_WaterPointID = t3.PK_WaterStationID
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused='1'
+        AND t4.PollutantType = '6'
+        LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+        LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_WaterPointID
+        AND t6.FK_PollutantCode = t1.FK_PollutantCode
+        LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+        where t1.FK_WaterPointID = #{outputid,jdbcType=VARCHAR}
+        <if test="pollutantcode != null and pollutantcode!=''">
+            and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+        </if>
+        ORDER by t4.OrderIndex,
+        t1.FK_PollutantCode,
+        t7.Code
+    </select>
+    <!--
+      author:liyc
+      description: 通过水质监测点id查询该监测站点相关污染物
+      param:
+      date: 2019/10/10 15:05
+  -->
+    <select id="getWaterStationPollutantSetsByOutputId" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        t1.PK_DataID,
+        t4.Code pollutantcode,
+        t4.Name pollutantname,
+        t1.FK_PollutantCode,
+        t4.PollutantUnit,
+        t1.MonitorWay,
+        t5.PK_StandardID,
+        t5.StandardName,
+        t1.StandardMaxValue,
+        t1.StandardMinValue,
+        t1.ExceptionMaxValue,
+        t1.ExceptionMinValue,
+        t1.alarmtype,
+        t1.AlarmControlTimes,
+        t1.ZeroValueTimes,
+        t1.ContinuityValueTimes,
+        t7.Code alarmlevelcode,
+        t7.Name alarmlevelname,
+        t6.ConcenAlarmMaxValue,
+        t6.ConcenAlarmMinValue,
+        t1.ConcentrationChangeWarnPercent,
+        t1.ChangeBaseValue,
+        t1.PollutantRatio
+        FROM
+        T_BAS_WaterStationPollutantSet t1
+        INNER JOIN T_BAS_WaterStationInfo t3 ON t1.FK_WaterPointID = t3.PK_WaterStationID
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code
+        AND t4.PollutantType = '6'
+        LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+        LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_WaterPointID
+        AND t6.FK_PollutantCode = t1.FK_PollutantCode
+        LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+        where t1.FK_WaterPointID = #{outputid,jdbcType=VARCHAR}
+        <if test="pollutantcode != null and pollutantcode!=''">
+            and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+        </if>
+        <if test="monitorpointid != null and monitorpointid!=''">
+            and t3.PK_WaterStationID = #{monitorpointid,jdbcType=VARCHAR}
+        </if>
+        ORDER by t4.OrderIndex,
+        t1.FK_PollutantCode,
+        t7.Code
+    </select>
+    <!--
+      author:liyc
+      description: 验证传入数据是否重复
+      param:
+      date: 2019/10/12 11:43
+     -->
+    <select id="isTableDataHaveInfo" parameterType="map" resultType="java.lang.Integer">
+        select count(1) from T_BAS_WaterStationPollutantSet
+        where FK_WaterPointID = #{fk_waterpointid}
+        AND  FK_PollutantCode=#{fk_pollutantcode}
+    </select>
+    <!--
+      author:liyc
+      description: 批量新增水质质量污染物设置信息,只存储点位与污染物的关系，不存储标准值等
+      param:
+      date: 2019/11/04 13:46
+     -->
+    <insert id="batchInsert" parameterType="map">
+       insert into T_BAS_WaterStationPollutantSet (PK_DataID, FK_WaterPointID, FK_PollutantCode,
+      UpdateTime, UpdateUser)
+      values
+        <foreach collection="pollutants" item="items" index="index" separator=",">
+            (#{items.pkDataid},
+            #{items.fkWaterpointid},
+            #{items.fkPollutantcode},
+            #{items.updatetime},
+            #{items.updateuser}
+            )
+        </foreach>
+    </insert>
+</mapper>

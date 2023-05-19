@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.workflowinfo.WorkFlowInfoMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_WorkFlowType" property="fkworkflowtype" jdbcType="VARCHAR" />
+    <result column="WorkFlowXml" property="workflowxml" jdbcType="VARCHAR" />
+    <result column="CreateUser" property="createuser" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_WorkFlowInfo.PK_ID,
+    T_BAS_WorkFlowInfo.FK_WorkFlowType,
+    T_BAS_WorkFlowInfo.workflowxml,
+    T_BAS_WorkFlowInfo.CreateUser,
+    convert(varchar(19),T_BAS_WorkFlowInfo.CreateTime,120)CreateTime,
+    T_BAS_WorkFlowInfo.UpdateUser,
+    convert(varchar(19),T_BAS_WorkFlowInfo.UpdateTime,120)UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    top 1
+    <include refid="Base_Column_List" />
+    from T_BAS_WorkFlowInfo
+    where PK_ID = #{pkid}
+  </select>
+  <select id="selectByWorkFlowType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    top 1
+    <include refid="Base_Column_List" />
+    from T_BAS_WorkFlowInfo
+    where FK_WorkFlowType = #{fkworkflowtypefkworkflowtype}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_WorkFlowInfo
+    where PK_ID = #{pkid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.workflowinfo.WorkFlowInfoVO" >
+    insert into T_BAS_WorkFlowInfo
+    (PK_ID,
+    FK_WorkFlowType,
+    workflowxml,
+    CreateUser,
+    CreateTime,
+    UpdateUser,
+    UpdateTime
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkworkflowtype,jdbcType=VARCHAR},
+    #{workflowxml,jdbcType=VARCHAR},
+    #{createuser,jdbcType=VARCHAR},
+    #{createtime,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.workflowinfo.WorkFlowInfoVO" >
+    update T_BAS_WorkFlowInfo
+    set
+    FK_WorkFlowType=#{fkworkflowtype,jdbcType=VARCHAR},
+    workflowxml=#{workflowxml,jdbcType=VARCHAR},
+    CreateUser=#{createuser,jdbcType=VARCHAR},
+    CreateTime=#{createtime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+  <update id="updateByWorkFlowType" parameterType="com.tjpu.sp.model.environmentalprotection.workflowinfo.WorkFlowInfoVO" >
+    update T_BAS_WorkFlowInfo
+    set
+    FK_WorkFlowType=#{fkworkflowtype,jdbcType=VARCHAR},
+    workflowxml=#{workflowxml,jdbcType=VARCHAR},
+    CreateUser=#{createuser,jdbcType=VARCHAR},
+    CreateTime=#{createtime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where FK_WorkFlowType = #{fkworkflowtype}
+  </update>
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取工作流程信息
+      param:
+      date: 2021/05/07 18:05
+  -->
+  <select id="getWorkFlowInfoByParamMap" parameterType="map" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from T_BAS_WorkFlowInfo
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_WorkFlowInfo.PK_ID = #{pkid}
+        </if>
+      </where>
+  </select>
+</mapper>

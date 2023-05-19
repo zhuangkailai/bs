@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.RPFacilityNormalSummaryMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.RPFacilityNormalSummaryVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_ReportId" jdbcType="VARCHAR" property="fkReportid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="NUMERIC" property="fkMonitorpointtypecode" />
+    <result column="FK_FacilityId" jdbcType="VARCHAR" property="fkFacilityid" />
+    <result column="FacilityType" jdbcType="NUMERIC" property="facilitytype" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_ReportId, FK_MonitorPointTypeCode, FK_FacilityId, FacilityType, UpdateTime, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_RP_FacilityNormalSummary
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_RP_FacilityNormalSummary
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPFacilityNormalSummaryVO">
+    insert into T_RP_FacilityNormalSummary (PK_ID, FK_ReportId, FK_MonitorPointTypeCode, 
+      FK_FacilityId, FacilityType, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkReportid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=NUMERIC}, 
+      #{fkFacilityid,jdbcType=VARCHAR}, #{facilitytype,jdbcType=NUMERIC}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPFacilityNormalSummaryVO">
+    insert into T_RP_FacilityNormalSummary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkReportid != null">
+        FK_ReportId,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="fkFacilityid != null">
+        FK_FacilityId,
+      </if>
+      <if test="facilitytype != null">
+        FacilityType,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReportid != null">
+        #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFacilityid != null">
+        #{fkFacilityid,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitytype != null">
+        #{facilitytype,jdbcType=NUMERIC},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPFacilityNormalSummaryVO">
+    update T_RP_FacilityNormalSummary
+    <set>
+      <if test="fkReportid != null">
+        FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFacilityid != null">
+        FK_FacilityId = #{fkFacilityid,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitytype != null">
+        FacilityType = #{facilitytype,jdbcType=NUMERIC},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPFacilityNormalSummaryVO">
+    update T_RP_FacilityNormalSummary
+    set FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=NUMERIC},
+      FK_FacilityId = #{fkFacilityid,jdbcType=VARCHAR},
+      FacilityType = #{facilitytype,jdbcType=NUMERIC},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getNormalDataListByParam" parameterType="map" resultType="map">
+
+    SELECT
+      t4.PK_ID AS FacilityId,
+      t4.TreatmentNum,
+      t4.TreatmentName,
+    <if test="monitorpointtypecode!=null and monitorpointtypecode =='1'.toString()">
+      '污染防治设施' as FacilityType,
+    </if>
+    <if test="monitorpointtypecode!=null and monitorpointtypecode =='2'.toString()">
+      CASE WHEN t4.FacilityType = '1' THEN
+      '脱硫设施'
+      WHEN t4.FacilityType = '2' THEN
+      '脱销设施'
+      WHEN t4.FacilityType = '3' THEN
+      '除尘设施' ELSE '其他设施'
+      END AS FacilityType,
+    </if>
+      t2.ParamName,
+      t2.unit,
+      t3.Quantity,
+      t3.Remark
+    FROM
+    T_RP_FacilityNormalSummary t1
+    <if test="monitorpointtypecode!=null and monitorpointtypecode =='1'.toString()">
+        INNER JOIN T_GJ_WaterTreatmentFacility t4 ON t4.PK_ID = t1.FK_FacilityId
+    </if>
+    <if test="monitorpointtypecode!=null and monitorpointtypecode =='2'.toString()">
+        INNER JOIN T_GJ_GasTreatmentFacility t4 ON t4.PK_ID = t1.FK_FacilityId
+    </if>
+    INNER JOIN T_RP_FacilityNormalSummaryConfig t2 ON t1.FK_MonitorPointTypeCode= t2.FK_MonitorPointTypeCode
+    AND t1.FacilityType = t2.FacilityType
+    LEFT JOIN T_RP_FacilityNormalSummaryData t3 ON t3.FK_SumId = t1.PK_ID
+    AND t3.FK_ParamId = t2.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="reportid!=null and reportid !=''">
+        and t1.FK_ReportId = #{reportid}
+      </if>
+      <if test="monitorpointtypecode!=null and monitorpointtypecode !=''">
+        and t1.FK_MonitorPointTypeCode = #{monitorpointtypecode}
+      </if>
+    </trim>
+
+    ORDER BY
+    t4.TreatmentNum,
+    t4.TreatmentName,
+    t1.FacilityType,
+    t2.orderindex
+  </select>
+
+
+  <select id="getSpecialTimeGasPollutantByParam" parameterType="map" resultType="map">
+
+    select convert
+      ( varchar ( 10 ), t1.timedata, 120 ) timedata,
+      t1.pk_id,
+      t1.gastype,
+      t1.isover,
+      t1.overreason,
+      t1.permitflow,
+      t1.actualflow,
+      t2.outputcode,
+      t2.outputname,
+      t3.name pollutantname,
+      t1.remark
+      from
+      t_rp_specialtimegaspollutantinfo t1
+      inner join t_pwxk_gasoutputinfo t2 on t2.pk_id = t1.fk_outputid
+      inner join pub_code_pollutantfactor t3 on t3.code = t1.fk_pollutantcode
+      and t3.pollutanttype = '2'
+
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="reportid!=null and reportid !=''">
+        and t1.FK_ReportId = #{reportid}
+      </if>
+      <if test="timetype!=null and timetype !=''">
+        and t1.timetype = #{timetype}
+      </if>
+    </trim>
+    ORDER BY
+    t1.timedata desc
+  </select>
+
+
+</mapper>

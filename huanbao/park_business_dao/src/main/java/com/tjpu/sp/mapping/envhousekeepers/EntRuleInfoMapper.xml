@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.EntRuleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.EntRuleInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="FK_RuleTypeCode" jdbcType="VARCHAR" property="fkRuletypecode"/>
+        <result column="RuleName" jdbcType="VARCHAR" property="rulename"/>
+        <result column="BriefContent" jdbcType="VARCHAR" property="briefcontent"/>
+        <result column="FK_FileId" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FK_RuleTypeCode, RuleName, BriefContent, FK_FileId, UpdateUser, 
+    UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_GJ_EntRuleInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_EntRuleInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.EntRuleInfoVO">
+    insert into T_GJ_EntRuleInfo (PK_ID, FK_PollutionID, FK_RuleTypeCode, 
+      RuleName, BriefContent, FK_FileId, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkRuletypecode,jdbcType=VARCHAR}, 
+      #{rulename,jdbcType=VARCHAR}, #{briefcontent,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntRuleInfoVO">
+        insert into T_GJ_EntRuleInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkRuletypecode != null">
+                FK_RuleTypeCode,
+            </if>
+            <if test="rulename != null">
+                RuleName,
+            </if>
+            <if test="briefcontent != null">
+                BriefContent,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileId,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRuletypecode != null">
+                #{fkRuletypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="rulename != null">
+                #{rulename,jdbcType=VARCHAR},
+            </if>
+            <if test="briefcontent != null">
+                #{briefcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntRuleInfoVO">
+        update T_GJ_EntRuleInfo
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRuletypecode != null">
+                FK_RuleTypeCode = #{fkRuletypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="rulename != null">
+                RuleName = #{rulename,jdbcType=VARCHAR},
+            </if>
+            <if test="briefcontent != null">
+                BriefContent = #{briefcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileId = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.EntRuleInfoVO">
+    update T_GJ_EntRuleInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_RuleTypeCode = #{fkRuletypecode,jdbcType=VARCHAR},
+      RuleName = #{rulename,jdbcType=VARCHAR},
+      BriefContent = #{briefcontent,jdbcType=VARCHAR},
+      FK_FileId = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <select id="getEntRuleListDataByParamMap" parameterType="map" resultType="map">
+        select
+        t1.pk_id,
+        t2.code ruletypecode,
+        t2.name ruletypename,
+        t1.briefcontent,
+        t1.fk_fileid,
+        t1.rulename
+        from
+        t_gj_entruleinfo t1
+        left join pub_code_ruletype t2 on t1.fk_ruletypecode = t2.code
+        <where>
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.FK_PollutionID = #{pollutionid}
+            </if>
+            <if test="ruletypecode!=null and ruletypecode!='' ">
+                and t2.code = #{ruletypecode}
+            </if>
+            <if test="rulename!=null and rulename!='' ">
+                and rulename like concat('%', #{rulename},'%')
+            </if>
+        </where>
+        order by rulename
+    </select>
+    <select id="getAllRuleTypeList" parameterType="map" resultType="map">
+       SELECT
+        code,
+        name,
+        parentcode,
+        orderindex
+      FROM
+        pub_code_ruletype
+      order by orderindex
+  </select>
+
+    <select id="getRuleTypeNum" parameterType="map" resultType="map">
+      select
+         t1.fk_ruletypecode as  code,
+         count(t1.pk_id) num
+        from
+            t_gj_entruleinfo t1
+        left join pub_code_ruletype t2 on t1.fk_ruletypecode = t2.code
+        <where>
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.FK_PollutionID = #{pollutionid}
+            </if>
+        </where>
+         group by t1.fk_ruletypecode
+  </select>
+
+
+</mapper>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.EarlyWarningSetMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_OutPutID" jdbcType="VARCHAR" property="fkOutputid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="FK_AlarmLevelCode" jdbcType="VARCHAR" property="fkAlarmlevelcode" />
+    <result column="ConcenAlarmMinValue" jdbcType="DOUBLE" property="concenalarmminvalue" />
+    <result column="ConcenAlarmMaxValue" jdbcType="DOUBLE" property="concenalarmmaxvalue" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FK_OutPutID, FK_PollutantCode, FK_AlarmLevelCode, ConcenAlarmMinValue, 
+    ConcenAlarmMaxValue, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EarlyWarningSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EarlyWarningSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+    insert into T_BAS_EarlyWarningSet (PK_ID, FK_PollutionID, FK_OutPutID, 
+      FK_PollutantCode, FK_AlarmLevelCode, ConcenAlarmMinValue, 
+      ConcenAlarmMaxValue, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkOutputid,jdbcType=VARCHAR}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{fkAlarmlevelcode,jdbcType=VARCHAR}, #{concenalarmminvalue,jdbcType=DOUBLE}, 
+      #{concenalarmmaxvalue,jdbcType=DOUBLE}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+    insert into T_BAS_EarlyWarningSet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutID,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="fkAlarmlevelcode != null">
+        FK_AlarmLevelCode,
+      </if>
+      <if test="concenalarmminvalue != null">
+        ConcenAlarmMinValue,
+      </if>
+      <if test="concenalarmmaxvalue != null">
+        ConcenAlarmMaxValue,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkAlarmlevelcode != null">
+        #{fkAlarmlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="concenalarmminvalue != null">
+        #{concenalarmminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="concenalarmmaxvalue != null">
+        #{concenalarmmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+    update T_BAS_EarlyWarningSet
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkAlarmlevelcode != null">
+        FK_AlarmLevelCode = #{fkAlarmlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="concenalarmminvalue != null">
+        ConcenAlarmMinValue = #{concenalarmminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="concenalarmmaxvalue != null">
+        ConcenAlarmMaxValue = #{concenalarmmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+    update T_BAS_EarlyWarningSet
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_AlarmLevelCode = #{fkAlarmlevelcode,jdbcType=VARCHAR},
+      ConcenAlarmMinValue = #{concenalarmminvalue,jdbcType=DOUBLE},
+      ConcenAlarmMaxValue = #{concenalarmmaxvalue,jdbcType=DOUBLE},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 批量新增报警关联数据
+      param:
+      date: 2019/05/27 18:02
+  -->
+  <insert id="insertSelectives" parameterType="java.util.List">
+    insert into T_BAS_EarlyWarningSet (PK_ID, FK_PollutionID, FK_OutPutID,
+      FK_PollutantCode, FK_AlarmLevelCode, ConcenAlarmMinValue,
+      ConcenAlarmMaxValue, UpdateTime, UpdateUser
+      )
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId}, #{item.fkPollutionid}, #{item.fkOutputid},#{item.fkPollutantcode}, #{item.fkAlarmlevelcode}, #{item.concenalarmminvalue,jdbcType=DOUBLE},
+      #{item.concenalarmmaxvalue,jdbcType=DOUBLE}, #{item.updatetime}, #{item.updateuser})
+    </foreach>
+  </insert>
+
+  <!--
+      author:chengzq
+      description: 通过排口id删除报警关联数据
+      param:
+      date: 2019/05/27 19:11
+  -->
+  <delete id="deleteByOutPutID" parameterType="map">
+    delete from T_BAS_EarlyWarningSet
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="outputid!=null and outputid!='' ">
+        and FK_OutPutID=#{outputid}
+      </if>
+      <if test="pollutantcode!=null and pollutantcode!='' ">
+        and FK_PollutantCode=#{pollutantcode}
+      </if>
+    </trim>
+  </delete>
+<!-- lip 2021/5/31 11:57 -->
+  <select id="getMonitorPointDataTimeSetListByParam" parameterType="map" resultType="map">
+
+    SELECT
+      t.*,
+      t4.name AS monitorpointtypename,
+      t5.code AS pollutantcode,
+      t5.name AS pollutantname,
+      t5.orderindex
+    FROM
+      (
+      SELECT
+      t1.pk_dataid pkid,
+      t1.fk_pollutantcode,
+      t2.shortername+ '-' + t3.outputname AS monitorpointname,
+      t3.fk_monitorpointtypecode AS monitorpointtypecode,
+      t1.alarmcontroltimes,
+      t1.continuityvaluetimes,
+      t1.zerovaluetimes
+      FROM
+      t_bas_gasoutputpollutantset t1
+      INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+      INNER JOIN t_bas_gasoutputinfo t3 ON t3.pk_id = t1.fk_gasoutputid UNION
+      SELECT
+      t1.pk_dataid pkid,
+      t1.fk_pollutantcode,
+      t2.shortername+ '-' + t3.monitorpointname AS monitorpointname,
+      t3.fk_monitorpointtypecode AS monitorpointtypecode,
+      t1.alarmcontroltimes,
+      t1.continuityvaluetimes,
+      t1.zerovaluetimes
+      FROM
+      t_bas_gasoutputpollutantset t1
+      INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+      INNER JOIN t_bas_unorganizedmonitorpointinfo t3 ON t3.pk_id = t1.fk_gasoutputid UNION
+      SELECT
+      t1.pk_dataid pkid,
+      t1.fk_pollutantcode,
+      t2.shortername+ '-' + t3.outputname AS monitorpointname,
+      CASE WHEN t3.outputtype = 3 THEN
+      37 ELSE 1
+      END AS monitorpointtypecode,
+      t1.alarmcontroltimes,
+      t1.continuityvaluetimes,
+      t1.zerovaluetimes
+      FROM
+      t_bas_wateroutputpollutantset t1
+      INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+      INNER JOIN t_bas_wateroutputinfo t3 ON t3.pk_id = t1.fk_wateroutputid UNION
+      SELECT
+      t1.pk_dataid pkid,
+      t1.fk_pollutantcode,
+      t3.monitorpointname,
+      t3.fk_monitorpointtypecode AS monitorpointtypecode,
+      t1.alarmcontroltimes,
+      t1.continuityvaluetimes,
+      t1.zerovaluetimes
+      FROM
+      t_bas_othermonitorpointpollutantset t1
+      INNER JOIN t_bas_othermonitorpoint t3 ON t3.pk_monitorpointid = t1.fk_othermonintpointid UNION
+      SELECT
+      t1.pk_dataid pkid,
+      t1.fk_pollutantcode,
+      t3.monitorpointname,
+      '5' AS monitorpointtypecode,
+      t1.alarmcontroltimes,
+      t1.continuityvaluetimes,
+      t1.zerovaluetimes
+      FROM
+      t_bas_airstationpollutantset t1
+      INNER JOIN t_bas_airmonitorstation t3 ON t3.pk_airid = t1.fk_airmonintpointid UNION
+      SELECT
+      t1.pk_dataid pkid,
+      t1.fk_pollutantcode,
+      t3.monitorpointname,
+      '6' AS monitorpointtypecode,
+      t1.alarmcontroltimes,
+      t1.continuityvaluetimes,
+      t1.zerovaluetimes
+      FROM
+      t_bas_waterstationpollutantset t1
+      INNER JOIN t_bas_waterstationinfo t3 ON t3.pk_waterstationid = t1.fk_waterpointid
+      ) t
+    INNER JOIN pub_code_monitorpointtype t4 ON t4.code = t.monitorpointtypecode
+    AND t4.isused = '1'
+    INNER JOIN pub_code_pollutantfactor t5 ON t5.code = t.fk_pollutantcode
+    AND t5.isused = '1'
+    AND t5.pollutanttype = t.monitorpointtypecode
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointname != null and monitorpointname!=''">
+        AND t.monitorpointname LIKE CONCAT('%',#{monitorpointname},'%')
+      </if>
+      <if test="pollutantname!=null and pollutantname != ''">
+        AND t5.name LIKE CONCAT('%',#{pollutantname},'%')
+      </if>
+      <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+        and t.monitorpointtypecode in
+        <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER BY t.monitorpointtypecode,t.monitorpointname,t5.OrderIndex
+  </select>
+
+
+  <!-- lip 2021/5/31 11:57 -->
+  <select id="getTimeDataSetByParam" parameterType="map" resultType="map">
+    select
+      dgimn,
+      realtimetime,
+      minutetime,
+      hourtime
+    from
+      t_bas_monitorpointdatatimeset
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype != null and monitorpointtype!=''">
+        AND fk_monitorpointtypecode =  #{monitorpointtype}
+      </if>
+    </trim>
+  </select>
+  
+  
+  
+  
+</mapper>

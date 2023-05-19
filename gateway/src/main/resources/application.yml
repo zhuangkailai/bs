@@ -1,0 +1,24 @@
+server:
+  port: 7001
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: businessSystem
+          uri: http://127.0.0.1:7002/businessSystem
+          predicates:
+            - Path=/businessSystem/**
+        - id: authSystem
+          uri: http://127.0.0.1:7003/authSystem
+          predicates:
+            - Path=/authSystem/**
+  application:
+    name: gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:2000/eureka/
+    register-with-eureka: false
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipaddress}:${server.port}

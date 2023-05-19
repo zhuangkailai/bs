@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.knowledge.TrainInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.knowledge.TrainInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="TrainTitle" jdbcType="VARCHAR" property="traintitle" />
+    <result column="FK_TrainTypeCode" jdbcType="VARCHAR" property="fkTraintypecode" />
+    <result column="TrainPeople" jdbcType="VARCHAR" property="trainpeople" />
+    <result column="TrainDes" jdbcType="VARCHAR" property="traindes" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, TrainTitle, FK_TrainTypeCode, TrainPeople, TrainDes, FK_FileID, UpdateTime, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_TrainInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TrainInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.common.knowledge.TrainInfoVO">
+    insert into T_BAS_TrainInfo (PK_ID, TrainTitle, FK_TrainTypeCode, 
+      TrainPeople, TrainDes, FK_FileID, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{traintitle,jdbcType=VARCHAR}, #{fkTraintypecode,jdbcType=VARCHAR}, 
+      #{trainpeople,jdbcType=VARCHAR}, #{traindes,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.knowledge.TrainInfoVO">
+    insert into T_BAS_TrainInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="traintitle != null">
+        TrainTitle,
+      </if>
+      <if test="fkTraintypecode != null">
+        FK_TrainTypeCode,
+      </if>
+      <if test="trainpeople != null">
+        TrainPeople,
+      </if>
+      <if test="traindes != null">
+        TrainDes,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="traintitle != null">
+        #{traintitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTraintypecode != null">
+        #{fkTraintypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="trainpeople != null">
+        #{trainpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="traindes != null">
+        #{traindes,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.knowledge.TrainInfoVO">
+    update T_BAS_TrainInfo
+    <set>
+      <if test="traintitle != null">
+        TrainTitle = #{traintitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTraintypecode != null">
+        FK_TrainTypeCode = #{fkTraintypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="trainpeople != null">
+        TrainPeople = #{trainpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="traindes != null">
+        TrainDes = #{traindes,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.knowledge.TrainInfoVO">
+    update T_BAS_TrainInfo
+    set TrainTitle = #{traintitle,jdbcType=VARCHAR},
+      FK_TrainTypeCode = #{fkTraintypecode,jdbcType=VARCHAR},
+      TrainPeople = #{trainpeople,jdbcType=VARCHAR},
+      TrainDes = #{traindes,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+    t1.pk_id,
+    t1.fk_fileid,
+    t1.TrainPeople,
+    t1.TrainDes,
+    t1.TrainTitle,
+    t2.name as traintypename,
+    t1.FK_TrainTypeCode as traintypecode,
+    CONVERT ( VARCHAR ( 19 ), t1.updatetime, 120 ) updatetime
+    from
+    T_BAS_TrainInfo t1
+    left join pub_code_TrainType t2 on t1.FK_TrainTypeCode = t2.code
+    <where>
+      <if test="traintitle!=null and traintitle!='' ">
+        and t1.TrainTitle like concat('%', #{traintitle},'%')
+      </if>
+      <if test="traintypes!=null and traintypes.size>0">
+        and t2.code in
+        <foreach collection="traintypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by t1.updatetime DESC
+  </select>
+
+
+  <!--获取编辑回显或详情数据 lip 2021/8/30 9:37 -->
+  <select id="getEditDataById" parameterType="String" resultType="map">
+      select
+      t1.pk_id as pkId,
+      t1.fk_fileid as fkfileid,
+      t1.TrainTitle,
+      t1.TrainDes,
+      t1.TrainPeople,
+      t2.name as traintypename,
+      t1.FK_TrainTypeCode as fktraintypecode,
+      CONVERT ( VARCHAR ( 10 ), t1.updatetime, 120 ) updatetime
+      from
+      T_BAS_TrainInfo t1
+      left join pub_code_TrainType t2 on t1.FK_TrainTypeCode = t2.code
+      where t1.pk_id = #{id}
+  </select>
+
+  <!--获取已学习人员 lip 2021/8/30 9:37 -->
+  <select id="getStudyUserListById" parameterType="String" resultType="map">
+      select
+        t2.user_id,
+        t2.user_name,
+        convert ( varchar ( 19 ), t1.studytime, 120 ) studytime
+      from
+        t_bas_trainuserinfo t1
+        inner join base_userinfo t2 on t1.fk_userid = t2.user_id
+      where t1.FK_TrainId = #{id}
+      order by t1.studytime
+  </select>
+
+</mapper>

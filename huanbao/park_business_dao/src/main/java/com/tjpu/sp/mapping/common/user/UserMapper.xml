@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.UserMapper">
+	<resultMap id="BaseResultMap" type="map">
+		<id column="PollutionName" jdbcType="VARCHAR" property="pollutionname"/>
+		<collection property="users" ofType="map" javaType="java.util.Set">
+			<result column="username" jdbcType="VARCHAR" property="username"/>
+			<result column="positions" jdbcType="VARCHAR" property="positions"/>
+			<result column="Telephone" jdbcType="NUMERIC" property="Telephone"/>
+		</collection>
+	</resultMap>
+	<resultMap id="UserPinYinMailListResultMap" type="map">
+		<id column="User_Sort" jdbcType="VARCHAR" property="usersort"/>
+		<collection property="users" ofType="map" javaType="java.util.Set">
+			<id column="User_ID" jdbcType="VARCHAR" property="userid"/>
+			<result column="User_Name" jdbcType="VARCHAR" property="username"/>
+			<result column="Phone" jdbcType="VARCHAR" property="phone"/>
+			<collection property="departments" ofType="string" javaType="java.util.Set">
+				<id column="Organization_Name" jdbcType="VARCHAR" property="departmentname"/>
+			</collection>
+		</collection>
+	</resultMap>
+	<resultMap id="UserDepartmentMailListResultMap" type="map">
+		<id column="Organization_Name" jdbcType="VARCHAR" property="departmentname"/>
+		<collection property="users" ofType="map" javaType="java.util.Set">
+			<id column="User_ID" jdbcType="VARCHAR" property="userid"/>
+			<result column="User_Name" jdbcType="VARCHAR" property="username"/>
+			<result column="Phone" jdbcType="VARCHAR" property="phone"/>
+		</collection>
+	</resultMap>
+
+	<resultMap id="AllUserDepartmentMailListResultMap" type="map">
+		<discriminator javaType="String" column="ishaveorganization">
+			<case value="yes" resultMap="UserDepartmenttResultMap"/>
+			<case value="no" resultMap="UserResultMap"/>
+		</discriminator>
+	</resultMap>
+
+	<resultMap id="UserDepartmenttResultMap" type="map">
+		<id column="Organization_ID" jdbcType="VARCHAR" property="id"/>
+		<result column="Organization_Name" jdbcType="VARCHAR" property="name"/>
+		<result column="Organization" jdbcType="VARCHAR" property="flag"/>
+		<collection property="children" ofType="map" javaType="java.util.Set">
+			<id column="User_ID" jdbcType="VARCHAR" property="id"/>
+			<result column="User_Name" jdbcType="VARCHAR" property="name"/>
+			<result column="Phone" jdbcType="VARCHAR" property="phone"/>
+			<result column="people" jdbcType="VARCHAR" property="flag"/>
+		</collection>
+	</resultMap>
+	<resultMap id="UserResultMap" type="map">
+		<id column="User_ID" jdbcType="VARCHAR" property="id"/>
+		<result column="User_Name" jdbcType="VARCHAR" property="name"/>
+		<result column="Phone" jdbcType="VARCHAR" property="phone"/>
+		<result column="people" jdbcType="VARCHAR" property="flag"/>
+	</resultMap>
+
+    <select id="getDepartments" resultType="java.util.Map">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					'2' AS flag,
+					Base_UserInfo.User_Name AS name,
+					Base_UserInfo.User_ID AS id,
+					Base_UserInfo.Phone AS phone,
+					Base_Organization.Organization_ID AS parentId
+				FROM
+					Base_Organization
+				JOIN Base_StaffOrganize ON Base_Organization.Organization_ID = Base_StaffOrganize.Organization_ID
+				JOIN Base_UserInfo ON Base_UserInfo.User_ID = Base_StaffOrganize.User_ID
+				WHERE Base_UserInfo.UserType = 0
+				UNION ALL
+					SELECT
+						'1' AS flag,
+						Base_Organization.Organization_Name AS name,
+						Base_Organization.Organization_ID AS id,
+						'' as phone,
+						Base_Organization.parentId
+					FROM
+						Base_Organization
+			) t
+		ORDER BY
+			t.flag,
+			t.name
+    </select>
+
+
+	<select id="getUserInfosByDepartmentId" parameterType="map" resultType="map">
+		SELECT
+		Base_UserInfo.User_Name AS name,
+		Base_UserInfo.User_ID AS id
+		FROM
+		Base_Organization
+		JOIN Base_StaffOrganize ON Base_Organization.Organization_ID = Base_StaffOrganize.Organization_ID
+		JOIN Base_UserInfo ON Base_UserInfo.User_ID = Base_StaffOrganize.User_ID
+		<where>
+			<if test="departmentid!=null and departmentid!=''">
+				and 		Base_Organization.Organization_ID = #{departmentid}
+			</if>
+
+		</where>
+	</select>
+
+	<select id="getUserInfoByUserAccount" parameterType="String" resultType="map">
+		SELECT
+		Base_UserInfo.User_Name AS name,
+		Base_UserInfo.User_ID AS id
+		FROM
+		 Base_UserInfo
+		WHERE
+		 User_Account = #{useraccount}
+	</select>
+
+	<select id="getAllUserInfo" resultType="map">
+		select
+			Base_UserInfo.User_Name AS name,
+			Base_UserInfo.User_ID AS id
+		from
+		    Base_UserInfo
+	</select>
+
+
+	<select id="getUserInfoByAccount" resultType="map">
+		select
+			Base_UserInfo.Phone AS phone
+		from
+		    Base_UserInfo
+		where User_Account = #{userAccount}
+	</select>
+
+	<!--
+	 * @author: lip
+	 * @date: 2020/6/2 0002 下午 5:16
+	 * @Description: 更新用户密码+备注信息
+	 * @updateUser:
+	 * @updateDate:
+	 * @updateDescription:
+	-->
+	<update id="updatePassword" parameterType="map">
+		update Base_UserInfo set
+		 User_Pwd = #{userPwd,jdbcType=NVARCHAR},
+		 User_Remark = #{userRemark,jdbcType=NVARCHAR}
+		where User_Account = #{userAccount}
+	</update>
+
+
+	<!--
+	    author:chengzq
+	    description: 获取企业法人，环保负责人，通讯录信息
+	    param:
+	    date: 2020/12/14 16:32
+	-->
+	<select id="getMailListInfo" resultMap="BaseResultMap" parameterType="map">
+		SELECT
+			*
+		FROM
+			(
+			SELECT
+				PollutionName,
+				EnvironmentalManager username,
+				'环保安全负责人' positions,
+				LinkManPhone Telephone
+			FROM
+				T_BAS_Pollution UNION
+			SELECT
+				PollutionName,
+				CorporationName,
+				'法人' positions,
+				SafetyMobilePhone
+			FROM
+				T_BAS_Pollution UNION
+			SELECT
+				ContactUnit,
+				PeopleName,
+				Positions,
+				Telephone
+			FROM
+				T_BAS_MailListInfo
+			) t
+		WHERE
+			len( username ) > 0
+			AND len( Telephone ) > 0
+			<if test="field!=null and field!=''">
+				and (PollutionName like concat('%',#{field},'%') or username like concat('%',#{field},'%'))
+			</if>
+		ORDER BY
+			pollutionname
+	</select>
+
+
+	<!--
+	    author:chengzq
+	    description: 获取用户通讯录按字母
+	    param:
+	    date: 2020/12/14 17:00
+	-->
+	<select id="getPinYinUserMailListInfo" parameterType="map" resultMap="UserPinYinMailListResultMap">
+		SELECT
+			Base_UserInfo.User_ID,
+			User_Name,
+			case when len(User_Sort)>0 then UPPER(SUBSTRING(User_Sort, 1, 1)) else '' end User_Sort,
+			Phone,
+			Organization_Name
+		FROM
+			Base_UserInfo
+			LEFT JOIN Base_StaffOrganize on Base_UserInfo.User_ID=Base_StaffOrganize.User_ID
+			LEFT JOIN Base_Organization on Base_Organization.Organization_ID=Base_StaffOrganize.Organization_ID
+		where  len(Phone)>0
+		<if test="field!=null and field!=''">
+			and (Organization_Name like concat('%',#{field},'%') or User_Name like concat('%',#{field},'%'))
+		</if>
+		order by UPPER(SUBSTRING(User_Sort, 1, 1))
+	</select>
+
+
+	<!--
+	    author:chengzq
+	    description: 获取用户通讯录按部门
+	    param:
+	    date: 2020/12/15 15:54
+	-->
+	<select id="getDepartmentUserMailListInfo" parameterType="map" resultMap="UserDepartmentMailListResultMap">
+		SELECT
+			Base_UserInfo.User_ID,
+			User_Name,
+			Phone,
+			Organization_Name
+		FROM
+			Base_UserInfo
+			LEFT JOIN Base_StaffOrganize on Base_UserInfo.User_ID=Base_StaffOrganize.User_ID and len( Phone ) > 0
+			right JOIN Base_Organization on Base_Organization.Organization_ID=Base_StaffOrganize.Organization_ID
+			<if test="field!=null and field!=''">
+				and (Organization_Name like concat('%',#{field},'%') or User_Name like concat('%',#{field},'%'))
+			</if>
+		order by Organization_Name
+	</select>
+
+	<select id="getAllDepartmentUserMailListInfo" parameterType="map" resultMap="AllUserDepartmentMailListResultMap">
+		SELECT
+		Base_UserInfo.User_ID,
+		User_Name,
+		Phone,
+		case when Base_Organization.Organization_ID is null then 'no' else 'yes' end ishaveorganization,
+		'1' Organization,
+		'2' people,
+		Base_Organization.Organization_ID,
+		Organization_Name
+		FROM
+		Base_UserInfo
+		LEFT JOIN Base_StaffOrganize on Base_UserInfo.User_ID=Base_StaffOrganize.User_ID
+		LEFT JOIN Base_Organization on Base_Organization.Organization_ID=Base_StaffOrganize.Organization_ID
+		<if test="field!=null and field!=''">
+			and (Organization_Name like concat('%',#{field},'%') or User_Name like concat('%',#{field},'%'))
+		</if>
+		order by ishaveorganization desc,Organization_Name
+	</select>
+
+	<select id="getDevOpsUserDepartments" parameterType="map" resultType="java.util.Map">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		'2' AS flag,
+		Base_UserInfo.User_Name AS name,
+		Base_UserInfo.User_ID AS id,
+		Base_UserInfo.Phone AS phone,
+		Base_Organization.Organization_ID AS parentId
+		FROM
+		Base_Organization
+		JOIN Base_StaffOrganize ON Base_Organization.Organization_ID = Base_StaffOrganize.Organization_ID
+		JOIN Base_UserInfo ON Base_UserInfo.User_ID = Base_StaffOrganize.User_ID
+		WHERE Base_UserInfo.UserType = 0
+		<if test="isdevopspeople!=null and isdevopspeople!=''">
+			AND Base_UserInfo.IsDevOpsPeople = #{isdevopspeople}
+		</if>
+		UNION ALL
+		SELECT
+		'1' AS flag,
+		Base_Organization.Organization_Name AS name,
+		Base_Organization.Organization_ID AS id,
+		'' as phone,
+		Base_Organization.parentId
+		FROM
+		Base_Organization
+		) t
+		ORDER BY
+		t.flag,
+		t.name
+	</select>
+
+	<!-- author:xsm description: 获取分派人信息 date: 2021/07/27 13:52-->
+	<select id="getTaskAssignUserData"  parameterType="map" resultType="java.util.Map">
+		SELECT DISTINCT t2.User_ID,t2.User_Name,t2.Phone
+		FROM T_BAS_PatrolTeamEntOrPoint t JOIN T_BAS_PatrolTeam t1 ON t.FK_TeamId = t1.PK_ID
+		JOIN Base_UserInfo t2 ON t1.FK_UserId = t2.User_ID
+		WHERE
+		   t2.Phone IS NOT NULL
+		<if test="pointorentid!=null and pointorentid!='' ">
+			and (t.FK_PollutionId = #{pointorentid} or t.FK_MonitorPointId = #{pointorentid} )
+		</if>
+		<if test="monitorpointtype!=null and monitorpointtype!='' ">
+			and t.FK_MonitorPointTypeCode = #{monitorpointtype}
+		</if>
+	</select>
+
+	<!-- author:xsm description: 根据菜单code获取所有拥有该按钮权限的用户 date: 2021/07/27 13:52-->
+	<select id="getAllUserInfoByMenuCode" parameterType="map" resultType="java.util.Map">
+		SELECT
+		Base_UserInfo.User_ID,
+		Base_UserInfo.User_Name
+		FROM
+		Base_UserInfo
+		JOIN Base_UserRight ON Base_UserInfo.User_ID = Base_UserRight.User_ID
+		JOIN Base_SysMenu ON Base_UserRight.Menu_Id = Base_SysMenu.Menu_Id
+		WHERE
+		Base_SysMenu.Menu_Code = #{menucode}
+	</select>
+
+	<!--获取用户业务操作数据权限 lip 2022/9/1 16:38 -->
+	<select id="getUserModuleDataListByParam" parameterType="map" resultType="map">
+		select
+		t.pk_id moduleitemid,
+		t.moduleitemcode,
+		t.moduleitemname,
+		t.moduletype,
+		t1.fk_userid as selectid,
+		t.orderindex
+		from
+		t_config_moduletype t
+		left join t_bas_usermodulerelationdata t1 on t.pk_id = t1.fk_moduleid
+		<if test="userid!=null and userid!=''">
+			and t1.fk_userid = #{userid}
+		</if>
+		order by t.orderindex
+	</select>
+	<delete id="deleteModuleDataByUserid" parameterType="java.lang.String">
+		delete from t_bas_usermodulerelationdata
+		where fk_userid = #{userid,jdbcType=VARCHAR}
+    </delete>
+
+
+	<insert id="batchAddModuleData">
+		<if test="list!=null and list.size>0">
+			insert into t_bas_usermodulerelationdata (
+			PK_ID,
+			 FK_UserID,
+			 FK_ModuleId,
+			UpdateTime,
+			UpdateUser)
+			VALUES
+			<foreach collection="list" item="item" index="index" separator=",">
+				(#{item.pkId,jdbcType=VARCHAR},
+				#{item.fkUserid,jdbcType=VARCHAR},
+				 #{item.moduleid,jdbcType=VARCHAR},
+				 #{item.updatetime,jdbcType=TIMESTAMP},
+				#{item.updateuser,jdbcType=VARCHAR})
+			</foreach>
+		</if>
+	</insert>
+
+</mapper>

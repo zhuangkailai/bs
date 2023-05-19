@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.constructionproject.ApprovalMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.constructionproject.ApprovalVO">
+    <id column="PK_ApprovalId" jdbcType="VARCHAR" property="pkApprovalid" />
+    <result column="FK_PollutionId" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="ConstructionUnitName" jdbcType="VARCHAR" property="constructionunitname" />
+    <result column="EiaunitName" jdbcType="VARCHAR" property="eiaunitname" />
+    <result column="ProjectName" jdbcType="VARCHAR" property="projectname" />
+    <result column="FK_RegionCode" jdbcType="VARCHAR" property="fkRegioncode" />
+    <result column="FK_ApprovalClassCode" jdbcType="VARCHAR" property="fkApprovalclasscode" />
+    <result column="FK_ProjectNatureCode" jdbcType="VARCHAR" property="fkProjectnaturecode" />
+    <result column="FK_IndustryTypeCode" jdbcType="VARCHAR" property="fkIndustrytypecode" />
+    <result column="ProjectAddress" jdbcType="VARCHAR" property="projectaddress" />
+    <result column="Longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="Latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="AcceptNumber" jdbcType="VARCHAR" property="acceptnumber" />
+    <result column="AcceptTime" jdbcType="VARCHAR" property="accepttime" />
+    <result column="ApprovalTime" jdbcType="VARCHAR" property="approvaltime" />
+    <result column="ApprovalNumber" jdbcType="VARCHAR" property="approvalnumber" />
+    <result column="FK_AuditUnitCode" jdbcType="VARCHAR" property="fkAuditunitcode" />
+    <result column="ReplyFileID" jdbcType="VARCHAR" property="replyfileid" />
+    <result column="ReportFileID" jdbcType="VARCHAR" property="reportfileid" />
+    <result column="AuditFileID" jdbcType="VARCHAR" property="auditfileid" />
+    <result column="ProjectInvestment" jdbcType="DOUBLE" property="projectinvestment" />
+    <result column="EnvironmentInvestment" jdbcType="DOUBLE" property="environmentinvestment" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="CheckTime" jdbcType="VARCHAR" property="checktime" />
+    <result column="CheckAcceptNumber" jdbcType="VARCHAR" property="checkacceptnumber" />
+    <result column="CheckApprovalNumber" jdbcType="VARCHAR" property="checkapprovalnumber" />
+    <result column="FK_CheckFileID" jdbcType="VARCHAR" property="fkcheckfileid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ApprovalId, FK_PollutionId, ConstructionUnitName, EiaunitName, ProjectName, FK_RegionCode, 
+    FK_ApprovalClassCode, FK_ProjectNatureCode, FK_IndustryTypeCode, ProjectAddress, 
+    Longitude, Latitude, AcceptNumber, AcceptTime, ApprovalTime, ApprovalNumber, FK_AuditUnitCode, 
+    ReplyFileID, ReportFileID, AuditFileID, ProjectInvestment, EnvironmentInvestment, 
+    Remark, UpdateTime,UpdateUser,CheckTime,CheckAcceptNumber,CheckApprovalNumber,FK_CheckFileID
+  </sql>
+  <!--回显-->
+  <sql id="Base_Column_List_Echo">
+    PK_ApprovalId, FK_PollutionId, ConstructionUnitName, EiaunitName, ProjectName, FK_RegionCode,
+    FK_ApprovalClassCode, FK_ProjectNatureCode, FK_IndustryTypeCode, ProjectAddress,
+    Longitude, Latitude, AcceptNumber, CONVERT(varchar(10),AcceptTime,120) AcceptTime, CONVERT(varchar(10),ApprovalTime,120) ApprovalTime, ApprovalNumber, FK_AuditUnitCode,
+    ReplyFileID, ReportFileID, AuditFileID, ProjectInvestment, EnvironmentInvestment,
+    Remark, CONVERT(varchar(10),UpdateTime,120) UpdateTime,UpdateUser, CONVERT(varchar(10),CheckTime,120) CheckTime,
+    checkacceptnumber,checkapprovalnumber,FK_CheckFileID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_Echo" />
+    from T_Project_Approval
+    where PK_ApprovalId = #{pkApprovalid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_Project_Approval
+    where PK_ApprovalId = #{pkApprovalid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.constructionproject.ApprovalVO">
+    insert into T_Project_Approval (PK_ApprovalId, FK_PollutionId, ConstructionUnitName, 
+      EiaunitName, ProjectName, FK_RegionCode, 
+      FK_ApprovalClassCode, FK_ProjectNatureCode, 
+      FK_IndustryTypeCode, ProjectAddress, Longitude, 
+      Latitude, AcceptNumber, AcceptTime, 
+      ApprovalTime, ApprovalNumber, FK_AuditUnitCode, 
+      ReplyFileID, ReportFileID, AuditFileID, 
+      ProjectInvestment, EnvironmentInvestment, 
+      Remark, UpdateTime,UpdateUser,CheckTime,CheckAcceptNumber,CheckApprovalNumber,FK_CheckFileID)
+    values (#{pkApprovalid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{constructionunitname,jdbcType=VARCHAR}, 
+      #{eiaunitname,jdbcType=VARCHAR}, #{projectname,jdbcType=VARCHAR}, #{fkRegioncode,jdbcType=VARCHAR}, 
+      #{fkApprovalclasscode,jdbcType=VARCHAR}, #{fkProjectnaturecode,jdbcType=VARCHAR}, 
+      #{fkIndustrytypecode,jdbcType=VARCHAR}, #{projectaddress,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{acceptnumber,jdbcType=VARCHAR}, #{accepttime,jdbcType=VARCHAR},
+      #{approvaltime,jdbcType=VARCHAR}, #{approvalnumber,jdbcType=VARCHAR}, #{fkAuditunitcode,jdbcType=VARCHAR},
+      #{replyfileid,jdbcType=VARCHAR}, #{reportfileid,jdbcType=VARCHAR}, #{auditfileid,jdbcType=VARCHAR}, 
+      #{projectinvestment,jdbcType=DOUBLE}, #{environmentinvestment,jdbcType=DOUBLE}, 
+      #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{checktime,jdbcType=VARCHAR}
+      , #{checkacceptnumber,jdbcType=VARCHAR}, #{checkapprovalnumber,jdbcType=VARCHAR}, #{fkcheckfileid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.constructionproject.ApprovalVO">
+    insert into T_Project_Approval
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkApprovalid != null">
+        PK_ApprovalId,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionId,
+      </if>
+      <if test="constructionunitname != null">
+        ConstructionUnitName,
+      </if>
+      <if test="eiaunitname != null">
+        EiaunitName,
+      </if>
+      <if test="projectname != null">
+        ProjectName,
+      </if>
+      <if test="fkRegioncode != null">
+        FK_RegionCode,
+      </if>
+      <if test="fkApprovalclasscode != null">
+        FK_ApprovalClassCode,
+      </if>
+      <if test="fkProjectnaturecode != null">
+        FK_ProjectNatureCode,
+      </if>
+      <if test="fkIndustrytypecode != null">
+        FK_IndustryTypeCode,
+      </if>
+      <if test="projectaddress != null">
+        ProjectAddress,
+      </if>
+      <if test="longitude != null">
+        Longitude,
+      </if>
+      <if test="latitude != null">
+        Latitude,
+      </if>
+      <if test="acceptnumber != null">
+        AcceptNumber,
+      </if>
+      <if test="accepttime != null">
+        AcceptTime,
+      </if>
+      <if test="approvaltime != null">
+        ApprovalTime,
+      </if>
+      <if test="approvalnumber != null">
+        ApprovalNumber,
+      </if>
+      <if test="fkAuditunitcode != null">
+        FK_AuditUnitCode,
+      </if>
+      <if test="replyfileid != null">
+        ReplyFileID,
+      </if>
+      <if test="reportfileid != null">
+        ReportFileID,
+      </if>
+      <if test="auditfileid != null">
+        AuditFileID,
+      </if>
+      <if test="projectinvestment != null">
+        ProjectInvestment,
+      </if>
+      <if test="environmentinvestment != null">
+        EnvironmentInvestment,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="checktime != null">
+        CheckTime,
+      </if>
+      <if test="checkacceptnumber != null">
+        CheckAcceptNumber,
+      </if>
+      <if test="checkapprovalnumber != null">
+        CheckApprovalNumber,
+      </if>
+      <if test="fkcheckfileid != null">
+        FK_CheckFileID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkApprovalid != null">
+        #{pkApprovalid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionunitname != null">
+        #{constructionunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="eiaunitname != null">
+        #{eiaunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectname != null">
+        #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRegioncode != null">
+        #{fkRegioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkApprovalclasscode != null">
+        #{fkApprovalclasscode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkProjectnaturecode != null">
+        #{fkProjectnaturecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkIndustrytypecode != null">
+        #{fkIndustrytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectaddress != null">
+        #{projectaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="acceptnumber != null">
+        #{acceptnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accepttime != null">
+        #{accepttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvaltime != null">
+        #{approvaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalnumber != null">
+        #{approvalnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fkAuditunitcode != null">
+        #{fkAuditunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="replyfileid != null">
+        #{replyfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="reportfileid != null">
+        #{reportfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="auditfileid != null">
+        #{auditfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectinvestment != null">
+        #{projectinvestment,jdbcType=DOUBLE},
+      </if>
+      <if test="environmentinvestment != null">
+        #{environmentinvestment,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkacceptnumber != null">
+        #{checkacceptnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="checkapprovalnumber != null">
+        #{checkapprovalnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fkcheckfileid != null">
+        #{fkcheckfileid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.constructionproject.ApprovalVO">
+    update T_Project_Approval
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionunitname != null">
+        ConstructionUnitName = #{constructionunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="eiaunitname != null">
+        EiaunitName = #{eiaunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectname != null">
+        ProjectName = #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRegioncode != null">
+        FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkApprovalclasscode != null">
+        FK_ApprovalClassCode = #{fkApprovalclasscode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkProjectnaturecode != null">
+        FK_ProjectNatureCode = #{fkProjectnaturecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkIndustrytypecode != null">
+        FK_IndustryTypeCode = #{fkIndustrytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectaddress != null">
+        ProjectAddress = #{projectaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        Longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        Latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="acceptnumber != null">
+        AcceptNumber = #{acceptnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accepttime != null">
+        AcceptTime = #{accepttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvaltime != null">
+        ApprovalTime = #{approvaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalnumber != null">
+        ApprovalNumber = #{approvalnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fkAuditunitcode != null">
+        FK_AuditUnitCode = #{fkAuditunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="replyfileid != null">
+        ReplyFileID = #{replyfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="reportfileid != null">
+        ReportFileID = #{reportfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="auditfileid != null">
+        AuditFileID = #{auditfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectinvestment != null">
+        ProjectInvestment = #{projectinvestment,jdbcType=DOUBLE},
+      </if>
+      <if test="environmentinvestment != null">
+        EnvironmentInvestment = #{environmentinvestment,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkacceptnumber != null">
+        CheckAcceptNumber = #{checkacceptnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="checkapprovalnumber != null">
+        CheckApprovalNumber = #{checkapprovalnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fkcheckfileid != null">
+        FK_CheckFileID = #{fkcheckfileid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ApprovalId = #{pkApprovalid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.constructionproject.ApprovalVO">
+    update T_Project_Approval
+    set FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      ConstructionUnitName = #{constructionunitname,jdbcType=VARCHAR},
+      EiaunitName = #{eiaunitname,jdbcType=VARCHAR},
+      ProjectName = #{projectname,jdbcType=VARCHAR},
+      FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      FK_ApprovalClassCode = #{fkApprovalclasscode,jdbcType=VARCHAR},
+      FK_ProjectNatureCode = #{fkProjectnaturecode,jdbcType=VARCHAR},
+      FK_IndustryTypeCode = #{fkIndustrytypecode,jdbcType=VARCHAR},
+      ProjectAddress = #{projectaddress,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      AcceptNumber = #{acceptnumber,jdbcType=VARCHAR},
+      AcceptTime = #{accepttime,jdbcType=VARCHAR},
+      ApprovalTime = #{approvaltime,jdbcType=VARCHAR},
+      ApprovalNumber = #{approvalnumber,jdbcType=VARCHAR},
+      FK_AuditUnitCode = #{fkAuditunitcode,jdbcType=VARCHAR},
+      ReplyFileID = #{replyfileid,jdbcType=VARCHAR},
+      ReportFileID = #{reportfileid,jdbcType=VARCHAR},
+      AuditFileID = #{auditfileid,jdbcType=VARCHAR},
+      ProjectInvestment = #{projectinvestment,jdbcType=DOUBLE},
+      EnvironmentInvestment = #{environmentinvestment,jdbcType=DOUBLE},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      CheckTime = #{checktime,jdbcType=VARCHAR},
+      CheckAcceptNumber = #{checkacceptnumber,jdbcType=VARCHAR},
+      CheckApprovalNumber = #{checkapprovalnumber,jdbcType=VARCHAR},
+      FK_CheckFileID = #{fkcheckfileid,jdbcType=VARCHAR}
+    where PK_ApprovalId = #{pkApprovalid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 获取项目审批信息列表+分页+条件查询
+      param:
+      date: 2019/10/15 09:25
+  -->
+  <select id="getProjectApprovalInfoListPage" parameterType="map" resultType="map">
+        SELECT
+        t1.PK_ApprovalId,
+        t1.ProjectName,
+        t2.Name NatureName,
+        t3.Name CategoryName,
+        t1.ApprovalNumber,
+        CONVERT(varchar(10), t1.ApprovalTime, 120) ApprovalTime,
+        CONVERT(varchar(10), t1.CheckTime, 120) CheckTime,
+        t1.CheckAcceptNumber,
+        t1.CheckApprovalNumber
+        FROM
+        T_Project_Approval t1
+        LEFT JOIN PUB_CODE_ProjectNature t2 ON t1.FK_ProjectNatureCode= t2.Code
+        LEFT JOIN PUB_CODE_ApprovalClass t3 ON t1.FK_ApprovalClassCode= t3.Code
+        LEFT JOIN T_BAS_Pollution t4 ON t1.FK_PollutionId=t4.PK_PollutionID
+        <trim prefix="where" prefixOverrides="AND|OR">
+          <if test="pollutionid != null and pollutionid != ''">
+              AND t1.FK_PollutionId =#{pollutionid}
+          </if>
+          <if test="projectname != null and projectname != ''">
+            AND t1.ProjectName LIKE  concat('%',#{projectname,jdbcType=VARCHAR},'%')
+          </if>
+          <if test="starttime!=null and starttime!=''">
+            AND t1.ApprovalTime >=#{starttime}
+          </if>
+          <if test="endtime!=null and endtime!=''">
+            AND t1.ApprovalTime <![CDATA[<=]]> #{endtime}
+          </if>
+          <if test="eiacategory != null and eiacategory.size > 0">
+                and t1.FK_ApprovalClassCode in
+                <foreach collection="eiacategory" index="index" item="item" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+          </if>
+        </trim>
+        ORDER BY t1.ApprovalTime DESC
+  </select>
+  <!--
+      author:liyc
+      description: 通过主键id获取详情信息
+      param:
+      date: 2019/10/15 16:08
+  -->
+  <select id="getProjectApprovalDetailById" parameterType="java.lang.String" resultType="map">
+          SELECT
+                t1.PK_ApprovalId,
+                t1.ProjectName,
+                t2.Name NatureName,
+				t1.EnvironmentInvestment,
+				t1.ProjectInvestment,
+				t4.Name IndustryType,
+				t5.Name AdministrativeArea,
+				t1.ConstructionUnitName,
+				t1.Longitude,
+				t1.Latitude,
+				t1.EiaunitName,
+				t1.ApprovalNumber,
+                t3.Name CategoryName,
+				t1.AcceptNumber,
+				CONVERT(varchar(10),t1.AcceptTime,120) AcceptTime,
+				t6.Name ApprovalUnit,
+				CONVERT(varchar(10),t1.ApprovalTime,120) ApprovalTime,
+				t1.ProjectAddress,
+				t1.ReplyFileID,
+				t1.ReportFileID,
+				t1.AuditFileID,
+				t1.Remark,
+				CONVERT(varchar(10),t1.CheckTime,120) CheckTime,
+				t1.CheckAcceptNumber,
+				t1.CheckApprovalNumber,
+				t1.FK_CheckFileID fkcheckfileid
+                FROM
+                T_Project_Approval t1
+                LEFT JOIN PUB_CODE_ProjectNature t2 ON t1.FK_ProjectNatureCode= t2.Code
+                LEFT JOIN PUB_CODE_ApprovalClass t3 ON t1.FK_ApprovalClassCode= t3.Code
+				LEFT JOIN PUB_CODE_IndustryType  t4 ON t1.FK_IndustryTypeCode= t4.Code
+				LEFT JOIN PUB_CODE_Region t5 ON t1.FK_RegionCode=t5.Code
+				LEFT JOIN PUB_CODE_EnvOrganization t6 ON t1.FK_AuditUnitCode=t6.Code
+				WHERE PK_ApprovalId=#{id,jdbcType=VARCHAR}
+  </select>
+  <!--
+      author:liyc
+      description: 根据企业id统计环评审批的信息
+      param:
+      date: 2019/11/05 11:36
+  -->
+  <select id="countApprovalNatureByPollutionId" parameterType="java.lang.String" resultType="map">
+      SELECT
+        t2.Code,
+        t2.Name,
+        COUNT ( t1.PK_ApprovalId ) VALUE
+        FROM
+        T_Project_Approval t1
+        JOIN PUB_CODE_ProjectNature t2 ON t1.FK_ProjectNatureCode= t2.Code
+        WHERE t1.FK_PollutionId=#{pollutionid}
+        GROUP BY
+        t2.Code,
+        t2.Name
+  </select>
+</mapper>

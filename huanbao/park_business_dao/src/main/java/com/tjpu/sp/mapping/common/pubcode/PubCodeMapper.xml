@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.pubcode.PubCodeMapper">
+    <cache type="com.tjpu.sp.config.redisconfig.RedisCacheForMybatis"/>
+
+    <!-- getPubCodeDataByParam lip 通过表名称、排序字段、where条件，获取公共代码表数据 -->
+    <select id="getPubCodeDataByParam" parameterType="map" resultType="java.util.HashMap" >
+        SELECT
+        *
+        FROM
+        ${tablename}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="wherestring != null and wherestring !=''">
+                ${wherestring}
+            </if>
+        </trim>
+        <if test="orderfield != null and orderfield !=''">
+            ORDER by ${orderfield}
+        </if>
+
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过表名称、排序字段、where条件，获取公共代码表指定的数据（不使用二级缓存）
+        param:
+        date: 2019/10/14 14:18
+    -->
+    <select id="getPubCodesDataByParam" parameterType="map" resultType="java.util.HashMap" useCache="false">
+        SELECT
+        <choose>
+            <when test="fields!=null and fields.size>0">
+                <foreach collection="fields" separator="," item="item">
+                    ${item}
+                </foreach>
+            </when>
+            <when test="fields==null or fields.size==0 ">
+                *
+            </when>
+        </choose>
+        FROM
+        ${tablename}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="wherestring != null and wherestring !=''">
+                ${wherestring}
+            </if>
+        </trim>
+        <if test="orderfield != null and orderfield !=''">
+            ORDER by ${orderfield}
+        </if>
+
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过表名称、排序字段、where条件，获取公共代码表指定的数据
+        param:
+        date: 2019/10/14 14:18
+    -->
+    <select id="getPubCodesDataByParamWithCache" parameterType="map" resultType="java.util.HashMap">
+        SELECT
+        <choose>
+            <when test="fields!=null and fields.size>0">
+                <foreach collection="fields" separator="," item="item">
+                    ${item}
+                </foreach>
+            </when>
+            <when test="fields==null or fields.size==0 ">
+                *
+            </when>
+        </choose>
+        FROM
+        ${tablename}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="wherestring != null and wherestring !=''">
+                ${wherestring}
+            </if>
+        </trim>
+        <if test="orderfield != null and orderfield !=''">
+            ORDER by ${orderfield}
+        </if>
+
+    </select>
+
+
+    <!-- getPubClassConfigTreeData xsm 获取公共分类配置表所有信息 -->
+    <select id="getPubClassConfigTreeData" resultType="java.util.HashMap" useCache="false">
+		SELECT
+			Code,
+			Name,
+            ParentCode,
+            DataType
+		FROM
+			T_SYS_PubClassConfig
+			where
+			IsUsed = 1
+			ORDER  by  OrderIndex
+	</select>
+
+
+    <select id="getRegionDataList" resultType="java.util.HashMap" >
+            SELECT
+            code AS dgimn,
+            name AS monitorpointname
+        FROM
+            PUB_CODE_Region
+        WHERE
+            IsUsed = '1'
+			ORDER  by  OrderIndex
+	</select>
+
+    <!--
+    description: 懒加载获取节点下一级的所有节点
+    param:   tableName 表名称
+    param:   表中code字段名称
+    param:   表中name字段名称
+    param:   orderFieldName 排序字段名称
+    param:   parentFieldName 父级字段名称
+    param:   whereSql 查询条件Sql
+    create: ZhangZhangChao in 2018/12/20 16:44
+    -->
+    <select id="getTreeDataByCodeValue" resultType="java.util.HashMap">
+        SELECT
+        ${codeFieldName},
+        ${viewFieldName},
+        ISNULL(${parentFieldName}, '') as ${parentFieldName}
+        FROM
+        ${tableName}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="whereSql != null and whereSql !=''">
+                AND ${whereSql}
+            </if>
+        </trim>
+        <if test="orderFieldName != null and orderFieldName !=''">
+            ORDER by ${orderFieldName}
+        </if>
+    </select>
+
+    <!--
+        author:chengzq
+        description: 验证传入数据是否重复
+        param:
+        date: 2019/05/31 16:29
+    -->
+    <select id="isTableDataHaveInfo" resultType="java.lang.Integer" parameterType="map" useCache="false">
+        select count (1) c from ${tableName}
+        where ${key} collate Chinese_PRC_CS_AS= #{value}
+        <if test="andstring!=null and andstring!=''">
+            and ${andstring}
+        </if>
+    </select>
+
+
+    <!--
+    author:xsm
+    description: 根据sysmodel获取表名
+    param:
+    date: 2019/06/17 17:41
+-->
+    <select id="getPubCodeTableNameBySysmodel" resultType="java.lang.String" parameterType="map" useCache="false">
+		select t2.TableName from T_SYS_SysModelConfig t1 JOIN T_SYS_CommonSelectTableConfig t2
+		ON t1.FK_TableConfigID =t2.PK_TableConfigID
+		where t1.SysModel = #{sysmodel}
+	</select>
+
+    <!--
+     * @author: lip
+     * @date: 2019/10/17 0017 上午 9:32
+     * @Description: 根据sysmodel获取表配置信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getPubCodeTableConfigBySysmodel" resultType="map" parameterType="map" useCache="false">
+        select
+            t2.tablename,
+            t2.keyfieldname,
+            t2.keyfieldisnumber
+        from
+            t_sys_sysmodelconfig t1
+        join t_sys_commonselecttableconfig t2 on t1.fk_tableconfigid = t2.pk_tableconfigid
+        where t1.SysModel = #{sysmodel}
+    </select>
+
+
+    <!--
+    * @author: lip
+    * @date: 2019/1/7 0007 上午 10:17
+    * @Description:判断指定表是否有自增字段，是：返回1，否：返回0
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+
+    <select id="getTableHasIdentity" parameterType="java.lang.String" resultType="java.lang.Integer" useCache="false">
+        Select OBJECTPROPERTY(OBJECT_ID(${tableName}),'TableHasIdentity');
+    </select>
+
+    <!--
+   * @author: lip
+   * @date: 2019/1/7 0007 上午 10:17
+   * @Description:根据表名称获取主键为数字类型的表主键最大值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+
+    <select id="getMaxNumByTableName" parameterType="map" resultType="java.lang.Integer" useCache="false">
+        select  case when max(${pkid}) is null then 0 ELSE MAX(${pkid}) end   from ${tablename}
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/10/15 0015 下午 5:18
+     * @Description: 动态语句删除表数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <delete id="deletePubCodeDataByParam" parameterType="map">
+        delete from ${tablename} where ${tablekey} = #{keyval}
+    </delete>
+
+    <!--
+     * @author: lip
+     * @date: 2019/10/17 0017 上午 9:12
+     * @Description: 添加公共代码表数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <insert id="addPubCodeDataByParam" parameterType="map">
+        insert into ${tablename}
+        <if test="fieldList != null and fieldList.size > 0">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="fieldList" item="item">
+                    ${item},
+                </foreach>
+            </trim>
+            <trim prefix="values(" suffix=")" suffixOverrides=",">
+                <foreach collection="values" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </if>
+    </insert>
+    <!--
+        * @author: lip
+        * @date: 2019/10/17 0017 上午 9:12
+        * @Description: 修改公共代码表数据
+        * @updateUser:
+        * @updateDate:
+        * @updateDescription:
+       -->
+    <update id="editPubCodeDataByParam" parameterType="map">
+        update ${tablename}
+        <if test="editMap != null and editMap.size > 0">
+            <trim prefix="set">
+                <foreach collection="editMap" item="fieldValue" index="fieldName" separator=",">
+                    <choose>
+                        <when test="fieldValue != null  and fieldValue != ''">
+                            ${fieldName} = #{fieldValue}
+                        </when>
+                        <otherwise>
+                            ${fieldName} = NULL
+                        </otherwise>
+                    </choose>
+                </foreach>
+            </trim>
+            <trim prefix="where" prefixOverrides="AND|OR">
+                and ${key} = #{value}
+            </trim>
+        </if>
+    </update>
+
+
+
+</mapper>

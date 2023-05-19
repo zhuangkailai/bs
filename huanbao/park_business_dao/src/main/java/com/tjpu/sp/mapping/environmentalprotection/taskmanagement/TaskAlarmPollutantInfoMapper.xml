@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.taskmanagement.TaskAlarmPollutantInfoMapper">
+    <resultMap id="BaseResultMap"
+               type="com.tjpu.sp.model.environmentalprotection.taskmanagement.TaskAlarmPollutantInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_TaskID" jdbcType="VARCHAR" property="fkTaskid"/>
+        <result column="FK_PolluantCode" jdbcType="VARCHAR" property="fkPolluantcode"/>
+        <result column="FK_TaskType" jdbcType="VARCHAR" property="fkTasktype"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="AlarmType" jdbcType="VARCHAR" property="alarmtype"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_TaskID, FK_PolluantCode, FK_TaskType, UpdateTime,AlarmType
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_TaskAlarmPollutantInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TaskAlarmPollutantInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.taskmanagement.TaskAlarmPollutantInfoVO">
+    insert into T_BAS_TaskAlarmPollutantInfo (PK_ID, FK_TaskID, FK_PolluantCode, 
+      FK_TaskType, UpdateTime,AlarmType)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkTaskid,jdbcType=VARCHAR}, #{fkPolluantcode,jdbcType=VARCHAR}, 
+      #{fkTasktype,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{alarmtype,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.taskmanagement.TaskAlarmPollutantInfoVO">
+        insert into T_BAS_TaskAlarmPollutantInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkTaskid != null">
+                FK_TaskID,
+            </if>
+            <if test="fkPolluantcode != null">
+                FK_PolluantCode,
+            </if>
+            <if test="fkTasktype != null">
+                FK_TaskType,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="alarmtype != null">
+                AlarmType,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTaskid != null">
+                #{fkTaskid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPolluantcode != null">
+                #{fkPolluantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTasktype != null">
+                #{fkTasktype,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="alarmtype != null">
+                #{alarmtype,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.taskmanagement.TaskAlarmPollutantInfoVO">
+        update T_BAS_TaskAlarmPollutantInfo
+        <set>
+            <if test="fkTaskid != null">
+                FK_TaskID = #{fkTaskid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPolluantcode != null">
+                FK_PolluantCode = #{fkPolluantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTasktype != null">
+                FK_TaskType = #{fkTasktype,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="alarmtype != null">
+                AlarmType = #{alarmtype,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.taskmanagement.TaskAlarmPollutantInfoVO">
+    update T_BAS_TaskAlarmPollutantInfo
+    set FK_TaskID = #{fkTaskid,jdbcType=VARCHAR},
+      FK_PolluantCode = #{fkPolluantcode,jdbcType=VARCHAR},
+      FK_TaskType = #{fkTasktype,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      AlarmType = #{alarmtype,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

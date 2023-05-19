@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.limitproduction.LimitProductionDetailInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionDetailInfoVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="FK_LimitProductionID" property="fkLimitproductionid" jdbcType="VARCHAR" />
+    <result column="FK_OutPutID" property="fkOutputid" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, FK_LimitProductionID, FK_OutPutID, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_LimitProductionDetailInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_LimitProductionDetailInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionDetailInfoVO" >
+    insert into T_BAS_LimitProductionDetailInfo (PK_ID, FK_LimitProductionID, FK_OutPutID, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkLimitproductionid,jdbcType=VARCHAR}, #{fkOutputid,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionDetailInfoVO" >
+    insert into T_BAS_LimitProductionDetailInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="fkLimitproductionid != null" >
+        FK_LimitProductionID,
+      </if>
+      <if test="fkOutputid != null" >
+        FK_OutPutID,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLimitproductionid != null" >
+        #{fkLimitproductionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null" >
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionDetailInfoVO" >
+    update T_BAS_LimitProductionDetailInfo
+    <set >
+      <if test="fkLimitproductionid != null" >
+        FK_LimitProductionID = #{fkLimitproductionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null" >
+        FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.limitproduction.LimitProductionDetailInfoVO" >
+    update T_BAS_LimitProductionDetailInfo
+    set FK_LimitProductionID = #{fkLimitproductionid,jdbcType=VARCHAR},
+      FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 通过限产信息id删除限产排口详情信息
+      param:
+      date: 2019/06/25 10:32
+  -->
+  <delete id="deleteByLimitProductionID" parameterType="java.lang.String" >
+    delete from T_BAS_LimitProductionDetailInfo
+    where FK_LimitProductionID = #{id}
+  </delete>
+</mapper>

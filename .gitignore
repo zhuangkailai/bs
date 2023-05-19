@@ -1,0 +1,20 @@
+# Project exclude paths
+/authsystem/park_authsystem_common/target/
+/authsystem/park_authsystem_dao/target/
+/authsystem/park_authsystem_model/target/
+/authsystem/park_authsystem_service/target/
+/authsystem/park_authsystem_web/target/
+/gateway/target/
+/huanbao/park_business_common/target/
+/huanbao/park_business_dao/target/
+/huanbao/park_business_model/target/
+/huanbao/park_business_service/target/
+/huanbao/park_business_web/target/
+/park_common/target/
+/park_public/park_public_common/target/
+/park_public/park_public_dao/target/
+/park_public/park_public_model/target/
+/park_public/park_public_service/target/
+/park_public/park_public_web/target/
+/park_servercenter/target/
+/target/

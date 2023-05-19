@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.GasTreatmentFacilityMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.GasTreatmentFacilityVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_FacilityID" jdbcType="VARCHAR" property="fkFacilityid" />
+    <result column="ProductPollutionName" jdbcType="VARCHAR" property="productpollutionname" />
+    <result column="PollutantNames" jdbcType="VARCHAR" property="pollutantnames" />
+    <result column="DischaredForm" jdbcType="VARCHAR" property="discharedform" />
+    <result column="TreatmentNum" jdbcType="VARCHAR" property="treatmentnum" />
+    <result column="TreatmentName" jdbcType="VARCHAR" property="treatmentname" />
+    <result column="TechnologyDesc" jdbcType="VARCHAR" property="technologydesc" />
+    <result column="HandleEfficiency" jdbcType="DOUBLE" property="handleefficiency" />
+    <result column="IsFeasibletTechnology" jdbcType="VARCHAR" property="isfeasiblettechnology" />
+    <result column="IsInvolvingBsinessSecrets" jdbcType="VARCHAR" property="isinvolvingbsinesssecrets" />
+    <result column="OtherTreatmentInfo" jdbcType="VARCHAR" property="othertreatmentinfo" />
+    <result column="FK_OutPutpkID" jdbcType="VARCHAR" property="fkOutputpkid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateDate" jdbcType="TIMESTAMP" property="updatedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_FacilityID, ProductPollutionName, PollutantNames, DischaredForm, TreatmentNum, 
+    TreatmentName, TechnologyDesc, HandleEfficiency, IsFeasibletTechnology, IsInvolvingBsinessSecrets, 
+    OtherTreatmentInfo, FK_OutPutpkID, Remark, UpdateUser, UpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_GasTreatmentFacility
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_GasTreatmentFacility
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByFacilityId" parameterType="java.lang.String">
+    delete from T_GJ_GasTreatmentFacility
+    where FK_FacilityID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.GasTreatmentFacilityVO">
+    insert into T_GJ_GasTreatmentFacility (PK_ID, FK_FacilityID, ProductPollutionName, 
+      PollutantNames, DischaredForm, TreatmentNum, 
+      TreatmentName, TechnologyDesc, HandleEfficiency, 
+      IsFeasibletTechnology, IsInvolvingBsinessSecrets, 
+      OtherTreatmentInfo, FK_OutPutpkID, Remark, 
+      UpdateUser, UpdateDate)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkFacilityid,jdbcType=VARCHAR}, #{productpollutionname,jdbcType=VARCHAR}, 
+      #{pollutantnames,jdbcType=VARCHAR}, #{discharedform,jdbcType=VARCHAR}, #{treatmentnum,jdbcType=VARCHAR}, 
+      #{treatmentname,jdbcType=VARCHAR}, #{technologydesc,jdbcType=VARCHAR}, #{handleefficiency,jdbcType=DOUBLE}, 
+      #{isfeasiblettechnology,jdbcType=VARCHAR}, #{isinvolvingbsinesssecrets,jdbcType=VARCHAR}, 
+      #{othertreatmentinfo,jdbcType=VARCHAR}, #{fkOutputpkid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.GasTreatmentFacilityVO">
+    insert into T_GJ_GasTreatmentFacility
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkFacilityid != null">
+        FK_FacilityID,
+      </if>
+      <if test="productpollutionname != null">
+        ProductPollutionName,
+      </if>
+      <if test="pollutantnames != null">
+        PollutantNames,
+      </if>
+      <if test="discharedform != null">
+        DischaredForm,
+      </if>
+      <if test="treatmentnum != null">
+        TreatmentNum,
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName,
+      </if>
+      <if test="technologydesc != null">
+        TechnologyDesc,
+      </if>
+      <if test="handleefficiency != null">
+        HandleEfficiency,
+      </if>
+      <if test="isfeasiblettechnology != null">
+        IsFeasibletTechnology,
+      </if>
+      <if test="isinvolvingbsinesssecrets != null">
+        IsInvolvingBsinessSecrets,
+      </if>
+      <if test="othertreatmentinfo != null">
+        OtherTreatmentInfo,
+      </if>
+      <if test="fkOutputpkid != null">
+        FK_OutPutpkID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatedate != null">
+        UpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFacilityid != null">
+        #{fkFacilityid,jdbcType=VARCHAR},
+      </if>
+      <if test="productpollutionname != null">
+        #{productpollutionname,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantnames != null">
+        #{pollutantnames,jdbcType=VARCHAR},
+      </if>
+      <if test="discharedform != null">
+        #{discharedform,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentnum != null">
+        #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="technologydesc != null">
+        #{technologydesc,jdbcType=VARCHAR},
+      </if>
+      <if test="handleefficiency != null">
+        #{handleefficiency,jdbcType=DOUBLE},
+      </if>
+      <if test="isfeasiblettechnology != null">
+        #{isfeasiblettechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="isinvolvingbsinesssecrets != null">
+        #{isinvolvingbsinesssecrets,jdbcType=VARCHAR},
+      </if>
+      <if test="othertreatmentinfo != null">
+        #{othertreatmentinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputpkid != null">
+        #{fkOutputpkid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.GasTreatmentFacilityVO">
+    update T_GJ_GasTreatmentFacility
+    <set>
+      <if test="fkFacilityid != null">
+        FK_FacilityID = #{fkFacilityid,jdbcType=VARCHAR},
+      </if>
+      <if test="productpollutionname != null">
+        ProductPollutionName = #{productpollutionname,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantnames != null">
+        PollutantNames = #{pollutantnames,jdbcType=VARCHAR},
+      </if>
+      <if test="discharedform != null">
+        DischaredForm = #{discharedform,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentnum != null">
+        TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="technologydesc != null">
+        TechnologyDesc = #{technologydesc,jdbcType=VARCHAR},
+      </if>
+      <if test="handleefficiency != null">
+        HandleEfficiency = #{handleefficiency,jdbcType=DOUBLE},
+      </if>
+      <if test="isfeasiblettechnology != null">
+        IsFeasibletTechnology = #{isfeasiblettechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="isinvolvingbsinesssecrets != null">
+        IsInvolvingBsinessSecrets = #{isinvolvingbsinesssecrets,jdbcType=VARCHAR},
+      </if>
+      <if test="othertreatmentinfo != null">
+        OtherTreatmentInfo = #{othertreatmentinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputpkid != null">
+        FK_OutPutpkID = #{fkOutputpkid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.GasTreatmentFacilityVO">
+    update T_GJ_GasTreatmentFacility
+    set FK_FacilityID = #{fkFacilityid,jdbcType=VARCHAR},
+      ProductPollutionName = #{productpollutionname,jdbcType=VARCHAR},
+      PollutantNames = #{pollutantnames,jdbcType=VARCHAR},
+      DischaredForm = #{discharedform,jdbcType=VARCHAR},
+      TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      TechnologyDesc = #{technologydesc,jdbcType=VARCHAR},
+      HandleEfficiency = #{handleefficiency,jdbcType=DOUBLE},
+      IsFeasibletTechnology = #{isfeasiblettechnology,jdbcType=VARCHAR},
+      IsInvolvingBsinessSecrets = #{isinvolvingbsinesssecrets,jdbcType=VARCHAR},
+      OtherTreatmentInfo = #{othertreatmentinfo,jdbcType=VARCHAR},
+      FK_OutPutpkID = #{fkOutputpkid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+      t1.pk_id facilityid,
+      t2.pk_id,
+      t2.FK_FacilityID as fkFacilityid,
+      t1.productionlinenum,
+      t1.productionlinename,
+      t1.facilitynum,
+      t1.facilityname,
+      t1.productionunitname,
+      t2.productpollutionname,
+      t2.pollutantnames,
+      t2.discharedform,
+      t2.treatmentnum,
+      t2.treatmentname,
+      t2.isfeasiblettechnology,
+      t2.isinvolvingbsinesssecrets,
+      t2.othertreatmentinfo,
+      t2.technologydesc,
+      t2.remark,
+      t2.handleefficiency,
+      t3.outputcode,
+      t3.pk_id as fkOutputpkid,
+      t3.outputname,
+      t3.outputtype,
+      t3.isrequirement
+      from
+      t_gj_pollutionproductfacility t1
+      left join t_gj_gastreatmentfacility t2 on t1.pk_id = t2.fk_facilityid
+      left join t_bas_gasoutputinfo t3 on t3.pk_id = t2.fk_outputpkid
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="facilityid!=null and facilityid!='' ">
+        and t1.pk_id = #{facilityid}
+      </if>
+      <if test="facilitynum!=null and facilitynum!='' ">
+        and t1.facilitynum like concat('%', #{facilitynum},'%')
+      </if>
+      <if test="facilityname!=null and facilityname!='' ">
+        and t1.facilityname like concat('%', #{facilityname},'%')
+      </if>
+      <if test="treatmentnum!=null and treatmentnum!='' ">
+        and t2.treatmentnum like concat('%', #{treatmentnum},'%')
+      </if>
+      <if test="treatmentname!=null and treatmentname!='' ">
+        and t2.treatmentname like concat('%', #{treatmentname},'%')
+      </if>
+    </where>
+    order by t1.facilitynum,t2.treatmentnum
+  </select>
+
+  <select id="getGasTreatmentListDataByParamMap" parameterType="map" resultType="map">
+    select
+    t1.pk_id facilityid,
+    t2.pk_id,
+    t2.FK_FacilityID as fkFacilityid,
+    t1.productionlinenum,
+    t1.productionlinename,
+    t1.facilitynum,
+    t1.facilityname,
+    t1.productionunitname,
+    t2.productpollutionname,
+    t2.pollutantnames,
+    t2.discharedform,
+    t2.treatmentnum,
+    t2.treatmentname,
+    t2.isfeasiblettechnology,
+    t2.isinvolvingbsinesssecrets,
+    t2.othertreatmentinfo,
+    t2.technologydesc,
+    t2.remark,
+    t2.handleefficiency,
+    t3.outputcode,
+    t3.pk_id as fkOutputpkid,
+    t3.outputname,
+    t3.outputtype,
+    t3.isrequirement
+    from
+    t_gj_pollutionproductfacility t1
+    join t_gj_gastreatmentfacility t2 on t1.pk_id = t2.fk_facilityid
+    join t_bas_gasoutputinfo t3 on t3.pk_id = t2.fk_outputpkid
+    <where>
+      <if test="facilityid!=null and facilityid!='' ">
+        and t1.pk_id = #{facilityid}
+      </if>
+    </where>
+    order by t1.facilitynum,t2.treatmentnum
+  </select>
+
+  <select id="getGasOutPutByPollutionId" parameterType="map" resultType="map">
+    select
+      pk_id,
+      outputname,
+      outputtype,
+      outputcode,
+      isrequirement
+    from
+    t_bas_gasoutputinfo
+    <where>
+      fk_monitorpointtypecode = '2'
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and fk_pollutionid = #{pollutionid}
+      </if>
+    </where>
+    order by outputcode,outputname
+  </select>
+
+  <select id="getGasFacilityDataListByParam" parameterType="map" resultType="map">
+    SELECT
+      t1.TreatmentNum,
+      t1.TreatmentName,
+      CASE
+      WHEN t1.FacilityType = '1' THEN
+      '脱硫设施'
+      WHEN t1.FacilityType = '2' THEN
+      '脱硝设施'
+      WHEN t1.FacilityType = '3' THEN
+      '除尘设施' ELSE '其他防治设施'
+      END AS FacilityType
+    from
+      t_gj_gastreatmentfacility t1
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        t1.FK_pollutionId = #{pollutionid}
+      </if>
+    </where>
+    order by  t1.TreatmentNum, t1.TreatmentName,
+  </select>
+
+
+</mapper>

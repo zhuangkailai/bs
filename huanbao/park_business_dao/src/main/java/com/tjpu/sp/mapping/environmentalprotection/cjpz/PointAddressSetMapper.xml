@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.security.cjpz.PointAddressSetMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.cjpz.PointAddressSetVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_EntConnectId" jdbcType="VARCHAR" property="fkEntconnectid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="Dgimn" jdbcType="VARCHAR" property="dgimn" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="SlaveId" jdbcType="NUMERIC" property="slaveid" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="Convertway" jdbcType="VARCHAR" property="convertway" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_EntConnectId, FK_MonitorPointTypeCode, Dgimn, FK_PollutantCode, SlaveId, 
+    Address, Convertway, Remark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_CJ_PointAddressSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_CJ_PointAddressSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/01/12 0012 下午 4:42
+    * @Description: 根据企业连接设置ID删除点位连接设置数据
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <delete id="deleteByEntConnectSetID" parameterType="java.lang.String">
+    delete from T_CJ_PointAddressSet
+    where FK_EntConnectId = #{fkEntconnectid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.PointAddressSetVO">
+    insert into T_CJ_PointAddressSet (PK_ID, FK_EntConnectId, FK_MonitorPointTypeCode, 
+      Dgimn, FK_PollutantCode, SlaveId, 
+      Address, Convertway, Remark, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkEntconnectid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{dgimn,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, #{slaveid,jdbcType=NUMERIC}, 
+      #{address,jdbcType=VARCHAR}, #{convertway,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.PointAddressSetVO">
+    insert into T_CJ_PointAddressSet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkEntconnectid != null">
+        FK_EntConnectId,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="dgimn != null">
+        Dgimn,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="slaveid != null">
+        SlaveId,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="convertway != null">
+        Convertway,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEntconnectid != null">
+        #{fkEntconnectid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="slaveid != null">
+        #{slaveid,jdbcType=NUMERIC},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="convertway != null">
+        #{convertway,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.PointAddressSetVO">
+    update T_CJ_PointAddressSet
+    <set>
+      <if test="fkEntconnectid != null">
+        FK_EntConnectId = #{fkEntconnectid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        Dgimn = #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="slaveid != null">
+        SlaveId = #{slaveid,jdbcType=NUMERIC},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="convertway != null">
+        Convertway = #{convertway,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.PointAddressSetVO">
+    update T_CJ_PointAddressSet
+    set FK_EntConnectId = #{fkEntconnectid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      Dgimn = #{dgimn,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      SlaveId = #{slaveid,jdbcType=NUMERIC},
+      Address = #{address,jdbcType=VARCHAR},
+      Convertway = #{convertway,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/01/12 0012 下午 15:33
+    * @Description: 批量插入点位地址设置信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_CJ_PointAddressSet (PK_ID, FK_EntConnectId, FK_MonitorPointTypeCode,
+    Dgimn, FK_PollutantCode, SlaveId,
+    Address, Convertway, Remark,
+    UpdateUser, UpdateTime)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkEntconnectid,jdbcType=VARCHAR}, #{item.fkMonitorpointtypecode,jdbcType=VARCHAR},
+      #{item.dgimn,jdbcType=VARCHAR}, #{item.fkPollutantcode,jdbcType=VARCHAR}, #{item.slaveid,jdbcType=NUMERIC},
+      #{item.address,jdbcType=VARCHAR}, #{item.convertway,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},
+      #{item.updateuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <!--
+    author:xsm
+    description: 通过企业采集配置ID获取该点位采集配置信息
+    param:
+    date: 2021/01/12 13:59
+-->
+  <select id="getPointAddressSetsByEntConnectSetID" resultType="map" parameterType="map">
+    SELECT
+    t1.PK_ID, t1.FK_EntConnectId, t1.FK_MonitorPointTypeCode FKMonitorPointTypeCode, t1.Dgimn, t1.FK_PollutantCode FKPollutantCode, t1.SlaveId,
+    t1.Address, t1.Convertway, t1.UpdateUser,alltt.MonitorPointID,
+    CONVERT (VARCHAR (20),t1.UpdateTime,120) updatetime,t1.Remark, alltt.MonitorPointName,PUB_CODE_PollutantFactor.Name pollutantname
+    FROM T_CJ_PointAddressSet t1
+    LEFT JOIN (
+    select
+    T_AQ_HazardSourceProductDevice.PK_ID MonitorPointID,T_AQ_HazardSourceProductDevice.DGIMN,
+    (CAST(T_AQ_MajorHazardSources.MajorHazardSourcesName as varchar(20))+'_'+CAST(T_AQ_HazardSourceProductDevice.DeviceName as varchar(20))) AS MonitorPointName, 57 type
+    from  T_AQ_MajorHazardSources JOIN T_AQ_HazardSourceProductDevice on T_AQ_MajorHazardSources.PK_ID = T_AQ_HazardSourceProductDevice.FK_MajorHazardSourcesId
+    union
+    select
+    T_AQ_StorageTankInfo.PK_ID MonitorPointID,
+    T_AQ_StorageTankInfo.DGIMN,
+    (CAST(T_AQ_StorageTankAreaInfo.StorageTankAreaName as varchar(20))+'_'+CAST(T_AQ_StorageTankInfo.StorageTankCode as varchar(20))) AS MonitorPointName,
+    30 type
+    from  T_AQ_StorageTankAreaInfo JOIN T_AQ_StorageTankInfo on T_AQ_StorageTankAreaInfo.PK_ID = T_AQ_StorageTankInfo.FK_StorageTankAreaID
+    union
+    select
+    T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID MonitorPointID,
+    T_AQ_RiskAreaMonitorPoint.DGIMN,
+    (CAST(PUB_CODE_MonitorPointType.Name as varchar(20))+'_'+CAST(T_AQ_RiskAreaMonitorPoint.MonitorPointName as varchar(20))) AS MonitorPointName,
+    T_AQ_RiskAreaMonitorPoint.FK_MonitorPointTypeCode type
+    from  T_AQ_RiskAreaMonitorPoint LEFT JOIN PUB_CODE_MonitorPointType ON T_AQ_RiskAreaMonitorPoint.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+    ) alltt ON t1.Dgimn = alltt.DGIMN AND  t1.FK_MonitorPointTypeCode = alltt.type
+    LEFT JOIN PUB_CODE_PollutantFactor ON  t1.FK_PollutantCode = PUB_CODE_PollutantFactor.Code AND t1.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="entconnectsetid !=null and entconnectsetid !='' ">
+        and FK_EntConnectId = #{entconnectsetid}
+      </if>
+    </trim>
+    order by Address
+  </select>
+
+</mapper>

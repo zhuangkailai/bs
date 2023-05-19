@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.weather.WeatherMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.weather.WeatherVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_RegionCode" jdbcType="VARCHAR" property="fkRegioncode"/>
+        <result column="WeatherDate" jdbcType="DATE" property="weatherdate"/>
+        <result column="WeatherHour" jdbcType="TIMESTAMP" property="weatherhour"/>
+        <result column="WeatherPhenomenon" jdbcType="VARCHAR" property="weatherphenomenon"/>
+        <result column="Temperature" jdbcType="VARCHAR" property="temperature"/>
+        <result column="WindDirection" jdbcType="VARCHAR" property="winddirection"/>
+        <result column="WindPower" jdbcType="VARCHAR" property="windpower"/>
+        <result column="AQI" jdbcType="VARCHAR" property="aqi"/>
+        <result column="Humidity" jdbcType="VARCHAR" property="humidity"/>
+        <result column="Precipitation" jdbcType="VARCHAR" property="precipitation"/>
+        <result column="WeekDate" jdbcType="VARCHAR" property="weekdate"/>
+        <result column="HighTemperature" jdbcType="VARCHAR" property="hightemperature"/>
+        <result column="LowTemperature" jdbcType="VARCHAR" property="lowtemperature"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_RegionCode, WeatherDate, WeatherHour, WeatherPhenomenon, Temperature, WindDirection, 
+    WindPower, AQI, Humidity, Precipitation, WeekDate, HighTemperature, LowTemperature, 
+    UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_Weather
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_Weather
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.weather.WeatherVO">
+    insert into T_BAS_Weather (PK_ID, FK_RegionCode, WeatherDate, 
+      WeatherHour, WeatherPhenomenon, Temperature, 
+      WindDirection, WindPower, AQI, 
+      Humidity, Precipitation, WeekDate, 
+      HighTemperature, LowTemperature, UpdateTime
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkRegioncode,jdbcType=VARCHAR}, #{weatherdate,jdbcType=DATE}, 
+      #{weatherhour,jdbcType=TIMESTAMP}, #{weatherphenomenon,jdbcType=VARCHAR}, #{temperature,jdbcType=VARCHAR}, 
+      #{winddirection,jdbcType=VARCHAR}, #{windpower,jdbcType=VARCHAR}, #{aqi,jdbcType=VARCHAR}, 
+      #{humidity,jdbcType=VARCHAR}, #{precipitation,jdbcType=VARCHAR}, #{weekdate,jdbcType=VARCHAR}, 
+      #{hightemperature,jdbcType=VARCHAR}, #{lowtemperature,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.weather.WeatherVO">
+        insert into T_BAS_Weather
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkRegioncode != null">
+                FK_RegionCode,
+            </if>
+            <if test="weatherdate != null">
+                WeatherDate,
+            </if>
+            <if test="weatherhour != null">
+                WeatherHour,
+            </if>
+            <if test="weatherphenomenon != null">
+                WeatherPhenomenon,
+            </if>
+            <if test="temperature != null">
+                Temperature,
+            </if>
+            <if test="winddirection != null">
+                WindDirection,
+            </if>
+            <if test="windpower != null">
+                WindPower,
+            </if>
+            <if test="aqi != null">
+                AQI,
+            </if>
+            <if test="humidity != null">
+                Humidity,
+            </if>
+            <if test="precipitation != null">
+                Precipitation,
+            </if>
+            <if test="weekdate != null">
+                WeekDate,
+            </if>
+            <if test="hightemperature != null">
+                HighTemperature,
+            </if>
+            <if test="lowtemperature != null">
+                LowTemperature,
+            </if>
+            <if test="updateTime != null">
+                UpdateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRegioncode != null">
+                #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="weatherdate != null">
+                #{weatherdate,jdbcType=DATE},
+            </if>
+            <if test="weatherhour != null">
+                #{weatherhour,jdbcType=TIMESTAMP},
+            </if>
+            <if test="weatherphenomenon != null">
+                #{weatherphenomenon,jdbcType=VARCHAR},
+            </if>
+            <if test="temperature != null">
+                #{temperature,jdbcType=VARCHAR},
+            </if>
+            <if test="winddirection != null">
+                #{winddirection,jdbcType=VARCHAR},
+            </if>
+            <if test="windpower != null">
+                #{windpower,jdbcType=VARCHAR},
+            </if>
+            <if test="aqi != null">
+                #{aqi,jdbcType=VARCHAR},
+            </if>
+            <if test="humidity != null">
+                #{humidity,jdbcType=VARCHAR},
+            </if>
+            <if test="precipitation != null">
+                #{precipitation,jdbcType=VARCHAR},
+            </if>
+            <if test="weekdate != null">
+                #{weekdate,jdbcType=VARCHAR},
+            </if>
+            <if test="hightemperature != null">
+                #{hightemperature,jdbcType=VARCHAR},
+            </if>
+            <if test="lowtemperature != null">
+                #{lowtemperature,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.weather.WeatherVO">
+        update T_BAS_Weather
+        <set>
+            <if test="fkRegioncode != null">
+                FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="weatherdate != null">
+                WeatherDate = #{weatherdate,jdbcType=DATE},
+            </if>
+            <if test="weatherhour != null">
+                WeatherHour = #{weatherhour,jdbcType=TIMESTAMP},
+            </if>
+            <if test="weatherphenomenon != null">
+                WeatherPhenomenon = #{weatherphenomenon,jdbcType=VARCHAR},
+            </if>
+            <if test="temperature != null">
+                Temperature = #{temperature,jdbcType=VARCHAR},
+            </if>
+            <if test="winddirection != null">
+                WindDirection = #{winddirection,jdbcType=VARCHAR},
+            </if>
+            <if test="windpower != null">
+                WindPower = #{windpower,jdbcType=VARCHAR},
+            </if>
+            <if test="aqi != null">
+                AQI = #{aqi,jdbcType=VARCHAR},
+            </if>
+            <if test="humidity != null">
+                Humidity = #{humidity,jdbcType=VARCHAR},
+            </if>
+            <if test="precipitation != null">
+                Precipitation = #{precipitation,jdbcType=VARCHAR},
+            </if>
+            <if test="weekdate != null">
+                WeekDate = #{weekdate,jdbcType=VARCHAR},
+            </if>
+            <if test="hightemperature != null">
+                HighTemperature = #{hightemperature,jdbcType=VARCHAR},
+            </if>
+            <if test="lowtemperature != null">
+                LowTemperature = #{lowtemperature,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.weather.WeatherVO">
+    update T_BAS_Weather
+    set FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      WeatherDate = #{weatherdate,jdbcType=DATE},
+      WeatherHour = #{weatherhour,jdbcType=TIMESTAMP},
+      WeatherPhenomenon = #{weatherphenomenon,jdbcType=VARCHAR},
+      Temperature = #{temperature,jdbcType=VARCHAR},
+      WindDirection = #{winddirection,jdbcType=VARCHAR},
+      WindPower = #{windpower,jdbcType=VARCHAR},
+      AQI = #{aqi,jdbcType=VARCHAR},
+      Humidity = #{humidity,jdbcType=VARCHAR},
+      Precipitation = #{precipitation,jdbcType=VARCHAR},
+      WeekDate = #{weekdate,jdbcType=VARCHAR},
+      HighTemperature = #{hightemperature,jdbcType=VARCHAR},
+      LowTemperature = #{lowtemperature,jdbcType=VARCHAR},
+      UpdateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/8/14 0014 下午 3:26
+     * @Description: 自定义查询条件获取日气象数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getDayWeatherByParamMap" resultType="java.util.Map">
+       select
+	      winddirection,winddirection,hightemperature,lowtemperature,windpower
+        from
+            t_bas_weather
+        <trim prefix="where" prefixOverrides="AND|OR">
+            (
+            weatherhour is null
+            or weatherhour = ''
+            )
+            <if test="weatherdate!=null and weatherdate!='' ">
+                and weatherdate =#{weatherdate}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

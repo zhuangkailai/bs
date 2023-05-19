@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.pollutantvaluescope.PollutantValueScopeMapper">
+    <resultMap id="BaseResultMap" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="FK_PollutantCode" property="fkpollutantcode" jdbcType="VARCHAR"/>
+        <result column="ValueScope" property="valuescope" jdbcType="VARCHAR"/>
+        <result column="OrderIndex" property="orderindex" jdbcType="NUMERIC"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID,
+    FK_PollutantCode,
+    ValueScope,
+    OrderIndex,
+    Remark,
+    UpdateUser,
+    convert(varchar(19),UpdateTime,120)UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_PollutantValueScope
+        where PK_ID = #{pkid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_PollutantValueScope
+    where PK_ID = #{pkid}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.pollutantvaluescope.PollutantValueScopeVO">
+    insert into T_BAS_PollutantValueScope
+    (PK_ID,
+    FK_PollutantCode,
+    ValueScope,
+    OrderIndex,
+    Remark,
+    UpdateUser,
+    UpdateTime
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkpollutantcode,jdbcType=VARCHAR},
+    #{valuescope,jdbcType=VARCHAR},
+    #{orderindex,jdbcType=NUMERIC},
+    #{remark,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.pollutantvaluescope.PollutantValueScopeVO">
+    update T_BAS_PollutantValueScope
+    set
+    FK_PollutantCode=#{fkpollutantcode,jdbcType=VARCHAR},
+    ValueScope=#{valuescope,jdbcType=VARCHAR},
+    OrderIndex=#{orderindex,jdbcType=NUMERIC},
+    Remark=#{remark,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+    <!--
+       author:chengzq
+       description: 通过自定义参数获取污染物监测值范围信息
+       param:
+       date: 2020/05/19 18:05
+   -->
+    <select id="getPollutantValueScopeByParamMap" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_PollutantValueScope
+        <where>
+            <if test="fkpollutantcode!=null and fkpollutantcode!='' ">
+                T_BAS_PollutantValueScope.FK_PollutantCode = #{fkpollutantcode}
+            </if>
+        </where>
+    </select>
+</mapper>

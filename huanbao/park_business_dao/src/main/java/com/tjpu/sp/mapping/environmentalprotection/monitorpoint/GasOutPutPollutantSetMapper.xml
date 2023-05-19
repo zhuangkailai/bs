@@ -1,0 +1,1191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.GasOutPutPollutantSetMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.GasOutPutPollutantSetVO">
+        <id column="PK_DataID" jdbcType="VARCHAR" property="pkDataid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="FK_GasOutPutID" jdbcType="VARCHAR" property="fkGasoutputid"/>
+        <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode"/>
+        <result column="FK_StandardID" jdbcType="VARCHAR" property="fkStandardid"/>
+        <result column="StandardMaxValue" jdbcType="DOUBLE" property="standardmaxvalue"/>
+        <result column="StandardMinValue" jdbcType="DOUBLE" property="standardminvalue"/>
+        <result column="MonitorWay" jdbcType="NUMERIC" property="monitorway"/>
+        <result column="alarmtype" jdbcType="NUMERIC" property="alarmtype"/>
+        <result column="alarmcontroltimes" jdbcType="NUMERIC" property="alarmcontroltimes"/>
+        <result column="ExceptionMaxValue" jdbcType="DOUBLE" property="exceptionmaxvalue"/>
+        <result column="ExceptionMinValue" jdbcType="DOUBLE" property="exceptionminvalue"/>
+        <result column="ZeroValueTimes" jdbcType="NUMERIC" property="zerovaluetimes"/>
+        <result column="ContinuityValueTimes" jdbcType="NUMERIC" property="continuityvaluetimes"/>
+        <result column="iseffectivetransmission" jdbcType="NUMERIC" property="iseffectivetransmission"/>
+        <result column="IsHasConvertData" jdbcType="NUMERIC" property="ishasconvertdata"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="FlowChangeWarnPercent" jdbcType="DOUBLE" property="flowchangewarnpercent"/>
+        <result column="ConcentrationChangeWarnPercent" jdbcType="DOUBLE" property="concentrationchangewarnpercent"/>
+        <result column="ChangeBaseValue" jdbcType="DOUBLE" property="changebasevalue"/>
+        <result column="pollutantratio" jdbcType="DOUBLE" property="pollutantratio"/>
+
+        <!-- 一对一标准 -->
+        <association property="standardVO"
+                     javaType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+            <id column="PK_StandardID" jdbcType="VARCHAR" property="pkStandardid"/>
+            <result column="StandardName" jdbcType="VARCHAR" property="standardname"/>
+        </association>
+
+        <!-- 一对一污染物 -->
+        <association property="pollutantFactorVO" javaType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+            <result column="pollutantcode" property="code" jdbcType="VARCHAR"/>
+            <result column="pollutantname" property="name" jdbcType="VARCHAR"/>
+            <result column="PollutantUnit" property="pollutantunit" jdbcType="VARCHAR"/>
+            <result column="IsShowFlow" property="isshowflow" jdbcType="NUMERIC"/>
+        </association>
+        <!-- 一对多 earlyWarningSetVOS-->
+        <collection property="earlyWarningSetVOS"
+                    ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.EarlyWarningSetVO">
+            <result column="ConcenAlarmMinValue" jdbcType="DOUBLE" property="concenalarmminvalue"/>
+            <result column="ConcenAlarmMaxValue" jdbcType="DOUBLE" property="concenalarmmaxvalue"/>
+            <association property="alarmLevelVO" javaType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO">
+                <result column="alarmlevelcode" property="code" jdbcType="VARCHAR"/>
+                <result column="alarmlevelname" property="name" jdbcType="VARCHAR"/>
+            </association>
+        </collection>
+
+    </resultMap>
+
+    <resultMap id="pollutantSetMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.PollutantSetDataVO">
+        <id column="standardid" property="pkId" jdbcType="VARCHAR"/>
+        <result column="pollutantcode" property="pollutantcode" jdbcType="VARCHAR"/>
+        <result column="alarmtype" property="alarmtype" jdbcType="NUMERIC"/>
+        <result column="standardminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+        <result column="standardmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        <collection property="alarmLevelDataVOList"
+                    ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AlarmLevelDataVO">
+            <id column="alarmid" property="pkId" jdbcType="VARCHAR"/>
+            <result column="concenalarmminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+            <result column="concenalarmmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        </collection>
+    </resultMap>
+    <!--
+          author:lip
+          description: 获取重金属、烟气污染物设置信息
+          param:
+          date: 2020/05/20 14:32
+        -->
+    <select id="getPollutantSetDataListByParam" parameterType="map" resultMap="pollutantSetMap">
+        SELECT
+            t2.pk_dataid AS standardid,
+            t2.fk_pollutantcode AS pollutantcode,
+            t2.alarmtype,
+            t2.standardminvalue,
+            t2.standardmaxvalue,
+            t3.FK_AlarmLevelCode AS alarmid,
+            t3.concenalarmminvalue,
+            t3.concenalarmmaxvalue
+        FROM
+            t_bas_gasoutputinfo t1
+            INNER JOIN t_bas_gasoutputpollutantset t2 ON t1.pk_id = t2.fk_gasoutputid
+            and t1.PK_ID = #{monitorpointid}
+            LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t1.pk_id
+            AND t1.fk_pollutionid = t3.fk_pollutionid
+            AND t3.fk_pollutantcode = t2.fk_pollutantcode
+    </select>
+
+
+    <!--
+          author:lip
+          description: 获取其他其他污染设置信息
+          param:
+          date: 2020/05/20 14:32
+        -->
+    <select id="getUNGasPollutantSetDataListByParam" parameterType="map" resultMap="pollutantSetMap">
+        SELECT
+            t2.pk_dataid AS standardid,
+            t2.fk_pollutantcode AS pollutantcode,
+            t2.alarmtype,
+            t2.standardminvalue,
+            t2.standardmaxvalue,
+            t3.FK_AlarmLevelCode AS alarmid,
+            t3.concenalarmminvalue,
+            t3.concenalarmmaxvalue
+        FROM
+            T_BAS_UnorganizedMonitorPointInfo t1
+            INNER JOIN t_bas_gasoutputpollutantset t2 ON t1.pk_id = t2.fk_gasoutputid
+            and t1.PK_ID = #{monitorpointid}
+            LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t1.pk_id
+            AND t1.fk_pollutionid = t3.fk_pollutionid
+            AND t3.fk_pollutantcode = t2.fk_pollutantcode
+    </select>
+
+
+    <sql id="Base_Column_List">
+    PK_DataID, FK_PollutionID, FK_GasOutPutID, FK_PollutantCode, FK_StandardID, StandardMaxValue, 
+    StandardMinValue, MonitorWay, alarmtype, alarmcontroltimes, ExceptionMaxValue,iseffectivetransmission,
+    ExceptionMinValue, ZeroValueTimes, ContinuityValueTimes, UpdateTime, UpdateUser,FlowChangeWarnPercent,ConcentrationChangeWarnPercent,changebasevalue,pollutantratio
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_GasOutPutPollutantSet
+        where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_GasOutPutPollutantSet
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </delete>
+
+    <delete id="deleteGasOutPutPollutantByID" parameterType="java.lang.String">
+        delete from T_BAS_GasOutPutPollutantSet
+        where FK_GasOutPutID = #{fkGasoutputid,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteGasOutPutEarlyWarningSetByID" parameterType="java.lang.String">
+        delete from T_BAS_EarlyWarningSet
+        where FK_OutPutID = #{fkOutputid}
+    </delete>
+
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GasOutPutPollutantSetVO">
+    insert into T_BAS_GasOutPutPollutantSet (PK_DataID, FK_PollutionID, FK_GasOutPutID, 
+      FK_PollutantCode, FK_StandardID, StandardMaxValue, 
+      StandardMinValue, MonitorWay, alarmtype, iseffectivetransmission,
+      alarmcontroltimes, ExceptionMaxValue, ExceptionMinValue, 
+      ZeroValueTimes, ContinuityValueTimes, UpdateTime, FlowChangeWarnPercent,ConcentrationChangeWarnPercent,changebasevalue,pollutantratio,
+      UpdateUser)
+    values (#{pkDataid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkGasoutputid,jdbcType=VARCHAR}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{fkStandardid,jdbcType=VARCHAR}, #{standardmaxvalue,jdbcType=DOUBLE}, 
+      #{standardminvalue,jdbcType=DOUBLE}, #{monitorway,jdbcType=NUMERIC}, #{alarmtype,jdbcType=NUMERIC}, #{iseffectivetransmission,jdbcType=NUMERIC},
+      #{alarmcontroltimes,jdbcType=NUMERIC}, #{exceptionmaxvalue,jdbcType=DOUBLE}, #{exceptionminvalue,jdbcType=DOUBLE},
+      #{zerovaluetimes,jdbcType=NUMERIC}, #{continuityvaluetimes,jdbcType=NUMERIC}, #{updatetime,jdbcType=TIMESTAMP}, #{flowchangewarnpercent,jdbcType=DOUBLE}
+      ,#{concentrationchangewarnpercent,jdbcType=DOUBLE},#{changebasevalue,jdbcType=DOUBLE},#{pollutantratio,jdbcType=DOUBLE}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GasOutPutPollutantSetVO">
+        insert into T_BAS_GasOutPutPollutantSet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkDataid != null">
+                PK_DataID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkGasoutputid != null">
+                FK_GasOutPutID,
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode,
+            </if>
+            <if test="fkStandardid != null">
+                FK_StandardID,
+            </if>
+            <if test="standardmaxvalue != null">
+                StandardMaxValue,
+            </if>
+            <if test="standardminvalue != null">
+                StandardMinValue,
+            </if>
+            <if test="monitorway != null">
+                MonitorWay,
+            </if>
+            <if test="alarmtype != null">
+                alarmtype,
+            </if>
+            <if test="iseffectivetransmission != null">
+                iseffectivetransmission,
+            </if>
+            <if test="alarmcontroltimes != null">
+                alarmcontroltimes,
+            </if>
+            <if test="exceptionmaxvalue != null">
+                ExceptionMaxValue,
+            </if>
+            <if test="exceptionminvalue != null">
+                ExceptionMinValue,
+            </if>
+            <if test="zerovaluetimes != null">
+                ZeroValueTimes,
+            </if>
+            <if test="continuityvaluetimes != null">
+                ContinuityValueTimes,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="flowchangewarnpercent != null">
+                FlowChangeWarnPercent,
+            </if>
+            <if test="concentrationchangewarnpercent != null">
+                ConcentrationChangeWarnPercent,
+            </if>
+            <if test="changebasevalue != null">
+                changebasevalue,
+            </if>
+            <if test="pollutantratio != null">
+                pollutantratio,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkDataid != null">
+                #{pkDataid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkGasoutputid != null">
+                #{fkGasoutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkStandardid != null">
+                #{fkStandardid,jdbcType=VARCHAR},
+            </if>
+            <if test="standardmaxvalue != null">
+                #{standardmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="standardminvalue != null">
+                #{standardminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="monitorway != null">
+                #{monitorway,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmtype != null">
+                #{alarmtype,jdbcType=NUMERIC},
+            </if>
+            <if test="iseffectivetransmission != null">
+                #{iseffectivetransmission,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmcontroltimes != null">
+                #{alarmcontroltimes,jdbcType=NUMERIC},
+            </if>
+            <if test="exceptionmaxvalue != null">
+                #{exceptionmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="exceptionminvalue != null">
+                #{exceptionminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="zerovaluetimes != null">
+                #{zerovaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="continuityvaluetimes != null">
+                #{continuityvaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="flowchangewarnpercent != null">
+                #{flowchangewarnpercent,jdbcType=DOUBLE},
+            </if>
+            <if test="concentrationchangewarnpercent != null">
+                #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+            </if>
+            <if test="changebasevalue != null">
+                #{changebasevalue,jdbcType=DOUBLE},
+            </if>
+            <if test="pollutantratio != null">
+                #{pollutantratio,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GasOutPutPollutantSetVO">
+        update T_BAS_GasOutPutPollutantSet
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkGasoutputid != null">
+                FK_GasOutPutID = #{fkGasoutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkStandardid != null">
+                FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+            </if>
+            <if test="standardmaxvalue != null">
+                StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="standardminvalue != null">
+                StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="monitorway != null">
+                MonitorWay = #{monitorway,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmtype != null">
+                alarmtype = #{alarmtype,jdbcType=NUMERIC},
+            </if>
+            <if test="iseffectivetransmission != null">
+                iseffectivetransmission = #{iseffectivetransmission,jdbcType=NUMERIC},
+            </if>
+            <if test="alarmcontroltimes != null">
+                alarmcontroltimes = #{alarmcontroltimes,jdbcType=NUMERIC},
+            </if>
+            <if test="exceptionmaxvalue != null">
+                ExceptionMaxValue = #{exceptionmaxvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="exceptionminvalue != null">
+                ExceptionMinValue = #{exceptionminvalue,jdbcType=DOUBLE},
+            </if>
+            <if test="zerovaluetimes != null">
+                ZeroValueTimes = #{zerovaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="continuityvaluetimes != null">
+                ContinuityValueTimes = #{continuityvaluetimes,jdbcType=NUMERIC},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="flowchangewarnpercent != null">
+                FlowChangeWarnPercent = #{flowchangewarnpercent,jdbcType=DOUBLE},
+            </if>
+            <if test="concentrationchangewarnpercent != null">
+                ConcentrationChangeWarnPercent = #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+            </if>
+            <if test="changebasevalue != null">
+                changebasevalue = #{changebasevalue,jdbcType=DOUBLE},
+            </if>
+            <if test="pollutantratio != null">
+                pollutantratio = #{pollutantratio,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.GasOutPutPollutantSetVO">
+    update T_BAS_GasOutPutPollutantSet
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_GasOutPutID = #{fkGasoutputid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+      StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+      StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+      MonitorWay = #{monitorway,jdbcType=NUMERIC},
+      alarmtype = #{alarmtype,jdbcType=NUMERIC},
+      iseffectivetransmission = #{iseffectivetransmission,jdbcType=NUMERIC},
+      alarmcontroltimes = #{alarmcontroltimes,jdbcType=NUMERIC},
+      ExceptionMaxValue = #{exceptionmaxvalue,jdbcType=DOUBLE},
+      ExceptionMinValue = #{exceptionminvalue,jdbcType=DOUBLE},
+      ZeroValueTimes = #{zerovaluetimes,jdbcType=NUMERIC},
+      ContinuityValueTimes = #{continuityvaluetimes,jdbcType=NUMERIC},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      FlowChangeWarnPercent = #{flowchangewarnpercent,jdbcType=DOUBLE},
+      ConcentrationChangeWarnPercent = #{concentrationchangewarnpercent,jdbcType=DOUBLE},
+      changebasevalue = #{changebasevalue,jdbcType=DOUBLE},
+      pollutantratio = #{pollutantratio,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+ * @author: lip
+ * @date: 2019/5/22 0022 下午 1:34
+ * @Description: 根据排口ID获取废气污染物设置表信息
+ * @updateUser:
+ * @updateDate:
+ * @updateDescription:
+-->
+    <select id="getGasOutPutPollutantSetsByOutputId" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        t1.PK_DataID,
+        t1.pollutantratio,
+        t4.Code pollutantcode,
+        t4.Name pollutantname,
+        t1.FK_PollutantCode,
+        t4.PollutantUnit,
+        t4.IsShowFlow,
+        t4.IsHasConvertData,
+        t1.MonitorWay,
+        t5.PK_StandardID,
+        t5.StandardName,
+        t1.StandardMaxValue,
+        t1.StandardMinValue,
+        t1.ExceptionMaxValue,
+        t1.ExceptionMinValue,
+        t1.alarmtype,
+        t1.AlarmControlTimes,
+        t1.ZeroValueTimes,
+        t1.ContinuityValueTimes,
+        t7.Code alarmlevelcode,
+        t7.Name alarmlevelname,
+        t6.ConcenAlarmMaxValue,
+        t6.ConcenAlarmMinValue,
+        t1.FlowChangeWarnPercent,
+        t1.ChangeBaseValue,
+        t1.iseffectivetransmission,
+        t1.ConcentrationChangeWarnPercent
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+        <if test="!unorgflag">
+            INNER JOIN T_BAS_GasOutputInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        <if test="unorgflag">
+            INNER JOIN T_BAS_UnorganizedMonitorPointInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+        LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_GasOutPutID
+        AND t6.FK_PollutionID = t1.FK_PollutionID
+        AND t6.FK_PollutantCode = t1.FK_PollutantCode
+        LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+        where FK_GasOutPutID = #{outputid,jdbcType=VARCHAR}
+        <if test="pollutantcode != null and pollutantcode!=''">
+            and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+        </if>
+        ORDER by t4.OrderIndex,t7.Code
+    </select>
+
+    <!--
+     * @author: chengzq
+     * @date: 2019/5/22 0022 下午 1:34
+     * @Description: 根据排口ID获取废气污染物设置表信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getGasOutPutPollutantSetByOutputId" parameterType="map" resultType="map">
+        SELECT
+        t1.pk_dataid,
+        t1.PollutantRatio,
+        t4.code pollutantcode,
+        t4.name pollutantname,
+        t4.IsDefaultSelect,
+        t1.fk_pollutantcode,
+        t4.pollutantunit,
+        t1.monitorway,
+        t5.pk_standardid,
+        t5.standardname,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        t1.exceptionmaxvalue,
+        t1.exceptionminvalue,
+        t1.alarmtype,
+        t1.alarmcontroltimes,
+        t1.zerovaluetimes,
+        t1.continuityvaluetimes,
+        t7.code alarmlevelcode,
+        t7.name alarmlevelname,
+        t6.concenalarmmaxvalue,
+        t1.MonitorStatus,
+        t6.concenalarmminvalue,
+        t4.orderindex,
+        t3.dgimn
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+        <if test="!unorgflag">
+            INNER JOIN T_BAS_GasOutputInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        <if test="unorgflag">
+            INNER JOIN T_BAS_UnorganizedMonitorPointInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused='1'
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        <if test="pollutanttype==null or pollutanttype== '' ">
+            AND t4.PollutantType = '2'
+        </if>
+        LEFT JOIN T_BAS_Standard t5 ON t5.PK_StandardID = t1.FK_StandardID
+        LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_GasOutPutID
+        AND t6.FK_PollutionID = t1.FK_PollutionID
+        AND t6.FK_PollutantCode = t1.FK_PollutantCode
+        LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode
+        <where>
+            <if test="outputid!=null and outputid!='' ">
+                and FK_GasOutPutID = #{outputid,jdbcType=VARCHAR}
+            </if>
+            <if test="outputids !=null and outputids.size>0 ">
+                and FK_GasOutPutID in
+                <foreach collection="outputids" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutantcode != null and pollutantcode!=''">
+                and t1.FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+            </if>
+            <if test="pollutantcodes !=null and pollutantcodes.size>0">
+                and t1.FK_PollutantCode in
+                <foreach collection="pollutantcodes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+
+
+        order by t4.orderindex,
+        t7.code
+    </select>
+
+    <!--
+    * @author: xsm
+    * @date: 2019/12/05 0005 下午 6:27
+    * @Description: 根据排口ID获取废气污染物设置表信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+    <select id="getGasOutPutPollutantSetInfoByParam" parameterType="map" resultType="map">
+        SELECT
+        t1.pk_dataid,
+        t4.code pollutantcode,
+        t4.name pollutantname,
+        t1.fk_pollutantcode,
+        t4.pollutantunit,
+        t1.MonitorStatus,
+        t4.orderindex,
+        t4.pollutantcategory
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+        <if test="!unorgflag">
+            INNER JOIN T_BAS_GasOutputInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        <if test="unorgflag">
+            INNER JOIN T_BAS_UnorganizedMonitorPointInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused='1'
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        where FK_GasOutPutID = #{outputid,jdbcType=VARCHAR}
+        order by t4.orderindex
+    </select>
+    <!--
+        author:zhangzc
+        description:根据废气排口ID获取排口下的污染物
+        param:
+        date: 2019/5/29 14:17
+      -->
+    <select id="getGasPollutantsByParamMap" parameterType="map" resultMap="BaseResultMap">
+        SELECT DISTINCT
+        t4.Code pollutantcode,
+        t4.Name pollutantname,
+        t4.PollutantUnit,
+        t4.OrderIndex
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+
+        <if test="!unorgflag">
+            INNER JOIN T_BAS_GasOutputInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        <if test="unorgflag">
+            INNER JOIN T_BAS_UnorganizedMonitorPointInfo t3 ON t1.FK_GasOutPutID = t3.PK_ID
+        </if>
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused='1'
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+            <if test="pollutanttype!=null and pollutanttype!= '' ">
+                AND t4.PollutantType = #{pollutanttype}
+            </if>
+            <if test="pollutanttype==null or pollutanttype== '' ">
+                AND t4.PollutantType = '2'
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and t1.FK_GasOutPutID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isshowflow != null and isshowflow =='show'">
+                and (t4.IsShowFlow = '1')
+            </if>
+
+        </trim>
+        ORDER BY t4.OrderIndex
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过排口id集合查询废气，或废气无组织污染物
+        param:
+        date: 2019/06/22 18:56
+    -->
+    <select id="getGasOutPutPollutantSetsByOutputIds" parameterType="map" resultType="map">
+        SELECT
+        distinct
+        <choose>
+            <when test="pollutanttype==30 or pollutanttype==57 or pollutanttype==54 or pollutanttype==55 or pollutanttype==56 or pollutanttype==53"/>
+            <otherwise>
+                t1.StandardMaxValue,
+                t1.StandardMinValue,
+            </otherwise>
+        </choose>
+        t4.Code pollutantcode,
+        t4.Name pollutantname,
+        t4.PollutantUnit,
+        t4.IsShowFlow,
+        t4.IsHasConvertData,
+        <choose>
+            <when test="pollutanttype==2 or pollutanttype==22 or pollutanttype==38 or pollutanttype==40 or pollutanttype==41 ">
+                FK_GasOutPutID outputid,
+            </when>
+            <when test="pollutanttype==1 or pollutanttype==37">
+                FK_WaterOutPutID outputid,
+            </when>
+            <when test="pollutanttype==9 or pollutanttype==10 or pollutanttype==52 or pollutanttype==33 or pollutanttype==12">
+
+            </when>
+            <when test="pollutanttype==5 ">
+                FK_AirMonintPointID outputid,
+            </when>
+            <when test="pollutanttype==6 ">
+                FK_WaterPointID outputid,
+            </when>
+            <when test="pollutanttype==30 ">
+                FK_StorageTankID outputid,
+            </when>
+            <when test="pollutanttype==57 ">
+                FK_ProductDeviceID outputid,
+            </when>
+            <when test="pollutanttype==51 ">
+                FK_SoilPointID outputid,
+            </when>
+            <when test="pollutanttype==53 ">
+                FK_UseElectricFacilityMonitorPointId outputid,
+            </when>
+            <when test="pollutanttype==54 or pollutanttype==55 or pollutanttype==56">
+                FK_RiskAreaMonintID outputid,
+            </when>
+            <otherwise>
+                FK_OtherMonintPointID outputid,
+            </otherwise>
+        </choose>
+
+
+        ${pollutanttype} pollutanttype,
+        t4.OrderIndex
+        FROM
+
+        <choose>
+            <when test="pollutanttype==2 or pollutanttype==22 or pollutanttype==38 or pollutanttype==40 or pollutanttype==41 ">
+                T_BAS_GasOutPutPollutantSet t1
+            </when>
+            <when test="pollutanttype==1 or pollutanttype==37">
+                T_BAS_WaterOutPutPollutantSet t1
+            </when>
+            <when test="pollutanttype==5 ">
+                T_BAS_AirStationPollutantSet t1
+            </when>
+            <when test="pollutanttype==6 ">
+                T_BAS_WaterStationPollutantSet t1
+            </when>
+            <when test="pollutanttype==30 ">
+                T_AQ_StorageTankSet t1
+            </when>
+            <when test="pollutanttype==57 ">
+                T_AQ_ProductDevicePollutantSet t1
+            </when>
+            <when test="pollutanttype==51 ">
+                T_BAS_SoilPollutantSet t1
+            </when>
+            <when test="pollutanttype==53 ">
+                T_BAS_UseElectricFacilityMonitorPointSet t1
+            </when>
+            <when test="pollutanttype==54 or pollutanttype==55 or pollutanttype==56">
+                T_AQ_RiskAreaMonitorPointPollutantSet t1
+            </when>
+            <otherwise>
+                T_BAS_OtherMonitorPointPollutantSet t1
+            </otherwise>
+        </choose>
+
+
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused=1
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        <if test="pollutionid!=null and pollutionid!= ''">
+            AND t1.fk_pollutionid = #{pollutionid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                <choose>
+                    <when test="pollutanttype==2 or pollutanttype==22 or pollutanttype==38 or pollutanttype==40 or pollutanttype==41 ">
+                        and FK_GasOutPutID in
+                    </when>
+                    <when test="pollutanttype==1 or pollutanttype==37">
+                        and FK_WaterOutPutID in
+                    </when>
+                    <when test="pollutanttype==5 ">
+                        and FK_AirMonintPointID in
+                    </when>
+                    <when test="pollutanttype==6 ">
+                        and FK_WaterPointID in
+                    </when>
+                    <when test="pollutanttype==30 ">
+                        and FK_StorageTankID in
+                    </when>
+                    <when test="pollutanttype==57 ">
+                        and FK_ProductDeviceID in
+                    </when>
+                    <when test="pollutanttype==51 ">
+                        and FK_SoilPointID in
+                    </when>
+                    <when test="pollutanttype==53 ">
+                        and FK_UseElectricFacilityMonitorPointId in
+                    </when>
+                    <when test="pollutanttype==54 or pollutanttype==55 or pollutanttype==56">
+                        and FK_RiskAreaMonintID in
+                    </when>
+                    <otherwise>
+                        and FK_OtherMonintPointID in
+                    </otherwise>
+                </choose>
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="excludepollutantcodes!=null and excludepollutantcodes.size>0">
+                and t4.Code not in
+                <foreach collection="excludepollutantcodes" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER by t4.OrderIndex
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2021/1/13 0013 下午 2:25
+     * @Description: 获取废气点位污染物标准信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getPollutantStandardDataListByParam" parameterType="map" resultType="map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        t2.dgimn,
+        t1.alarmtype,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        t1.fk_pollutantcode AS pollutantcode,
+        '4' AS alarmleveltype,
+        t1.FK_GasOutPutID AS monitorpointid
+        FROM
+        t_bas_gasoutputpollutantset t1
+        INNER JOIN t_bas_gasoutputinfo t2 ON t1.fk_gasoutputid = t2.pk_id
+        UNION
+        SELECT
+        t2.dgimn,
+        t3.alarmtype,
+        t1.ConcenAlarmMaxValue AS standardmaxvalue,
+        t1.ConcenAlarmMinValue AS standardminvalue,
+        t1.fk_pollutantcode AS pollutantcode,
+        t1.FK_AlarmLevelCode AS alarmleveltype,
+        t2.PK_ID AS monitorpointid
+        FROM
+        T_BAS_EarlyWarningSet t1
+        INNER JOIN t_bas_gasoutputinfo t2 ON t1.FK_OutPutID = t2.PK_ID
+        INNER JOIN t_bas_gasoutputpollutantset t3 on t3.FK_GasOutPutID = t2.PK_ID
+        and t3.FK_PollutantCode = t1.FK_PollutantCode
+
+        ) t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                t.monitorpointid in
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+    </select>
+
+
+    <select id="getAlarmLevelDataByParam" parameterType="map" resultType="map">
+        SELECT
+        distinct
+        t4.Code pollutantcode,
+        t1.AlarmType,
+        <if test="pollutanttype==30 ">
+            FK_StorageTankID outputid,
+            t1.AlarmMinValue,
+            t1.AlarmMaxValue,
+        </if>
+        <if test="pollutanttype==57 ">
+            FK_ProductDeviceID outputid,
+            t1.AlarmMinValue,
+            t1.AlarmMaxValue,
+        </if>
+        <if test="pollutanttype==54 or pollutanttype==55 or pollutanttype==56">
+            FK_RiskAreaMonintID outputid,
+            t1.AlarmMinValue,
+            t1.AlarmMaxValue,
+        </if>
+        t1.FK_AlarmLevelCode as AlarmLevelCode
+        FROM
+        <if test="pollutanttype==30 ">
+            T_AQ_StorageTankSet t1
+        </if>
+        <if test="pollutanttype==57 ">
+            T_AQ_ProductDevicePollutantSet t1
+        </if>
+
+        <if test="pollutanttype==54 or pollutanttype==55 or pollutanttype==56">
+            T_AQ_RiskAreaMonitorPointPollutantSet t1
+        </if>
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused=1
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        <if test="pollutionid!=null and pollutionid!= ''">
+            AND t1.fk_pollutionid = #{pollutionid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                <if test="pollutanttype==30 ">
+                    and FK_StorageTankID in
+                </if>
+                <if test="pollutanttype==57 ">
+                    and FK_ProductDeviceID in
+                </if>
+                <if test="pollutanttype==54 or pollutanttype==55 or pollutanttype==56">
+                    and FK_RiskAreaMonintID in
+                </if>
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 获取set表中突变百分比及污染物信息
+        param:
+        date: 2019/07/09 19:06
+    -->
+    <select id="getOutPutPollutantSetsByParams" parameterType="map" resultType="map">
+        SELECT
+        distinct
+        t4.Code pollutantcode,
+        t4.Name pollutantname,
+        t4.PollutantUnit,
+        t4.IsHasConvertData,
+        t4.orderindex,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        <if test="pollutanttype==2 or pollutanttype==22 or pollutanttype==38 or pollutanttype==40 or pollutanttype==41">
+            FK_GasOutPutID monitorid,
+        </if>
+        <if test="pollutanttype==1 or pollutanttype==37">
+            FK_WaterOutPutID monitorid,
+        </if>
+        <if test="pollutanttype==9 or pollutanttype==10 or pollutanttype==33 or pollutanttype==12">
+            FK_OtherMonintPointID monitorid,
+        </if>
+        <if test="pollutanttype==5 ">
+            FK_AirMonintPointID monitorid,
+        </if>
+        <if test="pollutanttype==6 ">
+            FK_WaterPointID monitorid,
+        </if>
+        <if test="flowchangewarn">
+            t1.FlowChangeWarnPercent,
+        </if>
+        <if test="concentrationchange">
+            t1.ConcentrationChangeWarnPercent,
+        </if>
+        t4.IsShowFlow
+        FROM
+        <if test="pollutanttype==2 or pollutanttype==22 or pollutanttype==38 or pollutanttype==40 or pollutanttype==41">
+            T_BAS_GasOutPutPollutantSet t1
+            INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+        </if>
+        <if test="pollutanttype==1 or pollutanttype==37">
+            T_BAS_WaterOutPutPollutantSet t1
+            INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+        </if>
+        <if test="pollutanttype==9 or pollutanttype==10 or pollutanttype==33 or pollutanttype==12">
+            T_BAS_OtherMonitorPointPollutantSet t1
+        </if>
+        <if test="pollutanttype==5 ">
+            T_BAS_AirStationPollutantSet t1
+        </if>
+        <if test="pollutanttype==6 ">
+            T_BAS_WaterStationPollutantSet t1
+        </if>
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused=1
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        <if test="pollutionid!=null and pollutionid!= '' ">
+            AND t1.fk_pollutionid = #{pollutionid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                <if test="pollutanttype==2 or pollutanttype==22 or pollutanttype==38 or pollutanttype==40 or pollutanttype==41">
+                    and FK_GasOutPutID in
+                </if>
+                <if test="pollutanttype==1 or pollutanttype==37">
+                    and FK_WaterOutPutID in
+                </if>
+                <if test="pollutanttype==9 or pollutanttype==10 or pollutanttype==33 or pollutanttype==12">
+                    and FK_OtherMonintPointID in
+                </if>
+                <if test="pollutanttype==5 ">
+                    and FK_AirMonintPointID in
+                </if>
+                <if test="pollutanttype==6 ">
+                    and FK_WaterPointID in
+                </if>
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+        ORDER by t4.OrderIndex
+
+    </select>
+
+    <!--
+       author:xsm
+       description: 获取set表中突变百分比及污染物信息(只查其它类型表类型的数据)
+       param:
+       date: 2022/04/19 8:58
+   -->
+    <select id="getOtherPointPollutantSetsByParams" parameterType="map" resultType="map">
+        SELECT
+        distinct
+        t4.Code pollutantcode,
+        t4.Name pollutantname,
+        t4.PollutantUnit,
+        t4.IsHasConvertData,
+        t4.orderindex,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        FK_OtherMonintPointID monitorid,
+        <if test="flowchangewarn">
+            t1.FlowChangeWarnPercent,
+        </if>
+        <if test="concentrationchange">
+            t1.ConcentrationChangeWarnPercent,
+        </if>
+        t4.IsShowFlow
+        FROM
+            T_BAS_OtherMonitorPointPollutantSet t1
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code and t4.isused=1
+        <if test="pollutanttype!=null and pollutanttype!= '' ">
+            AND t4.PollutantType = #{pollutanttype}
+        </if>
+        <if test="pollutionid!=null and pollutionid!= '' ">
+            AND t1.fk_pollutionid = #{pollutionid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                    and FK_OtherMonintPointID in
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+        ORDER by t4.OrderIndex
+
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过自定义条件获取废水，废气，雨水，水质的污染物报警类型
+        param:
+        date: 2020/02/18 20:08
+    -->
+    <select id="getPollutantSetInfoByParamMap" parameterType="map" resultType="map">
+        select * from (
+        SELECT
+        FK_PollutantCode,
+        dgimn,
+        AlarmType
+        FROM
+        T_BAS_WaterOutputInfo
+        LEFT JOIN T_BAS_WaterOutPutPollutantSet ON T_BAS_WaterOutputInfo.PK_ID=
+        T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID UNION
+        SELECT
+        FK_PollutantCode,
+        dgimn,
+        AlarmType
+        FROM
+        T_BAS_GASOutPutInfo
+        LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+        UNION
+        SELECT
+        FK_PollutantCode,
+        dgimn,
+        AlarmType
+        FROM
+        T_BAS_WaterStationInfo
+        LEFT JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationInfo.PK_WaterStationID=
+        T_BAS_WaterStationPollutantSet.FK_WaterPointID
+        )t
+        <where>
+            <if test="dgimns!=null and dgimns.size>0">
+                and t.dgimn in
+                <foreach collection="dgimns" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutants!=null and pollutants.size>0">
+                and t.FK_PollutantCode in
+                <foreach collection="pollutants" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllGasPollutantInfo" resultType="map">
+        SELECT
+            *
+        FROM
+            T_BAS_GASOutPutInfo
+            JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+    </select>
+
+
+    <select id="getPollutantSetByParam" parameterType="map" resultType="map">
+        select
+        t1.pk_dataid,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        t1.alarmtype,
+        t3.fk_alarmlevelcode,
+        t3.concenalarmmaxvalue,
+        t3.concenalarmminvalue
+        from
+        t_bas_gasoutputpollutantset t1
+        <if test="monitorpointtype==2 or monitorpointtype==22">
+            inner join t_bas_gasoutputinfo t2 on t1.fk_gasoutputid = t2.pk_id
+        </if>
+        <if test="monitorpointtype==40">
+            inner join T_BAS_UnorganizedMonitorPointInfo t2 on t1.FK_GasOutPutID = t2.PK_ID
+        </if>
+        left join t_bas_earlywarningset t3 on t3.fk_outputid = t1.fk_gasoutputid
+        and t3.fk_pollutantcode = t1.fk_pollutantcode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.AlarmType IS NOT NULL
+            <if test="dgimn!=null and dgimn!=''">
+                and t2.DGIMN = #{dgimn}
+            </if>
+            <if test="pollutantcode!=null and pollutantcode!=''">
+                and t1.FK_PollutantCode = #{pollutantcode}
+            </if>
+
+        </trim>
+
+    </select>
+
+
+    <select id="getPollutantSetListByParam" parameterType="map" resultType="map">
+        SELECT
+        t1.fk_pollutantcode,
+        t2.dgimn,
+        t1.alarmtype,
+        t1.standardminvalue,
+        t1.standardmaxvalue,
+        t4.ishasconvertdata,
+        t4.pollutantunit,
+        t3.fk_alarmlevelcode,
+        t3.concenalarmminvalue,
+        t3.concenalarmmaxvalue
+        FROM
+        <if test="monitorpointtypes!=null">
+            <choose>
+                <when test="monitorpointtypes.contains('1'.toString())">
+                    t_bas_wateroutputpollutantset t1
+                    INNER JOIN t_bas_wateroutputinfo t2 ON t2.pk_id = t1.fk_wateroutputid
+                    INNER JOIN pub_code_pollutantfactor t4 ON t4.code = t1.fk_pollutantcode
+                    AND t4.pollutanttype = '1'
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.pk_id
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </when>
+                <when test="monitorpointtypes.contains('37'.toString())">
+                    t_bas_wateroutputpollutantset t1
+                    INNER JOIN t_bas_wateroutputinfo t2 ON t2.pk_id = t1.fk_wateroutputid
+                    INNER JOIN pub_code_pollutantfactor t4 ON t4.code = t1.fk_pollutantcode
+                    AND t4.pollutanttype = '37'
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.pk_id
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </when>
+
+                <when test="monitorpointtypes.contains('5'.toString())">
+                    T_BAS_AirStationPollutantSet t1
+                    INNER JOIN T_BAS_AirMonitorStation t2 ON t2.PK_AirID = t1.FK_AirMonintPointID
+                    INNER JOIN pub_code_pollutantfactor t4 ON t4.code = t1.FK_PollutantCode
+                    AND t4.pollutanttype = 5
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.PK_AirID
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </when>
+                <when test="monitorpointtypes.contains('6'.toString())">
+                    T_BAS_WaterStationPollutantSet t1
+                    INNER JOIN T_BAS_WaterStationInfo t2 ON t2.PK_WaterStationID = t1.FK_WaterPointID
+                    INNER JOIN pub_code_pollutantfactor t4 ON t4.code = t1.FK_PollutantCode
+                    AND t4.pollutanttype = 6
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.PK_WaterStationID
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </when>
+
+                <when test="monitorpointtypes.contains('2'.toString())">
+                    t_bas_gasoutputpollutantset t1
+                    INNER JOIN t_bas_gasoutputinfo t2 ON t2.pk_id = t1.fk_gasoutputid
+                    INNER JOIN pub_code_pollutantfactor t4 ON t4.code = t1.fk_pollutantcode
+                    AND t4.pollutanttype = t2.fk_monitorpointtypecode
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.pk_id
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </when>
+
+                <when test="monitorpointtypes.contains('22'.toString())">
+                    t_bas_gasoutputpollutantset t1
+                    INNER JOIN t_bas_gasoutputinfo t2 ON t2.pk_id = t1.fk_gasoutputid
+                    INNER JOIN pub_code_pollutantfactor t4 ON t4.code = t1.fk_pollutantcode
+                    AND t4.pollutanttype = t2.fk_monitorpointtypecode
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.pk_id
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </when>
+                <otherwise>
+                    T_BAS_OtherMonitorPointPollutantSet t1
+                    RIGHT JOIN T_BAS_OtherMonitorPoint t2 ON t2.PK_MonitorPointID = t1.FK_OtherMonintPointID
+                    LEFT JOIN pub_code_pollutantfactor t4 ON t4.code = t1.FK_PollutantCode
+                    AND t4.pollutanttype = t2.FK_MonitorPointTypeCode
+                    LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t2.PK_MonitorPointID
+                    AND t3.fk_pollutantcode = t1.fk_pollutantcode
+                </otherwise>
+            </choose>
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t2.dgimn is not null
+            and t1.fk_pollutantcode is not null
+            <if test="monitorpointtype!=null and monitorpointtype!=''">
+                and t2.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="dgimns!=null and dgimns.size>0">
+                and t2.dgimn in
+                <foreach collection="dgimns" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+        </trim>
+
+    </select>
+
+</mapper>

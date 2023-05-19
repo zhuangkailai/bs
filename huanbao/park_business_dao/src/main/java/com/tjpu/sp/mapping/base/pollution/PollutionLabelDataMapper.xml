@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.base.pollution.PollutionLabelDataMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.base.pollution.PollutionLabelDataVO" >
+    <id column="PK_ID" property="pkId" jdbcType="NVARCHAR" />
+    <result column="FK_PollutionLabelID" property="fkPollutionlabelid" jdbcType="NUMERIC" />
+    <result column="FK_PollutionID" property="fkPollutionid" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, FK_PollutionLabelID, FK_PollutionID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_PollutionLabelData
+    where PK_ID = #{pkId,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_PollutionLabelData
+    where PK_ID = #{pkId,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.base.pollution.PollutionLabelDataVO" >
+    insert into T_BAS_PollutionLabelData (PK_ID, FK_PollutionLabelID, FK_PollutionID
+      )
+    values (#{pkId,jdbcType=NVARCHAR}, #{fkPollutionlabelid,jdbcType=NUMERIC}, #{fkPollutionid,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.base.pollution.PollutionLabelDataVO" >
+    insert into T_BAS_PollutionLabelData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="fkPollutionlabelid != null" >
+        FK_PollutionLabelID,
+      </if>
+      <if test="fkPollutionid != null" >
+        FK_PollutionID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=NVARCHAR},
+      </if>
+      <if test="fkPollutionlabelid != null" >
+        #{fkPollutionlabelid,jdbcType=NUMERIC},
+      </if>
+      <if test="fkPollutionid != null" >
+        #{fkPollutionid,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.base.pollution.PollutionLabelDataVO" >
+    update T_BAS_PollutionLabelData
+    <set >
+      <if test="fkPollutionlabelid != null" >
+        FK_PollutionLabelID = #{fkPollutionlabelid,jdbcType=NUMERIC},
+      </if>
+      <if test="fkPollutionid != null" >
+        FK_PollutionID = #{fkPollutionid,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.base.pollution.PollutionLabelDataVO" >
+    update T_BAS_PollutionLabelData
+    set FK_PollutionLabelID = #{fkPollutionlabelid,jdbcType=NUMERIC},
+      FK_PollutionID = #{fkPollutionid,jdbcType=NVARCHAR}
+    where PK_ID = #{pkId,jdbcType=NVARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 批量新增标签
+      param:
+      date: 2019/05/23 13:53
+  -->
+  <insert id="insertLabels" parameterType="java.util.List">
+    insert into T_BAS_PollutionLabelData  (PK_ID, FK_PollutionLabelID, FK_PollutionID)
+    values
+    <foreach collection="list" separator="," item="item" >
+      (#{item.pkId},#{item.fkPollutionlabelid},#{item.fkPollutionid})
+    </foreach>
+  </insert>
+  <!--
+      author:chengzq
+      description: 通过污染源id删除标签
+      param:
+      date: 2019/05/23 13:59
+  -->
+  <delete id="deleteByPolltionid" parameterType="java.lang.String">
+    delete from T_BAS_PollutionLabelData where FK_PollutionID = #{fkPollutionid}
+  </delete>
+</mapper>

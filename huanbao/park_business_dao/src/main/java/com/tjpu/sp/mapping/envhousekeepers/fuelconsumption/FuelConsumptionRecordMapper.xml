@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.fuelconsumption.FuelConsumptionRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.fuelconsumption.FuelConsumptionRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FuelName" jdbcType="VARCHAR" property="fuelname" />
+    <result column="Consumption" jdbcType="VARCHAR" property="consumption" />
+    <result column="Calorificvalue" jdbcType="DOUBLE" property="calorificvalue" />
+    <result column="Unit" jdbcType="VARCHAR" property="unit" />
+    <result column="CoalSulfurContent" jdbcType="DOUBLE" property="coalsulfurcontent" />
+    <result column="AshContent" jdbcType="DOUBLE" property="ashcontent" />
+    <result column="VolatilizationContent" jdbcType="DOUBLE" property="volatilizationcontent" />
+    <result column="OtherCoal" jdbcType="VARCHAR" property="othercoal" />
+    <result column="FuelSulfurContent" jdbcType="DOUBLE" property="fuelsulfurcontent" />
+    <result column="OtherFuel" jdbcType="VARCHAR" property="otherfuel" />
+    <result column="HydrogenSulfide" jdbcType="DOUBLE" property="hydrogensulfide" />
+    <result column="OtherGas" jdbcType="VARCHAR" property="othergas" />
+    <result column="OtherFuels" jdbcType="VARCHAR" property="otherfuels" />
+    <result column="RecordUser" jdbcType="VARCHAR" property="recorduser" />
+    <result column="RecordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="ReviewerUser" jdbcType="VARCHAR" property="revieweruser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FuelName, Consumption, Calorificvalue, Unit, CoalSulfurContent, 
+    AshContent, VolatilizationContent, OtherCoal, FuelSulfurContent, OtherFuel, HydrogenSulfide, 
+    OtherGas, OtherFuels, RecordUser, RecordTime, ReviewerUser, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_FuelConsumptionRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_FuelConsumptionRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.fuelconsumption.FuelConsumptionRecordVO">
+    insert into T_GJ_FuelConsumptionRecord (PK_ID, FK_PollutionID, FuelName, 
+      Consumption, Calorificvalue, Unit, 
+      CoalSulfurContent, AshContent, VolatilizationContent, 
+      OtherCoal, FuelSulfurContent, OtherFuel, 
+      HydrogenSulfide, OtherGas, OtherFuels, 
+      RecordUser, RecordTime, ReviewerUser, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fuelname,jdbcType=VARCHAR}, 
+      #{consumption,jdbcType=VARCHAR}, #{calorificvalue,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, 
+      #{coalsulfurcontent,jdbcType=DOUBLE}, #{ashcontent,jdbcType=DOUBLE}, #{volatilizationcontent,jdbcType=DOUBLE}, 
+      #{othercoal,jdbcType=VARCHAR}, #{fuelsulfurcontent,jdbcType=DOUBLE}, #{otherfuel,jdbcType=VARCHAR}, 
+      #{hydrogensulfide,jdbcType=DOUBLE}, #{othergas,jdbcType=VARCHAR}, #{otherfuels,jdbcType=VARCHAR},
+      #{recorduser,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}, #{revieweruser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.fuelconsumption.FuelConsumptionRecordVO">
+    insert into T_GJ_FuelConsumptionRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fuelname != null">
+        FuelName,
+      </if>
+      <if test="consumption != null">
+        Consumption,
+      </if>
+      <if test="calorificvalue != null">
+        Calorificvalue,
+      </if>
+      <if test="unit != null">
+        Unit,
+      </if>
+      <if test="coalsulfurcontent != null">
+        CoalSulfurContent,
+      </if>
+      <if test="ashcontent != null">
+        AshContent,
+      </if>
+      <if test="volatilizationcontent != null">
+        VolatilizationContent,
+      </if>
+      <if test="othercoal != null">
+        OtherCoal,
+      </if>
+      <if test="fuelsulfurcontent != null">
+        FuelSulfurContent,
+      </if>
+      <if test="otherfuel != null">
+        OtherFuel,
+      </if>
+      <if test="hydrogensulfide != null">
+        HydrogenSulfide,
+      </if>
+      <if test="othergas != null">
+        OtherGas,
+      </if>
+      <if test="otherfuels != null">
+        OtherFuels,
+      </if>
+      <if test="recorduser != null">
+        RecordUser,
+      </if>
+      <if test="recordtime != null">
+        RecordTime,
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuelname != null">
+        #{fuelname,jdbcType=VARCHAR},
+      </if>
+      <if test="consumption != null">
+        #{consumption,jdbcType=VARCHAR},
+      </if>
+      <if test="calorificvalue != null">
+        #{calorificvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="coalsulfurcontent != null">
+        #{coalsulfurcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="ashcontent != null">
+        #{ashcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="volatilizationcontent != null">
+        #{volatilizationcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="othercoal != null">
+        #{othercoal,jdbcType=VARCHAR},
+      </if>
+      <if test="fuelsulfurcontent != null">
+        #{fuelsulfurcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="otherfuel != null">
+        #{otherfuel,jdbcType=VARCHAR},
+      </if>
+      <if test="hydrogensulfide != null">
+        #{hydrogensulfide,jdbcType=DOUBLE},
+      </if>
+      <if test="othergas != null">
+        #{othergas,jdbcType=VARCHAR},
+      </if>
+      <if test="otherfuels != null">
+        #{otherfuels,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.fuelconsumption.FuelConsumptionRecordVO">
+    update T_GJ_FuelConsumptionRecord
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuelname != null">
+        FuelName = #{fuelname,jdbcType=VARCHAR},
+      </if>
+      <if test="consumption != null">
+        Consumption = #{consumption,jdbcType=VARCHAR},
+      </if>
+      <if test="calorificvalue != null">
+        Calorificvalue = #{calorificvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="unit != null">
+        Unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="coalsulfurcontent != null">
+        CoalSulfurContent = #{coalsulfurcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="ashcontent != null">
+        AshContent = #{ashcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="volatilizationcontent != null">
+        VolatilizationContent = #{volatilizationcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="othercoal != null">
+        OtherCoal = #{othercoal,jdbcType=VARCHAR},
+      </if>
+      <if test="fuelsulfurcontent != null">
+        FuelSulfurContent = #{fuelsulfurcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="otherfuel != null">
+        OtherFuel = #{otherfuel,jdbcType=VARCHAR},
+      </if>
+      <if test="hydrogensulfide != null">
+        HydrogenSulfide = #{hydrogensulfide,jdbcType=DOUBLE},
+      </if>
+      <if test="othergas != null">
+        OtherGas = #{othergas,jdbcType=VARCHAR},
+      </if>
+      <if test="otherfuels != null">
+        OtherFuels = #{otherfuels,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        RecordUser = #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.fuelconsumption.FuelConsumptionRecordVO">
+    update T_GJ_FuelConsumptionRecord
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FuelName = #{fuelname,jdbcType=VARCHAR},
+      Consumption = #{consumption,jdbcType=VARCHAR},
+      Calorificvalue = #{calorificvalue,jdbcType=DOUBLE},
+      Unit = #{unit,jdbcType=VARCHAR},
+      CoalSulfurContent = #{coalsulfurcontent,jdbcType=DOUBLE},
+      AshContent = #{ashcontent,jdbcType=DOUBLE},
+      VolatilizationContent = #{volatilizationcontent,jdbcType=DOUBLE},
+      OtherCoal = #{othercoal,jdbcType=VARCHAR},
+      FuelSulfurContent = #{fuelsulfurcontent,jdbcType=DOUBLE},
+      OtherFuel = #{otherfuel,jdbcType=VARCHAR},
+      HydrogenSulfide = #{hydrogensulfide,jdbcType=DOUBLE},
+      OtherGas = #{othergas,jdbcType=VARCHAR},
+      OtherFuels = #{otherfuels,jdbcType=VARCHAR},
+      RecordUser = #{recorduser,jdbcType=VARCHAR},
+      RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+   author:xsm
+   description: 通过自定义参数查询燃料用量记录
+   param:
+   date: 2021/08/18 13:39
+-->
+  <select id="getFuelConsumptionRecordByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    FuelName,
+    Consumption,
+    Calorificvalue,
+    Unit,
+    CoalSulfurContent,
+    AshContent,
+    VolatilizationContent,
+    OtherCoal,
+    FuelSulfurContent,
+    OtherFuel,
+    HydrogenSulfide,
+    OtherGas,
+    OtherFuels,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_FuelConsumptionRecord t
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.Fk_PollutionID = #{pollutionid}
+      </if>
+      <if test="fuelname !=null and fuelname !='' ">
+        and t.FuelName like concat('%',#{fuelname},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by t.FuelName
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 通过id获取燃料用量记录详情
+ param:
+ date: 2021/08/18 13:39
+-->
+  <select id="getFuelConsumptionRecordDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    FuelName,
+    Consumption,
+    Calorificvalue,
+    Unit,
+    CoalSulfurContent,
+    AshContent,
+    VolatilizationContent,
+    OtherCoal,
+    FuelSulfurContent,
+    OtherFuel,
+    HydrogenSulfide,
+    OtherGas,
+    OtherFuels,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_FuelConsumptionRecord t
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where t.PK_ID = #{pkid}
+  </select>
+</mapper>

@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.facilitiesrunrecord.ProductionFacilitiesRunRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.facilitiesrunrecord.ProductionFacilitiesRunRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_Pollutionid" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FacilitieName" jdbcType="VARCHAR" property="facilitiename" />
+    <result column="FacilitieCode" jdbcType="VARCHAR" property="facilitiecode" />
+    <result column="FacilitieModel" jdbcType="VARCHAR" property="facilitiemodel" />
+    <result column="ParameterName" jdbcType="VARCHAR" property="parametername" />
+    <result column="DesignValue" jdbcType="DOUBLE" property="designvalue" />
+    <result column="ActuallyValue" jdbcType="DOUBLE" property="actuallyvalue" />
+    <result column="ParameterUnit" jdbcType="VARCHAR" property="parameterunit" />
+    <result column="Throughput" jdbcType="VARCHAR" property="throughput" />
+    <result column="ThroughputUnit" jdbcType="VARCHAR" property="throughputunit" />
+    <result column="RunStartTime" jdbcType="TIMESTAMP" property="runstarttime" />
+    <result column="RunEndTime" jdbcType="TIMESTAMP" property="runendtime" />
+    <result column="ProductionLoad" jdbcType="VARCHAR" property="productionload" />
+    <result column="Semiproduct" jdbcType="VARCHAR" property="semiproduct" />
+    <result column="SemiproductUnit" jdbcType="VARCHAR" property="semiproductunit" />
+    <result column="FinalProduct" jdbcType="VARCHAR" property="finalproduct" />
+    <result column="FinalProductUnit" jdbcType="VARCHAR" property="finalproductunit" />
+    <result column="RawMaterialName" jdbcType="VARCHAR" property="rawmaterialname" />
+    <result column="FK_MaterialType" jdbcType="VARCHAR" property="fkMaterialtype" />
+    <result column="Consume" jdbcType="DOUBLE" property="consume" />
+    <result column="MeaUnit" jdbcType="VARCHAR" property="meaunit" />
+    <result column="HarmfulProportion" jdbcType="VARCHAR" property="harmfulproportion" />
+    <result column="HarmfulComposition" jdbcType="VARCHAR" property="harmfulcomposition" />
+    <result column="MaterialSources" jdbcType="VARCHAR" property="materialsources" />
+    <result column="RecordUser" jdbcType="VARCHAR" property="recorduser" />
+    <result column="RecordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="ReviewerUser" jdbcType="VARCHAR" property="revieweruser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, FacilitieName, FacilitieCode, FacilitieModel, ParameterName, 
+    DesignValue, ActuallyValue, ParameterUnit, Throughput, ThroughputUnit, RunStartTime, 
+    RunEndTime, ProductionLoad, Semiproduct, SemiproductUnit, FinalProduct, FinalProductUnit, 
+    RawMaterialName, FK_MaterialType, Consume, MeaUnit, HarmfulProportion, HarmfulComposition, 
+    MaterialSources, RecordUser, RecordTime, ReviewerUser, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_ProductionFacilitiesRunRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_ProductionFacilitiesRunRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.facilitiesrunrecord.ProductionFacilitiesRunRecordVO">
+    insert into T_GJ_ProductionFacilitiesRunRecord (PK_ID, FK_Pollutionid, FacilitieName, 
+      FacilitieCode, FacilitieModel, ParameterName, 
+      DesignValue, ActuallyValue, ParameterUnit, 
+      Throughput, ThroughputUnit, RunStartTime, 
+      RunEndTime, ProductionLoad, Semiproduct, 
+      SemiproductUnit, FinalProduct, FinalProductUnit, 
+      RawMaterialName, FK_MaterialType, Consume, 
+      MeaUnit, HarmfulProportion, HarmfulComposition, 
+      MaterialSources, RecordUser, RecordTime, 
+      ReviewerUser, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{facilitiename,jdbcType=VARCHAR}, 
+      #{facilitiecode,jdbcType=VARCHAR}, #{facilitiemodel,jdbcType=VARCHAR}, #{parametername,jdbcType=VARCHAR}, 
+      #{designvalue,jdbcType=DOUBLE}, #{actuallyvalue,jdbcType=DOUBLE}, #{parameterunit,jdbcType=VARCHAR}, 
+      #{throughput,jdbcType=VARCHAR}, #{throughputunit,jdbcType=VARCHAR}, #{runstarttime,jdbcType=TIMESTAMP}, 
+      #{runendtime,jdbcType=TIMESTAMP}, #{productionload,jdbcType=VARCHAR}, #{semiproduct,jdbcType=VARCHAR}, 
+      #{semiproductunit,jdbcType=VARCHAR}, #{finalproduct,jdbcType=VARCHAR}, #{finalproductunit,jdbcType=VARCHAR}, 
+      #{rawmaterialname,jdbcType=VARCHAR}, #{fkMaterialtype,jdbcType=VARCHAR}, #{consume,jdbcType=DOUBLE}, 
+      #{meaunit,jdbcType=VARCHAR}, #{harmfulproportion,jdbcType=VARCHAR}, #{harmfulcomposition,jdbcType=VARCHAR}, 
+      #{materialsources,jdbcType=VARCHAR}, #{recorduser,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}, 
+      #{revieweruser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.facilitiesrunrecord.ProductionFacilitiesRunRecordVO">
+    insert into T_GJ_ProductionFacilitiesRunRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid,
+      </if>
+      <if test="facilitiename != null">
+        FacilitieName,
+      </if>
+      <if test="facilitiecode != null">
+        FacilitieCode,
+      </if>
+      <if test="facilitiemodel != null">
+        FacilitieModel,
+      </if>
+      <if test="parametername != null">
+        ParameterName,
+      </if>
+      <if test="designvalue != null">
+        DesignValue,
+      </if>
+      <if test="actuallyvalue != null">
+        ActuallyValue,
+      </if>
+      <if test="parameterunit != null">
+        ParameterUnit,
+      </if>
+      <if test="throughput != null">
+        Throughput,
+      </if>
+      <if test="throughputunit != null">
+        ThroughputUnit,
+      </if>
+      <if test="runstarttime != null">
+        RunStartTime,
+      </if>
+      <if test="runendtime != null">
+        RunEndTime,
+      </if>
+      <if test="productionload != null">
+        ProductionLoad,
+      </if>
+      <if test="semiproduct != null">
+        Semiproduct,
+      </if>
+      <if test="semiproductunit != null">
+        SemiproductUnit,
+      </if>
+      <if test="finalproduct != null">
+        FinalProduct,
+      </if>
+      <if test="finalproductunit != null">
+        FinalProductUnit,
+      </if>
+      <if test="rawmaterialname != null">
+        RawMaterialName,
+      </if>
+      <if test="fkMaterialtype != null">
+        FK_MaterialType,
+      </if>
+      <if test="consume != null">
+        Consume,
+      </if>
+      <if test="meaunit != null">
+        MeaUnit,
+      </if>
+      <if test="harmfulproportion != null">
+        HarmfulProportion,
+      </if>
+      <if test="harmfulcomposition != null">
+        HarmfulComposition,
+      </if>
+      <if test="materialsources != null">
+        MaterialSources,
+      </if>
+      <if test="recorduser != null">
+        RecordUser,
+      </if>
+      <if test="recordtime != null">
+        RecordTime,
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitiename != null">
+        #{facilitiename,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitiecode != null">
+        #{facilitiecode,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitiemodel != null">
+        #{facilitiemodel,jdbcType=VARCHAR},
+      </if>
+      <if test="parametername != null">
+        #{parametername,jdbcType=VARCHAR},
+      </if>
+      <if test="designvalue != null">
+        #{designvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="actuallyvalue != null">
+        #{actuallyvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="parameterunit != null">
+        #{parameterunit,jdbcType=VARCHAR},
+      </if>
+      <if test="throughput != null">
+        #{throughput,jdbcType=VARCHAR},
+      </if>
+      <if test="throughputunit != null">
+        #{throughputunit,jdbcType=VARCHAR},
+      </if>
+      <if test="runstarttime != null">
+        #{runstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runendtime != null">
+        #{runendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productionload != null">
+        #{productionload,jdbcType=VARCHAR},
+      </if>
+      <if test="semiproduct != null">
+        #{semiproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="semiproductunit != null">
+        #{semiproductunit,jdbcType=VARCHAR},
+      </if>
+      <if test="finalproduct != null">
+        #{finalproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="finalproductunit != null">
+        #{finalproductunit,jdbcType=VARCHAR},
+      </if>
+      <if test="rawmaterialname != null">
+        #{rawmaterialname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMaterialtype != null">
+        #{fkMaterialtype,jdbcType=VARCHAR},
+      </if>
+      <if test="consume != null">
+        #{consume,jdbcType=DOUBLE},
+      </if>
+      <if test="meaunit != null">
+        #{meaunit,jdbcType=VARCHAR},
+      </if>
+      <if test="harmfulproportion != null">
+        #{harmfulproportion,jdbcType=VARCHAR},
+      </if>
+      <if test="harmfulcomposition != null">
+        #{harmfulcomposition,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsources != null">
+        #{materialsources,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.facilitiesrunrecord.ProductionFacilitiesRunRecordVO">
+    update T_GJ_ProductionFacilitiesRunRecord
+    <set>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitiename != null">
+        FacilitieName = #{facilitiename,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitiecode != null">
+        FacilitieCode = #{facilitiecode,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitiemodel != null">
+        FacilitieModel = #{facilitiemodel,jdbcType=VARCHAR},
+      </if>
+      <if test="parametername != null">
+        ParameterName = #{parametername,jdbcType=VARCHAR},
+      </if>
+      <if test="designvalue != null">
+        DesignValue = #{designvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="actuallyvalue != null">
+        ActuallyValue = #{actuallyvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="parameterunit != null">
+        ParameterUnit = #{parameterunit,jdbcType=VARCHAR},
+      </if>
+      <if test="throughput != null">
+        Throughput = #{throughput,jdbcType=VARCHAR},
+      </if>
+      <if test="throughputunit != null">
+        ThroughputUnit = #{throughputunit,jdbcType=VARCHAR},
+      </if>
+      <if test="runstarttime != null">
+        RunStartTime = #{runstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runendtime != null">
+        RunEndTime = #{runendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productionload != null">
+        ProductionLoad = #{productionload,jdbcType=VARCHAR},
+      </if>
+      <if test="semiproduct != null">
+        Semiproduct = #{semiproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="semiproductunit != null">
+        SemiproductUnit = #{semiproductunit,jdbcType=VARCHAR},
+      </if>
+      <if test="finalproduct != null">
+        FinalProduct = #{finalproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="finalproductunit != null">
+        FinalProductUnit = #{finalproductunit,jdbcType=VARCHAR},
+      </if>
+      <if test="rawmaterialname != null">
+        RawMaterialName = #{rawmaterialname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMaterialtype != null">
+        FK_MaterialType = #{fkMaterialtype,jdbcType=VARCHAR},
+      </if>
+      <if test="consume != null">
+        Consume = #{consume,jdbcType=DOUBLE},
+      </if>
+      <if test="meaunit != null">
+        MeaUnit = #{meaunit,jdbcType=VARCHAR},
+      </if>
+      <if test="harmfulproportion != null">
+        HarmfulProportion = #{harmfulproportion,jdbcType=VARCHAR},
+      </if>
+      <if test="harmfulcomposition != null">
+        HarmfulComposition = #{harmfulcomposition,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsources != null">
+        MaterialSources = #{materialsources,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        RecordUser = #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.facilitiesrunrecord.ProductionFacilitiesRunRecordVO">
+    update T_GJ_ProductionFacilitiesRunRecord
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      FacilitieName = #{facilitiename,jdbcType=VARCHAR},
+      FacilitieCode = #{facilitiecode,jdbcType=VARCHAR},
+      FacilitieModel = #{facilitiemodel,jdbcType=VARCHAR},
+      ParameterName = #{parametername,jdbcType=VARCHAR},
+      DesignValue = #{designvalue,jdbcType=DOUBLE},
+      ActuallyValue = #{actuallyvalue,jdbcType=DOUBLE},
+      ParameterUnit = #{parameterunit,jdbcType=VARCHAR},
+      Throughput = #{throughput,jdbcType=VARCHAR},
+      ThroughputUnit = #{throughputunit,jdbcType=VARCHAR},
+      RunStartTime = #{runstarttime,jdbcType=TIMESTAMP},
+      RunEndTime = #{runendtime,jdbcType=TIMESTAMP},
+      ProductionLoad = #{productionload,jdbcType=VARCHAR},
+      Semiproduct = #{semiproduct,jdbcType=VARCHAR},
+      SemiproductUnit = #{semiproductunit,jdbcType=VARCHAR},
+      FinalProduct = #{finalproduct,jdbcType=VARCHAR},
+      FinalProductUnit = #{finalproductunit,jdbcType=VARCHAR},
+      RawMaterialName = #{rawmaterialname,jdbcType=VARCHAR},
+      FK_MaterialType = #{fkMaterialtype,jdbcType=VARCHAR},
+      Consume = #{consume,jdbcType=DOUBLE},
+      MeaUnit = #{meaunit,jdbcType=VARCHAR},
+      HarmfulProportion = #{harmfulproportion,jdbcType=VARCHAR},
+      HarmfulComposition = #{harmfulcomposition,jdbcType=VARCHAR},
+      MaterialSources = #{materialsources,jdbcType=VARCHAR},
+      RecordUser = #{recorduser,jdbcType=VARCHAR},
+      RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+     author:xsm
+     description: 通过自定义参数查询生产设施运行记录
+     param:
+     date: 2021/08/17 13:39
+ -->
+  <select id="getFacilitiesRunRecordByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    FacilitieName,
+    FacilitieCode,
+    FacilitieModel,
+    ParameterName,
+    DesignValue,
+    ActuallyValue,
+    ParameterUnit,
+    Throughput,
+    ThroughputUnit,
+    CONVERT (VARCHAR (20),t.RunStartTime,120) RunStartTime,
+    CONVERT (VARCHAR (20),t.RunEndTime,120) RunEndTime,
+    ProductionLoad,
+    Semiproduct,
+    SemiproductUnit,
+    FinalProduct,
+    FinalProductUnit,
+    RawMaterialName,
+    FK_MaterialType fkmaterialtype,
+    PUB_CODE_MaterialType.Name MaterialTypeName,
+    Consume,
+    MeaUnit,
+    HarmfulProportion,
+    HarmfulComposition,
+    MaterialSources,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_ProductionFacilitiesRunRecord t
+    LEFT JOIN PUB_CODE_MaterialType ON t.FK_MaterialType = PUB_CODE_MaterialType.Code
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.Fk_PollutionID = #{pollutionid}
+      </if>
+      <if test="facilitiename !=null and facilitiename !='' ">
+        and t.FacilitieName like concat('%',#{facilitiename},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by t.RunStartTime desc
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 通过id获取生产设施运行记录详情
+ param:
+ date: 2021/08/17 13:39
+-->
+  <select id="getFacilitiesRunRecordDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    FacilitieName,
+    FacilitieCode,
+    FacilitieModel,
+    ParameterName,
+    DesignValue,
+    ActuallyValue,
+    ParameterUnit,
+    Throughput,
+    ThroughputUnit,
+    CONVERT (VARCHAR (20),t.RunStartTime,120) RunStartTime,
+    CONVERT (VARCHAR (20),t.RunEndTime,120) RunEndTime,
+    ProductionLoad,
+    Semiproduct,
+    SemiproductUnit,
+    FinalProduct,
+    FinalProductUnit,
+    RawMaterialName,
+    FK_MaterialType fkmaterialtype,
+    PUB_CODE_MaterialType.Name MaterialTypeName,
+    Consume,
+    MeaUnit,
+    HarmfulProportion,
+    HarmfulComposition,
+    MaterialSources,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_ProductionFacilitiesRunRecord t
+    LEFT JOIN PUB_CODE_MaterialType ON t.FK_MaterialType = PUB_CODE_MaterialType.Code
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where t.PK_ID = #{pkid}
+  </select>
+
+</mapper>

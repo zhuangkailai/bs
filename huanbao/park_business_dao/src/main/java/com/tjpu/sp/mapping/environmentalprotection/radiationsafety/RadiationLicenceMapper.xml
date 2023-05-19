@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.radiationsafety.RadiationLicenceMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.radiationsafety.RadiationLicenceVO">
+    <id column="PK_LicenceId" jdbcType="VARCHAR" property="pkLicenceid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="LicenceNum" jdbcType="VARCHAR" property="licencenum" />
+    <result column="LicenceStartDate" jdbcType="VARCHAR" property="licencestartdate" />
+    <result column="LicenceEndDate" jdbcType="VARCHAR" property="licenceenddate" />
+    <result column="LicenceIssueDate" jdbcType="VARCHAR" property="licenceissuedate" />
+    <result column="LicenceFirstIssueDate" jdbcType="VARCHAR" property="licencefirstissuedate" />
+    <result column="DeviceTypeAndRange" jdbcType="VARCHAR" property="devicetypeandrange" />
+    <result column="FK_IssueUnitCode" jdbcType="VARCHAR" property="fkIssueunitcode" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_LicenceId, FK_PollutionID, LicenceNum, LicenceStartDate, LicenceEndDate, LicenceIssueDate, 
+    LicenceFirstIssueDate, DeviceTypeAndRange, FK_IssueUnitCode, FK_FileID, Remark, UpdateUser, 
+    UpdateTime
+  </sql>
+  <!--回显-->
+  <sql id="Base_Column_List_Echo">
+    PK_LicenceId, FK_PollutionID, LicenceNum, CONVERT(VARCHAR (10),LicenceStartDate,120) LicenceStartDate, CONVERT(VARCHAR (10),LicenceEndDate,120) LicenceEndDate, CONVERT(VARCHAR (10),LicenceIssueDate,120) LicenceIssueDate,
+    CONVERT(VARCHAR (10),LicenceFirstIssueDate,120) LicenceFirstIssueDate, DeviceTypeAndRange, FK_IssueUnitCode, FK_FileID, Remark, UpdateUser,
+    CONVERT(VARCHAR (10),UpdateTime,120) UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_Echo"/>
+    from T_HYFS_LicenceInfo
+    where PK_LicenceId = #{pkLicenceid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_HYFS_LicenceInfo
+    where PK_LicenceId = #{pkLicenceid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RadiationLicenceVO">
+    insert into T_HYFS_LicenceInfo (PK_LicenceId, FK_PollutionID, LicenceNum, 
+      LicenceStartDate, LicenceEndDate, LicenceIssueDate, 
+      LicenceFirstIssueDate, DeviceTypeAndRange, 
+      FK_IssueUnitCode, FK_FileID, Remark, 
+      UpdateUser, UpdateTime)
+    values (#{pkLicenceid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{licencenum,jdbcType=VARCHAR}, 
+      #{licencestartdate,jdbcType=VARCHAR}, #{licenceenddate,jdbcType=VARCHAR}, #{licenceissuedate,jdbcType=VARCHAR},
+      #{licencefirstissuedate,jdbcType=VARCHAR}, #{devicetypeandrange,jdbcType=VARCHAR},
+      #{fkIssueunitcode,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RadiationLicenceVO">
+    insert into T_HYFS_LicenceInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkLicenceid != null">
+        PK_LicenceId,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="licencenum != null">
+        LicenceNum,
+      </if>
+      <if test="licencestartdate != null">
+        LicenceStartDate,
+      </if>
+      <if test="licenceenddate != null">
+        LicenceEndDate,
+      </if>
+      <if test="licenceissuedate != null">
+        LicenceIssueDate,
+      </if>
+      <if test="licencefirstissuedate != null">
+        LicenceFirstIssueDate,
+      </if>
+      <if test="devicetypeandrange != null">
+        DeviceTypeAndRange,
+      </if>
+      <if test="fkIssueunitcode != null">
+        FK_IssueUnitCode,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkLicenceid != null">
+        #{pkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="licencenum != null">
+        #{licencenum,jdbcType=VARCHAR},
+      </if>
+      <if test="licencestartdate != null">
+        #{licencestartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceenddate != null">
+        #{licenceenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceissuedate != null">
+        #{licenceissuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licencefirstissuedate != null">
+        #{licencefirstissuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devicetypeandrange != null">
+        #{devicetypeandrange,jdbcType=VARCHAR},
+      </if>
+      <if test="fkIssueunitcode != null">
+        #{fkIssueunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RadiationLicenceVO">
+    update T_HYFS_LicenceInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="licencenum != null">
+        LicenceNum = #{licencenum,jdbcType=VARCHAR},
+      </if>
+      <if test="licencestartdate != null">
+        LicenceStartDate = #{licencestartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceenddate != null">
+        LicenceEndDate = #{licenceenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceissuedate != null">
+        LicenceIssueDate = #{licenceissuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licencefirstissuedate != null">
+        LicenceFirstIssueDate = #{licencefirstissuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devicetypeandrange != null">
+        DeviceTypeAndRange = #{devicetypeandrange,jdbcType=VARCHAR},
+      </if>
+      <if test="fkIssueunitcode != null">
+        FK_IssueUnitCode = #{fkIssueunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_LicenceId = #{pkLicenceid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.RadiationLicenceVO">
+    update T_HYFS_LicenceInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      LicenceNum = #{licencenum,jdbcType=VARCHAR},
+      LicenceStartDate = #{licencestartdate,jdbcType=VARCHAR},
+      LicenceEndDate = #{licenceenddate,jdbcType=VARCHAR},
+      LicenceIssueDate = #{licenceissuedate,jdbcType=VARCHAR},
+      LicenceFirstIssueDate = #{licencefirstissuedate,jdbcType=VARCHAR},
+      DeviceTypeAndRange = #{devicetypeandrange,jdbcType=VARCHAR},
+      FK_IssueUnitCode = #{fkIssueunitcode,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_LicenceId = #{pkLicenceid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 通过自定义参数获取辐射安全许可证信息列表
+      param:
+      date: 2019/10/21 18:36
+  -->
+  <select id="getRadiationSafetyByParamMap" parameterType="map" resultType="map">
+      SELECT
+        t1.PK_LicenceId,
+        t1.LicenceNum,
+        t2.PollutionName,
+        CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+        CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+        CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate,
+        t3.Name FKIssueUnitName
+        FROM
+        T_HYFS_LicenceInfo t1
+        LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID= t2.PK_PollutionID
+        LEFT JOIN PUB_CODE_IssueUnit t3 ON t1.FK_IssueUnitCode=t3.Code
+        <where>
+          <if test="pkpollutionid!=null and pkpollutionid!=''">
+            AND PK_PollutionID =#{pkpollutionid}
+          </if>
+          <if test="licencenum != null and licencenum != ''">
+            AND t1.LicenceNum  LIKE  concat('%',#{licencenum,jdbcType=VARCHAR},'%')
+          </if>
+          <if test="fkIssueunitcodes!=null and fkIssueunitcodes.size>0">
+            and t1.FK_IssueUnitCode in
+            <foreach collection="fkIssueunitcodes" index="index" item="item" open="("
+                     separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
+          <if test="pollutionname!=null and pollutionname!=''">
+            AND t2.PollutionName LIKE  concat('%',#{pollutionname,jdbcType=VARCHAR},'%')
+          </if>
+        </where>
+        ORDER BY t1.LicenceIssueDate DESC
+  </select>
+  <!--
+      author:liyc
+      description: 通过主键id获取辐射安全许可证详情信息
+      param:
+      date: 2019/10/21 16:03
+  -->
+  <select id="getRadiationDetailById" parameterType="java.lang.String" resultType="map">
+      SELECT
+        t1.LicenceNum,
+        t2.PollutionName,
+        CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+        CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+        CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate,
+        CONVERT(VARCHAR (10),t1.LicenceFirstIssueDate,120) LicenceFirstIssueDate,
+        t1.DeviceTypeAndRange,
+        t3.Name FKIssueUnitName,
+        t1.Remark
+        FROM
+        T_HYFS_LicenceInfo t1
+        LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID= t2.PK_PollutionID
+        LEFT JOIN PUB_CODE_IssueUnit t3 ON t1.FK_IssueUnitCode=t3.Code
+        WHERE PK_LicenceId=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

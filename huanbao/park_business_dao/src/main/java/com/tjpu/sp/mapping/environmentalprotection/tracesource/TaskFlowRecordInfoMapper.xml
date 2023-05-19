@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesource.TaskFlowRecordInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.TaskFlowRecordInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_TaskID" jdbcType="VARCHAR" property="fkTaskid" />
+    <result column="FK_TaskType" jdbcType="VARCHAR" property="fkTasktype" />
+    <result column="CurrentTaskStatus" jdbcType="VARCHAR" property="currenttaskstatus" />
+    <result column="NextTaskStatus" jdbcType="VARCHAR" property="nexttaskstatus" />
+    <result column="FK_TaskHandleUserID" jdbcType="VARCHAR" property="fkTaskhandleuserid" />
+    <result column="TaskHandleTime" jdbcType="TIMESTAMP" property="taskhandletime" />
+    <result column="TaskHandleOpinion" jdbcType="VARCHAR" property="taskhandleopinion" />
+    <result column="TaskComment" jdbcType="VARCHAR" property="taskcomment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_TaskID, FK_TaskType, CurrentTaskStatus, NextTaskStatus, FK_TaskHandleUserID, 
+    TaskHandleTime, TaskHandleOpinion,TaskComment
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_TaskFlowRecordInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TaskFlowRecordInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TaskFlowRecordInfoVO">
+    insert into T_BAS_TaskFlowRecordInfo (PK_ID, FK_TaskID, FK_TaskType, 
+      CurrentTaskStatus, NextTaskStatus, FK_TaskHandleUserID, 
+      TaskHandleTime, TaskHandleOpinion,TaskComment)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkTaskid,jdbcType=VARCHAR}, #{fkTasktype,jdbcType=VARCHAR}, 
+      #{currenttaskstatus,jdbcType=VARCHAR}, #{nexttaskstatus,jdbcType=VARCHAR}, #{fkTaskhandleuserid,jdbcType=VARCHAR}, 
+      #{taskhandletime,jdbcType=TIMESTAMP}, #{taskhandleopinion,jdbcType=VARCHAR}, #{taskcomment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TaskFlowRecordInfoVO">
+    insert into T_BAS_TaskFlowRecordInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkTaskid != null">
+        FK_TaskID,
+      </if>
+      <if test="fkTasktype != null">
+        FK_TaskType,
+      </if>
+      <if test="currenttaskstatus != null">
+        CurrentTaskStatus,
+      </if>
+      <if test="nexttaskstatus != null">
+        NextTaskStatus,
+      </if>
+      <if test="fkTaskhandleuserid != null">
+        FK_TaskHandleUserID,
+      </if>
+      <if test="taskhandletime != null">
+        TaskHandleTime,
+      </if>
+      <if test="taskhandleopinion != null">
+        TaskHandleOpinion,
+      </if>
+      <if test="taskcomment != null">
+        TaskComment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTaskid != null">
+        #{fkTaskid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTasktype != null">
+        #{fkTasktype,jdbcType=VARCHAR},
+      </if>
+      <if test="currenttaskstatus != null">
+        #{currenttaskstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nexttaskstatus != null">
+        #{nexttaskstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTaskhandleuserid != null">
+        #{fkTaskhandleuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="taskhandletime != null">
+        #{taskhandletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskhandleopinion != null">
+        #{taskhandleopinion,jdbcType=VARCHAR},
+      </if>
+      <if test="taskcomment != null">
+        #{taskcomment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TaskFlowRecordInfoVO">
+    update T_BAS_TaskFlowRecordInfo
+    <set>
+      <if test="fkTaskid != null">
+        FK_TaskID = #{fkTaskid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTasktype != null">
+        FK_TaskType = #{fkTasktype,jdbcType=VARCHAR},
+      </if>
+      <if test="currenttaskstatus != null">
+        CurrentTaskStatus = #{currenttaskstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nexttaskstatus != null">
+        NextTaskStatus = #{nexttaskstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTaskhandleuserid != null">
+        FK_TaskHandleUserID = #{fkTaskhandleuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="taskhandletime != null">
+        TaskHandleTime = #{taskhandletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskhandleopinion != null">
+        TaskHandleOpinion = #{taskhandleopinion,jdbcType=VARCHAR},
+      </if>
+      <if test="taskcomment != null">
+        TaskComment = #{taskcomment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TaskFlowRecordInfoVO">
+    update T_BAS_TaskFlowRecordInfo
+    set FK_TaskID = #{fkTaskid,jdbcType=VARCHAR},
+      FK_TaskType = #{fkTasktype,jdbcType=VARCHAR},
+      CurrentTaskStatus = #{currenttaskstatus,jdbcType=VARCHAR},
+      NextTaskStatus = #{nexttaskstatus,jdbcType=VARCHAR},
+      FK_TaskHandleUserID = #{fkTaskhandleuserid,jdbcType=VARCHAR},
+      TaskHandleTime = #{taskhandletime,jdbcType=TIMESTAMP},
+      TaskHandleOpinion = #{taskhandleopinion,jdbcType=VARCHAR},
+      TaskComment = #{taskcomment,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateUserByParams" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TaskFlowRecordInfoVO">
+    update T_BAS_TaskFlowRecordInfo
+    set
+      FK_TaskHandleUserID = #{fkTaskhandleuserid,jdbcType=VARCHAR}
+    where FK_TaskID = #{fkTaskid,jdbcType=VARCHAR} and CurrentTaskStatus = #{currenttaskstatus,jdbcType=VARCHAR} and CurrentTaskStatus in ('处理中','待处理')
+  </update>
+
+
+
+  <!-- author:xsm description: 根据任务ID获取处理过该任务的相关人员信息 date: 2019/07/17 8:36-->
+  <select id="getTaskFlowRecordInfoByTaskID" parameterType="java.lang.String" resultType="map">
+    select
+    T_BAS_TaskFlowRecordInfo.*, Base_UserInfo.User_Name
+    from T_BAS_TaskFlowRecordInfo
+    LEFT JOIN Base_UserInfo ON T_BAS_TaskFlowRecordInfo.FK_TaskHandleUserID = Base_UserInfo.User_ID
+    where FK_TaskID = #{fkTaskid,jdbcType=VARCHAR}
+  </select>
+
+
+  <!--
+      author:chengzq
+      description: 获取处理中用户id
+      param:
+      date: 2019/08/27 11:15
+  -->
+  <select id="getFlowRecordInfoByTaskID" parameterType="java.lang.String" resultType="string">
+    select
+    FK_TaskHandleUserID
+    from T_BAS_TaskFlowRecordInfo
+    where FK_TaskID = #{fkTaskid,jdbcType=VARCHAR}  and CurrentTaskStatus='处理中'
+  </select>
+
+  <!--
+      author:chengzq
+      description: 通过taskid删除流程
+      param:
+      date: 2019/09/24 08:42
+  -->
+  <delete id="deleteByTaskid" parameterType="string">
+    delete from T_BAS_TaskFlowRecordInfo where FK_TaskID = #{fkTaskid,jdbcType=VARCHAR}
+  </delete>
+
+  <!-- author:xsm description: 根据自定义参数获取任务流程信息 date: 2020/03/13 15:54-->
+  <select id="getTaskFlowRecordInfoByParamMap" parameterType="map" resultType="map">
+    select
+    T_BAS_TaskFlowRecordInfo.*, Base_UserInfo.User_Name
+    from T_BAS_TaskFlowRecordInfo
+    LEFT JOIN Base_UserInfo ON T_BAS_TaskFlowRecordInfo.FK_TaskHandleUserID = Base_UserInfo.User_ID
+    <where>
+      <if test="taskid!=null and taskid!='' ">
+        and FK_TaskID = #{taskid}
+      </if>
+    <if test="tasktype!=null and tasktype!='' ">
+      and FK_TaskType =#{tasktype}
+    </if>
+    </where>
+  </select>
+
+  <!--
+   * @author: xsm
+   * @date: 2021/08/06 0006 上午 09:18
+   * @Description: 批量插入流程信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_TaskFlowRecordInfo (PK_ID, FK_TaskID, FK_TaskType,
+    CurrentTaskStatus, NextTaskStatus, FK_TaskHandleUserID,
+    TaskHandleTime, TaskHandleOpinion,TaskComment)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkTaskid,jdbcType=VARCHAR}, #{item.fkTasktype,jdbcType=VARCHAR},
+      #{item.currenttaskstatus,jdbcType=VARCHAR}, #{item.nexttaskstatus,jdbcType=VARCHAR}, #{item.fkTaskhandleuserid,jdbcType=VARCHAR},
+      #{item.taskhandletime,jdbcType=TIMESTAMP}, #{item.taskhandleopinion,jdbcType=VARCHAR}, #{item.taskcomment,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+  <!-- author:xsm description: 通过任务ID获取该任务已抄送的抄送人 date: 2021/12/03 13:31-->
+  <select id="getTaskCarbonCopyUsersByTaskID" parameterType="map" resultType="map">
+    select DISTINCT
+    t.FK_TaskHandleUserID userid, t1.User_Name username
+    from T_BAS_TaskFlowRecordInfo t
+    LEFT JOIN Base_UserInfo t1 ON t.FK_TaskHandleUserID = t1.User_ID
+    <where>
+      <if test="taskid!=null and taskid!='' ">
+        and FK_TaskID = #{taskid}
+      </if>
+      <if test="currenttaskstatuss!=null and currenttaskstatuss.size>0">
+        and t.CurrentTaskStatus in
+        <foreach collection="outputids" item="item" separator="," close=")" open="(">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>

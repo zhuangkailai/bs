@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.knowledge.ScienceKnowledgeMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.knowledge.ScienceKnowledgeVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="KnowledgeName" jdbcType="VARCHAR" property="knowledgename" />
+    <result column="FK_KnowledgeTypeCode" jdbcType="VARCHAR" property="fkKnowledgetypecode" />
+    <result column="KnowledgeDes" jdbcType="VARCHAR" property="knowledgedes" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, KnowledgeName, FK_KnowledgeTypeCode, KnowledgeDes, FK_FileID, UpdateTime, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_ScienceKnowledge
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_ScienceKnowledge
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.common.knowledge.ScienceKnowledgeVO">
+    insert into T_BAS_ScienceKnowledge (PK_ID, KnowledgeName, FK_KnowledgeTypeCode, 
+      KnowledgeDes, FK_FileID, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{knowledgename,jdbcType=VARCHAR}, #{fkKnowledgetypecode,jdbcType=VARCHAR}, 
+      #{knowledgedes,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.knowledge.ScienceKnowledgeVO">
+    insert into T_BAS_ScienceKnowledge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="knowledgename != null">
+        KnowledgeName,
+      </if>
+      <if test="fkKnowledgetypecode != null">
+        FK_KnowledgeTypeCode,
+      </if>
+      <if test="knowledgedes != null">
+        KnowledgeDes,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgename != null">
+        #{knowledgename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkKnowledgetypecode != null">
+        #{fkKnowledgetypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgedes != null">
+        #{knowledgedes,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.knowledge.ScienceKnowledgeVO">
+    update T_BAS_ScienceKnowledge
+    <set>
+      <if test="knowledgename != null">
+        KnowledgeName = #{knowledgename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkKnowledgetypecode != null">
+        FK_KnowledgeTypeCode = #{fkKnowledgetypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgedes != null">
+        KnowledgeDes = #{knowledgedes,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.knowledge.ScienceKnowledgeVO">
+    update T_BAS_ScienceKnowledge
+    set KnowledgeName = #{knowledgename,jdbcType=VARCHAR},
+      FK_KnowledgeTypeCode = #{fkKnowledgetypecode,jdbcType=VARCHAR},
+      KnowledgeDes = #{knowledgedes,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+    t1.pk_id,
+    t1.fk_fileid,
+    t1.knowledgename,
+    t1.knowledgedes,
+    t2.name as knowledgetypename,
+    CONVERT ( VARCHAR ( 10 ), t1.updatetime, 120 ) updatetime
+    from
+    T_BAS_ScienceKnowledge t1
+    left join pub_code_KnowledgeType t2 on t1.FK_KnowledgeTypeCode = t2.code
+    <where>
+      <if test="knowledgename!=null and knowledgename!='' ">
+        and t1.knowledgename like concat('%', #{knowledgename},'%')
+      </if>
+      <if test="knowledgetypes!=null and knowledgetypes.size>0">
+        and t2.code in
+        <foreach collection="knowledgetypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by t1.updatetime DESC
+  </select>
+
+  <!--获取编辑回显或详情数据 lip 2021/8/30 9:37 -->
+  <select id="getEditOrDetailsDataById" parameterType="String" resultType="map">
+      select
+      t1.pk_id as pkId,
+      t1.fk_fileid as fkfileid,
+      t1.knowledgename,
+      t1.knowledgedes,
+      t2.name as knowledgetypename,
+      t1.FK_KnowledgeTypeCode as fkKnowledgetypecode,
+      CONVERT ( VARCHAR ( 10 ), t1.updatetime, 120 ) updatetime
+      from
+      T_BAS_ScienceKnowledge t1
+      left join pub_code_KnowledgeType t2 on t1.FK_KnowledgeTypeCode = t2.code
+      where t1.pk_id = #{id}
+  </select>
+
+
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.CommonSelectTableConfigMapper">
+    <resultMap id="BaseResultMap" type="com.pub.model.CommonSelectTableConfigVO">
+        <id column="PK_TableConfigID" jdbcType="NVARCHAR" property="pkTableConfigId"/>
+        <result column="TableName" jdbcType="NVARCHAR" property="tableName"/>
+        <result column="TableComments" jdbcType="NVARCHAR" property="tableComments"/>
+        <result column="KeyFieldName" jdbcType="NVARCHAR" property="keyFieldName"/>
+        <result column="KeyFieldisnumber" jdbcType="NUMERIC" property="keyFieldIsNumber"/>
+        <result column="OrderIndex" jdbcType="NUMERIC" property="orderIndex"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_TableConfigID, TableName, TableComments, KeyFieldName, KeyFieldisnumber, OrderIndex
+  </sql>
+
+    <select id="getTableConfigByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SYS_CommonSelectTableConfig
+        where tablename=#{tablename,jdbcType=NVARCHAR}
+    </select>
+
+    <select id="getTableConfigVOBySysModel" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+       T_SYS_CommonSelectTableConfig.*
+        FROM
+        T_SYS_CommonSelectTableConfig
+        JOIN
+        T_SYS_SysModelConfig ON T_SYS_CommonSelectTableConfig.PK_TableConfigID = T_SYS_SysModelConfig.FK_TableConfigID
+        WHERE
+        T_SYS_SysModelConfig.SysModel = #{sysmodel,jdbcType=NVARCHAR}
+    </select>
+
+
+    <select id="getTableHasIdentity" parameterType="java.lang.String" resultType="java.lang.Integer">
+       Select OBJECTPROPERTY(OBJECT_ID(${tableName}),'TableHasIdentity');
+    </select>
+
+
+
+    <select id="getMaxNumByTableName" parameterType="map" resultType="java.lang.Integer">
+      select  case when max(${pkid}) is null then 0 ELSE MAX(${pkid}) end   from ${tablename}
+    </select>
+
+
+
+
+</mapper>

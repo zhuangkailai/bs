@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.treatmentrunrecord.WaterTreatmentRunRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.WaterTreatmentRunRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_Pollutionid" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="TreatmentName" jdbcType="VARCHAR" property="treatmentname" />
+    <result column="TreatmentNum" jdbcType="VARCHAR" property="treatmentnum" />
+    <result column="ExceptionStartTime" jdbcType="TIMESTAMP" property="exceptionstarttime" />
+    <result column="ExceptionEndTime" jdbcType="TIMESTAMP" property="exceptionendtime" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="FlowQuantity" jdbcType="DOUBLE" property="flowquantity" />
+    <result column="FK_DrainDirection" jdbcType="VARCHAR" property="fkDraindirection" />
+    <result column="EventCause" jdbcType="VARCHAR" property="eventcause" />
+    <result column="IsReport" jdbcType="NUMERIC" property="isreport" />
+    <result column="Solutions" jdbcType="VARCHAR" property="solutions" />
+    <result column="RecordUser" jdbcType="VARCHAR" property="recorduser" />
+    <result column="RecordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="ReviewerUser" jdbcType="VARCHAR" property="revieweruser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, TreatmentName, TreatmentNum, ExceptionStartTime, ExceptionEndTime, 
+    FK_PollutantCode, FlowQuantity, FK_DrainDirection, EventCause, IsReport, Solutions, 
+    RecordUser, RecordTime, ReviewerUser, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_WaterTreatmentRunRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_WaterTreatmentRunRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.WaterTreatmentRunRecordVO">
+    insert into T_GJ_WaterTreatmentRunRecord (PK_ID, FK_Pollutionid, TreatmentName, 
+      TreatmentNum, ExceptionStartTime, ExceptionEndTime, 
+      FK_PollutantCode, FlowQuantity, FK_DrainDirection, 
+      EventCause, IsReport, Solutions, 
+      RecordUser, RecordTime, ReviewerUser, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{treatmentname,jdbcType=VARCHAR}, 
+      #{treatmentnum,jdbcType=VARCHAR}, #{exceptionstarttime,jdbcType=TIMESTAMP}, #{exceptionendtime,jdbcType=TIMESTAMP}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{flowquantity,jdbcType=DOUBLE}, #{fkDraindirection,jdbcType=VARCHAR}, 
+      #{eventcause,jdbcType=VARCHAR}, #{isreport,jdbcType=NUMERIC}, #{solutions,jdbcType=VARCHAR}, 
+      #{recorduser,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}, #{revieweruser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.WaterTreatmentRunRecordVO">
+    insert into T_GJ_WaterTreatmentRunRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid,
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName,
+      </if>
+      <if test="treatmentnum != null">
+        TreatmentNum,
+      </if>
+      <if test="exceptionstarttime != null">
+        ExceptionStartTime,
+      </if>
+      <if test="exceptionendtime != null">
+        ExceptionEndTime,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="flowquantity != null">
+        FlowQuantity,
+      </if>
+      <if test="fkDraindirection != null">
+        FK_DrainDirection,
+      </if>
+      <if test="eventcause != null">
+        EventCause,
+      </if>
+      <if test="isreport != null">
+        IsReport,
+      </if>
+      <if test="solutions != null">
+        Solutions,
+      </if>
+      <if test="recorduser != null">
+        RecordUser,
+      </if>
+      <if test="recordtime != null">
+        RecordTime,
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentnum != null">
+        #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionstarttime != null">
+        #{exceptionstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionendtime != null">
+        #{exceptionendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="flowquantity != null">
+        #{flowquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="fkDraindirection != null">
+        #{fkDraindirection,jdbcType=VARCHAR},
+      </if>
+      <if test="eventcause != null">
+        #{eventcause,jdbcType=VARCHAR},
+      </if>
+      <if test="isreport != null">
+        #{isreport,jdbcType=NUMERIC},
+      </if>
+      <if test="solutions != null">
+        #{solutions,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.WaterTreatmentRunRecordVO">
+    update T_GJ_WaterTreatmentRunRecord
+    <set>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentnum != null">
+        TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionstarttime != null">
+        ExceptionStartTime = #{exceptionstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionendtime != null">
+        ExceptionEndTime = #{exceptionendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="flowquantity != null">
+        FlowQuantity = #{flowquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="fkDraindirection != null">
+        FK_DrainDirection = #{fkDraindirection,jdbcType=VARCHAR},
+      </if>
+      <if test="eventcause != null">
+        EventCause = #{eventcause,jdbcType=VARCHAR},
+      </if>
+      <if test="isreport != null">
+        IsReport = #{isreport,jdbcType=NUMERIC},
+      </if>
+      <if test="solutions != null">
+        Solutions = #{solutions,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        RecordUser = #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.WaterTreatmentRunRecordVO">
+    update T_GJ_WaterTreatmentRunRecord
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      ExceptionStartTime = #{exceptionstarttime,jdbcType=TIMESTAMP},
+      ExceptionEndTime = #{exceptionendtime,jdbcType=TIMESTAMP},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FlowQuantity = #{flowquantity,jdbcType=DOUBLE},
+      FK_DrainDirection = #{fkDraindirection,jdbcType=VARCHAR},
+      EventCause = #{eventcause,jdbcType=VARCHAR},
+      IsReport = #{isreport,jdbcType=NUMERIC},
+      Solutions = #{solutions,jdbcType=VARCHAR},
+      RecordUser = #{recorduser,jdbcType=VARCHAR},
+      RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数查询废水治理设施运行记录
+    param:
+    date: 2021/08/17 13:39
+-->
+  <select id="getWaterTreatmentRunRecordByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    TreatmentName,
+    TreatmentNum,
+    CONVERT (VARCHAR (20),t.ExceptionStartTime,120) ExceptionStartTime,
+    CONVERT (VARCHAR (20),t.ExceptionEndTime,120) ExceptionEndTime,
+    FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    FlowQuantity,
+    t.FK_DrainDirection fkdraindirection,
+    PUB_CODE_DrainDirection.Name DrainDirectionName,
+    EventCause,
+    CASE IsReport WHEN 0 THEN '否'  WHEN 1 THEN '是' END IsReport,
+    Solutions,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_WaterTreatmentRunRecord t
+    LEFT JOIN PUB_CODE_DrainDirection ON t.FK_DrainDirection = PUB_CODE_DrainDirection.Code
+    LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = t.FK_PollutantCode AND PUB_CODE_PollutantFactor.PollutantType = 1
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.Fk_PollutionID = #{pollutionid}
+      </if>
+      <if test="treatmentname !=null and treatmentname !='' ">
+        and t.TreatmentName like concat('%',#{treatmentname},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by t.ExceptionStartTime desc
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 通过id获取废水治理设施运行记录详情
+ param:
+ date: 2021/08/17 13:39
+-->
+  <select id="getWaterTreatmentRunRecordDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    TreatmentName,
+    TreatmentNum,
+    CONVERT (VARCHAR (20),t.ExceptionStartTime,120) ExceptionStartTime,
+    CONVERT (VARCHAR (20),t.ExceptionEndTime,120) ExceptionEndTime,
+    FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    FlowQuantity,
+    t.FK_DrainDirection fkdraindirection,
+    PUB_CODE_DrainDirection.Name DrainDirectionName,
+    EventCause,
+    CASE IsReport WHEN 0 THEN '否'  WHEN 1 THEN '是' END IsReport,
+    Solutions,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_WaterTreatmentRunRecord t
+    LEFT JOIN PUB_CODE_DrainDirection ON t.FK_DrainDirection = PUB_CODE_DrainDirection.Code
+    LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = t.FK_PollutantCode AND PUB_CODE_PollutantFactor.PollutantType = 1
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where t.PK_ID = #{pkid}
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id获取废水治理设施运行记录详情
+ param:
+ date: 2021/08/17 13:39
+-->
+  <select id="getWaterTreatmentRunRecordByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    TreatmentName,
+    TreatmentNum,
+    CONVERT (VARCHAR (20),t.ExceptionStartTime,120) ExceptionStartTime,
+    CONVERT (VARCHAR (20),t.ExceptionEndTime,120) ExceptionEndTime,
+    FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    FlowQuantity,
+    t.FK_DrainDirection fkdraindirection,
+    PUB_CODE_DrainDirection.Name DrainDirectionName,
+    EventCause,
+    IsReport,
+    Solutions,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_WaterTreatmentRunRecord t
+    LEFT JOIN PUB_CODE_DrainDirection ON t.FK_DrainDirection = PUB_CODE_DrainDirection.Code
+    LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = t.FK_PollutantCode AND PUB_CODE_PollutantFactor.PollutantType = 1
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where t.PK_ID = #{pkid}
+  </select>
+</mapper>

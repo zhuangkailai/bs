@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorcontrol.MonitorPointMonitorControlMapper">
+    <resultMap id="BaseResultMap"
+               type="com.tjpu.sp.model.environmentalprotection.monitorcontrol.MonitorPointMonitorControlVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_MonitorPointId" jdbcType="VARCHAR" property="fkMonitorpointid"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+        <result column="StartMointorTime" jdbcType="TIMESTAMP" property="startmointortime"/>
+        <result column="StopMointorTime" jdbcType="TIMESTAMP" property="stopmointortime"/>
+        <result column="BeforeStartMointorTime" jdbcType="TIMESTAMP" property="beforestartmointortime"/>
+        <result column="BeforeStopMointorTime" jdbcType="TIMESTAMP" property="beforestopmointortime"/>
+        <result column="StartPeople" jdbcType="VARCHAR" property="startpeople"/>
+        <result column="StopPeople" jdbcType="VARCHAR" property="stoppeople"/>
+        <result column="Dgimn" jdbcType="VARCHAR" property="dgimn"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_MonitorPointId, FK_MonitorPointTypeCode, StartMointorTime, StopMointorTime, 
+    BeforeStartMointorTime, BeforeStopMointorTime, StartPeople, StopPeople, Dgimn,FK_FileID, UpdateTime,
+    UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_MonitorPointMonitorControl
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2020/2/26 0026 上午 11:09
+     * @Description: 根据主键获得监测控制信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getMonitorControlInfoById" parameterType="java.lang.String" resultType="map">
+       select
+            t1.pk_id,
+            t3.pk_pollutionid,
+            t3.pollutionname,
+            t3.shortername,
+            t2.pk_id as outputid,
+            t2.dgimn,
+            t2.outputname,
+            t1.fk_monitorpointid,
+            convert (
+                varchar (19),
+                t1.startmointortime,
+                120
+            ) startmointortime,
+            convert (
+                varchar (19),
+                t1.stopmointortime,
+                120
+            ) stopmointortime,
+            convert (
+                varchar (19),
+                t1.UpdateTime,
+                120
+            ) UpdateTime,
+            t1.fk_fileid
+        from
+            t_bas_monitorpointmonitorcontrol t1
+        join t_bas_wateroutputinfo t2 on t1.fk_monitorpointid = t2.pk_id
+        join t_bas_pollution t3 on t3.pk_pollutionid = t2.fk_pollutionid
+        where t1.PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_MonitorPointMonitorControl
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorcontrol.MonitorPointMonitorControlVO">
+    insert into T_BAS_MonitorPointMonitorControl (PK_ID, FK_MonitorPointId, FK_MonitorPointTypeCode, 
+      StartMointorTime, StopMointorTime, 
+      BeforeStartMointorTime, BeforeStopMointorTime, 
+      StartPeople, StopPeople, Dgimn,FK_FileID,
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{startmointortime,jdbcType=TIMESTAMP}, #{stopmointortime,jdbcType=TIMESTAMP}, 
+      #{beforestartmointortime,jdbcType=TIMESTAMP}, #{beforestopmointortime,jdbcType=TIMESTAMP}, 
+      #{startpeople,jdbcType=VARCHAR}, #{stoppeople,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR},#{fkFileid,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorcontrol.MonitorPointMonitorControlVO">
+        insert into T_BAS_MonitorPointMonitorControl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointId,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="startmointortime != null">
+                StartMointorTime,
+            </if>
+            <if test="stopmointortime != null">
+                StopMointorTime,
+            </if>
+            <if test="beforestartmointortime != null">
+                BeforeStartMointorTime,
+            </if>
+            <if test="beforestopmointortime != null">
+                BeforeStopMointorTime,
+            </if>
+            <if test="startpeople != null">
+                StartPeople,
+            </if>
+            <if test="stoppeople != null">
+                StopPeople,
+            </if>
+            <if test="dgimn != null">
+                Dgimn,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="startmointortime != null">
+                #{startmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="stopmointortime != null">
+                #{stopmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="beforestartmointortime != null">
+                #{beforestartmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="beforestopmointortime != null">
+                #{beforestopmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="startpeople != null">
+                #{startpeople,jdbcType=VARCHAR},
+            </if>
+            <if test="stoppeople != null">
+                #{stoppeople,jdbcType=VARCHAR},
+            </if>
+
+
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorcontrol.MonitorPointMonitorControlVO">
+        update T_BAS_MonitorPointMonitorControl
+        <set>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="startmointortime != null">
+                StartMointorTime = #{startmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="stopmointortime != null">
+                StopMointorTime = #{stopmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="beforestartmointortime != null">
+                BeforeStartMointorTime = #{beforestartmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="beforestopmointortime != null">
+                BeforeStopMointorTime = #{beforestopmointortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="startpeople != null">
+                StartPeople = #{startpeople,jdbcType=VARCHAR},
+            </if>
+            <if test="stoppeople != null">
+                StopPeople = #{stoppeople,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                Dgimn = #{dgimn,jdbcType=VARCHAR},
+            </if>
+
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorcontrol.MonitorPointMonitorControlVO">
+    update T_BAS_MonitorPointMonitorControl
+    set FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      StartMointorTime = #{startmointortime,jdbcType=TIMESTAMP},
+      StopMointorTime = #{stopmointortime,jdbcType=TIMESTAMP},
+      BeforeStartMointorTime = #{beforestartmointortime,jdbcType=TIMESTAMP},
+      BeforeStopMointorTime = #{beforestopmointortime,jdbcType=TIMESTAMP},
+      StartPeople = #{startpeople,jdbcType=VARCHAR},
+      StopPeople = #{stoppeople,jdbcType=VARCHAR},
+      Dgimn = #{dgimn,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+       author:lip
+       description: 根据监测点ID和监测类型获取监测控制信息
+       param:
+       date: 2019/11/27 19:13
+   -->
+    <select id="getMonitorPointMonitorControlByParam" parameterType="map" resultType="map">
+        SELECT
+        t1.pk_id,
+        t1.fk_monitorpointid,
+        t1.fk_monitorpointtypecode,
+        CONVERT (
+        VARCHAR (20),
+        t1.startmointortime,
+        120
+        ) startmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.stopmointortime,
+        120
+        ) stopmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.beforestartmointortime,
+        120
+        ) beforestartmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.beforestopmointortime,
+        120
+        ) beforestopmointortime,
+        t1.startpeople,
+        t1.stoppeople,
+        t1.dgimn,
+        t3.pollutionname,
+        t2.outputname,
+        t1.fk_fileid,
+        t4.FilePath file_id,
+        t4.OriginalFileName FileName
+        FROM
+        t_bas_monitorpointmonitorcontrol t1
+        JOIN t_bas_wateroutputinfo t2 ON t1.fk_monitorpointid = t2.pk_id
+        JOIN t_bas_pollution t3 ON t3.pk_pollutionid = t2.fk_pollutionid
+        LEFT JOIN T_BAS_FileInfo t4 on t4.FileFlag = t1.FK_FileID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointid != null and monitorpointid !=''">
+                AND t1.FK_MonitorPointId = #{monitorpointid}
+            </if>
+            <if test="dgimn!=null and dgimn !=''">
+                and t2.dgimn = #{dgimn}
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype !=''">
+                AND t1.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+            <if test="pollutionid != null and pollutionid !=''">
+                AND t3.pk_pollutionid = #{pollutionid}
+            </if>
+            <if test="starttime!=null and starttime!=''">
+                AND convert(varchar(10),t1.stopmointortime,120) >= #{starttime}
+            </if>
+            <if test="starttime!=null and starttime!=''">
+                AND convert(varchar(10),t1.startmointortime,120) <![CDATA[<=]]> #{starttime}
+            </if>
+
+
+
+            <if test="startmonitortime!=null and startmonitortime!=''">
+                AND convert(varchar(20),t1.startmointortime,120) >= #{startmonitortime}
+            </if>
+            <if test="endmonitortime!=null and endmonitortime!=''">
+                AND convert(varchar(20),t1.startmointortime,120) <![CDATA[<=]]> #{endmonitortime}
+            </if>
+
+            <if test="pollutionid!=null and pollutionid !=''">
+                and t3.pk_pollutionid =#{pollutionid}
+            </if>
+            <if test="pollutionname!=null and pollutionname !=''">
+                and pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="outputname!=null and outputname !=''">
+                and outputname like concat('%',#{outputname},'%')
+            </if>
+
+        </trim>
+        <if test="sortkey!=null and sortkey !=''">
+            ORDER by ${sortkey} ${sorttype}
+        </if>
+
+        <if test="sortkey==null">
+            ORDER by startmointortime desc, t3.pollutionname,t2.outputname ASC
+        </if>
+
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/12/5 0005 上午 10:10
+     * @Description: 自定义查询条件获取点位和启动停止时间数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getMonitorPointIdAndTimesByParam" parameterType="map" resultType="map">
+        SELECT
+        t1.fk_monitorpointid as monitorpointid,
+        CONVERT (
+        VARCHAR (20),
+        t1.startmointortime,
+        120
+        ) startmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.stopmointortime,
+        120
+        ) stopmointortime
+        FROM
+        t_bas_monitorpointmonitorcontrol t1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.startmointortime IS NOT NULL
+            <if test="monitorpointtype != null and monitorpointtype !=''">
+                AND t1.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/12/5 0005 上午 10:10
+     * @Description: 自定义查询条件获取点位和启动停止时间数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getLastEndTimeByParamMap" parameterType="map" resultType="map">
+        SELECT
+        CONVERT (
+        VARCHAR (19),
+        MAX (t1.StopMointorTime),
+        120
+        ) maxtime
+        FROM
+        t_bas_monitorpointmonitorcontrol t1
+        JOIN t_bas_wateroutputinfo t2 ON t1.fk_monitorpointid = t2.pk_id
+        JOIN t_bas_pollution t3 ON t3.pk_pollutionid = t2.fk_pollutionid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                and CONVERT ( VARCHAR (20), t1.StopMointorTime, 120 ) >= #{starttime}
+            </if>
+            <if test="monitorpointid != null and monitorpointid !=''">
+                and t1.fk_monitorpointid = #{monitorpointid}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/11/28 0028 下午 1:39
+     * @Description: 获取最新时间数据记录
+     * @updateUser:xsm
+     * @updateDate:2020/05/28 0028 下午 1:39
+     * @updateDescription:新增outputname标记字段  判断是否排放中
+    -->
+    <select id="getMaxTimeDataByParam" resultType="map" parameterType="map">
+
+        select
+        pk_pollutionid,
+        pollutionname,
+        shortername,
+        t_bas_wateroutputinfo.pk_id as monitorpointid,
+        t.pk_id,
+        t.outputflag,
+        outputname,
+        t_bas_wateroutputinfo.dgimn,
+        fk_monitorpointtypecode,
+        convert (
+        varchar (20),
+        t.startmointortime,
+        120
+        ) startmointortime,
+        convert (
+        varchar (20),
+        t.stopmointortime,
+        120
+        ) stopmointortime,
+        convert (
+        varchar (20),
+        t.beforestartmointortime,
+        120
+        ) beforestartmointortime,
+        convert (
+        varchar (20),
+        t.beforestopmointortime,
+        120
+        ) beforestopmointortime,
+        startpeople,
+        stoppeople
+        from
+        t_bas_pollution
+        join t_bas_wateroutputinfo on t_bas_pollution.pk_pollutionid = t_bas_wateroutputinfo.fk_pollutionid
+        and outputtype = 3
+        left join (
+        select
+        t1.*,
+        CASE WHEN convert(varchar(20),getdate(),120)>= convert(varchar(20),t1.StartMointorTime,120) AND
+        convert(varchar(20),getdate(),120)<![CDATA[<=]]>convert(varchar(20),t1.StopMointorTime,120) THEN '排放中' ELSE null END outputflag
+        from
+        t_bas_monitorpointmonitorcontrol t1
+        inner join (
+        select
+        max (startmointortime) startmointortime,
+        fk_monitorpointid
+        from
+        t_bas_monitorpointmonitorcontrol
+        group by
+        fk_monitorpointid
+        ) t2 on t1.startmointortime = t2.startmointortime
+        and t1.fk_monitorpointid = t2.fk_monitorpointid
+        ) t on t.fk_monitorpointid = t_bas_wateroutputinfo.pk_id
+        <where>
+            <if test="pollutionname!=null and pollutionname !=''">
+                and pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="outputname!=null and outputname !=''">
+                and outputname like concat('%',#{outputname},'%')
+            </if>
+        </where>
+
+        <if test="sortkey!=null and sortkey !=''">
+            ORDER by ${sortkey} ${sorttype}
+        </if>
+        <if test="sortkey==null">
+            ORDER by pollutionname,outputname
+        </if>
+
+
+    </select>
+
+    <!--
+   * @author: xsm
+   * @date: 2019/12/05 0005 下午 5:16
+   * @Description:  根据监测点ID和监测点类型修改点位监测状态
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="updateRainOutPutStatusByParam" parameterType="map" resultType="map">
+      update T_BAS_WaterOutputInfo
+      set Status = #{status}
+      where PK_ID = #{monitorpointid}
+  </select>
+
+
+
+    <!--
+      author:xsm
+      description: 根据自定义参数获取正在停产的点位信息
+      param:
+      date: 2020/03/02 10:51
+  -->
+    <select id="getCurrentTimeMonitorControlInfoByParamMap" resultType="map" parameterType="map">
+        SELECT
+        PK_ID,
+        FK_MonitorPointId,
+        FK_MonitorPointTypeCode,
+        convert(varchar(20),StartMointorTime,120)  StartMointorTime,
+        convert(varchar(20),StopMointorTime,120)  StopMointorTime,
+        StartPeople,
+        StopPeople,
+        Dgimn
+        FROM (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_MonitorPointId ORDER BY StopMointorTime DESC) rn FROM
+        T_BAS_MonitorPointMonitorControl)  tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            tt.rn = 1
+            and convert(varchar(20),getdate(),120)>= convert(varchar(20),tt.StartMointorTime,120)
+            and convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),tt.StopMointorTime,120)
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and  tt.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+        </trim>
+    </select>
+
+    <!--
+     author:xsm
+     description: 根据自定义参数获取正在排放中的雨水排口信息
+     param:
+     date: 2020/03/02 10:51
+ -->
+    <select id="getNowRainMonitorControlInfoByParamMap" resultType="map" parameterType="map">
+        SELECT
+        rain.*,
+        tt.PK_ID,
+        tt.FK_MonitorPointId,
+        '2' messagetype,
+        case  when t4.PK_ID IS NOT NULL then '1' ELSE '0' end isread,
+        convert(varchar(20),StartMointorTime,120)  StartTime,
+        convert(varchar(20),StopMointorTime,120)  EndTime,
+        rain.pollutionname+'上报雨水排放检测报告' messagestr,
+        convert (varchar (20),tt.UpdateTime,120) UpdateTime,
+        StartPeople,
+        StopPeople
+        FROM (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_MonitorPointId ORDER BY StopMointorTime DESC) rn FROM
+        T_BAS_MonitorPointMonitorControl)  tt
+        JOIN (   select
+        pk_pollutionid pollutionid,
+        pollutionname,
+        shortername,
+        t_bas_wateroutputinfo.pk_id as outputid,
+        outputname,
+        t_bas_wateroutputinfo.dgimn,
+        '37' fk_monitorpointtypecode
+        from
+        t_bas_pollution
+        join t_bas_wateroutputinfo on t_bas_pollution.pk_pollutionid = t_bas_wateroutputinfo.fk_pollutionid and outputtype =
+        3) rain ON  tt.FK_MonitorPointId = rain.outputid AND rain.dgimn = tt.dgimn
+        LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="userid!=null and userid!='' ">
+                and T_BAS_MessageReadUser.UserID = #{userid}
+            </if>
+            <if test="messagetype!=null and messagetype!='' ">
+                and T_BAS_MessageReadUser.MessageType = #{messagetype}
+            </if>
+        </trim>
+        ) t4 on t4.FK_RecordID = tt.PK_ID
+        WHERE   tt.rn = 1
+        and convert(varchar(20),getdate(),120)>= convert(varchar(20),tt.StartMointorTime,120)
+        and convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),tt.StopMointorTime,120)
+
+    </select>
+
+    <!--
+       author:xsm
+       description: 根据自定义参数获取雨水排放历史记录
+       param:
+       date: 2019/11/27 19:13
+   -->
+    <select id="getMonitorControlHistoryLogDataByParamMap" parameterType="map" resultType="map">
+        SELECT
+        t1.pk_id,
+        t1.fk_monitorpointid,
+        t1.fk_monitorpointtypecode,
+        CONVERT (
+        VARCHAR (20),
+        t1.startmointortime,
+        120
+        ) startmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.stopmointortime,
+        120
+        ) stopmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.beforestartmointortime,
+        120
+        ) beforestartmointortime,
+        CONVERT (
+        VARCHAR (20),
+        t1.beforestopmointortime,
+        120
+        ) beforestopmointortime,
+        t1.startpeople,
+        t1.stoppeople,
+        t1.dgimn,
+        t3.pollutionname,
+        t2.outputname,
+        t1.fk_fileid,
+        t4.FilePath file_id,
+        t4.OriginalFileName FileName
+        FROM
+        t_bas_monitorpointmonitorcontrol t1
+        JOIN t_bas_wateroutputinfo t2 ON t1.fk_monitorpointid = t2.pk_id
+        JOIN t_bas_pollution t3 ON t3.pk_pollutionid = t2.fk_pollutionid
+        LEFT JOIN T_BAS_FileInfo t4 on t4.FileFlag = t1.FK_FileID
+        <trim prefix="where" prefixOverrides="AND|OR">
+             convert(varchar(20),getdate(),120)>= convert(varchar(20),t1.stopmointortime,120)
+            <if test="starttime!=null and starttime!=''">
+                AND convert(varchar(10),t1.stopmointortime,120) >= #{starttime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                AND convert(varchar(10),t1.stopmointortime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="pollutionid!=null and pollutionid !=''">
+
+                and t3.pk_pollutionid = #{pollutionid}
+            </if>
+            <if test="pollutionname!=null and pollutionname !=''">
+                and pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="outputname!=null and outputname !=''">
+                and outputname like concat('%',#{outputname},'%')
+            </if>
+
+        </trim>
+        <if test="sortkey!=null and sortkey !=''">
+            ORDER by ${sortkey} ${sorttype}
+        </if>
+
+        <if test="sortkey==null">
+            ORDER by startmointortime desc, t3.pollutionname,t2.outputname ASC
+        </if>
+
+    </select>
+</mapper>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.OrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.OrganizationVO">
+    <id column="Organization_ID" jdbcType="NVARCHAR" property="organizationId" />
+    <result column="Organization_Code" jdbcType="NVARCHAR" property="organizationCode" />
+    <result column="Organization_Name" jdbcType="NVARCHAR" property="organizationName" />
+    <result column="Organization_InnerPhone" jdbcType="NVARCHAR" property="organizationInnerPhone" />
+    <result column="Organization_OuterPhone" jdbcType="NVARCHAR" property="organizationOuterPhone" />
+    <result column="Organization_Manager" jdbcType="NVARCHAR" property="organizationManager" />
+    <result column="Organization_AssistantManager" jdbcType="NVARCHAR" property="organizationAssistantManager" />
+    <result column="Organization_Fax" jdbcType="NVARCHAR" property="organizationFax" />
+    <result column="Organization_Zipcode" jdbcType="NVARCHAR" property="organizationZipCode" />
+    <result column="Organization_Address" jdbcType="NVARCHAR" property="organizationAddress" />
+    <result column="ParentId" jdbcType="NVARCHAR" property="parentId" />
+    <result column="Organization_Remark" jdbcType="NVARCHAR" property="organizationRemark" />
+    <result column="SortCode" jdbcType="INTEGER" property="sortCode" />
+    <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark" />
+    <result column="CreateDate" jdbcType="DATE" property="createDate" />
+    <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId" />
+    <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName" />
+    <result column="ModifyDate" jdbcType="DATE" property="modifyDate" />
+    <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId" />
+    <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Organization_ID, Organization_Code, Organization_Name, Organization_InnerPhone, Organization_OuterPhone, 
+    Organization_Manager, Organization_AssistantManager, Organization_Fax, Organization_Zipcode, 
+    Organization_Address, ParentId, Organization_Remark, SortCode, DeleteMark, CreateDate,
+    CreateUserId, CreateUserName, ModifyDate, ModifyUserId, ModifyUserName
+  </sql>
+
+  <!--
+     * @author: xsm
+     * @date: 2018/7/6 14:48
+     * @Description: 获取部门表所有数据信息。
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+     -->  
+  <select id="getOrganizationTreeData" resultMap="BaseResultMap">
+     select
+     <include refid="Base_Column_List"/>
+     from Base_Organization
+     order by SortCode
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Base_Organization
+    where Organization_ID = #{organizationId,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_Organization
+    where Organization_ID = #{organizationId,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.auth.model.system.OrganizationVO">
+    insert into Base_Organization (Organization_ID, Organization_Code, 
+      Organization_Name, Organization_InnerPhone, 
+      Organization_OuterPhone, Organization_Manager, 
+      Organization_AssistantManager, Organization_Fax, 
+      Organization_Zipcode, Organization_Address, 
+      ParentId, Organization_Remark, SortCode,
+      DeleteMark, CreateDate, CreateUserId,
+      CreateUserName, ModifyDate, ModifyUserId,
+      ModifyUserName)
+    values (#{organizationId,jdbcType=NVARCHAR}, #{organizationCode,jdbcType=NVARCHAR}, 
+      #{organizationName,jdbcType=NVARCHAR}, #{organizationInnerPhone,jdbcType=NVARCHAR}, 
+      #{organizationOuterPhone,jdbcType=NVARCHAR}, #{organizationManager,jdbcType=NVARCHAR}, 
+      #{organizationAssistantManager,jdbcType=NVARCHAR}, #{organizationFax,jdbcType=NVARCHAR}, 
+      #{organizationZipCode,jdbcType=NVARCHAR}, #{organizationAddress,jdbcType=NVARCHAR}, 
+      #{parentId,jdbcType=NVARCHAR}, #{organizationRemark,jdbcType=NVARCHAR}, #{sortCode,jdbcType=INTEGER}, 
+      #{deleteMark,jdbcType=INTEGER}, #{createDate,jdbcType=DATE}, #{createUserId,jdbcType=NVARCHAR},
+      #{createUserName,jdbcType=NVARCHAR}, #{modifyDate,jdbcType=DATE}, #{modifyUserId,jdbcType=NVARCHAR}, 
+      #{modifyUserName,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.OrganizationVO">
+    insert into Base_Organization
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="organizationId != null">
+        Organization_ID,
+      </if>
+      <if test="organizationCode != null">
+        Organization_Code,
+      </if>
+      <if test="organizationName != null">
+        Organization_Name,
+      </if>
+      <if test="organizationInnerPhone != null">
+        Organization_InnerPhone,
+      </if>
+      <if test="organizationOuterPhone != null">
+        Organization_OuterPhone,
+      </if>
+      <if test="organizationManager != null">
+        Organization_Manager,
+      </if>
+      <if test="organizationAssistantManager != null">
+        Organization_AssistantManager,
+      </if>
+      <if test="organizationFax != null">
+        Organization_Fax,
+      </if>
+      <if test="organizationZipCode != null">
+        Organization_Zipcode,
+      </if>
+      <if test="organizationAddress != null">
+        Organization_Address,
+      </if>
+      <if test="parentId != null">
+        ParentId,
+      </if>
+      <if test="organizationRemark != null">
+        Organization_Remark,
+      </if>
+      <if test="sortCode != null">
+        SortCode,
+      </if>
+      <if test="deleteMark != null">
+        DeleteMark,
+      </if>
+      <if test="createDate != null">
+        CreateDate,
+      </if>
+      <if test="createUserId != null">
+        CreateUserId,
+      </if>
+      <if test="createUserName != null">
+        CreateUserName,
+      </if>
+      <if test="modifyDate != null">
+        ModifyDate,
+      </if>
+      <if test="modifyUserId != null">
+        ModifyUserId,
+      </if>
+      <if test="modifyUserName != null">
+        ModifyUserName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationCode != null">
+        #{organizationCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationName != null">
+        #{organizationName,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationInnerPhone != null">
+        #{organizationInnerPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationOuterPhone != null">
+        #{organizationOuterPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationManager != null">
+        #{organizationManager,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationAssistantManager != null">
+        #{organizationAssistantManager,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationFax != null">
+        #{organizationFax,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationZipCode != null">
+        #{organizationZipCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationAddress != null">
+        #{organizationAddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationRemark != null">
+        #{organizationRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="sortCode != null">
+        #{sortCode,jdbcType=INTEGER},
+      </if>
+      <if test="deleteMark != null">
+        #{deleteMark,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=NVARCHAR},
+      </if>
+      <if test="createUserName != null">
+        #{createUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=DATE},
+      </if>
+      <if test="modifyUserId != null">
+        #{modifyUserId,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyUserName != null">
+        #{modifyUserName,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.OrganizationVO">
+    update Base_Organization
+    <set>
+      <if test="organizationCode != null">
+        Organization_Code = #{organizationCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationName != null">
+        Organization_Name = #{organizationName,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationInnerPhone != null">
+        Organization_InnerPhone = #{organizationInnerPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationOuterPhone != null">
+        Organization_OuterPhone = #{organizationOuterPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationManager != null">
+        Organization_Manager = #{organizationManager,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationAssistantManager != null">
+        Organization_AssistantManager = #{organizationAssistantManager,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationFax != null">
+        Organization_Fax = #{organizationFax,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationZipCode != null">
+        Organization_Zipcode = #{organizationZipCode,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationAddress != null">
+        Organization_Address = #{organizationAddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentId != null">
+        ParentId = #{parentId,jdbcType=NVARCHAR},
+      </if>
+      <if test="organizationRemark != null">
+        Organization_Remark = #{organizationRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="sortCode != null">
+        SortCode = #{sortCode,jdbcType=INTEGER},
+      </if>
+      <if test="deleteMark != null">
+        DeleteMark = #{deleteMark,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        CreateDate = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="createUserId != null">
+        CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+      </if>
+      <if test="createUserName != null">
+        CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        ModifyDate = #{modifyDate,jdbcType=DATE},
+      </if>
+      <if test="modifyUserId != null">
+        ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+      </if>
+      <if test="modifyUserName != null">
+        ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where Organization_ID = #{organizationId,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.OrganizationVO">
+    update Base_Organization
+    set Organization_Code = #{organizationCode,jdbcType=NVARCHAR},
+      Organization_Name = #{organizationName,jdbcType=NVARCHAR},
+      Organization_InnerPhone = #{organizationInnerPhone,jdbcType=NVARCHAR},
+      Organization_OuterPhone = #{organizationOuterPhone,jdbcType=NVARCHAR},
+      Organization_Manager = #{organizationManager,jdbcType=NVARCHAR},
+      Organization_AssistantManager = #{organizationAssistantManager,jdbcType=NVARCHAR},
+      Organization_Fax = #{organizationFax,jdbcType=NVARCHAR},
+      Organization_Zipcode = #{organizationZipCode,jdbcType=NVARCHAR},
+      Organization_Address = #{organizationAddress,jdbcType=NVARCHAR},
+      ParentId = #{parentId,jdbcType=NVARCHAR},
+      Organization_Remark = #{organizationRemark,jdbcType=NVARCHAR},
+      SortCode = #{sortCode,jdbcType=INTEGER},
+      DeleteMark = #{deleteMark,jdbcType=INTEGER},
+      CreateDate = #{createDate,jdbcType=DATE},
+      CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+      CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+      ModifyDate = #{modifyDate,jdbcType=DATE},
+      ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+      ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR}
+    where Organization_ID = #{organizationId,jdbcType=NVARCHAR}
+  </update>
+</mapper>

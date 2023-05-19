@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesource.TraceSourceConfigInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceConfigInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="AttributeCode" jdbcType="VARCHAR" property="attributecode"/>
+        <result column="AttributeValue" jdbcType="VARCHAR" property="attributevalue"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="AttributeName" jdbcType="VARCHAR" property="attributename"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, AttributeCode, AttributeValue, UpdateTime, UpdateUser,AttributeName
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_Config_TraceSourceConfigInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2019/8/13 0013 下午 4:53
+     * @Description: 自定义查询条件获取溯源配置属性信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getTraceSourceConfigDataByParamMap" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        t2.*
+        FROM
+        T_Config_TraceSourceConfigInfo t1
+        <if test="attributecode=='monitorpointid' ">
+            JOIN T_BAS_OtherMonitorPoint t2
+            on t1.AttributeValue = t2.PK_MonitorPointID
+            and t1.AttributeCode = 'monitorpointid'
+        </if>
+        <if test="attributecode=='pollutantcode' ">
+            JOIN PUB_CODE_PollutantFactor t2
+            on t1.AttributeValue = t2.code
+            and t1.AttributeCode = 'pollutantcode'
+        </if>
+
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_Config_TraceSourceConfigInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceConfigInfoVO">
+    insert into T_Config_TraceSourceConfigInfo (PK_ID, AttributeCode, AttributeValue, 
+      UpdateTime, UpdateUser,AttributeName)
+    values (#{pkId,jdbcType=VARCHAR}, #{attributecode,jdbcType=VARCHAR}, #{attributevalue,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{attributename,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceConfigInfoVO">
+        insert into T_Config_TraceSourceConfigInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="attributecode != null">
+                AttributeCode,
+            </if>
+            <if test="attributevalue != null">
+                AttributeValue,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="attributename != null">
+                AttributeName,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="attributecode != null">
+                #{attributecode,jdbcType=VARCHAR},
+            </if>
+            <if test="attributevalue != null">
+                #{attributevalue,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="attributename != null">
+                #{attributename,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceConfigInfoVO">
+        update T_Config_TraceSourceConfigInfo
+        <set>
+            <if test="attributecode != null">
+                AttributeCode = #{attributecode,jdbcType=VARCHAR},
+            </if>
+            <if test="attributevalue != null">
+                AttributeValue = #{attributevalue,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="attributename != null">
+                AttributeName = #{attributename,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceConfigInfoVO">
+    update T_Config_TraceSourceConfigInfo
+    set AttributeCode = #{attributecode,jdbcType=VARCHAR},
+      AttributeValue = #{attributevalue,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+       AttributeName = #{attributename,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <!--* @author: xsm * @date: 2019/8/28 0028 下午 6:27 * @Description: 批量新增溯源配置信息-->
+    <insert id="batchInsert" parameterType="map">
+        insert into T_Config_TraceSourceConfigInfo ( PK_ID, AttributeCode, AttributeValue,AttributeName, UpdateTime,
+        UpdateUser )
+        values
+        <foreach collection="datalist" item="items" index="index" separator=",">
+            (#{items.pkId},
+            #{items.attributecode},
+            #{items.attributevalue},
+            #{items.attributename},
+            #{items.updatetime},
+            #{items.updateuser}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--
+     * @author: xsm
+     * @date: 2019/8/28 0028 下午 6:46
+     * @Description:获取所有溯源配置信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getAllTraceSourceConfigInfo" parameterType="map" resultType="map">
+        SELECT
+        AttributeCode, AttributeValue,AttributeName
+        FROM
+        T_Config_TraceSourceConfigInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="attributecode!=null and attributecode!='' ">
+                AND T_Config_TraceSourceConfigInfo.AttributeCode =#{attributecode}
+            </if>
+        </trim>
+        ORDER BY AttributeCode
+    </select>
+
+
+    <delete id="detleteTraceSourceConfigDataByAttributeCode" parameterType="map">
+        delete from T_Config_TraceSourceConfigInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="attributecodes !=null and attributecodes.size>0">
+                and T_Config_TraceSourceConfigInfo.AttributeCode in
+                <foreach collection="attributecodes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </delete>
+</mapper>

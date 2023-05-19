@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.codeTable.CommonSelectTableConfigMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.codeTable.CommonSelectTableConfigVO">
+        <id column="PK_TableConfigID" jdbcType="NVARCHAR" property="pkTableConfigId"/>
+        <result column="TableName" jdbcType="NVARCHAR" property="tableName"/>
+        <result column="TableComments" jdbcType="NVARCHAR" property="tableComments"/>
+        <result column="KeyFieldName" jdbcType="NVARCHAR" property="keyFieldName"/>
+        <result column="KeyFieldisnumber" jdbcType="NUMERIC" property="keyFieldIsNumber"/>
+        <result column="OrderIndex" jdbcType="NUMERIC" property="orderIndex"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_TableConfigID, TableName, TableComments, KeyFieldName, KeyFieldisnumber, OrderIndex
+  </sql>
+
+    <!--
+     * @author: lip
+     * @date: 2018/5/29 18:04
+     * @Description: 根据表名称获取表记录
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+     -->
+    <select id="getTableConfigByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SYS_CommonSelectTableConfig
+        where tablename=#{tablename,jdbcType=NVARCHAR}
+    </select>
+
+    <select id="getTableConfigVOBySysModel" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+       T_SYS_CommonSelectTableConfig.*
+        FROM
+        T_SYS_CommonSelectTableConfig
+        JOIN
+        T_SYS_SysModelConfig ON T_SYS_CommonSelectTableConfig.PK_TableConfigID = T_SYS_SysModelConfig.FK_TableConfigID
+        WHERE
+        T_SYS_SysModelConfig.SysModel = #{sysmodel,jdbcType=NVARCHAR}
+    </select>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SYS_CommonSelectTableConfig
+        where PK_TableConfigID = #{pkTableConfigId,jdbcType=NVARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SYS_CommonSelectTableConfig
+    where PK_TableConfigID = #{pkTableConfigId,jdbcType=NVARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.auth.model.codeTable.CommonSelectTableConfigVO">
+    insert into T_SYS_CommonSelectTableConfig (PK_TableConfigID, TableName, TableComments, 
+      KeyFieldName, KeyFieldisnumber, OrderIndex
+      )
+    values (#{pkTableConfigId,jdbcType=NVARCHAR}, #{tableName,jdbcType=NVARCHAR}, #{tableComments,jdbcType=NVARCHAR},
+      #{keyFieldName,jdbcType=NVARCHAR}, #{keyFieldIsNumber,jdbcType=NUMERIC}, #{orderIndex,jdbcType=NUMERIC}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.codeTable.CommonSelectTableConfigVO">
+        insert into T_SYS_CommonSelectTableConfig
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkTableConfigId != null">
+                PK_TableConfigID,
+            </if>
+            <if test="tableName != null">
+                TableName,
+            </if>
+            <if test="tableComments != null">
+                TableComments,
+            </if>
+            <if test="keyFieldName != null">
+                KeyFieldName,
+            </if>
+            <if test="keyFieldIsNumber != null">
+                KeyFieldisnumber,
+            </if>
+            <if test="orderIndex != null">
+                OrderIndex,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkTableConfigId != null">
+                #{pkTableconfigid,jdbcType=NVARCHAR},
+            </if>
+            <if test="tableName != null">
+                #{tablename,jdbcType=NVARCHAR},
+            </if>
+            <if test="tableComments != null">
+                #{tablecomments,jdbcType=NVARCHAR},
+            </if>
+            <if test="keyFieldName != null">
+                #{keyfieldname,jdbcType=NVARCHAR},
+            </if>
+            <if test="keyFieldIsNumber != null">
+                #{keyfieldisnumber,jdbcType=NUMERIC},
+            </if>
+            <if test="orderIndex != null">
+                #{orderindex,jdbcType=NUMERIC},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.codeTable.CommonSelectTableConfigVO">
+        update T_SYS_CommonSelectTableConfig
+        <set>
+            <if test="tableName != null">
+                TableName = #{tableName,jdbcType=NVARCHAR},
+            </if>
+            <if test="tableComments != null">
+                TableComments = #{tableComments,jdbcType=NVARCHAR},
+            </if>
+            <if test="keyFieldName != null">
+                KeyFieldName = #{keyFieldName,jdbcType=NVARCHAR},
+            </if>
+            <if test="keyFieldIsNumber != null">
+                KeyFieldisnumber = #{keyFieldIsnumber,jdbcType=NUMERIC},
+            </if>
+            <if test="orderIndex != null">
+                OrderIndex = #{orderIndex,jdbcType=NUMERIC},
+            </if>
+        </set>
+        where PK_TableConfigID = #{pkTableConfigId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.codeTable.CommonSelectTableConfigVO">
+    update T_SYS_CommonSelectTableConfig
+    set TableName = #{tableName,jdbcType=NVARCHAR},
+      TableComments = #{tableComments,jdbcType=NVARCHAR},
+      KeyFieldName = #{keyFieldName,jdbcType=NVARCHAR},
+      KeyFieldisnumber = #{keyFieldIsNumber,jdbcType=NUMERIC},
+      OrderIndex = #{orderIndex,jdbcType=NUMERIC}
+    where PK_TableConfigID = #{pkTableConfigId,jdbcType=NVARCHAR}
+  </update>
+
+    <!--
+     * @author: lip
+     * @date: 2019/1/7 0007 上午 10:17
+     * @Description:判断指定表是否有自增字段，是：返回1，否：返回0
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+
+    <select id="getTableHasIdentity" parameterType="java.lang.String" resultType="java.lang.Integer">
+       Select OBJECTPROPERTY(OBJECT_ID(${tableName}),'TableHasIdentity');
+    </select>
+
+
+    <!--
+   * @author: lip
+   * @date: 2019/1/7 0007 上午 10:17
+   * @Description:根据表名称获取主键为数字类型的表主键最大值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+
+    <select id="getMaxNumByTableName" parameterType="map" resultType="java.lang.Integer">
+      select  case when max(${pkid}) is null then 0 ELSE MAX(${pkid}) end   from ${tablename}
+    </select>
+
+
+
+
+</mapper>

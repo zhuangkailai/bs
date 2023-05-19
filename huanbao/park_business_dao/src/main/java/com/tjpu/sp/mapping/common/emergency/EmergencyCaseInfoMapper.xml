@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.emergency.EmergencyCaseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.emergency.EmergencyCaseInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="CaseName" jdbcType="VARCHAR" property="casename" />
+    <result column="FK_EmergencyCaseTypeCode" jdbcType="VARCHAR" property="fkEmergencycasetypecode" />
+    <result column="HappenTime" jdbcType="TIMESTAMP" property="happentime" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="FK_EmergencyAccidentTypeCode" jdbcType="VARCHAR" property="fkEmergencyaccidenttypecode" />
+    <result column="Longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="Latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="KeyWords" jdbcType="VARCHAR" property="keywords" />
+    <result column="CaseDes" jdbcType="VARCHAR" property="casedes" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, CaseName, FK_EmergencyCaseTypeCode, HappenTime, Address, FK_EmergencyAccidentTypeCode, 
+    Longitude, Latitude, KeyWords, CaseDes, FK_FileID, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EmergencyCaseInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EmergencyCaseInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.common.emergency.EmergencyCaseInfoVO">
+    insert into T_BAS_EmergencyCaseInfo (PK_ID, CaseName, FK_EmergencyCaseTypeCode, 
+      HappenTime, Address, FK_EmergencyAccidentTypeCode, 
+      Longitude, Latitude, KeyWords, 
+      CaseDes, FK_FileID, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{casename,jdbcType=VARCHAR}, #{fkEmergencycasetypecode,jdbcType=VARCHAR}, 
+      #{happentime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{fkEmergencyaccidenttypecode,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{keywords,jdbcType=VARCHAR}, 
+      #{casedes,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.emergency.EmergencyCaseInfoVO">
+    insert into T_BAS_EmergencyCaseInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="casename != null">
+        CaseName,
+      </if>
+      <if test="fkEmergencycasetypecode != null">
+        FK_EmergencyCaseTypeCode,
+      </if>
+      <if test="happentime != null">
+        HappenTime,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="fkEmergencyaccidenttypecode != null">
+        FK_EmergencyAccidentTypeCode,
+      </if>
+      <if test="longitude != null">
+        Longitude,
+      </if>
+      <if test="latitude != null">
+        Latitude,
+      </if>
+      <if test="keywords != null">
+        KeyWords,
+      </if>
+      <if test="casedes != null">
+        CaseDes,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="casename != null">
+        #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEmergencycasetypecode != null">
+        #{fkEmergencycasetypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="happentime != null">
+        #{happentime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEmergencyaccidenttypecode != null">
+        #{fkEmergencyaccidenttypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="keywords != null">
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="casedes != null">
+        #{casedes,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.emergency.EmergencyCaseInfoVO">
+    update T_BAS_EmergencyCaseInfo
+    <set>
+      <if test="casename != null">
+        CaseName = #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEmergencycasetypecode != null">
+        FK_EmergencyCaseTypeCode = #{fkEmergencycasetypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="happentime != null">
+        HappenTime = #{happentime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEmergencyaccidenttypecode != null">
+        FK_EmergencyAccidentTypeCode = #{fkEmergencyaccidenttypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        Longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        Latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="keywords != null">
+        KeyWords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="casedes != null">
+        CaseDes = #{casedes,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.emergency.EmergencyCaseInfoVO">
+    update T_BAS_EmergencyCaseInfo
+    set CaseName = #{casename,jdbcType=VARCHAR},
+      FK_EmergencyCaseTypeCode = #{fkEmergencycasetypecode,jdbcType=VARCHAR},
+      HappenTime = #{happentime,jdbcType=TIMESTAMP},
+      Address = #{address,jdbcType=VARCHAR},
+      FK_EmergencyAccidentTypeCode = #{fkEmergencyaccidenttypecode,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      KeyWords = #{keywords,jdbcType=VARCHAR},
+      CaseDes = #{casedes,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+      select
+      t1.pk_id as pkid,
+      t1.fk_fileid,
+      t1.address,
+      t1.casedes,
+      t1.casename,
+      t1.keywords,
+      t1.latitude,
+      t1.longitude,
+      convert ( varchar ( 10 ), t1.happentime, 120 ) happentime,
+      t2.name as casetypename,
+      t3.name as accidenttypename
+      from
+      t_bas_emergencycaseinfo t1
+      left join pub_code_emergencycasetype t2 on t1.fk_emergencycasetypecode = t2.code
+      left join pub_code_emergencyaccidenttype t3 on t3.code = t1.fk_emergencyaccidenttypecode
+    <where>
+
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.happentime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t1.happentime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="casename!=null and casename!='' ">
+        and t1.casename like concat('%', #{casename},'%')
+      </if>
+      <if test="casetypes!=null and casetypes.size>0">
+        and t2.code in
+        <foreach collection="casetypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by t1.happentime DESC
+  </select>
+
+  <!--获取编辑回显或详情数据 lip 2021/8/30 9:37 -->
+  <select id="getEditOrDetailsDataById" parameterType="String" resultType="map">
+     select
+      t1.pk_id as pkid,
+      t1.fk_fileid as fkfileid,
+      t1.address,
+      t1.casedes,
+      t1.casename,
+      t1.keywords,
+      t1.latitude,
+      t1.longitude,
+      convert ( varchar ( 10 ), t1.happentime, 120 ) happentime,
+      t1.fk_emergencycasetypecode as fkemergencycasetypecode,
+	  t1.fk_emergencyaccidenttypecode as fkemergencyaccidenttypecode,
+      t2.name as casetypename,
+      t3.name as accidenttypename
+      from
+      t_bas_emergencycaseinfo t1
+      left join pub_code_emergencycasetype t2 on t1.fk_emergencycasetypecode = t2.code
+      left join pub_code_emergencyaccidenttype t3 on t3.code = t1.fk_emergencyaccidenttypecode
+
+      where t1.pk_id = #{id}
+  </select>
+
+</mapper>

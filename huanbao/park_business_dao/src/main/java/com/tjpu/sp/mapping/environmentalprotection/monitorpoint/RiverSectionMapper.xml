@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.RiverSectionMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.RiverSectionVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="RiverCode" jdbcType="VARCHAR" property="rivercode" />
+    <result column="RiverName" jdbcType="VARCHAR" property="rivername" />
+    <result column="SectionCode" jdbcType="VARCHAR" property="sectioncode" />
+    <result column="SectionName" jdbcType="VARCHAR" property="sectionname" />
+    <result column="FK_SectionTypeCode" jdbcType="VARCHAR" property="fkSectiontypecode" />
+    <result column="Longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="Latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="Location" jdbcType="VARCHAR" property="location" />
+    <result column="FK_FunWaterLevelCode" jdbcType="VARCHAR" property="fkFunwaterlevelcode" />
+    <result column="FK_WaterSystemCode" jdbcType="VARCHAR" property="fkWatersystemcode" />
+    <result column="TrunkTreamCode" jdbcType="VARCHAR" property="trunktreamcode" />
+    <result column="TrunkTreamName" jdbcType="VARCHAR" property="trunktreamname" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, RiverCode, RiverName, SectionCode, SectionName, FK_SectionTypeCode, Longitude, 
+    Latitude, Location, FK_FunWaterLevelCode, FK_WaterSystemCode, TrunkTreamCode, TrunkTreamName, 
+    UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_RiverSection
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_RiverSection
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.RiverSectionVO">
+    insert into T_BAS_RiverSection (PK_ID, RiverCode, RiverName, 
+      SectionCode, SectionName, FK_SectionTypeCode, 
+      Longitude, Latitude, Location, 
+      FK_FunWaterLevelCode, FK_WaterSystemCode, 
+      TrunkTreamCode, TrunkTreamName, UpdateUser, 
+      UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{rivercode,jdbcType=VARCHAR}, #{rivername,jdbcType=VARCHAR}, 
+      #{sectioncode,jdbcType=VARCHAR}, #{sectionname,jdbcType=VARCHAR}, #{fkSectiontypecode,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{location,jdbcType=VARCHAR}, 
+      #{fkFunwaterlevelcode,jdbcType=VARCHAR}, #{fkWatersystemcode,jdbcType=VARCHAR}, 
+      #{trunktreamcode,jdbcType=VARCHAR}, #{trunktreamname,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.RiverSectionVO">
+    insert into T_BAS_RiverSection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="rivercode != null">
+        RiverCode,
+      </if>
+      <if test="rivername != null">
+        RiverName,
+      </if>
+      <if test="sectioncode != null">
+        SectionCode,
+      </if>
+      <if test="sectionname != null">
+        SectionName,
+      </if>
+      <if test="fkSectiontypecode != null">
+        FK_SectionTypeCode,
+      </if>
+      <if test="longitude != null">
+        Longitude,
+      </if>
+      <if test="latitude != null">
+        Latitude,
+      </if>
+      <if test="location != null">
+        Location,
+      </if>
+      <if test="fkFunwaterlevelcode != null">
+        FK_FunWaterLevelCode,
+      </if>
+      <if test="fkWatersystemcode != null">
+        FK_WaterSystemCode,
+      </if>
+      <if test="trunktreamcode != null">
+        TrunkTreamCode,
+      </if>
+      <if test="trunktreamname != null">
+        TrunkTreamName,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="rivercode != null">
+        #{rivercode,jdbcType=VARCHAR},
+      </if>
+      <if test="rivername != null">
+        #{rivername,jdbcType=VARCHAR},
+      </if>
+      <if test="sectioncode != null">
+        #{sectioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionname != null">
+        #{sectionname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkSectiontypecode != null">
+        #{fkSectiontypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFunwaterlevelcode != null">
+        #{fkFunwaterlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWatersystemcode != null">
+        #{fkWatersystemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="trunktreamcode != null">
+        #{trunktreamcode,jdbcType=VARCHAR},
+      </if>
+      <if test="trunktreamname != null">
+        #{trunktreamname,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.RiverSectionVO">
+    update T_BAS_RiverSection
+    <set>
+      <if test="rivercode != null">
+        RiverCode = #{rivercode,jdbcType=VARCHAR},
+      </if>
+      <if test="rivername != null">
+        RiverName = #{rivername,jdbcType=VARCHAR},
+      </if>
+      <if test="sectioncode != null">
+        SectionCode = #{sectioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionname != null">
+        SectionName = #{sectionname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkSectiontypecode != null">
+        FK_SectionTypeCode = #{fkSectiontypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        Longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        Latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="location != null">
+        Location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFunwaterlevelcode != null">
+        FK_FunWaterLevelCode = #{fkFunwaterlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWatersystemcode != null">
+        FK_WaterSystemCode = #{fkWatersystemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="trunktreamcode != null">
+        TrunkTreamCode = #{trunktreamcode,jdbcType=VARCHAR},
+      </if>
+      <if test="trunktreamname != null">
+        TrunkTreamName = #{trunktreamname,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.RiverSectionVO">
+    update T_BAS_RiverSection
+    set RiverCode = #{rivercode,jdbcType=VARCHAR},
+      RiverName = #{rivername,jdbcType=VARCHAR},
+      SectionCode = #{sectioncode,jdbcType=VARCHAR},
+      SectionName = #{sectionname,jdbcType=VARCHAR},
+      FK_SectionTypeCode = #{fkSectiontypecode,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      Location = #{location,jdbcType=VARCHAR},
+      FK_FunWaterLevelCode = #{fkFunwaterlevelcode,jdbcType=VARCHAR},
+      FK_WaterSystemCode = #{fkWatersystemcode,jdbcType=VARCHAR},
+      TrunkTreamCode = #{trunktreamcode,jdbcType=VARCHAR},
+      TrunkTreamName = #{trunktreamname,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+<!--获取点位信息 lip 2022/3/9 16:29 -->
+  <select id="getRiverSectionPointListByParam" resultType="map" parameterType="map">
+    SELECT
+      t1.pk_id,
+      t1.sectionname,
+      t1.longitude,
+      t1.latitude,
+      t2.name waterqualityclassname,
+      t1.fk_funwaterlevelcode as waterlevelcode
+      from
+      t_bas_riversection t1
+      left join pub_code_waterqualityclass t2 on t1.fk_funwaterlevelcode= t2.code
+    <where>
+      <if test="sectionname != null and sectionname !=''">
+        and t1.SectionName LIKE concat('%',#{sectionname,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="monitorpointid != null and monitorpointid !=''">
+        and t1.monitorpointid = #{monitorpointid,jdbcType=VARCHAR})
+      </if>
+    </where>
+
+    order  by  t1.sectionname
+  </select>
+
+
+
+  <select id="countTotalByParam" parameterType="map" resultType="long">
+    select count(t_bas_riversection.pk_id) from t_bas_riversection
+  </select>
+
+</mapper>

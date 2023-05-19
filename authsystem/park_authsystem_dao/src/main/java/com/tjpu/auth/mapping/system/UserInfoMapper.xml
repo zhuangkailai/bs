@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.UserInfoVO">
+        <id column="User_ID" jdbcType="NVARCHAR" property="userId"/>
+        <result column="User_Code" jdbcType="NVARCHAR" property="userCode"/>
+        <result column="User_Account" jdbcType="NVARCHAR" property="userAccount"/>
+        <result column="User_Pwd" jdbcType="NVARCHAR" property="userPwd"/>
+        <result column="User_Name" jdbcType="NVARCHAR" property="userName"/>
+        <result column="User_Sex" jdbcType="INTEGER" property="userSex"/>
+        <result column="User_Sort" jdbcType="NVARCHAR" property="userSort"/>
+        <result column="Title" jdbcType="NVARCHAR" property="title"/>
+        <result column="Email" jdbcType="NVARCHAR" property="email"/>
+        <result column="Theme" jdbcType="NVARCHAR" property="theme"/>
+        <result column="Question" jdbcType="NVARCHAR" property="question"/>
+        <result column="AnswerQuestion" jdbcType="NVARCHAR" property="answerQuestion"/>
+        <result column="CreateDate" jdbcType="DATE" property="createDate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifyDate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName"/>
+        <result column="User_Remark" jdbcType="NVARCHAR" property="userRemark"/>
+        <result column="User_Orderby" jdbcType="INTEGER" property="userOrderby"/>
+        <result column="Phone" jdbcType="NVARCHAR" property="phone"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark"/>
+        <result column="SendPush" jdbcType="NVARCHAR" property="sendPush"/>
+        <result column="AlarmType" jdbcType="INTEGER" property="alarmType"/>
+        <result column="AlarmTime" jdbcType="NVARCHAR" property="alarmTime"/>
+        <result column="UserType" jdbcType="NVARCHAR" property="userType"/>
+        <result column="RegionCode" jdbcType="NVARCHAR" property="regionCode"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    User_ID, User_Code, User_Account, User_Pwd, User_Name, User_Sex, User_Sort, Title, 
+    Email, Theme, Question, AnswerQuestion, CreateDate, CreateUserId, CreateUserName, 
+    ModifyDate, ModifyUserId, ModifyUserName, User_Remark, User_Orderby, Phone, DeleteMark, 
+    SendPush, AlarmType, AlarmTime,UserType,RegionCode
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_UserInfo
+        where user_id = #{userid,jdbcType=NVARCHAR}
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2018/10/20 0020 下午 1:26
+     * @Description:根据用户id获取关联企业信息ID记录
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getEntUserByUserId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+          Ent_Id
+        from Base_EntUser
+        where User_Id = #{userId,jdbcType=NVARCHAR}
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2018/10/20 0020 下午 1:26
+     * @Description:根据用户id获取用户关联的mn号权限
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getUserDgimnListByUserId" parameterType="java.lang.String" resultType="String">
+        select DISTINCT
+          dgimn
+        from T_BAS_UserMonitorPointRelationData
+        where FK_UserID = #{userId,jdbcType=NVARCHAR}
+              and DGIMN is not null
+    </select>
+
+    <!--
+        * @author: lip
+        * @date: 2018/10/20 0020 下午 1:26
+        * @Description:根据用户id获取用户关联的mn号权限
+        * @updateUser:
+        * @updateDate:
+        * @updateDescription:
+       -->
+    <select id="getUserPollutionIdListByUserId" parameterType="java.lang.String" resultType="String">
+        select DISTINCT
+        fk_pollutionid as pollutionid
+        from T_BAS_UserMonitorPointRelationData
+        where FK_UserID = #{userId,jdbcType=NVARCHAR}
+        and DGIMN is not null
+        and fk_pollutionid is not null
+    </select>
+    <!--
+    /**
+       *
+       * @author: lip
+       * @date: 2018年4月2日 上午10:56:28
+       * @Description:定义查询条件查询用户实体信息
+       * @updateUser:
+       * @updateDate:
+       * @updateDescription:
+       * @param hashMap
+       * @return
+       */
+      -->
+    <select id="getUserInfoByParam" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_UserInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="userAccount != null">
+                AND User_Account=#{userAccount}
+            </if>
+            <if test="userPwd != null">
+                AND User_Pwd=#{userPwd}
+            </if>
+
+
+        </trim>
+    </select>
+
+    <!--
+      author: zzc
+      date: 2018/7/3 10:23
+      Description: 动态获取用户实体信息
+      param:
+      return:
+     -->
+    <select id="getUserInfoVOsByParam" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_UserInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="useraccount!=null and useraccount!=''">
+                AND user_account=#{useraccount}
+            </if>
+            <if test="userpwd!=null and userpwd!=''">
+                AND user_pwd=#{userpwd}
+            </if>
+
+            <if test="usertype!=null and usertype!=''">
+                AND UserType=#{usertype}
+            </if>
+
+
+            <if test="effectivetime!=null and effectivetime!=''">
+              and(
+                CONVERT (
+                VARCHAR (13),
+                EffectiveTime,
+                120
+                ) >= #{effectivetime}
+                OR EffectiveTime IS NULL
+                OR EffectiveTime = '')
+            </if>
+            <if test="userids != null">
+                and User_Id in
+                <foreach item="item" index="index" collection="userids"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+   /**
+      *
+      * @author: xsm
+      * @date: 2018年8月1日 下午14:49:28
+      * @Description:获取所有行政区划数据
+      * @updateUser:
+      * @updateDate:
+      * @updateDescription:
+      * @param hashMap
+      * @return
+      */
+     -->
+    <select id="getRegionTreeData" resultType="java.util.HashMap">
+        select 
+        Code,Name,ParentCode
+        from 
+        PUB_CODE_Region ORDER BY Code
+    </select>
+
+
+
+    <select id="getUserRoleListByUserId" resultType="java.util.HashMap">
+       SELECT
+        t1.Roles_ID roleid,
+        t1.Roles_Name rolename
+        FROM
+            Base_Roles T1
+        INNER JOIN Base_UserRole t2 ON t2.Roles_ID = t1.Roles_ID
+        AND t2.User_ID = #{userid}
+    </select>
+
+    <!--
+    /**
+       *
+       * @author: xsm
+       * @date: 2018年8月3日 下午14:52:36
+       * @Description:根据用户ID获取监管用户的数据权限
+       * @updateUser:
+       * @updateDate:
+       * @updateDescription:
+       * @param hashMap
+       * @return
+       */
+      -->
+    <select id="getRegionListByUserId" parameterType="string" resultType="string">
+        select 
+    	FK_RegionCode
+   		from 
+   		Base_RegionUser 
+   		WHERE fk_userid = #{userid} 
+   		ORDER BY FK_RegionCode
+    </select>
+
+    <!--
+    /**
+       *
+       * @author: xsm
+       * @date: 2018年8月30日 下午14:32:36
+       * @Description:根据用户ID获取企业用户数据权限（企业）
+       * @updateUser:
+       * @updateDate:
+       * @updateDescription:
+       * @param hashMap
+       * @return
+       */
+      -->
+    <select id="getPollutionIdListByUserId" parameterType="string" resultType="string">
+       SELECT
+		ent.Ent_Id AS pollutionid
+		FROM
+		Base_EntUser ent 
+		where ent.user_id = #{userid}
+    </select>
+
+
+    <!--
+    /**
+       *
+       * @author: xsm
+       * @date: 2018年8月7日 下午13:12:36
+       * @Description:根据污染源ID去数据中心库中查询ID对应的污染源信息 
+       * @updateUser:
+       * @updateDate:
+       * @updateDescription:
+       * @return
+       */
+      -->
+    <select id="getPollutionListByPollutionIdList" resultType="java.util.HashMap">
+        select
+        PollutionCode,PollutionName,
+        pk_pollutionid as pollutionid,
+        Name as IndustryType,
+        EnvironmentalManager,
+        Address
+        FROM
+        T_BAS_Pollution
+
+        LEFT JOIN PUB_CODE_IndustryType ON Code = FK_IndustryType
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionlist != null">
+                and pk_pollutionid in
+                <foreach item="item" index="index" collection="pollutionlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY PollutionCode
+    </select>
+
+    <!--
+   /**
+      *
+      * @author: xsm
+      * @date: 2018年8月14日 下午14:22:37
+      * @Description:根据自定义参数获取企业用户数据权限中污染源企业列表数据
+      * @updateUser:
+      * @updateDate:
+      * @updateDescription:
+      * @param
+      * @return
+      */
+     -->
+    <select id="getDataPermissionsListByParams" resultType="java.util.HashMap">
+        SELECT
+        PK_PollutionID AS pk_pollutionid,PollutionCode AS pollutioncode,PollutionName AS pollutionname
+        FROM
+        T_BAS_Pollution
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="regionlist != null">
+                and fk_region in
+                <foreach item="item" index="index" collection="regionlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+/**
+  *
+  * @author: xsm
+  * @date: 2018年8月3日 下午16:00:37
+  * @Description:根据用户ID获取企业用户的数据权限
+  * @updateUser:
+  * @updateDate:
+  * @updateDescription:
+  * @param
+  * @return
+  */
+ -->
+    <select id="getDataPermissionsByUserId" resultType="java.util.HashMap">
+		SELECT
+		region.FK_RegionCode AS fk_regioncode,ent.Ent_Id AS pollutionid
+		FROM
+		Base_RegionUser region LEFT JOIN Base_EntUser ent ON region.FK_UserID = ent.User_Id
+		where region.fk_userid = #{userid}
+	</select>
+
+    <!--
+     * @author: zhangzc
+     * @date: 2018/6/8 18:02
+     * @Description: 重置用户密码
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+     -->
+    <update id="resetUserPassword" parameterType="map">
+    update Base_UserInfo set USER_PWD = #{user_pwd} where user_id = #{userid}
+  </update>
+
+    <!--
+        description: 添加菜单时删除用户权限
+        param:
+        author: ZhangZhangChao
+        date: 2019/1/10 11:04
+    -->
+    <delete id="deleteUserAuthForAddMenu" parameterType="java.util.List">
+        DELETE FROM Base_UserRight WHERE menu_id IN
+        <foreach collection="menuids" item="menuid" open="(" separator="," close=")">
+            #{menuid}
+        </foreach>
+        AND (button_id IS NULL OR button_id = '')
+    </delete>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_UserInfo
+    where user_id = #{userid,jdbcType=NVARCHAR}
+  </delete>
+
+    <insert id="insert" parameterType="com.tjpu.auth.model.system.UserInfoVO">
+    insert into Base_UserInfo (User_ID, User_Code, User_Account, 
+      User_Pwd, User_Name, User_Sex, 
+      User_Sort, Title, Email, 
+      Theme, Question, AnswerQuestion, 
+      CreateDate, CreateUserId, CreateUserName, 
+      ModifyDate, ModifyUserId, ModifyUserName, 
+      User_Remark, User_Orderby, Phone, 
+      DeleteMark, SendPush, AlarmType, 
+      AlarmTime)
+    values (#{userId,jdbcType=NVARCHAR}, #{userCode,jdbcType=NVARCHAR}, #{userAccount,jdbcType=NVARCHAR}, 
+      #{userPwd,jdbcType=NVARCHAR}, #{userName,jdbcType=NVARCHAR}, #{userSex,jdbcType=INTEGER}, 
+      #{userSort,jdbcType=NVARCHAR}, #{title,jdbcType=NVARCHAR}, #{email,jdbcType=NVARCHAR}, 
+      #{theme,jdbcType=NVARCHAR}, #{question,jdbcType=NVARCHAR}, #{answerQuestion,jdbcType=NVARCHAR}, 
+      #{createDate,jdbcType=DATE}, #{createUserId,jdbcType=NVARCHAR}, #{createUserName,jdbcType=NVARCHAR}, 
+      #{modifyDate,jdbcType=DATE}, #{modifyUserId,jdbcType=NVARCHAR}, #{modifyUserName,jdbcType=NVARCHAR}, 
+      #{userRemark,jdbcType=NVARCHAR}, #{userOrderby,jdbcType=INTEGER}, #{phone,jdbcType=NVARCHAR}, 
+      #{deleteMark,jdbcType=INTEGER}, #{sendPush,jdbcType=NVARCHAR}, #{alarmType,jdbcType=INTEGER}, 
+      #{alarmTime,jdbcType=NVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.UserInfoVO">
+        insert into Base_UserInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                User_ID,
+            </if>
+            <if test="userCode != null">
+                User_Code,
+            </if>
+            <if test="userAccount != null">
+                User_Account,
+            </if>
+            <if test="userPwd != null">
+                User_Pwd,
+            </if>
+            <if test="userName != null">
+                User_Name,
+            </if>
+            <if test="userSex != null">
+                User_Sex,
+            </if>
+            <if test="userSort != null">
+                User_Sort,
+            </if>
+            <if test="title != null">
+                Title,
+            </if>
+            <if test="email != null">
+                Email,
+            </if>
+            <if test="theme != null">
+                Theme,
+            </if>
+            <if test="question != null">
+                Question,
+            </if>
+            <if test="answerQuestion != null">
+                AnswerQuestion,
+            </if>
+            <if test="createDate != null">
+                CreateDate,
+            </if>
+            <if test="createUserId != null">
+                CreateUserId,
+            </if>
+            <if test="createUserName != null">
+                CreateUserName,
+            </if>
+            <if test="modifyDate != null">
+                ModifyDate,
+            </if>
+            <if test="modifyUserId != null">
+                ModifyUserId,
+            </if>
+            <if test="modifyUserName != null">
+                ModifyUserName,
+            </if>
+            <if test="userRemark != null">
+                User_Remark,
+            </if>
+            <if test="userOrderby != null">
+                User_Orderby,
+            </if>
+            <if test="phone != null">
+                Phone,
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark,
+            </if>
+            <if test="sendPush != null">
+                SendPush,
+            </if>
+            <if test="alarmType != null">
+                AlarmType,
+            </if>
+            <if test="alarmTime != null">
+                AlarmTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=NVARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=NVARCHAR},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount,jdbcType=NVARCHAR},
+            </if>
+            <if test="userPwd != null">
+                #{userPwd,jdbcType=NVARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=NVARCHAR},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=INTEGER},
+            </if>
+            <if test="userSort != null">
+                #{userSort,jdbcType=NVARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=NVARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=NVARCHAR},
+            </if>
+            <if test="theme != null">
+                #{theme,jdbcType=NVARCHAR},
+            </if>
+            <if test="question != null">
+                #{question,jdbcType=NVARCHAR},
+            </if>
+            <if test="answerQuestion != null">
+                #{answerQuestion,jdbcType=NVARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate,jdbcType=DATE},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                #{modifyUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="userRemark != null">
+                #{userRemark,jdbcType=NVARCHAR},
+            </if>
+            <if test="userOrderby != null">
+                #{userOrderby,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=NVARCHAR},
+            </if>
+            <if test="deleteMark != null">
+                #{deleteMark,jdbcType=INTEGER},
+            </if>
+            <if test="sendPush != null">
+                #{sendPush,jdbcType=NVARCHAR},
+            </if>
+            <if test="alarmType != null">
+                #{alarmType,jdbcType=INTEGER},
+            </if>
+            <if test="alarmTime != null">
+                #{alarmTime,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.UserInfoVO">
+        update Base_UserInfo
+        <set>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=NVARCHAR},
+            </if>
+            <if test="userAccount != null">
+                user_account = #{userAccount,jdbcType=NVARCHAR},
+            </if>
+            <if test="userPwd != null">
+                user_pwd = #{userPwd,jdbcType=NVARCHAR},
+            </if>
+            <if test="userName != null">
+                User_Name = #{userName,jdbcType=NVARCHAR},
+            </if>
+            <if test="userSex != null">
+                User_Sex = #{userSex,jdbcType=INTEGER},
+            </if>
+            <if test="userSort != null">
+                User_Sort = #{userSort,jdbcType=NVARCHAR},
+            </if>
+            <if test="title != null">
+                Title = #{title,jdbcType=NVARCHAR},
+            </if>
+            <if test="email != null">
+                Email = #{email,jdbcType=NVARCHAR},
+            </if>
+            <if test="theme != null">
+                Theme = #{theme,jdbcType=NVARCHAR},
+            </if>
+            <if test="question != null">
+                Question = #{question,jdbcType=NVARCHAR},
+            </if>
+            <if test="answerQuestion != null">
+                AnswerQuestion = #{answerQuestion,jdbcType=NVARCHAR},
+            </if>
+            <if test="createDate != null">
+                CreateDate = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="createUserId != null">
+                CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="createUserName != null">
+                CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                ModifyDate = #{modifyDate,jdbcType=DATE},
+            </if>
+            <if test="modifyUserId != null">
+                ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="userRemark != null">
+                User_Remark = #{userRemark,jdbcType=NVARCHAR},
+            </if>
+            <if test="userOrderby != null">
+                user_orderby = #{userOrderby,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=NVARCHAR},
+            </if>
+            <if test="deleteMark != null">
+                deletemark = #{deleteMark,jdbcType=INTEGER},
+            </if>
+            <if test="sendPush != null">
+                sendpush = #{sendPush,jdbcType=NVARCHAR},
+            </if>
+            <if test="alarmType != null">
+                alarmtype = #{alarmType,jdbcType=INTEGER},
+            </if>
+            <if test="alarmTime != null">
+                alarmtime = #{alarmTime,jdbcType=NVARCHAR},
+            </if>
+            <if test="userType != null">
+                userType = #{userType,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.UserInfoVO">
+    update Base_UserInfo
+    set User_Code = #{userCode,jdbcType=NVARCHAR},
+      User_Account = #{userAccount,jdbcType=NVARCHAR},
+      User_Pwd = #{userPwd,jdbcType=NVARCHAR},
+      User_Name = #{userName,jdbcType=NVARCHAR},
+      User_Sex = #{userSex,jdbcType=INTEGER},
+      User_Sort = #{userSort,jdbcType=NVARCHAR},
+      Title = #{title,jdbcType=NVARCHAR},
+      Email = #{email,jdbcType=NVARCHAR},
+      Theme = #{theme,jdbcType=NVARCHAR},
+      Question = #{question,jdbcType=NVARCHAR},
+      AnswerQuestion = #{answerQuestion,jdbcType=NVARCHAR},
+      CreateDate = #{createDate,jdbcType=DATE},
+      CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+      CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+      ModifyDate = #{modifyDate,jdbcType=DATE},
+      ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+      ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR},
+      User_Remark = #{userRemark,jdbcType=NVARCHAR},
+      User_Orderby = #{userOrderby,jdbcType=INTEGER},
+      Phone = #{phone,jdbcType=NVARCHAR},
+      DeleteMark = #{deleteMark,jdbcType=INTEGER},
+      SendPush = #{sendPush,jdbcType=NVARCHAR},
+      AlarmType = #{alarmType,jdbcType=INTEGER},
+      AlarmTime = #{alarmTime,jdbcType=NVARCHAR}
+    where User_ID = #{userId,jdbcType=NVARCHAR}
+  </update>
+
+    <!--
+     * @author: lip
+     * @date: 2018/10/25 0025 下午 2:05
+     * @Description:自定义查询条件获取系统访问令牌
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getSystemAccessTokenByParam" resultType="java.util.HashMap">
+        SELECT
+          *
+        FROM
+          T_SYS_SystemAccessToken
+        where SystemMark = #{systemmark}
+        and SystemToken = #{systemtoken}
+    </select>
+
+    <select id="getAllUser" resultType="map">
+      SELECT User_ID FROM [dbo].[Base_UserInfo]  GROUP BY User_ID;
+    </select>
+
+
+    <select id="getAllUserInfo" resultType="map">
+        select
+        Base_UserInfo.User_Name AS name,
+        Base_UserInfo.User_ID AS id
+        from
+        Base_UserInfo
+    </select>
+
+
+    <select id="getDepartments" resultType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        '2' AS flag,
+        Base_UserInfo.User_Name AS name,
+        Base_UserInfo.User_ID AS id,
+        Base_UserInfo.Phone AS phone,
+        Base_Organization.Organization_ID AS parentId
+        FROM
+        Base_Organization
+        JOIN Base_StaffOrganize ON Base_Organization.Organization_ID = Base_StaffOrganize.Organization_ID
+        JOIN Base_UserInfo ON Base_UserInfo.User_ID = Base_StaffOrganize.User_ID
+        WHERE Base_UserInfo.UserType = 0
+        UNION ALL
+        SELECT
+        '1' AS flag,
+        Base_Organization.Organization_Name AS name,
+        Base_Organization.Organization_ID AS id,
+        '' as phone,
+        Base_Organization.parentId
+        FROM
+        Base_Organization
+        ) t
+        ORDER BY
+        t.flag,
+        t.name
+    </select>
+
+
+    <select id="getAuthByUseridAndMenuid" parameterType="string" resultType="map">
+        SELECT * FROM [dbo].[Base_UserRight] where User_ID=#{userid} and Menu_Id=#{menuid} ;
+    </select>
+
+    <!--通过用户和菜单删除权限 -->
+    <delete id="deleteByUserAndMenu" parameterType="map">
+        delete from Base_UserRight where User_ID=#{userid}
+        <if test="menuid!=null and menuid.size>0">
+            and menu_id in
+            <foreach collection="menuid" separator="," close=")" item="item" open="(">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+
+    <!--查询所有角色父菜单下拥有权限的子菜单chengzq -->
+    <select id="getAllAuthByParentId" resultType="map" parameterType="string">
+        SELECT * FROM Base_UserRight WHERE Menu_Id IN (SELECT Menu_Id FROM Base_SysMenu WHERE ParentId =#{parentid})  AND Button_Id  IS NULL and user_id=#{userid} ORDER BY User_ID;
+    </select>
+
+    <!--根据菜单id查询是否有权限chengzq -->
+    <select id="getAuthByMenuId" parameterType="string" resultType="map">
+      SELECT * FROM Base_UserRight where Menu_Id=#{menuid} and user_id=#{userid} and Button_Id is null;
+    </select>
+    <!--
+         * @author: zhangzhenchao
+         * @date: 2019/10/14 10:46
+         * @Description: 获取用户拥有的菜单的按钮权限信息
+    -->
+    <select id="getUserMenusButtonAuth" resultType="java.util.Map">
+        SELECT
+            t2.Menu_Code,
+            t2.Menu_ID,
+            t3.Button_Code,
+            t3.Button_Img,
+            t3.Button_Name,
+            t3.Button_Style,
+            t3.Button_Type,
+            t3.SortCode
+        FROM
+            (
+                SELECT
+                    t1.User_ID,
+                    t2.Menu_Id,
+                    t2.Button_Id
+                FROM
+                    Base_UserInfo t1,
+                    Base_UserRight t2
+                WHERE
+                    t1.User_ID = t2.User_ID
+                AND Button_Id IS NOT NULL
+                AND t1.User_ID = #{userid}
+                UNION
+                    SELECT
+                        t1.User_ID,
+                        t4.Menu_Id,
+                        t4.Button_Id
+                    FROM
+                        Base_UserInfo t1,
+                        Base_Roles t2,
+                        Base_UserRole t3,
+                        Base_RoleRight t4
+                    WHERE
+                        t1.User_ID = #{userid}
+                    AND t1.User_ID = t3.User_ID
+                    AND Button_Id IS NOT NULL
+                    AND t3.Roles_ID = t2.Roles_ID
+                    AND t4.Roles_ID = t2.Roles_ID
+            ) t1,
+            Base_SysMenu t2,
+            Base_Button t3
+        WHERE
+            t1.Menu_Id = t2.Menu_Id
+        AND t1.Button_Id = t3.Button_ID
+        AND (
+            t2.DeleteMark IS NULL
+            OR t2.DeleteMark = 0
+        )
+    </select>
+
+
+    <insert id="insertUserRight" parameterType="map">
+      insert into Base_UserRight (UserRight_ID,User_ID,Menu_Id)  values (NEWID(),#{userid},#{menuid})
+    </insert>
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.checktemplateconfig.CheckTemplateConfigMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.checktemplateconfig.CheckTemplateConfigVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CheckTypeCode" jdbcType="VARCHAR" property="fkChecktypecode" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+    <result column="CheckCategory" jdbcType="VARCHAR" property="checkcategory" />
+    <result column="CheckContent" jdbcType="VARCHAR" property="checkcontent" />
+    <result column="CheckSituation" jdbcType="VARCHAR" property="checksituation" />
+    <result column="BasisItem" jdbcType="VARCHAR" property="basisitem" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="CheckSituationType" jdbcType="VARCHAR" property="checksituationtype" />
+    <result column="FK_FileID" property="fkfileid" jdbcType="VARCHAR"/>
+    <result column="TextContent" property="textcontent" jdbcType="VARCHAR"/>
+    <result column="ExplainCommon" property="explaincommon" jdbcType="VARCHAR"/>
+    <result column="QuestionsCommon" property="questionscommon" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CheckTypeCode, OrderIndex, CheckCategory, CheckContent, CheckSituation, 
+    BasisItem, Remark, UpdateUser, UpdateTime,CheckSituationType,FK_FileID,TextContent,
+    ExplainCommon,QuestionsCommon
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_CheckTemplateConfig
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_CheckTemplateConfig
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.checktemplateconfig.CheckTemplateConfigVO">
+    insert into T_GJ_CheckTemplateConfig (PK_ID, FK_CheckTypeCode, OrderIndex, 
+      CheckCategory, CheckContent, CheckSituation, 
+      BasisItem, Remark, UpdateUser, 
+      UpdateTime,CheckSituationType,FK_FileID,TextContent,ExplainCommon,QuestionsCommon)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkChecktypecode,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC}, 
+      #{checkcategory,jdbcType=VARCHAR}, #{checkcontent,jdbcType=VARCHAR}, #{checksituation,jdbcType=VARCHAR}, 
+      #{basisitem,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP},#{checksituationtype,jdbcType=VARCHAR},#{fkfileid,jdbcType=VARCHAR},
+      #{textcontent,jdbcType=VARCHAR},#{explaincommon,jdbcType=VARCHAR},#{questionscommon,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.checktemplateconfig.CheckTemplateConfigVO">
+    insert into T_GJ_CheckTemplateConfig
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkChecktypecode != null">
+        FK_CheckTypeCode,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+      <if test="checkcategory != null">
+        CheckCategory,
+      </if>
+      <if test="checkcontent != null">
+        CheckContent,
+      </if>
+      <if test="checksituation != null">
+        CheckSituation,
+      </if>
+      <if test="basisitem != null">
+        BasisItem,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="checksituationtype != null">
+        CheckSituationType,
+      </if>
+      <if test="fkfileid != null">
+        FK_FileID,
+      </if>
+        <if test="textcontent != null">
+            TextContent,
+        </if>
+        <if test="explaincommon != null">
+            ExplainCommon,
+        </if>
+        <if test="questionscommon != null">
+            QuestionsCommon,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkChecktypecode != null">
+        #{fkChecktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="checkcategory != null">
+        #{checkcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="checkcontent != null">
+        #{checkcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="checksituation != null">
+        #{checksituation,jdbcType=VARCHAR},
+      </if>
+      <if test="basisitem != null">
+        #{basisitem,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checksituationtype != null">
+        #{checksituationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkfileid != null">
+        #{fkfileid,jdbcType=VARCHAR},
+      </if>
+        <if test="textcontent != null">
+            #{textcontent,jdbcType=VARCHAR},
+        </if>
+        <if test="explaincommon != null">
+            #{explaincommon,jdbcType=VARCHAR},
+        </if>
+        <if test="questionscommon != null">
+            #{questionscommon,jdbcType=VARCHAR},
+        </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.checktemplateconfig.CheckTemplateConfigVO">
+    update T_GJ_CheckTemplateConfig
+    <set>
+      <if test="fkChecktypecode != null">
+        FK_CheckTypeCode = #{fkChecktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="checkcategory != null">
+        CheckCategory = #{checkcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="checkcontent != null">
+        CheckContent = #{checkcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="checksituation != null">
+        CheckSituation = #{checksituation,jdbcType=VARCHAR},
+      </if>
+      <if test="basisitem != null">
+        BasisItem = #{basisitem,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checksituationtype != null">
+        CheckSituationType = #{checksituationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkfileid != null">
+        FK_FileID = #{fkfileid,jdbcType=VARCHAR},
+      </if>
+        <if test="textcontent != null">
+            TextContent = #{textcontent,jdbcType=VARCHAR},
+        </if>
+        <if test="explaincommon != null">
+            ExplainCommon = #{explaincommon,jdbcType=VARCHAR},
+        </if>
+        <if test="questionscommon != null">
+            QuestionsCommon = #{questionscommon,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.checktemplateconfig.CheckTemplateConfigVO">
+    update T_GJ_CheckTemplateConfig
+    set FK_CheckTypeCode = #{fkChecktypecode,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      CheckCategory = #{checkcategory,jdbcType=VARCHAR},
+      CheckContent = #{checkcontent,jdbcType=VARCHAR},
+      CheckSituation = #{checksituation,jdbcType=VARCHAR},
+      BasisItem = #{basisitem,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      CheckSituationType = #{checksituationtype,jdbcType=VARCHAR},
+      FK_FileID = #{fkfileid,jdbcType=VARCHAR},
+      TextContent = #{textcontent,jdbcType=VARCHAR},
+      ExplainCommon = #{explaincommon,jdbcType=VARCHAR},
+      QuestionsCommon = #{questionscommon,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <!--
+       author:xsm
+       description: 获取所有巡查类型
+       param:
+       date: 2021/06/29 09:41
+   -->
+  <select id="getAllInspectTypes" parameterType="map" resultType="map">
+    SELECT
+    PK_ID  code,
+    <choose>
+      <when test="typeflag!=null and typeflag!='' ">
+        T_GJ_InspectType.Name,
+      </when>
+      <otherwise>
+        CASE TitleType WHEN 1 THEN T_GJ_InspectType.Name+'(监督检查)' WHEN 2 THEN T_GJ_InspectType.Name+'(企业自查)' END Name,
+      </otherwise>
+    </choose>
+    TableTitle,
+    CASE TitleType WHEN 1 THEN '监督检查' WHEN 2 THEN '企业自查' END titletypename,
+    OrderIndex
+    FROM
+    T_GJ_InspectType
+    <trim prefix="where" prefixOverrides="AND|OR">
+      T_GJ_InspectType.IsUsed =1
+      <if test="typeflag!=null and typeflag!='' ">
+        and T_GJ_InspectType.TitleType =#{typeflag}
+      </if>
+    </trim>
+    ORDER BY OrderIndex
+  </select>
+
+  <!--
+     author:xsm
+     description: 通过自定义参数获取检查模板配置信息
+     param:
+     date: 2021/06/29 09:45
+ -->
+  <select id="getCheckTemplateConfigsByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID,
+    t1.OrderIndex,
+    t1.CheckCategory,
+    t2.CheckCategoryName,
+    t1.CheckContent,
+    t1.CheckSituation,
+    t1.CheckSituationType,
+    t1.BasisItem,
+    t1.Remark,
+    t1.FK_FileID fkfileid,
+    t1.TextContent,
+    t1.ExplainCommon,
+    t1.QuestionsCommon
+    FROM
+    T_GJ_CheckTemplateConfig t1 left JOIN T_GJ_CheckCategoryData t2 ON t1.CheckCategory = t2.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and t1.FK_CheckTypeCode =#{checktypecode}
+      </if>
+      <if test="checkcategory!=null and checkcategory!='' ">
+        and t1.CheckCategory =#{checkcategory}
+      </if>
+    </trim>
+    order by t1.OrderIndex
+  </select>
+
+  <!--
+ author:xsm
+ description: 验证检查项目是否重复
+ param:
+ date: 2021/06/29 17:09
+-->
+  <select id="IsValidForValueByParam" parameterType="map" resultType="map">
+    SELECT
+    *
+    FROM
+    T_GJ_CheckTemplateConfig
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        T_GJ_CheckTemplateConfig.FK_CheckTypeCode = #{checktypecode}
+      </if>
+      <if test="checkcategory!=null and checkcategory!='' ">
+        and T_GJ_CheckTemplateConfig.CheckCategory = #{checkcategory}
+      </if>
+      <if test="checkcontent!=null and checkcontent!='' ">
+        and T_GJ_CheckTemplateConfig.CheckContent = #{checkcontent}
+      </if>
+
+    </trim>
+
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 验证是否有录入该检查项目的历史记录
+ param:
+ date: 2021/07/05 10:04
+-->
+  <select id="IsHasCheckTemplateConfigHistoryData" parameterType="map" resultType="map">
+    SELECT
+    T_GJ_CheckTemplateConfig.*
+    FROM
+    T_GJ_CheckTemplateConfig JOIN T_GJ_CheckItemData ON T_GJ_CheckTemplateConfig.PK_ID = T_GJ_CheckItemData.FK_CheckTemplateConfigID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktemplateconfigid!=null and checktemplateconfigid!='' ">
+        T_GJ_CheckItemData.FK_CheckTemplateConfigID = #{checktemplateconfigid}
+      </if>
+    </trim>
+
+  </select>
+
+  <!--
+  author:xsm
+  description: 验证是否有录入该企业检查项目的历史记录
+  param:
+  date: 2021/08/30 16:09
+ -->
+  <select id="IsHasEntCheckItemConfigHistoryData" parameterType="map" resultType="map">
+    SELECT
+    T_GJ_CheckTemplateConfig.*
+    FROM
+    T_GJ_CheckTemplateConfig
+    JOIN T_GJ_CheckItemData ON T_GJ_CheckTemplateConfig.PK_ID = T_GJ_CheckItemData.FK_CheckTemplateConfigID
+    JOIN  T_GJ_EntCheckItemConfig ON T_GJ_CheckTemplateConfig.PK_ID = T_GJ_EntCheckItemConfig.FK_CheckTemplateConfigID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktemplateconfigid!=null and checktemplateconfigid!='' ">
+        and T_GJ_CheckItemData.FK_CheckTemplateConfigID = #{checktemplateconfigid}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+       and T_GJ_EntCheckItemConfig.FK_PollutionID = #{pollutionid}
+      </if>
+    </trim>
+
+  </select>
+
+  <!--
+  author:xsm
+  description: 根据检查类型ID 获取该类型下的所有检查类别
+  param:
+  date: 2021/08/03 16:01
+  -->
+  <select id="getAllCheckCategoryDataByInspectTypeID" parameterType="map" resultType="map">
+    SELECT
+    T_GJ_CheckCategoryData.PK_ID id,
+    T_GJ_CheckCategoryData.CheckCategoryName labelname,
+    T_GJ_CheckCategoryData.OrderIndex
+    FROM
+    T_GJ_CheckCategoryData JOIN T_GJ_InspectType ON T_GJ_InspectType.PK_ID = T_GJ_CheckCategoryData.FK_InspectTypeID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="inspecttypeid!=null and inspecttypeid!='' ">
+        T_GJ_CheckCategoryData.FK_InspectTypeID = #{inspecttypeid}
+      </if>
+      <if test="ismanually!=null and ismanually!='' ">
+        T_GJ_CheckCategoryData.isManually = #{ismanually}
+      </if>
+    </trim>
+  order by T_GJ_InspectType.OrderIndex,T_GJ_CheckCategoryData.OrderIndex
+  </select>
+
+
+  <!--
+author:xsm
+description: 根据检查类别ID获取该检查类别下的检查内容信息
+param:
+date: 2021/08/03 16:01
+-->
+  <select id="getCheckContentDataByCheckCategoryID" parameterType="map" resultType="map">
+    SELECT
+    T_GJ_CheckTemplateConfig.PK_ID id,
+    T_GJ_CheckTemplateConfig.CheckContent labelname,
+    T_GJ_CheckTemplateConfig.OrderIndex
+    FROM
+    T_GJ_CheckTemplateConfig
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checkcategoryid!=null and checkcategoryid!='' ">
+        T_GJ_CheckTemplateConfig.CheckCategory = #{checkcategoryid}
+      </if>
+    </trim>
+    order by T_GJ_CheckTemplateConfig.OrderIndex
+  </select>
+
+
+  <!--
+author:xsm
+description: 根据检查类别ID获取该检查类别下的检查内容信息
+param:
+date: 2021/08/03 16:01
+-->
+  <select id="getEntCheckItemConfigDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID,
+    t1.OrderIndex,
+    t1.CheckCategory,
+    t2.CheckCategoryName,
+    t1.CheckContent,
+    t1.CheckSituation,
+    t1.CheckSituationType,
+    t1.BasisItem,
+    t1.Remark,
+    t1.FK_FileID fkfileid,
+    t1.TextContent,
+    t1.ExplainCommon,
+    t1.QuestionsCommon
+    FROM
+    T_GJ_CheckTemplateConfig t1 left JOIN T_GJ_CheckCategoryData t2 ON t1.CheckCategory = t2.PK_ID
+    JOIN T_GJ_EntCheckItemConfig t3 ON t1.PK_ID = t3.FK_CheckTemplateConfigID AND t1.FK_CheckTypeCode = t3.FK_CheckTypeCode
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and t1.FK_CheckTypeCode =#{checktypecode}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t3.FK_PollutionID =#{pollutionid}
+      </if>
+    </trim>
+    order by t1.OrderIndex
+  </select>
+
+  <!--
+   * @author: xsm
+   * @date: 2021/08/30 0030 上午 10:35
+   * @Description: 批量插入企业检查项配置
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <insert id="batchInsertEntCheckItemConfig" parameterType="java.util.List">
+    insert into T_GJ_EntCheckItemConfig (PK_ID, FK_PollutionID,FK_CheckTemplateConfigID, FK_CheckTypeCode,
+    UpdateUser,UpdateTime)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkid,jdbcType=VARCHAR}, #{item.fkpollutionid,jdbcType=VARCHAR},  #{item.fkchecktemplateconfigid,jdbcType=VARCHAR}, #{item.fkchecktypecode,jdbcType=VARCHAR},
+      #{item.updateuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+
+  <delete id="deleteEntCheckItemConfigByParam" parameterType="map">
+    delete from T_GJ_EntCheckItemConfig
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and T_GJ_EntCheckItemConfig.FK_CheckTypeCode =#{checktypecode}
+      </if>
+      <if test="fkchecktemplateconfigid!=null and fkchecktemplateconfigid!='' ">
+        and T_GJ_EntCheckItemConfig.FK_CheckTemplateConfigID =#{fkchecktemplateconfigid}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_GJ_EntCheckItemConfig.FK_PollutionID =#{pollutionid}
+      </if>
+    </trim>
+  </delete>
+</mapper>

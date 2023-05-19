@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.WaterStationMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationVO">
+        <id column="PK_WaterStationID" property="pkWaterstationid" jdbcType="VARCHAR"/>
+        <result column="FK_WaterBodyCode" property="fkWaterbodycode" jdbcType="VARCHAR"/>
+        <result column="MonitorPointCode" property="monitorpointcode" jdbcType="VARCHAR"/>
+        <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR"/>
+        <result column="FK_ControlLevelCode" property="fkControllevelcode" jdbcType="VARCHAR"/>
+        <result column="FK_WaterBodyTypeCode" property="fkWaterbodytypecode" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="FK_FunWaterQaulityCode" property="fkFunwaterqaulitycode" jdbcType="VARCHAR"/>
+        <result column="StationtYear" property="stationtyear" jdbcType="VARCHAR"/>
+        <result column="FK_FileID" property="fkFileid" jdbcType="VARCHAR"/>
+        <result column="Status" property="status" jdbcType="NUMERIC"/>
+        <result column="OrderIndex" property="orderindex" jdbcType="NUMERIC"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="DGIMN" property="dgimn" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="pollutantSetMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.PollutantSetDataVO">
+        <id column="standardid" property="pkId" jdbcType="VARCHAR"/>
+        <result column="pollutantcode" property="pollutantcode" jdbcType="VARCHAR"/>
+        <result column="alarmtype" property="alarmtype" jdbcType="NUMERIC"/>
+        <result column="standardminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+        <result column="standardmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        <collection property="alarmLevelDataVOList"
+                    ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AlarmLevelDataVO">
+            <id column="alarmid" property="pkId" jdbcType="VARCHAR"/>
+
+            <result column="concenalarmminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+            <result column="concenalarmmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    PK_WaterStationID, FK_WaterBodyCode, MonitorPointCode, MonitorPointName, FK_ControlLevelCode, 
+    FK_WaterBodyTypeCode, Longitude, Latitude, FK_FunWaterQaulityCode, StationtYear, 
+    FK_FileID, Status, OrderIndex, Remark, DGIMN
+  </sql>
+
+    <!--
+              author:lip
+              description: 获取水质污染物设置信息
+              param:
+              date: 2020/05/20 14:32
+            -->
+    <select id="getPollutantSetDataListByParam" parameterType="map" resultMap="pollutantSetMap">
+      SELECT
+        t2.pk_dataid AS standardid,
+        t2.fk_pollutantcode AS pollutantcode,
+        t2.alarmtype,
+        t2.standardminvalue,
+        t2.standardmaxvalue,
+        t3.FK_AlarmLevelCode AS alarmid,
+        t3.concenalarmminvalue,
+        t3.concenalarmmaxvalue
+    FROM
+        T_BAS_WaterStationInfo t1
+        INNER JOIN T_BAS_WaterStationPollutantSet t2 ON t1.PK_WaterStationID = t2.FK_WaterPointID
+        and t1.PK_WaterStationID = #{monitorpointid}
+        LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t1.PK_WaterStationID
+        AND t3.fk_pollutantcode = t2.fk_pollutantcode
+    </select>
+
+
+    <select id="getPollutantSetDataListById" parameterType="String" resultType="java.util.Map">
+      select
+        t1.code,
+        t1.name,
+        t1.orderindex,
+        t2.fk_funwaterqaulitycode
+    from
+        t_bas_waterstationpollutantset t
+        inner join pub_code_pollutantfactor t1 on t.fk_pollutantcode = t1.code
+        INNER JOIN T_BAS_WaterStationInfo t2 on t2.PK_WaterStationID = t.FK_WaterPointID
+        and t1.pollutanttype = '6'
+        and t.fk_waterpointid = #{monitorpointid}
+    order by t1.orderindex
+    </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_WaterStationInfo
+        where PK_WaterStationID = #{pkWaterstationid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_WaterStationInfo
+    where PK_WaterStationID = #{pkWaterstationid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationVO">
+    insert into T_BAS_WaterStationInfo (PK_WaterStationID, FK_WaterBodyCode, 
+      MonitorPointCode, MonitorPointName, FK_ControlLevelCode, 
+      FK_WaterBodyTypeCode, Longitude, Latitude, 
+      FK_FunWaterQaulityCode, StationtYear, FK_FileID, 
+      Status, OrderIndex, Remark, 
+      DGIMN)
+    values (#{pkWaterstationid,jdbcType=VARCHAR}, #{fkWaterbodycode,jdbcType=VARCHAR}, 
+      #{monitorpointcode,jdbcType=VARCHAR}, #{monitorpointname,jdbcType=VARCHAR}, #{fkControllevelcode,jdbcType=VARCHAR}, 
+      #{fkWaterbodytypecode,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, 
+      #{fkFunwaterqaulitycode,jdbcType=VARCHAR}, #{stationtyear,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=NUMERIC}, #{orderindex,jdbcType=NUMERIC}, #{remark,jdbcType=VARCHAR}, 
+      #{dgimn,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationVO">
+        insert into T_BAS_WaterStationInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkWaterstationid != null">
+                PK_WaterStationID,
+            </if>
+            <if test="fkWaterbodycode != null">
+                FK_WaterBodyCode,
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode,
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName,
+            </if>
+            <if test="fkControllevelcode != null">
+                FK_ControlLevelCode,
+            </if>
+            <if test="fkWaterbodytypecode != null">
+                FK_WaterBodyTypeCode,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="fkFunwaterqaulitycode != null">
+                FK_FunWaterQaulityCode,
+            </if>
+            <if test="stationtyear != null">
+                StationtYear,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="orderindex != null">
+                OrderIndex,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkWaterstationid != null">
+                #{pkWaterstationid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterbodycode != null">
+                #{fkWaterbodycode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="fkControllevelcode != null">
+                #{fkControllevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterbodytypecode != null">
+                #{fkWaterbodytypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="fkFunwaterqaulitycode != null">
+                #{fkFunwaterqaulitycode,jdbcType=VARCHAR},
+            </if>
+            <if test="stationtyear != null">
+                #{stationtyear,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="orderindex != null">
+                #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationVO">
+        update T_BAS_WaterStationInfo
+        <set>
+            <if test="fkWaterbodycode != null">
+                FK_WaterBodyCode = #{fkWaterbodycode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="fkControllevelcode != null">
+                FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkWaterbodytypecode != null">
+                FK_WaterBodyTypeCode = #{fkWaterbodytypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="fkFunwaterqaulitycode != null">
+                FK_FunWaterQaulityCode = #{fkFunwaterqaulitycode,jdbcType=VARCHAR},
+            </if>
+            <if test="stationtyear != null">
+                StationtYear = #{stationtyear,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="orderindex != null">
+                OrderIndex = #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                DGIMN = #{dgimn,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_WaterStationID = #{pkWaterstationid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.WaterStationVO">
+    update T_BAS_WaterStationInfo
+    set FK_WaterBodyCode = #{fkWaterbodycode,jdbcType=VARCHAR},
+      MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+      MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+      FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+      FK_WaterBodyTypeCode = #{fkWaterbodytypecode,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      FK_FunWaterQaulityCode = #{fkFunwaterqaulitycode,jdbcType=VARCHAR},
+      StationtYear = #{stationtyear,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=NUMERIC},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      Remark = #{remark,jdbcType=VARCHAR},
+      DGIMN = #{dgimn,jdbcType=VARCHAR}
+    where PK_WaterStationID = #{pkWaterstationid,jdbcType=VARCHAR}
+  </update>
+
+
+    <!-- lip 2021/5/31 16:19 -->
+    <update id="setTimeDataByParam" parameterType="map">
+        UPDATE t1 set
+        t1.AlarmControlTimes = #{alarmcontroltimes},
+        t1.ZeroValueTimes = #{zerovaluetimes},
+        t1.ContinuityValueTimes = #{continuityvaluetimes}
+        FROM
+        T_BAS_WaterStationPollutantSet t1
+        INNER JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID = t2.PK_WaterStationID
+        where t2.DGIMN = #{dgimn}
+        and t1.fk_pollutantcode = #{pollutantcode}
+    </update>
+
+
+    <!--
+        author:chengzq
+        description: 动态条件获取水质监测点信息
+        param:
+        date: 2019/09/18 16:59
+    -->
+    <select id="getOnlineWaterStationInfoByParamMap" parameterType="map" resultType="java.util.Map">
+        SELECT
+        T_BAS_WaterStationInfo.PK_WaterStationID AS pk_id,
+        T_BAS_WaterStationInfo.PK_WaterStationID AS monitorpointid,
+        T_BAS_WaterStationInfo.MonitorPointName AS monitorpointname,
+        T_BAS_WaterStationInfo.MonitorPointName outputname,
+        T_BAS_WaterStationInfo.DGIMN AS dgimn,
+        '6' monitorpointtype,
+        '水质' monitorpointname,
+        T_BAS_DeviceStatus.Status AS onlinestatus,
+        T_BAS_WaterStationInfo.Status status,
+        case T_BAS_DeviceStatus.Status when '1' then '正常' when '0' then '离线' when '2' then '超标' when '3' then '异常' end
+        onlinestatusname,
+        T_BAS_DeviceStatus.AlarmLevel,
+        PUB_CODE_WaterQualityClass.Name AS waterqualityclass,
+        PUB_CODE_WaterQualityClass.levelnum,
+        T_BAS_WaterStationInfo.fk_funwaterqaulitycode,
+        FK_FunWaterQaulityCode,
+        T_BAS_WaterStationInfo.Longitude,
+        T_BAS_WaterStationInfo.Latitude,
+        case when (T_BAS_WaterStationInfo.Status = 0) then 6 ELSE (case when T_BAS_DeviceStatus.Status = 1 THEN 1
+        WHEN T_BAS_DeviceStatus.Status = 0 THEN 2
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN 3
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN 4 end) end orderstatus,
+        PUB_CODE_ControlLeve.name fk_controllevelname,
+        CONVERT (VARCHAR (20),T_BAS_DeviceStatus.UpdateTime,120) updatetime
+        FROM
+        T_BAS_WaterStationInfo
+        JOIN T_BAS_DeviceStatus ON T_BAS_WaterStationInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        LEFT JOIN PUB_CODE_WaterQualityClass ON PUB_CODE_WaterQualityClass.Code =
+        T_BAS_WaterStationInfo.FK_FunWaterQaulityCode
+        left join PUB_CODE_ControlLeve on PUB_CODE_ControlLeve.code=T_BAS_WaterStationInfo.FK_ControlLevelCode
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = 6
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_WaterStationInfo.PK_WaterStationID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_WaterStationInfo.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="customname!=null and customname != ''">
+                AND T_BAS_WaterStationInfo.MonitorPointName like concat('%', #{customname},'%')
+            </if>
+            <if test="searchname!=null and searchname != ''">
+                AND T_BAS_WaterStationInfo.MonitorPointName LIKE CONCAT('%',#{searchname},'%')
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and PK_WaterStationID = #{monitorpointid}
+            </if>
+            <if test="devicestatus!=null and devicestatus!='' ">
+                and T_BAS_DeviceStatus.status = #{devicestatus}
+            </if>
+            <if test="pointstatus!=null and pointstatus!='' ">
+                and T_BAS_WaterStationInfo.status = #{pointstatus}
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and T_BAS_WaterStationInfo.DGIMN = #{dgimn}
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and T_BAS_WaterStationInfo.dgimn in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="outputids !=null and outputids.size>0">
+                and PK_WaterStationID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and T_BAS_DeviceStatus.status in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+      /*  ORDER BY  T_BAS_WaterStationInfo.MonitorPointName*/
+
+        ORDER BY  T_BAS_WaterStationInfo.MonitorPointCode
+
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2019/11/19 0019 下午 3:22
+     * @Description: 自定义查询条件查询水质评价标准数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getWaterQualityStandardByParam" parameterType="map" resultType="java.util.Map">
+        select
+        t.pollutantcode,t.standardlevel,t.standardvalue,t.expandcol1
+        from
+        t_cod_surveystandards t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutantcode != null and pollutantcode!=''">
+                AND t.pollutantcode = #{pollutantcode}
+            </if>
+            <if test="standardlevel != null and standardlevel!=''">
+                AND t.standardlevel = #{standardlevel}
+            </if>
+            <if test="pollutanttype != null and pollutanttype!=''">
+                AND t.pollutanttype = #{pollutanttype}
+            </if>
+            <if test="pollutantcodes !=null and pollutantcodes.size()>0">
+                and t.pollutantcode in
+                <foreach collection="pollutantcodes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--获取水质因子公共标准 lip 2022/10/26 10:46 -->
+    <select id="getPubStandardListByParam" parameterType="map" resultType="java.util.Map">
+        select
+            t.fk_pollutantcode,
+            t.standardvalue,
+            t.judgementtype
+        from
+          t_bas_waterqualitystandard t
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutantcodes !=null and pollutantcodes.size()>0">
+                and t.fk_pollutantcode in
+                <foreach collection="pollutantcodes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="watertype != null and watertype!=''">
+                AND t.watertype = #{watertype}
+            </if>
+            <if test="levelcode != null and levelcode!=''">
+                AND t.FK_FunWaterQaulityCode = #{levelcode}
+            </if>
+        </trim>
+    </select>
+
+    <select id="countTotalByParam" parameterType="map" resultType="long">
+        select count(T_BAS_WaterStationInfo.PK_WaterStationID) from T_BAS_WaterStationInfo
+        inner join T_BAS_DeviceStatus on  T_BAS_WaterStationInfo.DGIMN=T_BAS_DeviceStatus.DGIMN
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            DGIMN
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            DGIMN
+            ) relation ON T_BAS_DeviceStatus.DGIMN = relation.DGIMN
+        </if>
+    </select>
+    <!--
+          author:xsm
+          description: 根据自定义参数获取水质监测点信息
+          param:
+          date: 2019/09/18 16:59
+      -->
+    <select id="getAllWaterStationInfoByParamMap" parameterType="map" resultType="java.util.Map">
+        select
+        T_BAS_WaterStationInfo.PK_WaterStationID pkid,
+        T_BAS_WaterStationInfo.Longitude,
+        T_BAS_WaterStationInfo.Latitude,
+        T_BAS_WaterStationInfo.MonitorPointName,
+        T_BAS_WaterStationInfo.MonitorPointName outputname,
+        T_BAS_WaterStationInfo.MonitorPointCode,
+        T_BAS_WaterStationInfo.FK_FunWaterQaulityCode fkfunwaterqaulitycode,
+        PUB_CODE_WaterQualityClass.Name AS waterqualityclass,
+        PUB_CODE_WaterQualityClass.levelnum,
+        T_BAS_WaterStationInfo.Status,
+        T_BAS_DeviceStatus.Status OnlineStatus,
+        T_BAS_WaterStationInfo.DGIMN
+        from T_BAS_WaterStationInfo
+        JOIN T_BAS_DeviceStatus ON T_BAS_WaterStationInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        LEFT JOIN PUB_CODE_WaterQualityClass ON PUB_CODE_WaterQualityClass.Code =
+        T_BAS_WaterStationInfo.FK_FunWaterQaulityCode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="id != null and id!=''">
+                AND T_BAS_WaterStationInfo.PK_WaterStationID = #{id}
+            </if>
+            <if test="dgimn != null and dgimn!=''">
+                AND T_BAS_WaterStationInfo.DGIMN = #{dgimn}
+            </if>
+            <if test="pkids!=null and pkids.size>0">
+                and T_BAS_WaterStationInfo.PK_WaterStationID in
+                <foreach collection="pkids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY
+        T_BAS_WaterStationInfo.MonitorPointName
+    </select>
+
+    <!--
+        author:chengzq
+        description: 根据监测点类型和自定义参数获取水质监测点某类型MN号和污染物信息
+        param:
+        date: 2019/09/19 08:46
+    -->
+    <select id="getWaterStationDgimnAndPollutantInfosByParam" parameterType="map" resultType="java.util.Map">
+        SELECT DISTINCT
+        T_BAS_WaterStationInfo.PK_WaterStationID PK_ID,
+        T_BAS_WaterStationInfo.MonitorPointName,
+        T_BAS_WaterStationInfo.DGIMN,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_WaterStationInfo.Latitude,
+        T_BAS_WaterStationInfo.Longitude,
+        T_BAS_EarlyWarningSet.FK_AlarmLevelCode,
+        T_BAS_WaterStationPollutantSet.AlarmType,
+        T_BAS_WaterStationPollutantSet.StandardMinValue,
+        T_BAS_WaterStationPollutantSet.StandardMaxValue,
+        T_BAS_WaterStationPollutantSet.ExceptionMinValue,
+        T_BAS_WaterStationPollutantSet.ExceptionMaxValue,
+        T_BAS_DeviceStatus.Status,
+        T_BAS_EarlyWarningSet.ConcenAlarmMaxValue
+        FROM
+        T_BAS_WaterStationInfo
+        JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_WaterStationInfo.DGIMN
+        JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+        T_BAS_WaterStationInfo.PK_WaterStationID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_WaterStationPollutantSet.FK_PollutantCode
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        LEFT JOIN T_BAS_EarlyWarningSet ON T_BAS_WaterStationInfo.PK_WaterStationID = T_BAS_EarlyWarningSet.FK_OutPutID
+        AND PUB_CODE_PollutantFactor.Code = T_BAS_EarlyWarningSet.FK_PollutantCode
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        AND PUB_CODE_PollutantFactor.PollutantType =#{monitorpointtype}
+        <if test="monitorpointname!=null and monitorpointname!='' ">
+            and T_BAS_WaterStationInfo.MonitorPointName like concat('%',#{monitorpointname},'%')
+        </if>
+        <if test="pollutantname!=null and pollutantname!='' ">
+            and PUB_CODE_PollutantFactor.Name like concat('%',#{pollutantname},'%')
+        </if>
+        <if test="dgimn!=null and dgimn!='' ">
+            and T_BAS_WaterStationInfo.DGIMN = #{dgimn}
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            and T_BAS_WaterStationInfo.PK_WaterStationID = #{monitorpointid}
+        </if>
+        ORDER BY
+        T_BAS_WaterStationInfo.MonitorPointName,PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 获取所有水质监测点信息
+        param:
+        date: 2019/09/27 09:59
+    -->
+    <select id="getWaterStationByParamMap" parameterType="map" resultType="java.util.Map">
+        SELECT
+        T_BAS_WaterStationInfo.PK_WaterStationID AS pk_id,
+        T_BAS_WaterStationInfo.MonitorPointName AS monitorpointname,
+        '6' fk_monitorpointtypecode,
+        T_BAS_WaterStationInfo.DGIMN AS dgimn
+        FROM
+        T_BAS_WaterStationInfo
+        <if test="userid !=null and userid!=''">
+        JOIN (
+        SELECT
+        FK_MonitorPointID
+        FROM
+        T_BAS_UserMonitorPointRelationData
+        WHERE
+        T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+        AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType=6
+        GROUP BY
+        FK_MonitorPointID
+        ) relation ON T_BAS_WaterStationInfo.PK_WaterStationID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_WaterStationInfo.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="dgimn != null and dgimn!=''">
+                AND T_BAS_WaterStationInfo.DGIMN = #{monitorpointname}
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and PK_WaterStationID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY
+        T_BAS_WaterStationInfo.MonitorPointName
+    </select>
+    <select id="getMonitorPollutantByParam" resultType="java.util.Map">
+        SELECT DISTINCT
+        T_BAS_WaterStationInfo.DGIMN,
+        PUB_CODE_PollutantFactor.Code
+        FROM
+        T_BAS_WaterStationInfo
+        JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+        T_BAS_WaterStationInfo.PK_WaterStationID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_WaterStationPollutantSet.FK_PollutantCode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="mns!=null and mns.size>0">
+                and T_BAS_WaterStationInfo.DGIMN in
+                <foreach collection="mns" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            and PUB_CODE_PollutantFactor.IsUsed = 1
+        </trim>
+    </select>
+
+    <!--
+        author:liyc
+        description: 根据监测点名称和MN号获取新增的那条水质站点信息
+        param:
+        date: 2019/11/04 13:31
+    -->
+    <select id="selectWaterStationInfoByPointNameAndDgimn" parameterType="map" resultType="map">
+        select * FROM T_BAS_WaterStationInfo
+        WHERE T_BAS_WaterStationInfo.MonitorPointName = #{monitorpointname}
+        <if test="dgimn != null and dgimn!=''">
+            AND T_BAS_WaterStationInfo.DGIMN = #{dgimn}
+        </if>
+    </select>
+    <!--
+        author:liyc
+        description: 根据监测点ID获取该监测点在线监测设备基础信息
+        param:
+        date: 2019/11/04 14:28
+    -->
+    <select id="getWaterStationDeviceStatusByID" parameterType="map" resultType="map">
+         SELECT
+            t2.PK_ID,
+            t2.DGIMN,
+            t2.FK_MonitorPointTypeCode,
+            t2.Status,
+            t2.UpdateTime,
+            t2.UpdateUser
+            FROM
+            T_BAS_WaterStationInfo t1
+            JOIN T_BAS_DeviceStatus t2 ON t1.DGIMN = t2.DGIMN
+            where t1.PK_WaterStationID = #{pkid}
+    </select>
+    <!--
+        author:liyc
+        description: 根据监测点ID获取附件表对应关系
+        param:
+        date: 2019/11/04 14:47
+    -->
+    <select id="getfileIdsByID" parameterType="map" resultType="map">
+          SELECT
+            t1.FK_ImgID,
+            t2.FilePath
+            FROM
+            T_BAS_WaterStationInfo t1
+            JOIN T_BAS_FileInfo t2 ON t1.FK_ImgID = t2.FileFlag
+            where t1.PK_WaterStationID = #{pkid}
+    </select>
+
+
+    <!--  author:xsm description: 获取所有监测点信息和点位监测状态 date: 2019/11/14 14:59 -->
+    <select id="getAllWaterStationAndStatusInfo" resultType="map">
+        select
+        T_BAS_WaterStationInfo.PK_WaterStationID pkid,
+        T_BAS_WaterStationInfo.Longitude,
+        T_BAS_WaterStationInfo.Latitude,
+        T_BAS_WaterStationInfo.MonitorPointName,
+        T_BAS_WaterStationInfo.MonitorPointName outputname,
+        T_BAS_WaterStationInfo.MonitorPointCode,
+        T_BAS_DeviceStatus.DGIMN,
+        T_BAS_DeviceStatus.Status
+        from T_BAS_WaterStationInfo JOIN  T_BAS_DeviceStatus
+        ON T_BAS_WaterStationInfo.DGIMN=T_BAS_DeviceStatus.DGIMN
+    </select>
+
+    <select id="getWaterStationPollutants" resultType="java.util.Map" parameterType="map">
+        SELECT DISTINCT
+        T_BAS_WaterStationInfo.PK_WaterStationID AS OutPutID,
+        T_BAS_WaterStationInfo.MonitorPointName AS OutPutName,
+        T_BAS_DeviceStatus.DGIMN AS MN,
+        T_BAS_WaterStationPollutantSet.ConcentrationChangeWarnPercent AS Rate,
+        T_BAS_WaterStationPollutantSet.StandardMinValue,
+        T_BAS_WaterStationPollutantSet.StandardMaxValue,
+        T_BAS_WaterStationPollutantSet.AlarmType,
+        T_BAS_WaterStationPollutantSet.ChangeBaseValue,
+        PUB_CODE_PollutantFactor.PollutantUnit,
+        PUB_CODE_PollutantFactor.Code AS PollutantCode,
+        PUB_CODE_PollutantFactor.OrderIndex AS OrderIndex,
+        PUB_CODE_PollutantFactor.Name AS PollutantName
+        FROM
+        T_BAS_WaterStationInfo
+        JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+        T_BAS_WaterStationInfo.PK_WaterStationID
+        JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_WaterStationInfo.DGIMN
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_WaterStationPollutantSet.FK_PollutantCode
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        <if test="monitorpointname!=null and monitorpointname!='' ">
+            and T_BAS_WaterStationInfo.MonitorPointName like concat('%',#{monitorpointname},'%')
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="mn!=null and mn!='' ">
+            AND T_BAS_DeviceStatus.DGIMN = #{mn}
+        </if>
+        ORDER BY
+        T_BAS_WaterStationInfo.MonitorPointName
+    </select>
+
+    <select id="getAllWaterQualityLevel" resultType="java.util.Map">
+        SELECT
+         PUB_CODE_WaterQualityClass.code,
+         PUB_CODE_WaterQualityClass.name
+        FROM
+        PUB_CODE_WaterQualityClass
+        ORDER BY
+        PUB_CODE_WaterQualityClass.Code
+    </select>
+
+    <!--
+   * @author: lip
+   * @date: 2021/1/13 0013 下午 2:25
+   * @Description: 获取点位污染物标准信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getPollutantStandardDataListByParam" parameterType="map" resultType="map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        t2.dgimn,
+        t1.alarmtype,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        t1.fk_pollutantcode AS pollutantcode,
+        '4' AS alarmleveltype,
+        t1.FK_WaterPointID AS monitorpointid
+        FROM
+        T_BAS_WaterStationPollutantSet t1
+        INNER JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID = t2.PK_WaterStationID
+        UNION
+        SELECT
+        t2.dgimn,
+        t3.alarmtype,
+        t1.ConcenAlarmMaxValue AS standardmaxvalue,
+        t1.ConcenAlarmMinValue AS standardminvalue,
+        t1.fk_pollutantcode AS pollutantcode,
+        t1.FK_AlarmLevelCode AS alarmleveltype,
+        t1.FK_OutPutID AS monitorpointid
+        FROM
+        T_BAS_EarlyWarningSet t1
+        INNER JOIN T_BAS_WaterStationInfo t2 ON t1.FK_OutPutID = t2.PK_WaterStationID
+        INNER JOIN T_BAS_WaterStationPollutantSet t3 on t3.FK_WaterPointID = t2.PK_WaterStationID
+        and t3.FK_PollutantCode = t1.FK_PollutantCode
+        ) t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                t.monitorpointid in
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+    </select>
+
+
+    <!--
+ * @author: xsm
+ * @date: 2022/02/18 0018 上午 10:25
+ * @Description: 获取所有水质级别信息
+ * @updateUser:
+ * @updateDate:
+ * @updateDescription:
+-->
+    <select id="getAllWaterQualityLevelData"  resultType="map">
+        SELECT
+        PUB_CODE_WaterQualityClass.code,
+        PUB_CODE_WaterQualityClass.name,
+        PUB_CODE_WaterQualityClass.levelnum
+        FROM
+        PUB_CODE_WaterQualityClass
+        ORDER BY
+        PUB_CODE_WaterQualityClass.Code
+    </select>
+</mapper>

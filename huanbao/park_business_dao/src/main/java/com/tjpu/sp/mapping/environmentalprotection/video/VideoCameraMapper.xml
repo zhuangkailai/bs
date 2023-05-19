@@ -1,0 +1,1435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.video.VideoCameraMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.video.VideoCameraVO">
+        <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="pkVediocameraid"/>
+        <result column="FK_VedioDeviceID" jdbcType="VARCHAR" property="fkVediodeviceid"/>
+        <result column="VedioCameraName" jdbcType="VARCHAR" property="vediocameraname"/>
+        <result column="VedioCameraNumber" jdbcType="VARCHAR" property="vediocameranumber"/>
+        <result column="VedioCameraPosition" jdbcType="VARCHAR" property="vediocameraposition"/>
+        <result column="ProduceDate" jdbcType="TIMESTAMP" property="producedate"/>
+        <result column="Longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="Latitude" jdbcType="DOUBLE" property="latitude"/>
+        <result column="VedioManufactor" jdbcType="VARCHAR" property="vediomanufactor"/>
+        <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="fkMonitorpointoroutputid"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+        <result column="RTSP" jdbcType="VARCHAR" property="rtsp" />
+        <result column="IsShow" jdbcType="INTEGER" property="isshow" />
+        <result column="VedioCameraType" jdbcType="INTEGER" property="vediocameratype" />
+        <result column="FK_VedioCameraCategory" jdbcType="VARCHAR" property="fkVediocameracategory" />
+        <result column="FK_PollutionId" jdbcType="VARCHAR" property="fkPollutionid" />
+        <result column="Status" jdbcType="INTEGER" property="status" />
+        <result column="AlarmTime" jdbcType="TIMESTAMP" property="alarmtime" />
+        <result column="PushUrl" jdbcType="VARCHAR" property="pushurl" />
+
+    </resultMap>
+
+    <resultMap id="VideoCameraMap" type="map">
+        <id column="VedioCameraName" jdbcType="VARCHAR" property="VedioCameraName"/>
+        <result column="ShorterName" jdbcType="VARCHAR" property="ShorterName"/>
+        <result column="storagetankareaname" jdbcType="VARCHAR" property="storagetankareaname"/>
+        <result column="rtsp" jdbcType="VARCHAR" property="rtsp"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+        <collection property="alarmtimes" ofType="map" javaType="java.util.List">
+            <result column="AlarmTime" jdbcType="TIMESTAMP" property="AlarmTime"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="CategoryResultMap" type="map">
+        <id column="vodiocategoryname" jdbcType="VARCHAR" property="vodiocategoryname"/>
+        <result column="FK_VedioCameraCategory" jdbcType="VARCHAR" property="vodiocategorycode"/>
+        <collection property="videocamera" javaType="java.util.List" ofType="map">
+            <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="pkVediocameraid"/>
+            <result column="FK_VedioDeviceID" jdbcType="VARCHAR" property="fkVediodeviceid"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="vediocameraname"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="vediocameranumber"/>
+            <result column="VedioCameraPosition" jdbcType="VARCHAR" property="vediocameraposition"/>
+            <result column="ProduceDate" jdbcType="TIMESTAMP" property="producedate"/>
+            <result column="Longitude" jdbcType="DOUBLE" property="longitude"/>
+            <result column="Latitude" jdbcType="DOUBLE" property="latitude"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="vediomanufactor"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="fkMonitorpointoroutputid"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+            <result column="IsShow" jdbcType="NUMERIC" property="isshow"/>
+            <result column="FK_VedioCameraCategory" jdbcType="VARCHAR" property="vodiocategorycode"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        PK_VedioCameraID, FK_VedioDeviceID, VedioCameraName, VedioCameraNumber, VedioCameraPosition,
+        ProduceDate, Longitude, Latitude, VedioManufactor, FK_MonitorPointOrOutPutID, FK_MonitorPointTypeCode,
+        RTSP, IsShow, VedioCameraType, FK_VedioCameraCategory, FK_PollutionId, Status, AlarmTime,
+        PushUrl,IsShow
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_VideoCamera
+        where PK_VedioCameraID = #{pkVediocameraid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_VideoCamera
+    where PK_VedioCameraID = #{pkVediocameraid,jdbcType=VARCHAR}
+  </delete>
+
+    <delete id="deleteVideoHistoricalRecordInfoByID" parameterType="java.lang.String">
+        delete from T_BAS_VideoHistoricalRecord
+        where PK_VideoHistoricalRecordID = #{pkid}
+    </delete>
+
+    <delete id="deleteByVideoDevice" parameterType="java.lang.String">
+        delete from T_BAS_VideoCamera
+        where FK_VedioDeviceID = #{fkVediodeviceid,jdbcType=VARCHAR}
+    </delete>
+
+
+    <delete id="deletePollutionVideoDeviceParamMap" parameterType="map">
+        delete from T_BAS_VideoCamera
+        where FK_VedioDeviceID = #{videodeviceid}
+        and
+        (T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is  NULL AND
+            T_BAS_VideoCamera.FK_PollutionId is NOT NULL AND
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode IS NULL )
+    </delete>
+
+    <delete id="deleteByVideoDeviceParamMap" parameterType="map">
+        delete from T_BAS_VideoCamera
+        where FK_VedioDeviceID = #{videodeviceid}
+        <if test="monitorcode !=null and monitorcode !='' ">
+            AND FK_MonitorPointOrOutPutID =#{monitorcode}
+        </if>
+        <if test="monitorcode ==null or monitorcode =='' ">
+            and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is NULL
+        </if>
+        <if test="monitorpointtype !=null and monitorpointtype !='' ">
+            AND FK_MonitorPointTypeCode =#{monitorpointtype}
+        </if>
+    </delete>
+
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoCameraVO">
+    insert into T_BAS_VIDEOCAMERA (PK_VedioCameraID, FK_VedioDeviceID,
+      VedioCameraName, VedioCameraNumber, VedioCameraPosition,
+      ProduceDate, Longitude, Latitude,
+      VedioManufactor, FK_MonitorPointOrOutPutID,
+      FK_MonitorPointTypeCode, RTSP, IsShow,
+      VedioCameraType, FK_VedioCameraCategory,
+      FK_PollutionId, Status, AlarmTime,
+      PushUrl)
+    values (#{pkVediocameraid,jdbcType=VARCHAR}, #{fkVediodeviceid,jdbcType=VARCHAR},
+      #{vediocameraname,jdbcType=VARCHAR}, #{vediocameranumber,jdbcType=VARCHAR}, #{vediocameraposition,jdbcType=VARCHAR},
+      #{producedate,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE},
+      #{vediomanufactor,jdbcType=VARCHAR}, #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+      #{fkMonitorpointtypecode,jdbcType=VARCHAR}, #{rtsp,jdbcType=VARCHAR}, #{isshow,jdbcType=INTEGER},
+      #{vediocameratype,jdbcType=INTEGER}, #{fkVediocameracategory,jdbcType=VARCHAR},
+      #{fkPollutionid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{alarmtime,jdbcType=TIMESTAMP},
+      #{pushurl,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoCameraVO">
+        insert into T_BAS_VideoCamera
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkVediocameraid != null">
+                PK_VedioCameraID,
+            </if>
+            <if test="fkVediodeviceid != null">
+                FK_VedioDeviceID,
+            </if>
+            <if test="vediocameraname != null">
+                VedioCameraName,
+            </if>
+            <if test="vediocameranumber != null">
+                VedioCameraNumber,
+            </if>
+            <if test="vediocameraposition != null">
+                VedioCameraPosition,
+            </if>
+            <if test="producedate != null">
+                ProduceDate,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="vediomanufactor != null">
+                VedioManufactor,
+            </if>
+            <if test="fkMonitorpointoroutputid != null">
+                FK_MonitorPointOrOutPutID,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="rtsp != null">
+                RTSP,
+            </if>
+            <if test="isshow != null">
+                IsShow,
+            </if>
+            <if test="vediocameratype != null">
+                VedioCameraType,
+            </if>
+            <if test="fkVediocameracategory != null">
+                FK_VedioCameraCategory,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionId,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="alarmtime != null">
+                AlarmTime,
+            </if>
+            <if test="pushurl != null">
+                PushUrl,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkVediocameraid != null">
+                #{pkVediocameraid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkVediodeviceid != null">
+                #{fkVediodeviceid,jdbcType=VARCHAR},
+            </if>
+            <if test="vediocameraname != null">
+                #{vediocameraname,jdbcType=VARCHAR},
+            </if>
+            <if test="vediocameranumber != null">
+                #{vediocameranumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vediocameraposition != null">
+                #{vediocameraposition,jdbcType=VARCHAR},
+            </if>
+            <if test="producedate != null">
+                #{producedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="vediomanufactor != null">
+                #{vediomanufactor,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointoroutputid != null">
+                #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="rtsp != null">
+                #{rtsp,jdbcType=VARCHAR},
+            </if>
+            <if test="isshow != null">
+                #{isshow,jdbcType=INTEGER},
+            </if>
+            <if test="vediocameratype != null">
+                #{vediocameratype,jdbcType=INTEGER},
+            </if>
+            <if test="fkVediocameracategory != null">
+                #{fkVediocameracategory,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="alarmtime != null">
+                #{alarmtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pushurl != null">
+                #{pushurl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoCameraVO">
+        update T_BAS_VideoCamera
+        <set>
+            <if test="fkVediodeviceid != null">
+                FK_VedioDeviceID = #{fkVediodeviceid,jdbcType=VARCHAR},
+            </if>
+            <if test="vediocameraname != null">
+                VedioCameraName = #{vediocameraname,jdbcType=VARCHAR},
+            </if>
+            <if test="vediocameranumber != null">
+                VedioCameraNumber = #{vediocameranumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vediocameraposition != null">
+                VedioCameraPosition = #{vediocameraposition,jdbcType=VARCHAR},
+            </if>
+            <if test="producedate != null">
+                ProduceDate = #{producedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="vediomanufactor != null">
+                VedioManufactor = #{vediomanufactor,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointoroutputid != null">
+                FK_MonitorPointOrOutPutID = #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="rtsp != null">
+                RTSP = #{rtsp,jdbcType=VARCHAR},
+            </if>
+            <if test="isshow != null">
+                IsShow = #{isshow,jdbcType=INTEGER},
+            </if>
+            <if test="vediocameratype != null">
+                VedioCameraType = #{vediocameratype,jdbcType=INTEGER},
+            </if>
+            <if test="fkVediocameracategory != null">
+                FK_VedioCameraCategory = #{fkVediocameracategory,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="alarmtime != null">
+                AlarmTime = #{alarmtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pushurl != null">
+                PushUrl = #{pushurl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_VedioCameraID = #{pkVediocameraid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoCameraVO">
+    update T_BAS_VideoCamera
+    set FK_VedioDeviceID = #{fkVediodeviceid,jdbcType=VARCHAR},
+      VedioCameraName = #{vediocameraname,jdbcType=VARCHAR},
+      VedioCameraNumber = #{vediocameranumber,jdbcType=VARCHAR},
+      VedioCameraPosition = #{vediocameraposition,jdbcType=VARCHAR},
+      ProduceDate = #{producedate,jdbcType=TIMESTAMP},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      VedioManufactor = #{vediomanufactor,jdbcType=VARCHAR},
+      FK_MonitorPointOrOutPutID = #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      RTSP = #{rtsp,jdbcType=VARCHAR},
+      IsShow = #{isshow,jdbcType=INTEGER},
+      VedioCameraType = #{vediocameratype,jdbcType=INTEGER},
+      FK_VedioCameraCategory = #{fkVediocameracategory,jdbcType=VARCHAR},
+      FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=INTEGER},
+      AlarmTime = #{alarmtime,jdbcType=TIMESTAMP},
+      PushUrl = #{pushurl,jdbcType=VARCHAR}
+    where PK_VedioCameraID = #{pkVediocameraid,jdbcType=VARCHAR}
+  </update>
+
+
+    <select id="getAllVideoCamera" resultMap="BaseResultMap">
+        select
+        *
+        from T_BAS_VideoCamera
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointid !=null and monitorpointid !='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID = #{monitorpointid}
+            </if>
+            <if test="monitorpointtype !=null and monitorpointtype !='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+        </trim>
+        order by FK_VedioDeviceID,VedioCameraName
+    </select>
+
+    <!--20190529 xsm 验证是否有重复数据-->
+    <select id="isTableDataHaveInfoByParamMap" parameterType="map" resultType="map">
+        select
+        *
+        from T_BAS_VideoCamera
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fkMonitorpointoroutputid ==null or fkMonitorpointoroutputid =='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is NULL
+            </if>
+            <if test="fkMonitorpointoroutputid !=null and fkMonitorpointoroutputid !='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID = #{fkMonitorpointoroutputid}
+            </if>
+            <if test="videodeviceid!=null and videodeviceid !='' ">
+                AND T_BAS_VideoCamera.FK_VedioDeviceID=#{videodeviceid}
+            </if>
+            <if test="vediocameraname!=null and vediocameraname !='' ">
+                AND T_BAS_VideoCamera.VedioCameraName=#{vediocameraname}
+            </if>
+        </trim>
+    </select>
+
+    <select id="countTotalByParam" parameterType="map" resultType="long">
+        select count(PK_VedioCameraID) from T_BAS_VideoCamera
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+        </trim>
+
+    </select>
+
+
+    <!--  author:xsm description: 获取所有摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getAllMonitorVideoInfos" resultType="map">
+    select
+    T_BAS_VideoCamera.PK_VedioCameraID pkid,
+    T_BAS_VideoCamera.FK_VedioDeviceID,
+	T_BAS_VideoDevice.VedioDeviceName,
+    T_BAS_VideoCamera.Longitude,
+    T_BAS_VideoCamera.Latitude,
+    T_BAS_VideoCamera.VedioCameraName,
+    T_BAS_VideoCamera.VedioCameraNumber,
+    T_BAS_VideoDevice.DevicePort,
+    T_BAS_VideoDevice.IP,
+	T_BAS_VideoDevice.UserName,
+	T_BAS_VideoCamera.RTSP,
+	T_BAS_VideoDevice.UserPassword,
+    CONVERT(varchar(10), T_BAS_VideoCamera.ProduceDate,120) ProduceDate,
+    T_BAS_VideoCamera.VedioCameraPosition,
+    T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+    T_BAS_VideoCamera.FK_MonitorPointTypeCode
+    from T_BAS_VideoCamera LEFT JOIN T_BAS_VideoDevice
+    ON T_BAS_VideoCamera.FK_VedioDeviceID=T_BAS_VideoDevice.PK_VedioDeviceID
+  </select>
+
+
+    <!--  author:xsm description: 获取所有摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getAllMonitorVideoInfo" resultType="map">
+    select
+    T_BAS_VideoCamera.PK_VedioCameraID pkid,
+    T_BAS_VideoCamera.FK_VedioDeviceID,
+    T_BAS_VideoDevice.VedioDeviceName,
+    T_BAS_VideoCamera.Longitude,
+    T_BAS_VideoCamera.Latitude,
+    T_BAS_VideoCamera.VedioCameraName,
+    T_BAS_VideoCamera.VedioCameraNumber,
+    CONVERT(varchar(10), T_BAS_VideoCamera.ProduceDate,120) ProduceDate,
+    T_BAS_VideoCamera.VedioCameraPosition
+    from T_BAS_VideoCamera LEFT JOIN T_BAS_VideoDevice
+    ON T_BAS_VideoCamera.FK_VedioDeviceID=T_BAS_VideoDevice.PK_VedioDeviceID
+  </select>
+
+
+    <!--  author:xsm description: 获取所有高空瞭望摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getAllHighAltitudeVideos" resultType="map">
+        select
+        T_BAS_VideoCamera.PK_VedioCameraID pkid,
+        T_BAS_VideoCamera.PK_VedioCameraID id,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.RTSP,
+        T_BAS_VideoDevice.VedioDeviceName,
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        T_BAS_VideoCamera.VedioCameraNumber,
+        T_BAS_VideoDevice.DevicePort,
+        T_BAS_VideoDevice.IP,
+	    T_BAS_VideoDevice.UserName,
+	    T_BAS_VideoDevice.UserPassword,
+        T_BAS_VideoCamera.VedioCameraPosition
+        from T_BAS_VideoCamera LEFT JOIN T_BAS_VideoDevice
+        ON T_BAS_VideoCamera.FK_VedioDeviceID=T_BAS_VideoDevice.PK_VedioDeviceID
+        WHERE (T_BAS_VideoCamera.FK_MonitorPointOrOutPutID IS NULL
+             AND T_BAS_VideoCamera.FK_MonitorPointTypeCode is NULL
+             AND T_BAS_VideoCamera.FK_PollutionId IS NULL )
+    </select>
+
+
+    <!--
+     * @author: xsm
+     * @date: 2019/11/18 0018 下午 1:28
+     * @Description: 根据监测点ID删除监测点下视频摄像头信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <delete id="deleteVideoCameraByParamMap" parameterType="map">
+        delete from T_BAS_VideoCamera
+        where T_BAS_VideoCamera.FK_MonitorPointOrOutPutID = #{monitorpointid,jdbcType=VARCHAR}
+        <if test="monitorpointtype !=null and monitorpointtype !='' ">
+            and T_BAS_VideoCamera.FK_MonitorPointTypeCode = #{monitorpointtype}
+        </if>
+        <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+            and T_BAS_VideoCamera.FK_MonitorPointTypeCode in
+            <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+
+    <!--  author:xsm description: 根据监测点ID和监测类型获取所有摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getVideoCameraInfosByMonitorPointIDAndType"  parameterType="map" resultType="map">
+       select
+    T_BAS_VideoCamera.PK_VedioCameraID pkid,
+    T_BAS_VideoCamera.FK_VedioDeviceID,
+	T_BAS_VideoDevice.VedioDeviceName,
+    T_BAS_VideoCamera.RTSP,
+    T_BAS_VideoCamera.Longitude,
+    T_BAS_VideoCamera.Latitude,
+    T_BAS_VideoCamera.VedioCameraName,
+    T_BAS_VideoCamera.VedioManufactor,
+    T_BAS_VideoDevice.DevicePort,
+    T_BAS_VideoDevice.IP,
+	T_BAS_VideoDevice.UserName,
+	T_BAS_VideoDevice.UserPassword,
+    CONVERT(varchar(10), T_BAS_VideoCamera.ProduceDate,120) ProduceDate,
+    T_BAS_VideoCamera.VedioCameraPosition,
+    T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+    '39'type,
+    T_BAS_VideoCamera.FK_MonitorPointTypeCode
+    from T_BAS_VideoCamera LEFT JOIN T_BAS_VideoDevice
+    ON T_BAS_VideoCamera.FK_VedioDeviceID=T_BAS_VideoDevice.PK_VedioDeviceID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointid !=null and monitorpointid !='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID = #{monitorpointid}
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype !='' ">
+                AND T_BAS_VideoCamera.FK_MonitorPointTypeCode=#{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes!=null and monitorpointtypes.size>0">
+                and T_BAS_VideoCamera.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionid!=null and pollutionid !='' ">
+                AND T_BAS_VideoCamera.FK_PollutionId=#{pollutionid}
+            </if>
+        </trim>
+    </select>
+
+    <!--  author:xsm description: 获取所有在大屏展示的摄像头信息 date: 2020/05/08 14:25 -->
+    <select id="getIsShowVideoCameraInfos"   resultType="map">
+       select
+        t.*,
+        alltype.outputid MonitorPointId,
+        alltype.outputname MonitorPointName,
+        alltype.Pollutionid FK_Pollutionid
+        from T_BAS_VideoCamera t
+        LEFT JOIN (
+        SELECT DISTINCT allt.Pollutionid,allt.PollutionName,allt.ShorterName,allt.DGIMN,allt.outputid,allt.outputname, allt.FK_MonitorPointType FROM (
+        SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_GASOutPutInfo.OutPutName
+        outputname,T_BAS_GASOutPutInfo.PK_ID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,1 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,37 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_WaterOutputInfo.OutPutType =3
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName outputname,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID outputid,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM T_BAS_OtherMonitorPoint JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_AirMonitorStation.MonitorPointName
+        outputname,T_BAS_AirMonitorStation.PK_AirID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_AirMonitorStation  JOIN T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+        UNION ALL
+        SELECT '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterStationInfo.MonitorPointName
+        outputname,T_BAS_WaterStationInfo.PK_WaterStationID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_WaterStationInfo  JOIN T_BAS_DeviceStatus ON T_BAS_WaterStationInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        ) allt) alltype
+        ON t.FK_MonitorPointOrOutPutID = alltype.outputid AND alltype.FK_MonitorPointType = t.FK_MonitorPointTypeCode
+        LEFT JOIN  PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=t.FK_MonitorPointTypeCode
+        WHERE t.IsShow = 1
+        order BY t.PK_VedioCameraID
+</select>
+
+    <!--  author:xsm description: 根据监测点ID和监测类型获取所有摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getVideoCameraInfosByPollutionIdAndOutPutId"  parameterType="map" resultType="map">
+        SELECT tt.VedioCameraName,
+        tt.RTSP FROM
+        (select
+        t.VedioCameraName,
+        t.RTSP,
+        t.FK_MonitorPointTypeCode,
+        alltype.outputid outputid,
+        alltype.Pollutionid FK_Pollutionid
+        from T_BAS_VideoCamera t
+        LEFT JOIN (
+        SELECT DISTINCT allt.Pollutionid,allt.PollutionName,allt.ShorterName,allt.DGIMN,allt.outputid,allt.outputname, allt.FK_MonitorPointType FROM (
+        SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_GASOutPutInfo.OutPutName
+        outputname,T_BAS_GASOutPutInfo.PK_ID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,1 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,37 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_WaterOutputInfo.OutPutType =3
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName outputname,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID outputid,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM T_BAS_OtherMonitorPoint JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_AirMonitorStation.MonitorPointName
+        outputname,T_BAS_AirMonitorStation.PK_AirID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_AirMonitorStation  JOIN T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+        UNION ALL
+        SELECT '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterStationInfo.MonitorPointName
+        outputname,T_BAS_WaterStationInfo.PK_WaterStationID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_WaterStationInfo  JOIN T_BAS_DeviceStatus ON T_BAS_WaterStationInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        ) allt) alltype
+        ON t.FK_MonitorPointOrOutPutID = alltype.outputid AND alltype.FK_MonitorPointType = t.FK_MonitorPointTypeCode
+        LEFT JOIN  PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=t.FK_MonitorPointTypeCode) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid !=null and pollutionid !='' ">
+                and tt.FK_Pollutionid = #{pollutionid}
+            </if>
+            <if test="outputid!=null and outputid !='' ">
+                AND tt.outputid=#{outputid}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取企业相关视频信息
+        param:
+        date: 2020/11/20 14:12
+    -->
+    <select id="getPollutionVideoCameraInfosByParamMap"  parameterType="map" resultType="map">
+        SELECT
+        tt.FK_VedioDeviceID,
+        tt.VedioManufactor,
+        tt.VedioCameraName,
+        tt.RTSP FROM
+        (select
+        t.VedioCameraName,
+        t.RTSP,
+        t.FK_VedioDeviceID,
+        t.VedioManufactor,
+        t.FK_MonitorPointTypeCode,
+        alltype.outputid outputid,
+        alltype.Pollutionid FK_Pollutionid
+        from T_BAS_VideoCamera t
+        LEFT JOIN (
+        SELECT DISTINCT allt.Pollutionid,allt.PollutionName,allt.ShorterName,allt.DGIMN,allt.outputid,allt.outputname, allt.FK_MonitorPointType FROM (
+        SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_GASOutPutInfo.OutPutName
+        outputname,T_BAS_GASOutPutInfo.PK_ID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,1 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,37 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_WaterOutputInfo.OutPutType =3
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        ) allt) alltype
+        ON t.FK_MonitorPointOrOutPutID = alltype.outputid AND alltype.FK_MonitorPointType = t.FK_MonitorPointTypeCode
+        LEFT JOIN  PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=t.FK_MonitorPointTypeCode) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid !=null and pollutionid !='' ">
+                and tt.FK_Pollutionid = #{pollutionid}
+            </if>
+            <if test="outputid!=null and outputid !='' ">
+                AND tt.outputid=#{outputid}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--  author:xsm description: 根据污染源Id获取污染源下所有摄像头信息（安全） date: 2019/06/21 17:25 -->
+    <select id="getPollutionVideoTreeByPollutionid"  parameterType="map" resultType="map">
+        SELECT tt.* FROM
+        (select
+        t.PK_VedioCameraID,
+        t.VedioCameraName,
+        t.VedioCameraNumber,
+        t.VedioCameraPosition,
+        t.Longitude,
+        t.Latitude,
+        t.RTSP,
+        t.FK_MonitorPointTypeCode,
+        case t.FK_MonitorPointTypeCode when '30' then t1.PK_ID when '50' then t2.PK_ID
+        end monitorpointid,
+        case t.FK_MonitorPointTypeCode when '30' then t1.FK_Pollutionid when '50' then t2.FK_PollutionID
+        end FK_Pollutionid
+        from T_BAS_VideoCamera t JOIN T_BAS_VideoDevice device ON t.FK_VedioDeviceID = device.PK_VedioDeviceID
+        LEFT JOIN T_AQ_StorageTankAreaInfo t1 ON  t.FK_MonitorPointOrOutPutID=t1.PK_ID AND t.FK_MonitorPointTypeCode = '30'
+        LEFT JOIN T_AQ_RiskInfo t2 ON  t.FK_MonitorPointOrOutPutID=t2.PK_ID AND t.FK_MonitorPointTypeCode = '50'
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            tt.FK_MonitorPointTypeCode in ('30','50')
+            <if test="fkpollutionid !=null and fkpollutionid !='' ">
+                and tt.FK_Pollutionid = #{fkpollutionid}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--  author:xsm description: 根据监测类型获取该类型所有摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getVideoInfoByMonitorpointType"  parameterType="map" resultType="map">
+       select DISTINCT
+        t.FK_MonitorPointOrOutPutID monitorpointid,
+        t.VedioManufactor,
+        t.PK_VedioCameraID pkid,
+        t.VedioCameraName name,
+        t.RTSP rtsp
+        from T_BAS_VideoCamera t JOIN T_BAS_VideoDevice device ON t.FK_VedioDeviceID = device.PK_VedioDeviceID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype !=null and monitorpointtype !='' ">
+                and  t.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+                and t.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectById" parameterType="string" resultType="map">
+      SELECT
+        PK_VedioCameraID,
+        FK_VedioDeviceID,
+        VedioCameraName,
+        VedioCameraNumber,
+        VedioCameraPosition,
+        CONVERT ( VARCHAR ( 10 ), ProduceDate, 120 ) ProduceDate,
+        Longitude,
+        Latitude,
+        VedioManufactor,
+        FK_MonitorPointOrOutPutID,
+        FK_MonitorPointTypeCode,
+        RTSP,
+        IsShow,
+        VedioCameraType,
+        FK_VedioCameraCategory,
+        FK_PollutionId,
+        STATUS,
+        AlarmTime,
+        PushUrl,
+        t_bas_videodevice.VedioDeviceName
+    FROM
+        t_bas_videocamera
+        LEFT JOIN t_bas_videodevice ON t_bas_videocamera.FK_VedioDeviceID = t_bas_videodevice.PK_VedioDeviceID
+    WHERE
+        t_bas_videocamera.PK_VedioCameraID = #{id}
+    </select>
+
+
+    <select id="getVideoListByParam"  parameterType="map" resultType="map">
+        select
+            t.pk_vediocameraid,
+            t.vediocameraname,
+            t.latitude,
+            t.longitude,
+            t.rtsp,
+            t.vediomanufactor
+        from
+        t_bas_videocamera t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionids !=null and pollutionids.size>0">
+                and t.fk_pollutionid in
+                <foreach collection="pollutionids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取视频
+        param:
+        date: 2020/01/17 13:29
+    -->
+    <select id="getVideoInfoByParamMap"  parameterType="map" resultType="map">
+        select
+        t.FK_MonitorPointOrOutPutID monitorpointid,
+        t.RTSP rtsp,
+        t.VedioManufactor vediomanufactor,
+        t.VedioCameraName,
+        t.PK_VedioCameraID
+        from T_BAS_VideoCamera t JOIN T_BAS_VideoDevice device ON t.FK_VedioDeviceID = device.PK_VedioDeviceID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointids !=null and monitorpointids.size>0 ">
+                and  t.FK_MonitorPointOrOutPutID in
+                <foreach collection="monitorpointids" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointtypes !=null and monitorpointtypes.size>0 ">
+                and  t.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointtype !=null and monitorpointtype !='' ">
+                and  t.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+            <if test="videoid !=null and videoid !='' ">
+                and  t.PK_VedioCameraID = #{videoid}
+            </if>
+        </trim>
+    </select>
+
+    <!--  author:xsm description: 根据自定义参数获取相关视频信息 date: 2019/06/21 17:25 -->
+    <select id="getVideoListDataByParamMap"  parameterType="map" resultType="map">
+        SELECT
+        <if test="pagesize!=null and pagesize!='' ">
+            TOP ${pagesize}
+        </if>
+        *
+        FROM
+        (
+        SELECT distinct ROW_NUMBER() OVER (ORDER BY tt.FK_PollutionID) AS RowNumber,
+        tt.FK_PollutionID,tt.PollutionName,tt.RTSP,tt.VedioCameraName,tt.FK_MonitorPointTypeCode,tt.monitorpointid,tt.FK_VedioCameraID,tt.monitorpointname,tt.vediomanufactor,
+        STUFF( ( SELECT ',' + CONVERT (VARCHAR (16),T_AQ_MonitoringAlarmRecord.AlarmTime,120) FROM
+        T_AQ_MonitoringAlarmRecord
+        WHERE T_AQ_MonitoringAlarmRecord.FK_VedioCameraID = tt.FK_VedioCameraID
+        AND CONVERT (VARCHAR (10), T_AQ_MonitoringAlarmRecord.AlarmTime,120) = CONVERT (VARCHAR (10),tt.AlarmTime,120)
+        FOR XML PATH ('')
+        ),1,1,'') timelist,
+        STUFF( ( SELECT '、' + tal.Name FROM
+        (SELECT DISTINCT T_AQ_MonitoringAlarmRecord.FK_VedioCameraID,PUB_CODE_VedioAlarmType.Name,T_AQ_MonitoringAlarmRecord.AlarmTime FROM T_AQ_MonitoringAlarmRecord
+        JOIN PUB_CODE_VedioAlarmType ON  T_AQ_MonitoringAlarmRecord.FK_VedioAlarmTypeCode = PUB_CODE_VedioAlarmType.Code) tal
+        WHERE tal.FK_VedioCameraID = tt.FK_VedioCameraID
+        AND CONVERT (VARCHAR (10), tal.AlarmTime,120) = CONVERT (VARCHAR (10),tt.AlarmTime,120)
+        FOR XML PATH ('')
+        ),1,1,'') vedioalarmtypename,
+        MAX( CONVERT (VARCHAR (20),tt.AlarmTime,120)) AlarmTime
+        FROM(
+        SELECT t.FK_PollutionID,
+        t.FK_VedioCameraID,
+        t.AlarmTime,
+        p.PollutionName,
+        t1.RTSP,
+        t1.VedioCameraName,
+        t1.FK_MonitorPointTypeCode,
+        t1.VedioManufactor vediomanufactor,
+        case t1.FK_MonitorPointTypeCode when '30' then t3.PK_ID when '57' then t4.PK_ID when t5.FK_MonitorPointTypeCode then t5.PK_MonitorPointID
+        end monitorpointid,
+        case t1.FK_MonitorPointTypeCode when '30' then t3.StorageTankAreaName when '57' then t4.MajorHazardSourcesName when t5.FK_MonitorPointTypeCode
+        then t5.MonitorPointName
+        end monitorpointname
+        FROM
+        T_BAS_VideoCamera t1
+        JOIN T_BAS_VideoDevice t2 ON t1.FK_VedioDeviceID = t2.PK_VedioDeviceID
+        JOIN  T_AQ_MonitoringAlarmRecord t ON t.FK_VedioCameraID = t1.PK_VedioCameraID
+        LEFT JOIN T_BAS_Pollution p ON t.FK_PollutionID = p.PK_PollutionID
+        LEFT JOIN T_AQ_StorageTankAreaInfo t3 ON  t1.FK_MonitorPointOrOutPutID=t3.PK_ID AND t1.FK_MonitorPointTypeCode = '30'
+        LEFT JOIN T_AQ_MajorHazardSources t4 ON t1.FK_MonitorPointOrOutPutID=t4.PK_ID AND t1.FK_MonitorPointTypeCode = '57'
+        LEFT JOIN T_AQ_RiskAreaMonitorPoint t5 ON t1.FK_MonitorPointOrOutPutID=t5.PK_MonitorPointID AND t1.FK_MonitorPointTypeCode =
+        t5.FK_MonitorPointTypeCode
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and tt.FK_PollutionID like concat('%', #{pollutionid},'%')
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and tt.PollutionName like concat('%', #{pollutionname},'%')
+            </if>
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and tt.monitorpointname like concat('%', #{monitorpointname},'%')
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),tt.AlarmTime,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),tt.AlarmTime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+
+        </trim>
+        GROUP BY tt.FK_PollutionID,tt.PollutionName,tt.FK_VedioCameraID,tt.RTSP,tt.VedioCameraName,tt.FK_MonitorPointTypeCode,tt.monitorpointid,tt.monitorpointname,tt.vediomanufactor,CONVERT (VARCHAR (10),tt.AlarmTime,120)
+        ) as A
+        <trim prefix="where" prefixOverrides="AND||OR">
+            <if test="pagesize!=null and pagesize!='' ">
+                RowNumber > ${(pagenum-1)*pagesize}
+            </if>
+        </trim>
+        ORDER BY CONVERT (VARCHAR (10),A.AlarmTime,120) DESC
+    </select>
+
+    <!-- author:xsm description: 根据自定义参数统计相关视频信息条数 date: 2020/1/17 17:21-->
+    <select id="countVideoListDataNumByParamMap" resultType="Long">
+        SELECT
+        COUNT (1) num
+        FROM
+        ( SELECT tt.FK_PollutionID,tt.PollutionName,tt.RTSP,tt.FK_MonitorPointTypeCode,tt.monitorpointid,tt.monitorpointname,tt.vediomanufactor,
+        STUFF( ( SELECT '、' + tal.Name FROM
+        (SELECT DISTINCT T_AQ_MonitoringAlarmRecord.FK_VedioCameraID,PUB_CODE_VedioAlarmType.Name,T_AQ_MonitoringAlarmRecord.AlarmTime FROM T_AQ_MonitoringAlarmRecord
+        JOIN PUB_CODE_VedioAlarmType ON  T_AQ_MonitoringAlarmRecord.FK_VedioAlarmTypeCode = PUB_CODE_VedioAlarmType.Code) tal
+        WHERE tal.FK_VedioCameraID = tt.FK_VedioCameraID
+        AND CONVERT (VARCHAR (10), tal.AlarmTime,120) = CONVERT (VARCHAR (10),tt.AlarmTime,120)
+        FOR XML PATH ('')
+        ),1,1,'') vedioalarmtypename,
+        MAX(tt.AlarmTime) AlarmTime
+        FROM(
+        SELECT t.FK_PollutionID,
+        t.FK_VedioCameraID,
+        t.AlarmTime,
+        p.PollutionName,
+        t1.RTSP,
+        t1.FK_MonitorPointTypeCode,
+        t1.VedioManufactor vediomanufactor,
+        case t1.FK_MonitorPointTypeCode when '30' then t3.PK_ID when '57' then t4.PK_ID when t5.FK_MonitorPointTypeCode then t5.PK_MonitorPointID
+        end monitorpointid,
+        case t1.FK_MonitorPointTypeCode when '30' then t3.StorageTankAreaName when '57' then t4.MajorHazardSourcesName when t5.FK_MonitorPointTypeCode
+        then t5.MonitorPointName
+        end monitorpointname
+        FROM
+        T_BAS_VideoCamera t1
+        JOIN T_BAS_VideoDevice t2 ON t1.FK_VedioDeviceID = t2.PK_VedioDeviceID
+        JOIN T_AQ_MonitoringAlarmRecord t ON t.FK_VedioCameraID = t1.PK_VedioCameraID
+        JOIN T_BAS_Pollution p ON t.FK_PollutionID = p.PK_PollutionID
+        LEFT JOIN T_AQ_StorageTankAreaInfo t3 ON t1.FK_MonitorPointOrOutPutID=t3.PK_ID AND t1.FK_MonitorPointTypeCode =
+        '30'
+        LEFT JOIN T_AQ_MajorHazardSources t4 ON t1.FK_MonitorPointOrOutPutID=t4.PK_ID AND t1.FK_MonitorPointTypeCode = '57'
+        LEFT JOIN T_AQ_RiskAreaMonitorPoint t5 ON t1.FK_MonitorPointOrOutPutID=t5.PK_MonitorPointID AND t1.FK_MonitorPointTypeCode =
+        t5.FK_MonitorPointTypeCode
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and tt.FK_PollutionID like concat('%', #{pollutionid},'%')
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and tt.PollutionName like concat('%', #{pollutionname},'%')
+            </if>
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and tt.monitorpointname like concat('%', #{monitorpointname},'%')
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),tt.AlarmTime,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),tt.AlarmTime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+
+        </trim>
+        GROUP BY
+        tt.FK_PollutionID,tt.PollutionName,tt.FK_VedioCameraID,tt.RTSP,tt.FK_MonitorPointTypeCode,tt.monitorpointid,tt.monitorpointname,tt.vediomanufactor,CONVERT (VARCHAR (10),tt.AlarmTime,120)
+        ) A
+    </select>
+
+    <!--  author:xsm description: 根据自定义参数获取摄像头列表信息 date: 2020/02/12 15:14 -->
+    <select id="getVideoCameraInfosByParamMap"  parameterType="map" resultType="map">
+        SELECT
+        ttt.*,retable.PK_VideoHistoricalRecordID,retable.FileName,retable.FilePath,retable.FileSize,retable.FileExtName,CONVERT (VARCHAR (20),retable.UploadTime,120) UploadTime
+        FROM (
+        SELECT tt.PK_VedioCameraID,tt.VedioCameraName,tt.FK_MonitorPointTypeCode,tt.outputid,tt.FK_Pollutionid,tt.monitorpointtypename,
+        CASE  WHEN (tt.FK_Pollutionid   IS NOT NULL OR tt.FK_Pollutionid !='') THEN p.ShorterName +'-'+ tt.monitorpointname ELSE tt.monitorpointname END vediocamera,
+        tt.RTSP FROM
+        (select
+        t.PK_VedioCameraID,
+        t.VedioCameraName,
+        t.RTSP,
+        t.FK_MonitorPointTypeCode,
+        alltype.outputid outputid,
+        PUB_CODE_MonitorPointType.Name monitorpointtypename,
+        alltype.outputname monitorpointname,
+        alltype.Pollutionid FK_Pollutionid
+        from T_BAS_VideoCamera t JOIN T_BAS_VideoDevice ON t.FK_VedioDeviceID = T_BAS_VideoDevice.PK_VedioDeviceID
+        LEFT JOIN (
+        SELECT DISTINCT allt.Pollutionid,allt.PollutionName,allt.ShorterName,allt.DGIMN,allt.outputid,allt.outputname, allt.FK_MonitorPointType FROM (
+        SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_GASOutPutInfo.OutPutName
+        outputname,T_BAS_GASOutPutInfo.PK_ID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,1 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,37 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_WaterOutputInfo.OutPutType =3
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName outputname,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID outputid,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM T_BAS_OtherMonitorPoint JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_AirMonitorStation.MonitorPointName
+        outputname,T_BAS_AirMonitorStation.PK_AirID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_AirMonitorStation  JOIN T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+        UNION ALL
+        SELECT '' Pollutionid,'' PollutionName,'' ShorterName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterStationInfo.MonitorPointName
+        outputname,T_BAS_WaterStationInfo.PK_WaterStationID outputid,T_BAS_DeviceStatus.FK_MonitorPointTypeCode FK_MonitorPointType
+        FROM
+        T_BAS_WaterStationInfo  JOIN T_BAS_DeviceStatus ON T_BAS_WaterStationInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+      ) allt) alltype
+        ON t.FK_MonitorPointOrOutPutID = alltype.outputid AND alltype.FK_MonitorPointType = t.FK_MonitorPointTypeCode
+        LEFT JOIN  PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=t.FK_MonitorPointTypeCode
+        ) tt LEFT JOIN T_BAS_Pollution p ON tt.FK_Pollutionid = p.PK_PollutionID)ttt  JOIN (select record.* from
+        (select T_BAS_VideoHistoricalRecord.*,row_number() over (partition by FK_VedioCameraID order by UploadTime desc) rn
+        from T_BAS_VideoHistoricalRecord) record
+        where rn=1) retable  ON ttt.PK_VedioCameraID = retable.FK_VedioCameraID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="vediocamera !=null and vediocamera !='' ">
+                and ttt.vediocamera like concat('%', #{vediocamera},'%')
+            </if>
+            <if test="fileextnames !=null and fileextnames.size>0 ">
+                and  retable.FileExtName in
+                <foreach collection="fileextnames" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY CONVERT (VARCHAR (20),retable.UploadTime,120) DESC
+    </select>
+
+
+    <!--  author:xsm description: 根据自定义参数获取摄像头历史视频列表信息 date: 2020/02/12 15:14 -->
+    <select id="getVideoHistoricalRecordInfosByParamMap"  parameterType="map" resultType="map">
+        SELECT t1.RTSP,t.PK_VideoHistoricalRecordID,  t1.VedioCameraName,t.FileName,t.FileExtName,t.FileSize,t.FilePath,t.UploadUser,CONVERT (VARCHAR (20),t.UploadTime,120) UploadTime FROM
+        T_BAS_VideoHistoricalRecord t  JOIN T_BAS_VideoCamera t1  ON t.FK_VedioCameraID = t1.PK_VedioCameraID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="vediocameraid !=null and vediocameraid !='' ">
+                and t.FK_VedioCameraID = #{vediocameraid}
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (20),t.UploadTime,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (20),t.UploadTime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+        </trim>
+        ORDER BY t.UploadTime DESC
+    </select>
+
+
+
+    <select id="getVideoAlarmDataByParam"  parameterType="map" resultType="map">
+        SELECT
+            T_BAS_Pollution.pollutionname,
+            CONVERT (
+            VARCHAR (19),
+            t1.alarmtime,
+            120
+            ) lastname,
+            t3.taskstatus,
+            t5.Code alarmcode,
+            t5.name alarmtypes,
+            T_BAS_Pollution.shortername,
+            T_BAS_Pollution.PK_PollutionID pollutionid,
+            '39' monitorpointtype,
+            t4.PK_VedioCameraID monitorpointid,
+            t4.Longitude,
+            t4.Latitude,
+            t4.VedioCameraName monitorpointname
+        FROM
+        t_aq_monitoringalarmrecord t1
+        JOIN T_BAS_MonitorTaskRelation t2 ON t1.PK_ID = t2.FK_MonitorAlarmID
+        LEFT JOIN t_bas_taskdisposemanagement t3 ON t3.fk_pollutionid = t1.FK_VedioCameraID
+        AND t2.FK_TaskID = t3.PK_TaskID
+        AND t3.FK_TaskType = '7'
+        JOIN t_bas_videocamera t4 ON t4.pk_vediocameraid = t1.fk_vediocameraid
+        LEFT JOIN pub_code_vedioalarmtype t5 ON t1.fk_vedioalarmtypecode = t5.code
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_Pollutionid = t4.fk_pollutionid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                AND  CONVERT (
+                VARCHAR (19),
+                t1.alarmtime,
+                120
+                ) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND  CONVERT (
+                VARCHAR (19),
+                t1.alarmtime,
+                120
+                ) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="searchname !=null and searchname !='' ">
+                and  t4.VedioCameraName like concat('%', #{searchname},'%')
+            </if>
+        </trim>
+        ORDER  BY  t1.alarmtime desc
+    </select>
+
+    <select id="getPollutionVideoAlarmDateDataByMonthTime"  parameterType="map" resultType="map">
+        SELECT * FROM(
+        SELECT
+        t1.fk_pollutionid,
+        CONVERT (
+        VARCHAR (10),
+        t1.alarmtime,
+        120
+        ) lasttime
+        FROM
+        t_aq_monitoringalarmrecord t1
+        JOIN t_bas_videocamera t4 ON t4.pk_vediocameraid = t1.fk_vediocameraid
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_Pollutionid = t1.fk_pollutionid
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="startmonth != null and startmonth !=''">
+                AND  CONVERT (
+                VARCHAR (7),
+                tt.lasttime,
+                120
+                ) >= #{startmonth}
+            </if>
+            <if test="endmonth != null and endmonth !=''">
+                AND  CONVERT (
+                VARCHAR (7),
+                tt.lasttime,
+                120
+                ) <![CDATA[<=]]> #{endmonth}
+            </if>
+            <if test="startday != null and startday !=''">
+                AND  CONVERT (
+                VARCHAR (10),
+                tt.lasttime,
+                120
+                ) >= #{startday}
+            </if>
+            <if test="endday != null and endday !=''">
+                AND  CONVERT (
+                VARCHAR (10),
+                tt.lasttime,
+                120
+                ) <![CDATA[<=]]> #{endday}
+            </if>
+        </trim>
+        GROUP BY tt.fk_pollutionid,tt.lasttime
+        ORDER  BY  tt.fk_pollutionid,tt.lasttime desc
+    </select>
+
+    <!--
+        author:chengzq
+        description: 获取储罐和风险点视频信息
+        param:
+        date: 2020/03/01 21:53
+    -->
+    <select id="getvideocamerinfo" resultMap="VideoCameraMap" parameterType="map">
+        SELECT
+            T_BAS_VideoCamera.VedioCameraName,
+            T_BAS_Pollution.ShorterName,
+        CASE T_BAS_VideoCamera.FK_MonitorPointTypeCode  WHEN 30 THEN T_AQ_StorageTankAreaInfo.StorageTankAreaName  WHEN 50 THEN T_AQ_RiskInfo.RiskPointPlace  END storagetankareaname,
+            rtsp,
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+          convert(varchar(19),T_AQ_MonitoringAlarmRecord.AlarmTime,120)AlarmTime
+        FROM
+            T_AQ_MonitoringAlarmRecord
+            right JOIN T_BAS_VideoCamera ON T_BAS_VideoCamera.PK_VedioCameraID= T_AQ_MonitoringAlarmRecord.FK_VedioCameraID
+            JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_AQ_MonitoringAlarmRecord.FK_PollutionID
+            LEFT JOIN T_AQ_StorageTankAreaInfo ON T_AQ_StorageTankAreaInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_AQ_RiskInfo ON T_AQ_RiskInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            where T_BAS_VideoCamera.FK_MonitorPointTypeCode in (30,50)
+            ORDER BY
+            T_BAS_VideoCamera.VedioCameraName
+    </select>
+
+    <!--  author:xsm description: 根据企业id获取企业下安全视频摄像头信息 date: 2019/06/21 17:25 -->
+    <select id="getSecurityVideoCameraInfosByPollutionId"  parameterType="map" resultType="map">
+        select
+        tt.PK_VedioCameraID,
+        tt.VedioCameraName,
+        tt.RTSP,
+        tt.Longitude,
+        tt.Latitude,
+        tt.VedioManufactor,
+        tt.PollutionName,
+        tt.ShorterName,
+        tt.FK_MonitorPointTypeCode MonitorPointTypeCode,
+        'VideoCameraNum' AS pointType,
+        PUB_CODE_MonitorPointType.Name MonitorPointTypeName
+        FROM
+        (SELECT
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        T_BAS_VideoCamera.VedioCameraName,
+        p.PK_PollutionID,
+        T_BAS_VideoCamera.RTSP,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        p.PollutionName,
+        p.ShorterName
+        from T_BAS_VideoCamera
+        JOIN T_AQ_StorageTankAreaInfo t3 ON T_BAS_VideoCamera.FK_MonitorPointOrOutPutID=t3.PK_ID AND T_BAS_VideoCamera.FK_MonitorPointTypeCode ='30'
+        LEFT JOIN T_BAS_Pollution p ON t3.FK_PollutionID = p.PK_PollutionID
+        UNION
+        SELECT
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        T_BAS_VideoCamera.VedioCameraName,
+        p.PK_PollutionID,
+        T_BAS_VideoCamera.RTSP,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        p.PollutionName,
+        p.ShorterName
+        from T_BAS_VideoCamera
+        JOIN T_AQ_RiskInfo t4 ON T_BAS_VideoCamera.FK_MonitorPointOrOutPutID=t4.PK_ID AND T_BAS_VideoCamera.FK_MonitorPointTypeCode = '50'
+        LEFT JOIN T_BAS_Pollution p ON t4.FK_PollutionID = p.PK_PollutionID
+        UNION
+        SELECT
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        T_BAS_VideoCamera.VedioCameraName,
+        p.PK_PollutionID,
+        T_BAS_VideoCamera.RTSP,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        p.PollutionName,
+        p.ShorterName
+        from T_BAS_VideoCamera
+        JOIN T_AQ_StorageRoomAreaInfo t5 ON T_BAS_VideoCamera.FK_MonitorPointOrOutPutID=t5.PK_ID AND T_BAS_VideoCamera.FK_MonitorPointTypeCode ='31'
+        LEFT JOIN T_BAS_Pollution p ON t5.FK_PollutionID = p.PK_PollutionID
+        UNION
+        SELECT
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        T_BAS_VideoCamera.VedioCameraName,
+        p.PK_PollutionID,
+        T_BAS_VideoCamera.RTSP,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        p.PollutionName,
+        p.ShorterName
+        from T_BAS_VideoCamera
+        JOIN T_AQ_RiskAreaMonitorPoint t6 ON T_BAS_VideoCamera.FK_MonitorPointOrOutPutID=t6.PK_MonitorPointID AND T_BAS_VideoCamera.FK_MonitorPointTypeCode =t6.FK_MonitorPointTypeCode
+        LEFT JOIN T_BAS_Pollution p ON t6.FK_PollutionID = p.PK_PollutionID
+        ) tt
+        LEFT JOIN  PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=tt.FK_MonitorPointTypeCode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid !=null and pollutionid !='' ">
+                and tt.PK_PollutionID = #{pollutionid}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 获取生产场所，储罐区，仓库视频信息
+        param:
+        date: 2020/10/26 16:33
+    -->
+    <select id="getMajorHazardSourceVideoByParamMap" resultType="map" parameterType="map">
+        select * from (
+        SELECT
+            t2.pollutionname,
+            t2.ShorterName,
+            t3.VedioCameraName,
+            t1.PK_ID,
+            t1.MajorHazardSourcesName monitorpointname,
+            t3.VedioCameraPosition,
+            t3.rtsp,
+            '57' monitorpointtype
+        FROM
+            T_AQ_MajorHazardSources t1
+            JOIN T_BAS_Pollution t2 ON t1.fk_pollutionid= t2.PK_PollutionID
+            JOIN T_BAS_VideoCamera t3 ON t1.PK_ID= t3.FK_MonitorPointOrOutPutID UNION
+        SELECT
+            t2.pollutionname,
+            t2.ShorterName,
+            t3.VedioCameraName,
+            t1.PK_ID,
+            t1.StorageRoomAreaName,
+            t3.VedioCameraPosition,
+            t3.rtsp,
+            '31'
+        FROM
+            T_AQ_StorageRoomAreaInfo t1
+            JOIN T_BAS_Pollution t2 ON t1.fk_pollutionid= t2.PK_PollutionID
+            JOIN T_BAS_VideoCamera t3 ON t1.PK_ID= t3.FK_MonitorPointOrOutPutID UNION
+        SELECT
+            t2.pollutionname,
+            t2.ShorterName,
+            t3.VedioCameraName,
+            t1.PK_ID,
+            t1.StorageTankAreaName,
+            t3.VedioCameraPosition,
+            t3.rtsp,
+            '30'
+        FROM
+            T_AQ_StorageTankAreaInfo t1
+            JOIN T_BAS_Pollution t2 ON t1.fk_pollutionid= t2.PK_PollutionID
+            JOIN T_BAS_VideoCamera t3 ON t1.PK_ID= t3.FK_MonitorPointOrOutPutID
+        )t
+        <where>
+            <if test="monitorpointtypes!=null and monitorpointtypes.size>0 ">
+                and t.monitorpointtype in
+                <foreach collection="monitorpointtypes" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="areaids!=null and areaids.size>0 ">
+                and t.PK_ID in
+                <foreach collection="areaids" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY
+        t.monitorpointtype,
+        t.pk_id
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过视频类别获取视频信息
+        param:
+        date: 2020/11/30 14:33
+    -->
+    <select id="getVideoCameraCategoryInfoByParamMap" parameterType="map" resultMap="CategoryResultMap">
+        SELECT
+            case when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.outputname when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (2,22)
+            then T_BAS_GASOutPutInfo.outputname when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (40,41,38) then T_BAS_UnorganizedMonitorPointInfo.MonitorPointName when
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode in (9,10,52,12,33) then T_BAS_OtherMonitorPoint.MonitorPointName when
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode=5 then T_BAS_AirMonitorStation.MonitorPointName when
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode=6 then T_BAS_WaterStationInfo.MonitorPointName end outputname,
+            PUB_CODE_MonitorPointType.name monitorpointname,
+            PUB_CODE_VedioCameraCategory.name vodiocategoryname,
+            T_BAS_VideoCamera.*
+        FROM
+            PUB_CODE_VedioCameraCategory
+            LEFT JOIN T_BAS_VideoCamera ON PUB_CODE_VedioCameraCategory.code= T_BAS_VideoCamera.FK_VedioCameraCategory
+            LEFT JOIN T_BAS_WaterOutputInfo on T_BAS_WaterOutputInfo.PK_ID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_GASOutPutInfo on T_BAS_GASOutPutInfo.PK_ID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_OtherMonitorPoint on T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_UnorganizedMonitorPointInfo on T_BAS_UnorganizedMonitorPointInfo.PK_ID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_AirMonitorStation on T_BAS_AirMonitorStation.PK_AirID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_WaterStationInfo on T_BAS_WaterStationInfo.PK_WaterStationID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=T_BAS_VideoCamera.FK_MonitorPointTypeCode
+        <where>
+            <if test="categorys!=null and categorys.size>0">
+                and T_BAS_VideoCamera.FK_VedioCameraCategory in
+                <foreach collection="categorys" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--
+       author:xsm
+       description: 统计安全报警视频信息
+       param:
+       date: 2021/01/21 16:57
+   -->
+    <select id="countVideoAlarmDataNumByParam"  parameterType="map" resultType="map">
+        SELECT
+        COUNT(t1.PK_ID) num,
+        t1.fk_vediocameraid monitorpointid,
+        t1.fk_vedioalarmtypecode vedioalarmtypecode
+        FROM
+        t_aq_monitoringalarmrecord t1
+        JOIN t_bas_videocamera t4 ON t4.pk_vediocameraid = t1.fk_vediocameraid
+        LEFT JOIN pub_code_vedioalarmtype t5 ON t1.fk_vedioalarmtypecode = t5.code
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_Pollutionid = t4.fk_pollutionid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                AND  CONVERT (
+                VARCHAR (19),
+                t1.alarmtime,
+                120
+                ) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND  CONVERT (
+                VARCHAR (19),
+                t1.alarmtime,
+                120
+                ) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="searchname !=null and searchname !='' ">
+                and  t4.VedioCameraName like concat('%', #{searchname},'%')
+            </if>
+        </trim>
+        GROUP BY t1.fk_vediocameraid,
+        t1.fk_vedioalarmtypecode
+    </select>
+
+
+</mapper>

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.punishment.PunishmentMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.punishment.PunishmentVO">
+    <id column="PK_CaseID" jdbcType="VARCHAR" property="pkCaseid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="RegisterCode" jdbcType="VARCHAR" property="registercode" />
+    <result column="FilingTime" jdbcType="VARCHAR" property="filingtime" />
+    <result column="CaseName" jdbcType="VARCHAR" property="casename" />
+    <result column="FK_PunishUnitCode" jdbcType="VARCHAR" property="fkPunishunitcode" />
+    <result column="FK_CaseTypeCode" jdbcType="VARCHAR" property="fkCasetypecode" />
+    <result column="FK_IllegalTypeCode" jdbcType="VARCHAR" property="fkIllegaltypecode" />
+    <result column="ProjectName" jdbcType="VARCHAR" property="projectname" />
+    <result column="Illegalact" jdbcType="VARCHAR" property="illegalact" />
+    <result column="RectifySituation" jdbcType="VARCHAR" property="rectifysituation" />
+    <result column="PunishFileNum" jdbcType="VARCHAR" property="punishfilenum" />
+    <result column="PunishmentSituation" jdbcType="VARCHAR" property="punishmentsituation" />
+    <result column="OpenSituation" jdbcType="VARCHAR" property="opensituation" />
+    <result column="PunishTotalmoney" jdbcType="DOUBLE" property="punishtotalmoney" />
+    <result column="ExecuteSituation" jdbcType="VARCHAR" property="executesituation" />
+    <result column="IsEnd" jdbcType="NUMERIC" property="isend" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_CaseID, FK_PollutionID, RegisterCode, FilingTime, CaseName, FK_PunishUnitCode,
+    FK_CaseTypeCode, FK_IllegalTypeCode, ProjectName, Illegalact, RectifySituation, PunishFileNum,
+    PunishmentSituation, OpenSituation, PunishTotalmoney, ExecuteSituation, IsEnd, FK_FileID,
+    Remark, UpdateUser, UpdateTime
+  </sql>
+  <!--回显-->
+  <sql id="Base_Column_List_Echo">
+    PK_CaseID, FK_PollutionID, RegisterCode, CONVERT(varchar(10),FilingTime,120) FilingTime, CaseName, FK_PunishUnitCode,
+    FK_CaseTypeCode, FK_IllegalTypeCode, ProjectName, Illegalact, RectifySituation, PunishFileNum,
+    PunishmentSituation, OpenSituation, PunishTotalmoney, ExecuteSituation, IsEnd, FK_FileID,
+    Remark, UpdateUser, CONVERT(varchar(10),UpdateTime,120) UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_Echo"/>
+    from T_HJWF_CaseInfo
+    where PK_CaseID = #{pkCaseid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_HJWF_CaseInfo
+    where PK_CaseID = #{pkCaseid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.punishment.PunishmentVO">
+    insert into T_HJWF_CaseInfo (PK_CaseID, FK_PollutionID, RegisterCode, 
+      FilingTime, CaseName, FK_PunishUnitCode, 
+      FK_CaseTypeCode, FK_IllegalTypeCode, ProjectName, 
+      Illegalact, RectifySituation, PunishFileNum, 
+      PunishmentSituation, OpenSituation, PunishTotalmoney, 
+      ExecuteSituation, IsEnd, FK_FileID, 
+      Remark, UpdateUser, UpdateTime
+      )
+    values (#{pkCaseid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{registercode,jdbcType=VARCHAR}, 
+      #{filingtime,jdbcType=VARCHAR}, #{casename,jdbcType=VARCHAR}, #{fkPunishunitcode,jdbcType=VARCHAR},
+      #{fkCasetypecode,jdbcType=VARCHAR}, #{fkIllegaltypecode,jdbcType=VARCHAR}, #{projectname,jdbcType=VARCHAR}, 
+      #{illegalact,jdbcType=VARCHAR}, #{rectifysituation,jdbcType=VARCHAR}, #{punishfilenum,jdbcType=VARCHAR}, 
+      #{punishmentsituation,jdbcType=VARCHAR}, #{opensituation,jdbcType=VARCHAR}, #{punishtotalmoney,jdbcType=DOUBLE}, 
+      #{executesituation,jdbcType=VARCHAR}, #{isend,jdbcType=NUMERIC}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.punishment.PunishmentVO">
+    insert into T_HJWF_CaseInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkCaseid != null">
+        PK_CaseID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="registercode != null">
+        RegisterCode,
+      </if>
+      <if test="filingtime != null">
+        FilingTime,
+      </if>
+      <if test="casename != null">
+        CaseName,
+      </if>
+      <if test="fkPunishunitcode != null">
+        FK_PunishUnitCode,
+      </if>
+      <if test="fkCasetypecode != null">
+        FK_CaseTypeCode,
+      </if>
+      <if test="fkIllegaltypecode != null">
+        FK_IllegalTypeCode,
+      </if>
+      <if test="projectname != null">
+        ProjectName,
+      </if>
+      <if test="illegalact != null">
+        Illegalact,
+      </if>
+      <if test="rectifysituation != null">
+        RectifySituation,
+      </if>
+      <if test="punishfilenum != null">
+        PunishFileNum,
+      </if>
+      <if test="punishmentsituation != null">
+        PunishmentSituation,
+      </if>
+      <if test="opensituation != null">
+        OpenSituation,
+      </if>
+      <if test="punishtotalmoney != null">
+        PunishTotalmoney,
+      </if>
+      <if test="executesituation != null">
+        ExecuteSituation,
+      </if>
+      <if test="isend != null">
+        IsEnd,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkCaseid != null">
+        #{pkCaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="registercode != null">
+        #{registercode,jdbcType=VARCHAR},
+      </if>
+      <if test="filingtime != null">
+        #{filingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="casename != null">
+        #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPunishunitcode != null">
+        #{fkPunishunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkCasetypecode != null">
+        #{fkCasetypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkIllegaltypecode != null">
+        #{fkIllegaltypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectname != null">
+        #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="illegalact != null">
+        #{illegalact,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifysituation != null">
+        #{rectifysituation,jdbcType=VARCHAR},
+      </if>
+      <if test="punishfilenum != null">
+        #{punishfilenum,jdbcType=VARCHAR},
+      </if>
+      <if test="punishmentsituation != null">
+        #{punishmentsituation,jdbcType=VARCHAR},
+      </if>
+      <if test="opensituation != null">
+        #{opensituation,jdbcType=VARCHAR},
+      </if>
+      <if test="punishtotalmoney != null">
+        #{punishtotalmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="executesituation != null">
+        #{executesituation,jdbcType=VARCHAR},
+      </if>
+      <if test="isend != null">
+        #{isend,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.punishment.PunishmentVO">
+    update T_HJWF_CaseInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="registercode != null">
+        RegisterCode = #{registercode,jdbcType=VARCHAR},
+      </if>
+      <if test="filingtime != null">
+        FilingTime = #{filingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="casename != null">
+        CaseName = #{casename,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPunishunitcode != null">
+        FK_PunishUnitCode = #{fkPunishunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkCasetypecode != null">
+        FK_CaseTypeCode = #{fkCasetypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkIllegaltypecode != null">
+        FK_IllegalTypeCode = #{fkIllegaltypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectname != null">
+        ProjectName = #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="illegalact != null">
+        Illegalact = #{illegalact,jdbcType=VARCHAR},
+      </if>
+      <if test="rectifysituation != null">
+        RectifySituation = #{rectifysituation,jdbcType=VARCHAR},
+      </if>
+      <if test="punishfilenum != null">
+        PunishFileNum = #{punishfilenum,jdbcType=VARCHAR},
+      </if>
+      <if test="punishmentsituation != null">
+        PunishmentSituation = #{punishmentsituation,jdbcType=VARCHAR},
+      </if>
+      <if test="opensituation != null">
+        OpenSituation = #{opensituation,jdbcType=VARCHAR},
+      </if>
+      <if test="punishtotalmoney != null">
+        PunishTotalmoney = #{punishtotalmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="executesituation != null">
+        ExecuteSituation = #{executesituation,jdbcType=VARCHAR},
+      </if>
+      <if test="isend != null">
+        IsEnd = #{isend,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_CaseID = #{pkCaseid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.punishment.PunishmentVO">
+    update T_HJWF_CaseInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      RegisterCode = #{registercode,jdbcType=VARCHAR},
+      FilingTime = #{filingtime,jdbcType=VARCHAR},
+      CaseName = #{casename,jdbcType=VARCHAR},
+      FK_PunishUnitCode = #{fkPunishunitcode,jdbcType=VARCHAR},
+      FK_CaseTypeCode = #{fkCasetypecode,jdbcType=VARCHAR},
+      FK_IllegalTypeCode = #{fkIllegaltypecode,jdbcType=VARCHAR},
+      ProjectName = #{projectname,jdbcType=VARCHAR},
+      Illegalact = #{illegalact,jdbcType=VARCHAR},
+      RectifySituation = #{rectifysituation,jdbcType=VARCHAR},
+      PunishFileNum = #{punishfilenum,jdbcType=VARCHAR},
+      PunishmentSituation = #{punishmentsituation,jdbcType=VARCHAR},
+      OpenSituation = #{opensituation,jdbcType=VARCHAR},
+      PunishTotalmoney = #{punishtotalmoney,jdbcType=DOUBLE},
+      ExecuteSituation = #{executesituation,jdbcType=VARCHAR},
+      IsEnd = #{isend,jdbcType=NUMERIC},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_CaseID = #{pkCaseid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 获取行政处罚信息列表
+      param:
+      date: 2019/10/18 10:56
+  -->
+  <select id="getPunishmentListPage" parameterType="map" resultType="map">
+      SELECT
+        t1.PK_CaseID,
+        t1.RegisterCode,
+        t1.CaseName,
+        convert(varchar(10),t1.FilingTime,120) FilingTime,
+        t2.Name FKPunishUnitName,
+        t3.Name FKIllegalTypeName,
+        t4.Name FK_CaseTypeName
+        FROM
+        T_HJWF_CaseInfo t1
+        LEFT JOIN PUB_CODE_EnvOrganization t2 ON t1.FK_PunishUnitCode=t2.Code
+        LEFT JOIN PUB_CODE_IllegalType t3 ON t1.FK_IllegalTypeCode=t3.Code
+        LEFT JOIN PUB_CODE_CaseType t4 ON t1.FK_CaseTypeCode=t4.Code
+        LEFT JOIN T_BAS_Pollution t5 ON t1.FK_PollutionId= t5.PK_PollutionID
+        <where>
+          <if test="pkpollutionid!=null and pkpollutionid!=''">
+            AND PK_PollutionID =#{pkpollutionid}
+          </if>
+          <if test="fkpunishunitcodes != null and fkpunishunitcodes.size > 0">
+            AND t1.FK_PunishUnitCode IN
+            <foreach collection="fkpunishunitcodes" item="item" separator="," open="(" close=")">
+              #{item}
+            </foreach>
+          </if>
+          <if test="fkillegaltypecodes != null and fkillegaltypecodes.size > 0">
+            AND t1.FK_IllegalTypeCode IN
+            <foreach collection="fkillegaltypecodes" item="item" separator="," open="(" close=")">
+              #{item}
+            </foreach>
+          </if>
+          <if test="fkcasetypecodes != null and fkcasetypecodes.size > 0">
+            AND t1.FK_CaseTypeCode IN
+            <foreach collection="fkcasetypecodes" item="item" separator="," open="(" close=")">
+              #{item}
+            </foreach>
+          </if>
+        </where>
+        ORDER BY t1.FilingTime DESC
+  </select>
+  <!--
+      author:liyc
+      description: 通过主键id获取行政处罚详情信息
+      param:
+      date: 2019/10/18 14:55
+  -->
+  <select id="getPunishmentDetailById" parameterType="java.lang.String" resultType="map">
+        SELECT
+          t1.CaseName,
+          t1.RegisterCode,
+          convert(varchar(10),t1.FilingTime,120) FilingTime,
+          t2.Name FKPunishUnitName,
+          t3.Name FKCaseTypeName,
+          t4.Name FKIllegalTypeName,
+          t1.ProjectName,
+          t1.Illegalact,
+          t1.RectifySituation,
+          t1.PunishFileNum,
+          t1.PunishmentSituation,
+          t1.OpenSituation,
+          t1.PunishTotalmoney,
+          t1.ExecuteSituation,
+          t1.FK_FileID FKFileID,
+          t1.Remark
+          FROM
+          T_HJWF_CaseInfo t1
+          LEFT JOIN PUB_CODE_EnvOrganization t2 ON t1.FK_PunishUnitCode= t2.Code
+          LEFT JOIN PUB_CODE_CaseType t3 ON t1.FK_CaseTypeCode= t3.Code
+          LEFT JOIN PUB_CODE_IllegalType t4 ON t1.FK_IllegalTypeCode= t4.Code
+          WHERE PK_CaseID=#{id,jdbcType=VARCHAR}
+  </select>
+  <!--
+      author:liyc
+      description: 根据企业id统计行政处罚信息
+      param:
+      date: 2019/11/05 19:08
+  -->
+  <select id="countPunishmentByPollutionId" parameterType="java.lang.String" resultType="map">
+      SELECT
+      t2.Code,
+      t2.Name,
+      COUNT ( PK_CaseID ) VALUE
+  FROM
+      T_HJWF_CaseInfo t1
+      JOIN PUB_CODE_CaseType t2 ON t1.FK_CaseTypeCode= t2.Code
+      WHERE t1.FK_PollutionID=#{pollutionid}
+      GROUP BY
+      t2.Code,
+      t2.Name
+  </select>
+</mapper>

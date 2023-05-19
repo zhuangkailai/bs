@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.PollutionProductFacilityMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.PollutionProductFacilityVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FacilityNum" jdbcType="VARCHAR" property="facilitynum" />
+    <result column="FacilityName" jdbcType="VARCHAR" property="facilityname" />
+    <result column="ProductionLineName" jdbcType="VARCHAR" property="productionlinename" />
+    <result column="ProductionLineNum" jdbcType="VARCHAR" property="productionlinenum" />
+    <result column="ProductionUnitNum" jdbcType="VARCHAR" property="productionunitnum" />
+    <result column="ProductionUnitName" jdbcType="VARCHAR" property="productionunitname" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateDate" jdbcType="TIMESTAMP" property="updatedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FacilityNum, FacilityName, ProductionLineName, ProductionLineNum, 
+    ProductionUnitNum, ProductionUnitName, UpdateUser, UpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_PollutionProductFacility
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_PollutionProductFacility
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.PollutionProductFacilityVO">
+    insert into T_GJ_PollutionProductFacility (PK_ID, FK_PollutionID, FacilityNum, 
+      FacilityName, ProductionLineName, ProductionLineNum, 
+      ProductionUnitNum, ProductionUnitName, 
+      UpdateUser, UpdateDate)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{facilitynum,jdbcType=VARCHAR},
+      #{facilityname,jdbcType=VARCHAR}, #{productionlinename,jdbcType=VARCHAR}, #{productionlinenum,jdbcType=VARCHAR}, 
+      #{productionunitnum,jdbcType=VARCHAR}, #{productionunitname,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.PollutionProductFacilityVO">
+    insert into T_GJ_PollutionProductFacility
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="facilitynum != null">
+        FacilityNum,
+      </if>
+      <if test="facilityname != null">
+        FacilityName,
+      </if>
+      <if test="productionlinename != null">
+        ProductionLineName,
+      </if>
+      <if test="productionlinenum != null">
+        ProductionLineNum,
+      </if>
+      <if test="productionunitnum != null">
+        ProductionUnitNum,
+      </if>
+      <if test="productionunitname != null">
+        ProductionUnitName,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatedate != null">
+        UpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitynum != null">
+        #{facilitynum,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityname != null">
+        #{facilityname,jdbcType=VARCHAR},
+      </if>
+      <if test="productionlinename != null">
+        #{productionlinename,jdbcType=VARCHAR},
+      </if>
+      <if test="productionlinenum != null">
+        #{productionlinenum,jdbcType=VARCHAR},
+      </if>
+      <if test="productionunitnum != null">
+        #{productionunitnum,jdbcType=VARCHAR},
+      </if>
+      <if test="productionunitname != null">
+        #{productionunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.PollutionProductFacilityVO">
+    update T_GJ_PollutionProductFacility
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="facilitynum != null">
+        FacilityNum = #{facilitynum,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityname != null">
+        FacilityName = #{facilityname,jdbcType=VARCHAR},
+      </if>
+      <if test="productionlinename != null">
+        ProductionLineName = #{productionlinename,jdbcType=VARCHAR},
+      </if>
+      <if test="productionlinenum != null">
+        ProductionLineNum = #{productionlinenum,jdbcType=VARCHAR},
+      </if>
+      <if test="productionunitnum != null">
+        ProductionUnitNum = #{productionunitnum,jdbcType=VARCHAR},
+      </if>
+      <if test="productionunitname != null">
+        ProductionUnitName = #{productionunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.PollutionProductFacilityVO">
+    update T_GJ_PollutionProductFacility
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FacilityNum = #{facilitynum,jdbcType=VARCHAR},
+      FacilityName = #{facilityname,jdbcType=VARCHAR},
+      ProductionLineName = #{productionlinename,jdbcType=VARCHAR},
+      ProductionLineNum = #{productionlinenum,jdbcType=VARCHAR},
+      ProductionUnitNum = #{productionunitnum,jdbcType=VARCHAR},
+      ProductionUnitName = #{productionunitname,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

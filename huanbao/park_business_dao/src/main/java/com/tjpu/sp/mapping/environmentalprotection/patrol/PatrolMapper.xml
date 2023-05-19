@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.patrol.PatrolMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.patrol.PatrolVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionId" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_PatrolTypeCode" jdbcType="VARCHAR" property="fkPatroltypecode" />
+    <result column="PatrolPeople" jdbcType="VARCHAR" property="patrolpeople" />
+    <result column="PatrolTime" jdbcType="TIMESTAMP" property="patroltime" />
+    <result column="PatrolContent" jdbcType="VARCHAR" property="patrolcontent" />
+    <result column="IsHasProblem" jdbcType="NUMERIC" property="ishasproblem" />
+    <result column="ProblemRemark" jdbcType="VARCHAR" property="problemremark" />
+    <result column="Status" jdbcType="NUMERIC" property="status" />
+    <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="FileID" jdbcType="VARCHAR" property="fileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionId, FK_PatrolTypeCode, PatrolPeople, PatrolTime, PatrolContent, 
+    IsHasProblem, ProblemRemark, Status, FK_MonitorPointID, FK_MonitorPointTypeCode, 
+    FileID, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_Patrol
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_Patrol
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolVO">
+    insert into T_BAS_Patrol (PK_ID, FK_PollutionId, FK_PatrolTypeCode, 
+      PatrolPeople, PatrolTime, PatrolContent, 
+      IsHasProblem, ProblemRemark, Status, 
+      FK_MonitorPointID, FK_MonitorPointTypeCode, 
+      FileID, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkPatroltypecode,jdbcType=VARCHAR}, 
+      #{patrolpeople,jdbcType=VARCHAR}, #{patroltime,jdbcType=TIMESTAMP}, #{patrolcontent,jdbcType=VARCHAR}, 
+      #{ishasproblem,jdbcType=NUMERIC}, #{problemremark,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, 
+      #{fkMonitorpointid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{fileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolVO">
+    insert into T_BAS_Patrol
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionId,
+      </if>
+      <if test="fkPatroltypecode != null">
+        FK_PatrolTypeCode,
+      </if>
+      <if test="patrolpeople != null">
+        PatrolPeople,
+      </if>
+      <if test="patroltime != null">
+        PatrolTime,
+      </if>
+      <if test="patrolcontent != null">
+        PatrolContent,
+      </if>
+      <if test="ishasproblem != null">
+        IsHasProblem,
+      </if>
+      <if test="problemremark != null">
+        ProblemRemark,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointID,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="fileid != null">
+        FileID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatroltypecode != null">
+        #{fkPatroltypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolpeople != null">
+        #{patrolpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="patroltime != null">
+        #{patroltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="patrolcontent != null">
+        #{patrolcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="ishasproblem != null">
+        #{ishasproblem,jdbcType=NUMERIC},
+      </if>
+      <if test="problemremark != null">
+        #{problemremark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="fkMonitorpointid != null">
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null">
+        #{fileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolVO">
+    update T_BAS_Patrol
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatroltypecode != null">
+        FK_PatrolTypeCode = #{fkPatroltypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="patrolpeople != null">
+        PatrolPeople = #{patrolpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="patroltime != null">
+        PatrolTime = #{patroltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="patrolcontent != null">
+        PatrolContent = #{patrolcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="ishasproblem != null">
+        IsHasProblem = #{ishasproblem,jdbcType=NUMERIC},
+      </if>
+      <if test="problemremark != null">
+        ProblemRemark = #{problemremark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null">
+        FileID = #{fileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolVO">
+    update T_BAS_Patrol
+    set FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_PatrolTypeCode = #{fkPatroltypecode,jdbcType=VARCHAR},
+      PatrolPeople = #{patrolpeople,jdbcType=VARCHAR},
+      PatrolTime = #{patroltime,jdbcType=TIMESTAMP},
+      PatrolContent = #{patrolcontent,jdbcType=VARCHAR},
+      IsHasProblem = #{ishasproblem,jdbcType=NUMERIC},
+      ProblemRemark = #{problemremark,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=NUMERIC},
+      FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      FileID = #{fileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获巡查信息
+    param:
+    date: 2020/08/31 15:01
+-->
+  <select id="getPatrolsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID,
+    t.FK_PollutionId,
+    t1.PollutionName,
+    t.FK_PatrolTypeCode,
+    t2.Name patroltypename,
+    stuff((
+    select ','+Base_UserInfo.User_Name from Base_UserInfo
+    where charindex(','+Base_UserInfo.User_ID+',',','+t.PatrolPeople+',')>0
+    order by Base_UserInfo.User_Name
+    for xml path('')
+    ),1,1,'') as PatrolPeople,
+    CONVERT (VARCHAR (20),t.PatrolTime,120) PatrolTime,
+    t.PatrolContent,
+    case when t.IsHasProblem = 0   THEN '无问题'
+    WHEN  t.IsHasProblem = 1 THEN '有问题'
+    END IsHasProblem,
+    t.ProblemRemark,
+    case when t.Status = 1   THEN '新建'
+    WHEN  t.Status = 1 THEN '已整改'
+    END Status,
+    t.FK_MonitorPointID,
+    t.FK_MonitorPointTypeCode,
+    t.FileID,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) updatetime,
+    t.UpdateUser
+    from
+    T_BAS_Patrol t
+    JOIN T_BAS_Pollution t1 ON t1.PK_PollutionID = t.FK_PollutionId
+    LEFT JOIN PUB_CODE_PatrolType t2 ON t.FK_PatrolTypeCode = t2.Code
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id查询详情
+ param:
+ date: 2019/11/07 18:33
+-->
+  <select id="getPatrolDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID,
+    t.FK_PollutionId,
+    t1.PollutionName,
+    t.FK_PatrolTypeCode,
+    t2.Name patroltypename,
+    stuff((
+    select ','+Base_UserInfo.User_Name from Base_UserInfo
+    where charindex(','+Base_UserInfo.User_ID+',',','+t.PatrolPeople+',')>0
+    order by Base_UserInfo.User_Name
+    for xml path('')
+    ),1,1,'') as PatrolPeople,
+    CONVERT (VARCHAR (20),t.PatrolTime,120) PatrolTime,
+    t.PatrolContent,
+    case when t.IsHasProblem = 0   THEN '无问题'
+    WHEN  t.IsHasProblem = 1 THEN '有问题'
+    END IsHasProblem,
+    t.ProblemRemark,
+    case when t.Status = 1   THEN '新建'
+    WHEN  t.Status = 1 THEN '已整改'
+    END Status,
+    t.FK_MonitorPointID,
+    t.FK_MonitorPointTypeCode,
+    t.FileID,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) updatetime,
+    t.UpdateUser
+    from
+    T_BAS_Patrol t
+    JOIN T_BAS_Pollution t1 ON t1.PK_PollutionID = t.FK_PollutionId
+    LEFT JOIN PUB_CODE_PatrolType t2 ON t.FK_PatrolTypeCode = t2.Code
+    where t.PK_ID = #{pkid}
+  </select>
+</mapper>

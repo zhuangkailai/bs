@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.stopproductioninfo.StopProductionInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.StopProductionInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_Pollutionid" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_Outputid" jdbcType="VARCHAR" property="fkOutputid" />
+    <result column="FK_MonitorPointType" jdbcType="VARCHAR" property="fkMonitorpointtype" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="StopProductionRemark" jdbcType="VARCHAR" property="stopproductionremark" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="FK_StopProductionType" jdbcType="VARCHAR" property="fkStopproductiontype" />
+    <result column="RecoveryProductionTime" jdbcType="TIMESTAMP" property="recoveryproductiontime" />
+    <result column="FK_RecoveryProductionFileID" jdbcType="VARCHAR" property="fkRecoveryproductionfileid" />
+    <result column="RecoveryProductionReason" jdbcType="VARCHAR" property="recoveryproductionreason" />
+  </resultMap>
+
+  <resultMap id="StopProductionHistoryInfo" type="map">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="OutputName" jdbcType="VARCHAR" property="outputname" />
+    <result column="StartTime" jdbcType="VARCHAR" property="starttime" />
+    <result column="EndTime" jdbcType="VARCHAR" property="endtime" />
+    <result column="StopProductionRemark" jdbcType="VARCHAR" property="stopproductionremark" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="FK_StopProductionType" jdbcType="VARCHAR" property="fkStopproductiontype" />
+    <collection ofType="map" javaType="java.util.Set" property="FKFileIDs" column="{stopproductionid=stopproductionid}" select="getFileInfoByFileflag"/>
+  </resultMap>
+
+  <resultMap id="StopProductionHistory" type="map">
+    <id column="groupid" jdbcType="VARCHAR" property="groupid" />
+    <result column="PollutionName" jdbcType="VARCHAR" property="PollutionName" />
+    <result column="pollutionid" jdbcType="VARCHAR" property="pollutionid" />
+    <result column="outputids" jdbcType="VARCHAR" property="outputids" />
+    <result column="StartTime" jdbcType="VARCHAR" property="starttime" />
+    <result column="EndTime" jdbcType="VARCHAR" property="endtime" />
+    <result column="StopProductionRemark" jdbcType="VARCHAR" property="stopproductionremark" />
+    <result column="RecoveryProductionTime" jdbcType="VARCHAR" property="RecoveryProductionTime" />
+    <result column="FK_StopProductionType" jdbcType="VARCHAR" property="fkStopproductiontype" />
+    <result column="FK_StopProductionName" jdbcType="VARCHAR" property="stopproductiontypename" />
+    <collection ofType="map" javaType="java.util.Set" property="outputinfo">
+      <id column="OutputName" jdbcType="VARCHAR" property="outputname" />
+      <result column="PK_ID" jdbcType="VARCHAR" property="stopid" />
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, FK_Outputid, FK_MonitorPointType, StartTime, EndTime, StopProductionRemark, 
+    FK_FileID, UpdateTime, UpdateUser,FK_StopProductionType,RecoveryProductionTime,FK_RecoveryProductionFileID,RecoveryProductionReason
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_StopProductionInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_StopProductionInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.StopProductionInfoVO">
+    insert into T_BAS_StopProductionInfo (PK_ID, FK_Pollutionid, FK_Outputid, 
+      FK_MonitorPointType, StartTime, EndTime, 
+      StopProductionRemark, FK_FileID, UpdateTime, 
+      UpdateUser,FK_StopProductionType,RecoveryProductionTime,FK_RecoveryProductionFileID,RecoveryProductionReason)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkOutputid,jdbcType=VARCHAR}, 
+      #{fkMonitorpointtype,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{stopproductionremark,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR},#{fkStopproductiontype,jdbcType=VARCHAR}, #{recoveryproductiontime,jdbcType=TIMESTAMP},
+      #{fkRecoveryproductionfileid,jdbcType=VARCHAR},#{recoveryproductionreason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.StopProductionInfoVO">
+    insert into T_BAS_StopProductionInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid,
+      </if>
+      <if test="fkOutputid != null">
+        FK_Outputid,
+      </if>
+      <if test="fkMonitorpointtype != null">
+        FK_MonitorPointType,
+      </if>
+      <if test="starttime != null">
+        StartTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="stopproductionremark != null">
+        StopProductionRemark,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="fkStopproductiontype != null">
+        FK_StopProductionType,
+      </if>
+      <if test="recoveryproductiontime != null">
+        RecoveryProductionTime,
+      </if>
+      <if test="fkRecoveryproductionfileid != null">
+        FK_RecoveryProductionFileID,
+      </if>
+      <if test="recoveryproductionreason != null">
+        RecoveryProductionReason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtype != null">
+        #{fkMonitorpointtype,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopproductionremark != null">
+        #{stopproductionremark,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStopproductiontype != null">
+        #{fkStopproductiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="recoveryproductiontime != null">
+        #{recoveryproductiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkRecoveryproductionfileid != null">
+        #{fkRecoveryproductionfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="recoveryproductionreason != null">
+        #{recoveryproductionreason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.StopProductionInfoVO">
+    update T_BAS_StopProductionInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        FK_Outputid = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtype != null">
+        FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        StartTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopproductionremark != null">
+        StopProductionRemark = #{stopproductionremark,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStopproductiontype != null">
+        FK_StopProductionType = #{fkStopproductiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="recoveryproductiontime != null">
+        RecoveryProductionTime = #{recoveryproductiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkRecoveryproductionfileid != null">
+        FK_RecoveryProductionFileID = #{fkRecoveryproductionfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="recoveryproductionreason != null">
+        RecoveryProductionReason = #{recoveryproductionreason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.stopproductioninfo.StopProductionInfoVO">
+    update T_BAS_StopProductionInfo
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_Outputid = #{fkOutputid,jdbcType=VARCHAR},
+      FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      StopProductionRemark = #{stopproductionremark,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      FK_StopProductionType = #{fkStopproductiontype,jdbcType=VARCHAR},
+       RecoveryProductionTime = #{recoveryproductiontime,jdbcType=TIMESTAMP},
+      FK_RecoveryProductionFileID = #{fkRecoveryproductionfileid,jdbcType=VARCHAR},
+      RecoveryProductionReason = #{recoveryproductionreason,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--author:xsm description: 根据自定义参数获取停产列表信息  param: date: 2019/12/18 18:39 -->
+  <select id="getStopProductionInfosByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t.*,
+    t2.PK_ID stopproductionid,
+    t2.StopProductionRemark,
+    t2.outputflag,
+    convert (varchar (20),t2.RecoveryProductionTime,120) RecoveryProductionTime,
+    t3.Name StopProductionTypeName,
+    convert (varchar (20),t2.StartTime,120) StartTime,
+    convert (varchar (20),t2.EndTime,120) EndTime
+    FROM (
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    t_bas_wateroutputinfo.pk_id as outputid,
+    outputname,
+    t_bas_wateroutputinfo.dgimn,
+    '1' fk_monitorpointtypecode
+    from
+    t_bas_pollution
+    join t_bas_wateroutputinfo on t_bas_pollution.pk_pollutionid = t_bas_wateroutputinfo.fk_pollutionid and outputtype =
+    1
+    UNION
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    T_BAS_GASOutPutInfo.pk_id as outputid,
+    outputname,
+    T_BAS_GASOutPutInfo.dgimn,
+    '2' fk_monitorpointtypecode
+    from
+    t_bas_pollution
+    join T_BAS_GASOutPutInfo on t_bas_pollution.pk_pollutionid = T_BAS_GASOutPutInfo.fk_pollutionid ) t
+    join (
+    SELECT  tt.*,CASE WHEN  convert(varchar(20),getdate(),120)>= convert(varchar(20),tt.starttime,120)
+    and convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),tt.endtime,120) THEN '停产' ELSE NULL END outputflag  FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_Outputid ORDER BY EndTime DESC) rn FROM
+    T_BAS_StopProductionInfo
+    where (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT NULL)
+    )  tt
+    WHERE  tt.rn = 1
+    ) t2
+    on t.pollutionid = t2.FK_Pollutionid AND t.outputid = t2.FK_Outputid AND t.fk_monitorpointtypecode
+    =t2.FK_MonitorPointType
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON t2.FK_StopProductionType = t3.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="outputname!=null and outputname!='' ">
+        and t.outputname like concat('%',#{outputname},'%')
+      </if>
+      <if test="dgimn!=null and dgimn!='' ">
+        and t.dgimn = #{dgimn}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (20),t2.StartTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (20),t2.StartTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and t.FK_MonitorPointTypeCode = #{monitorpointtype}
+      </if>
+      <if test="stopproductiontypes !=null and stopproductiontypes.size>0">
+        and t3.Code in
+        <foreach collection="stopproductiontypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+        and t.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER  BY t.pollutionname,t.outputname
+  </select>
+
+
+  <!--
+  * @author: xsm
+  * @date: 2019/12/05 0005 下午 5:16
+  * @Description:  根据监测点ID和监测点类型修改点位监测状态
+  * @updateUser:
+  * @updateDate:
+  * @updateDescription:
+ -->
+  <select id="updatePollutionOutPutStatusByParam" parameterType="map" resultType="map">
+
+    <if test="monitorpointtype=='2'.toString() ">
+      update T_BAS_GASOutPutInfo
+      set Status = #{status}
+      where PK_ID = #{monitorpointid}
+    </if>
+
+    <if test="monitorpointtype=='1'.toString()">
+      update T_BAS_WaterOutputInfo
+      set Status = #{status}
+      where PK_ID = #{monitorpointid}
+    </if>
+  </select>
+
+  <!--author:xsm description: 根据自定义参数获取停产历史信息  param: date: 2019/12/19 9:21 -->
+  <select id="getStopProductionHistoryInfosByParamMap" parameterType="map" resultMap="StopProductionHistoryInfo">
+    SELECT
+    t.pollutionid,t.pollutionname,t.shortername,
+    MAX (t1.PK_ID) stopproductionid,
+    MAX (t1.StopProductionRemark) stopproductionremark,
+    convert (varchar (20),t1.RecoveryProductionTime,120) RecoveryProductionTime,
+    t3.Name StopProductionTypeName,
+    convert (varchar (20),t1.StartTime,120) StartTime,
+    convert (varchar (20),t1.EndTime,120) EndTime,
+    STUFF( ( SELECT ',' + allpoint.outputname FROM
+    (
+    SELECT stop.*,point.outputid,point.outputname  FROM (SELECT  tt.* FROM
+    T_BAS_StopProductionInfo  tt
+    ) stop JOIN (
+    SELECT tw.pk_id as outputid,tw.outputname FROM  t_bas_wateroutputinfo tw
+    union SELECT tg.pk_id as outputid,tg.outputname FROM  T_BAS_GASOutPutInfo tg
+    union SELECT tu.PK_ID as outputid,tu.MonitorPointName outputname FROM  T_BAS_UnorganizedMonitorPointInfo tu) point
+    ON stop.FK_Outputid = point.outputid
+    ) allpoint
+    WHERE allpoint.starttime = t1.starttime AND (allpoint.endtime = t1.endtime
+    OR (allpoint.endtime is null AND t1.endtime is null) ) AND  allpoint.Fk_Pollutionid = t.pollutionid FOR XML PATH ('')
+    ),1,1,'') outputnames
+    FROM T_BAS_StopProductionInfo t1
+    join
+    (
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    t_bas_wateroutputinfo.pk_id as outputid,
+    outputname,
+    t_bas_wateroutputinfo.dgimn,
+    T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+    from
+    t_bas_pollution
+    join t_bas_wateroutputinfo on t_bas_pollution.pk_pollutionid = t_bas_wateroutputinfo.fk_pollutionid
+    JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = t_bas_wateroutputinfo.dgimn
+    UNION
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    T_BAS_GASOutPutInfo.pk_id as outputid,
+    outputname,
+    T_BAS_GASOutPutInfo.dgimn,
+    T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+    from
+    t_bas_pollution
+    join T_BAS_GASOutPutInfo on t_bas_pollution.pk_pollutionid = T_BAS_GASOutPutInfo.fk_pollutionid
+    JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_GASOutPutInfo.dgimn
+    UNION
+    SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid Pollutionid,
+    T_BAS_Pollution.PollutionName,
+    shortername,
+    T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,
+    T_BAS_UnorganizedMonitorPointInfo.MonitorPointName outputname,
+    T_BAS_DeviceStatus.DGIMN,
+    T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode
+    FROM
+    T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN =
+    T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    ) t
+    on t.pollutionid = t1.FK_Pollutionid AND t.outputid = t1.FK_Outputid AND t.fk_monitorpointtypecode
+    =t1.FK_MonitorPointType
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON t1.FK_StopProductionType = t3.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutioid!=null and pollutioid!='' ">
+        and t.pollutionid = #{pollutioid}
+      </if>
+      <if test="outputid!=null and outputid!='' ">
+        and t.outputid = #{outputid}
+      </if>
+      <if test="outputids !=null and outputids.size>0">
+        and t.outputid in
+        <foreach collection="outputids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (20),t1.StartTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (20),t1.StartTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    GROUP BY t.pollutionid,t.pollutionname,t.shortername,
+    convert (varchar (20),t1.RecoveryProductionTime,120),
+    t1.StartTime,
+    t1.EndTime,
+    t3.Name
+    <if test="sortkey!=null and sortkey !=''">
+      ORDER by ${sortkey} ${sorttype}
+    </if>
+
+    <if test="sortkey==null">
+      ORDER  BY t1.StartTime DESC
+    </if>
+
+  </select>
+
+  <!--
+        author:xsm
+        description: 通过fileflag查询文件信息
+        param:
+        date: 2019/12/19 11:34
+    -->
+  <select id="getFileInfoByFileflag" resultType="map" parameterType="map">
+    SELECT
+    OriginalFileName FileName,
+    filepath fkfileid
+    FROM
+    T_BAS_StopProductionInfo
+    join T_BAS_FileInfo on T_BAS_FileInfo.fileflag=T_BAS_StopProductionInfo.fk_fileid
+    <where>
+      <if test="stopproductionid!=null and stopproductionid!='' ">
+        and T_BAS_StopProductionInfo.PK_ID = #{stopproductionid}
+      </if>
+    </where>
+  </select>
+
+
+  <!--
+        author:xsm
+        description: 根据自定义参数获取最新停产信息
+        param:
+        date: 2020/02/25 10:29
+    -->
+  <select id="getLatestStopProductionInfoByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID,
+    t.FK_Outputid,
+    t.StartTime,
+    CASE WHEN t.RecoveryProductionTime is not NULL THEN t.RecoveryProductionTime ELSE t.EndTime END EndTime
+    FROM (SELECT  tt.* FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_Outputid ORDER BY EndTime DESC) rn FROM
+    T_BAS_StopProductionInfo
+    where (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT NULL)
+    )  tt
+    WHERE  tt.rn = 1) t
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and t.FK_MonitorPointType = #{monitorpointtype}
+      </if>
+      <if test="monitorpointid!=null and monitorpointid!='' ">
+        and t.FK_Outputid = #{monitorpointid}
+      </if>
+      <if test="monitorpointids !=null and monitorpointids.size>0">
+        and t.FK_Outputid in
+        <foreach collection="monitorpointids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER  BY t.EndTime DESC
+  </select>
+
+  <!--
+        author:xsm
+        description: 根据停产主键 ID获取停产信息
+        param:
+        date: 2020/02/25 10:29
+    -->
+  <select id="getStopProductionInfoByID" resultType="map" parameterType="java.lang.String">
+    SELECT
+    T_BAS_StopProductionInfo.PK_ID,
+    t3.Name StopProductionTypeName,
+    T_BAS_StopProductionInfo.FK_Pollutionid,
+    t_bas_pollution.pollutionname,
+    op.outputname,
+    T_BAS_StopProductionInfo.FK_Outputid,
+    T_BAS_StopProductionInfo.FK_MonitorPointType,
+    convert (varchar (20),T_BAS_StopProductionInfo.StartTime,120) StartTime,
+    convert (varchar (20),T_BAS_StopProductionInfo.EndTime,120) EndTime,
+    StopProductionRemark,
+    T_BAS_StopProductionInfo.FK_FileID,
+    convert (varchar (20),T_BAS_StopProductionInfo.UpdateTime,120) UpdateTime,
+    T_BAS_StopProductionInfo.UpdateUser,
+    T_BAS_StopProductionInfo.FK_StopProductionType,
+    convert (varchar (20),T_BAS_StopProductionInfo.RecoveryProductionTime,120) RecoveryProductionTime,
+    T_BAS_StopProductionInfo.FK_RecoveryProductionFileID,
+    T_BAS_StopProductionInfo.RecoveryProductionReason
+    FROM T_BAS_StopProductionInfo
+    LEFT JOIN (
+    select
+    t_bas_wateroutputinfo.pk_id as outputid,
+    outputname
+    from
+   t_bas_wateroutputinfo WHERE outputtype =1
+    UNION
+    select
+    T_BAS_GASOutPutInfo.pk_id as outputid,
+    outputname
+    from
+    T_BAS_GASOutPutInfo
+    ) op ON T_BAS_StopProductionInfo.FK_Outputid = op.outputid
+    LEFT JOIN t_bas_pollution ON t_bas_pollution.pk_pollutionid = T_BAS_StopProductionInfo.fk_pollutionid
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON T_BAS_StopProductionInfo.FK_StopProductionType = t3.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="id!=null and id!='' ">
+        and T_BAS_StopProductionInfo.PK_ID = #{id}
+      </if>
+    </trim>
+  </select>
+
+  <!--
+       author:xsm
+       description: 根据自定义参数获取正在停产的点位信息
+       param:
+       date: 2020/03/02 10:18
+   -->
+  <select id="getCurrentTimeStopProductionInfoByParamMap" resultType="map" parameterType="map">
+    SELECT  PK_ID,
+    FK_Pollutionid,
+    FK_Outputid,
+    FK_MonitorPointType,
+    convert(varchar(20),StartTime,120)  StartTime,
+    convert(varchar(20),EndTime,120) EndTime,
+    StopProductionRemark,
+    FK_StopProductionType,
+    convert(varchar(20),RecoveryProductionTime,120) RecoveryProductionTime,
+    RecoveryProductionReason
+    FROM (
+    SELECT
+    *
+    FROM
+    T_BAS_StopProductionInfo tt
+    WHERE
+    (tt.FK_Outputid IS NOT null and tt.FK_MonitorPointType IS NOT NULL) AND
+    CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),tt.starttime,120)
+    AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN tt.RecoveryProductionTime IS NOT NULL THEN
+    CONVERT (VARCHAR (20),tt.RecoveryProductionTime,120 )
+    WHEN  tt.endtime IS NOT NULL THEN
+    CONVERT (VARCHAR(20), tt.endtime, 120)
+    END
+    )) OR (tt.endtime IS NULL AND tt.RecoveryProductionTime IS NULL) ))  tt
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and  tt.FK_MonitorPointType = #{monitorpointtype}
+      </if>
+      <if test="monitorpointtypes!=null and monitorpointtypes.size>0">
+        and tt.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取最新的排口停产信息
+      param:
+      date: 2020/03/09 17:23
+  -->
+  <select id="getLastStopProductionInfoByParamMap" parameterType="map" resultType="map">
+    SELECT
+      T_BAS_StopProductionInfo.FK_Outputid,
+      T_BAS_StopProductionInfo.FK_MonitorPointType
+    FROM
+        T_BAS_StopProductionInfo
+        JOIN ( SELECT FK_Outputid, FK_MonitorPointType, MAX ( StartTime ) StartTimeMax FROM T_BAS_StopProductionInfo GROUP BY FK_Outputid, FK_MonitorPointType ) t ON T_BAS_StopProductionInfo.FK_Outputid= t.FK_Outputid
+        AND T_BAS_StopProductionInfo.FK_MonitorPointType= t.FK_MonitorPointType
+        AND T_BAS_StopProductionInfo.StartTime= t.StartTimeMax
+    <where>
+       (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT NULL)
+        <if test="starttime!=null and starttime!='' ">
+          and convert(varchar(19),#{starttime},120) > convert(varchar(19),StartTime,120)
+        </if>
+        <if test="endtime!=null and endtime!='' ">
+          and (convert(varchar(19),#{endtime},120) <![CDATA[<]]> convert(varchar(19),EndTime,120)  or EndTime is null)
+        </if>
+    </where>
+  </select>
+
+
+  <!--author:xsm description: 根据自定义参数获取正在停产的排口信息  param: date: 2019/12/18 18:39 -->
+  <select id="getNowStopProductionInfosByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t.*,
+    t2.PK_ID ,
+    convert (varchar (20),t2.RecoveryProductionTime,120) RecoveryProductionTime,
+    t3.Name StopProductionTypeName,
+    '1' messagetype,
+    case  when t4.PK_ID IS NOT NULL then '1' ELSE '0' end isread,
+    pollutionname+'设置停产' messagestr,
+    convert (varchar (20),t2.UpdateTime,120) UpdateTime,
+    convert (varchar (20),t2.StartTime,120) StartTime,
+    convert (varchar (20),t2.EndTime,120) EndTime
+    FROM (
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    t_bas_wateroutputinfo.pk_id as outputid,
+    outputname,
+    t_bas_wateroutputinfo.dgimn,
+    '1' fk_monitorpointtypecode
+    from
+    t_bas_pollution
+    join t_bas_wateroutputinfo on t_bas_pollution.pk_pollutionid = t_bas_wateroutputinfo.fk_pollutionid and outputtype =
+    1
+    UNION
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    T_BAS_GASOutPutInfo.pk_id as outputid,
+    outputname,
+    T_BAS_GASOutPutInfo.dgimn,
+    '2' fk_monitorpointtypecode
+    from
+    t_bas_pollution
+    join T_BAS_GASOutPutInfo on t_bas_pollution.pk_pollutionid = T_BAS_GASOutPutInfo.fk_pollutionid ) t
+    join (SELECT *
+    FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_Outputid ORDER BY EndTime DESC) rn FROM
+    T_BAS_StopProductionInfo)  tt
+    WHERE
+    tt.rn = 1
+    and convert(varchar(20),getdate(),120)>= convert(varchar(20),tt.starttime,120)
+    and convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),tt.endtime,120)
+    and  tt.FK_MonitorPointType = 1
+
+    ) t2
+    on t.pollutionid = t2.FK_Pollutionid AND t.outputid = t2.FK_Outputid AND t.fk_monitorpointtypecode
+    =t2.FK_MonitorPointType
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON t2.FK_StopProductionType = t3.Code
+    LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="userid!=null and userid!='' ">
+        and T_BAS_MessageReadUser.UserID = #{userid}
+      </if>
+      <if test="messagetype!=null and messagetype!='' ">
+        and T_BAS_MessageReadUser.MessageType = #{messagetype}
+      </if>
+    </trim>
+    )t4 on t4.FK_RecordID = t2.PK_ID
+    ORDER  BY t2.StartTime
+  </select>
+
+  <!--
+      author:chengzq
+      description: 获取所有停产历史数据
+      param:
+      date: 2020/09/02 18:45
+  -->
+  <select id="getStopProductHistory" parameterType="map" resultMap="StopProductionHistory">
+    select * from (
+      SELECT
+      t1.PK_ID,
+      PollutionName,
+      t3.FK_Pollutionid pollutionid,
+      PollutionName+CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 )+CONVERT ( VARCHAR ( 19 ), t1.StartTime, 120 ) groupid,
+      OutputName,
+      t1.FK_Outputid outputids,
+      CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 )EndTime,
+      CONVERT ( VARCHAR ( 19 ), t1.StartTime, 120 )StartTime,
+      CONVERT ( VARCHAR ( 19 ), RecoveryProductionTime, 120 )RecoveryProductionTime,
+      t4.name FK_StopProductionName,
+      t1.FK_StopProductiontype
+      FROM
+      T_BAS_StopProductionInfo t1
+      JOIN T_BAS_Pollution t2 ON t1.FK_Pollutionid= t2.PK_PollutionID
+      JOIN T_BAS_WaterOutputInfo t3 ON t1.FK_Outputid= t3.PK_ID
+      AND t3.FK_Pollutionid= t2.PK_PollutionID
+      LEFT JOIN PUB_CODE_StopProductionType t4 on t4.code=t1.FK_StopProductionType
+      WHERE
+      (
+      CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) <![CDATA[<=]]> CONVERT ( VARCHAR ( 19 ), GETDATE(), 120 )
+      OR t1.EndTime IS NULL
+      OR ( CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) > CONVERT ( VARCHAR ( 19 ), GETDATE(), 120 )  AND RecoveryProductionTime is not null)
+      )
+      UNION
+      SELECT
+      t1.PK_ID,
+      PollutionName,
+      t3.FK_Pollutionid pollutionid,
+      PollutionName + CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) + CONVERT ( VARCHAR ( 19 ), t1.StartTime, 120 ) groupid,
+      OutputName,
+      t1.FK_Outputid outputids,
+      CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 )EndTime,
+      CONVERT ( VARCHAR ( 19 ), t1.StartTime, 120 )StartTime,
+      CONVERT ( VARCHAR ( 19 ), RecoveryProductionTime, 120 )RecoveryProductionTime,
+      t4.name FK_StopProductionName,
+      t1.FK_StopProductiontype
+      FROM
+      T_BAS_StopProductionInfo t1
+      JOIN T_BAS_Pollution t2 ON t1.FK_Pollutionid= t2.PK_PollutionID
+      JOIN T_BAS_GASOutPutInfo t3 ON t1.FK_Outputid= t3.PK_ID
+      AND t3.FK_Pollutionid= t2.PK_PollutionID
+      LEFT JOIN PUB_CODE_StopProductionType t4 on t4.code=t1.FK_StopProductionType
+      WHERE
+      (
+      CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) <![CDATA[<=]]> CONVERT ( VARCHAR ( 19 ), GETDATE(), 120 )
+      OR t1.EndTime IS NULL
+      OR ( CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) > CONVERT ( VARCHAR ( 19 ), GETDATE(), 120 )  AND RecoveryProductionTime is not null)
+      )
+      UNION
+      SELECT
+      t1.PK_ID,
+      t3.FK_Pollutionid pollutionid,
+      PollutionName,
+      PollutionName + CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) + CONVERT ( VARCHAR ( 19 ), t1.StartTime, 120 ) groupid,
+      MonitorPointName OutputName,
+      t1.FK_Outputid outputids,
+      CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 )EndTime,
+      CONVERT ( VARCHAR ( 19 ), t1.StartTime, 120 )StartTime,
+      CONVERT ( VARCHAR ( 19 ), RecoveryProductionTime, 120 )RecoveryProductionTime,
+      t4.name FK_StopProductionName,
+      t1.FK_StopProductiontype
+      FROM
+      T_BAS_StopProductionInfo t1
+      JOIN T_BAS_Pollution t2 ON t1.FK_Pollutionid= t2.PK_PollutionID
+      JOIN T_BAS_UnorganizedMonitorPointInfo t3 ON t1.FK_Outputid= t3.PK_ID
+      AND t3.FK_Pollutionid= t2.PK_PollutionID
+      LEFT JOIN PUB_CODE_StopProductionType t4 on t4.code=t1.FK_StopProductionType
+      WHERE
+      (
+      CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) <![CDATA[<=]]> CONVERT ( VARCHAR ( 19 ), GETDATE(), 120 )
+      OR t1.EndTime IS NULL
+      OR ( CONVERT ( VARCHAR ( 19 ), t1.EndTime, 120 ) > CONVERT ( VARCHAR ( 19 ), GETDATE(), 120 )  AND RecoveryProductionTime is not null)
+      )
+    )t
+    <where>
+      <if test="pollutionid!=null and pollutionid!=''">
+        and t.pollutionid = #{pollutionid}
+      </if>
+        <if test="pollutionname!=null and pollutionname!=''">
+          and t.PollutionName like concat('%',#{pollutionname},'%')
+        </if>
+      <if test="outputname!=null and outputname!=''">
+        and t.OutPutName like concat('%',#{outputname},'%')
+      </if>
+      <if test="stopproductiontypes!=null and stopproductiontypes.size>0">
+        and t.FK_StopProductiontype in
+        <foreach collection="stopproductiontypes" item="item" separator="," close=")" open="(">
+            #{item}
+        </foreach>
+      </if>
+    </where>
+    order by t.StartTime desc
+  </select>
+
+  <!--author:xsm description: 根据自定义参数获取停产列表信息  param: date: 2019/12/18 18:39 -->
+  <select id="getStopProductionListDataByParamMap" parameterType="map" resultType="map">
+    SELECT  * FROM (
+    SELECT
+    t.pollutionid,t.pollutionname,t.shortername,
+    convert (varchar (20),t1.RecoveryProductionTime,120) RecoveryProductionTime,
+    convert (varchar (20),t1.StartTime,120) StartTime,
+    convert (varchar (20),t1.EndTime,120) EndTime,
+    STUFF(
+    (
+    SELECT
+    '、' + t3.Name
+    FROM
+    (SELECT distinct sp.Fk_Pollutionid,sp.starttime,sp.endtime,sp.RecoveryProductionTime,sp.FK_StopProductionType
+    ,stoptype.Name FROM
+    T_BAS_StopProductionInfo sp LEFT JOIN
+    PUB_CODE_StopProductionType stoptype ON sp.FK_StopProductionType = stoptype.Code
+    ) t3
+
+    WHERE
+    t3.starttime = t1.starttime
+    AND (
+    t3.endtime = t1.endtime
+    OR (
+    t3.endtime IS NULL
+    AND t1.endtime IS NULL
+    )
+    )
+    AND (
+    t3.RecoveryProductionTime = t1.RecoveryProductionTime
+    OR (
+    t3.RecoveryProductionTime IS NULL
+    AND t1.RecoveryProductionTime IS NULL
+    )
+    )
+    AND t3.Fk_Pollutionid = t.pollutionid
+    FOR XML PATH ('')
+    ),
+    1,
+    1,
+    ''
+    ) StopProductionTypeName,
+    STUFF( ( SELECT ',' + allpoint.outputid FROM
+    (
+    SELECT stop.*,point.outputid,point.outputname  FROM (SELECT  sp.* FROM
+    T_BAS_StopProductionInfo sp
+    WHERE
+    CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+    AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+    CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+    WHEN  sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+    )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+    )stop JOIN (
+    SELECT tw.pk_id as outputid,tw.outputname FROM  t_bas_wateroutputinfo tw
+    union SELECT tg.pk_id as outputid,tg.outputname FROM  T_BAS_GASOutPutInfo tg
+    union SELECT tu.PK_ID as outputid,tu.MonitorPointName outputname FROM  T_BAS_UnorganizedMonitorPointInfo tu) point
+    ON stop.FK_Outputid = point.outputid
+    ) allpoint
+    WHERE allpoint.starttime = t1.starttime AND (allpoint.endtime = t1.endtime
+    OR (allpoint.endtime is null AND t1.endtime is null) )
+    AND (
+    allpoint.RecoveryProductionTime = t1.RecoveryProductionTime
+    OR (
+    allpoint.RecoveryProductionTime IS NULL
+    AND t1.RecoveryProductionTime IS NULL
+    )
+    ) AND
+    allpoint.Fk_Pollutionid = t.pollutionid FOR XML PATH ('')
+    ),1,1,'') outputids,
+    STUFF( ( SELECT ',' + allpoint.PK_ID FROM
+    (
+    SELECT stop.*,point.outputid,point.outputname  FROM (SELECT  sp.* FROM
+    T_BAS_StopProductionInfo sp
+    WHERE
+    CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+    AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+    CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+    WHEN  sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+    )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )) stop JOIN (
+    SELECT tw.pk_id as outputid,tw.outputname FROM  t_bas_wateroutputinfo tw
+    union SELECT tg.pk_id as outputid,tg.outputname FROM  T_BAS_GASOutPutInfo tg
+    union SELECT tu.PK_ID as outputid,tu.MonitorPointName outputname FROM  T_BAS_UnorganizedMonitorPointInfo tu) point
+    ON stop.FK_Outputid = point.outputid
+    ) allpoint
+    WHERE allpoint.starttime = t1.starttime AND (allpoint.endtime = t1.endtime
+    OR (allpoint.endtime is null AND t1.endtime is null) )
+    AND (
+    allpoint.RecoveryProductionTime = t1.RecoveryProductionTime
+    OR (
+    allpoint.RecoveryProductionTime IS NULL
+    AND t1.RecoveryProductionTime IS NULL
+    )
+    ) AND
+    allpoint.Fk_Pollutionid = t.pollutionid FOR XML PATH ('')
+    ),1,1,'') pkids,
+    STUFF( ( SELECT ',' + allpoint.outputname FROM
+    (
+    SELECT stop.*,point.outputid,point.outputname  FROM (SELECT  sp.* FROM
+    T_BAS_StopProductionInfo sp
+    WHERE
+    CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+    AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+    CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+    WHEN  sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+    )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )) stop JOIN (
+    SELECT tw.pk_id as outputid,tw.outputname FROM  t_bas_wateroutputinfo tw
+    union SELECT tg.pk_id as outputid,tg.outputname FROM  T_BAS_GASOutPutInfo tg
+    union SELECT tu.PK_ID as outputid,tu.MonitorPointName outputname FROM  T_BAS_UnorganizedMonitorPointInfo tu) point
+    ON stop.FK_Outputid = point.outputid
+    ) allpoint
+    WHERE allpoint.starttime = t1.starttime AND (allpoint.endtime = t1.endtime
+    OR (allpoint.endtime is null AND t1.endtime is null) )
+    AND (
+    allpoint.RecoveryProductionTime = t1.RecoveryProductionTime
+    OR (
+    allpoint.RecoveryProductionTime IS NULL
+    AND t1.RecoveryProductionTime IS NULL
+    )
+    )
+    AND  allpoint.Fk_Pollutionid = t.pollutionid
+    FOR XML PATH ('')
+    ),1,1,'') outputnames
+    FROM T_BAS_StopProductionInfo t1
+    join
+    (
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    t_bas_wateroutputinfo.pk_id as outputid,
+    outputname,
+    t_bas_wateroutputinfo.dgimn,
+    T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+    from
+    t_bas_pollution
+    join t_bas_wateroutputinfo on t_bas_pollution.pk_pollutionid = t_bas_wateroutputinfo.fk_pollutionid
+    JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = t_bas_wateroutputinfo.dgimn
+    UNION
+    select
+    pk_pollutionid pollutionid,
+    pollutionname,
+    shortername,
+    T_BAS_GASOutPutInfo.pk_id as outputid,
+    outputname,
+    T_BAS_GASOutPutInfo.dgimn,
+    T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+    from
+    t_bas_pollution
+    join T_BAS_GASOutPutInfo on t_bas_pollution.pk_pollutionid = T_BAS_GASOutPutInfo.fk_pollutionid
+    JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_GASOutPutInfo.dgimn
+    UNION
+    SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid Pollutionid,
+    T_BAS_Pollution.PollutionName,
+    shortername,
+    T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,
+    T_BAS_UnorganizedMonitorPointInfo.MonitorPointName outputname,
+    T_BAS_DeviceStatus.DGIMN,
+    T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode
+    FROM
+    T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN =
+    T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    ) t
+    on t.pollutionid = t1.FK_Pollutionid AND t.outputid = t1.FK_Outputid AND t.fk_monitorpointtypecode
+    =t1.FK_MonitorPointType
+    WHERE
+    CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),t1.starttime,120)
+    AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN t1.RecoveryProductionTime IS NOT NULL THEN
+    CONVERT (VARCHAR (20),t1.RecoveryProductionTime,120)
+    WHEN  t1.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), t1.endtime, 120) END
+    )) OR (t1.endtime IS NULL AND t1.RecoveryProductionTime IS NULL) )
+    <if test="outputname!=null and outputname!='' ">
+      and t.outputname like concat('%',#{outputname},'%')
+    </if>
+    <if test="stopproductiontypes !=null and stopproductiontypes.size>0">
+      and t1.FK_StopProductionType in
+      <foreach collection="stopproductiontypes" open="(" close=")" separator="," item="item">
+        #{item}
+      </foreach>
+    </if>
+    GROUP BY t.pollutionid,t.pollutionname,t.shortername,
+    t1.StartTime,
+    t1.EndTime,
+    t1.RecoveryProductionTime
+    ) allt
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and allt.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and allt.pollutionid =#{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (20),allt.StartTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (20),allt.StartTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    <choose>
+      <when test="sortkey!=null and sortkey !=''">
+        ORDER by ${sortkey} ${sorttype}
+      </when>
+      <otherwise>
+        ORDER  BY allt.StartTime desc,allt.pollutionname
+      </otherwise>
+    </choose>
+  </select>
+
+  <!--
+      Description: 批量添加停产信息
+      Param:
+      Author: xsm
+      Date: 2020/04/30 13:24
+  -->
+  <insert id="batchAdd">
+    insert into T_BAS_StopProductionInfo (PK_ID, FK_Pollutionid, FK_Outputid,
+    FK_MonitorPointType, StartTime, EndTime,
+    StopProductionRemark, FK_FileID, UpdateTime,
+    UpdateUser,FK_StopProductionType,RecoveryProductionTime,FK_RecoveryProductionFileID,RecoveryProductionReason)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR}, #{item.fkOutputid,jdbcType=VARCHAR},
+      #{item.fkMonitorpointtype,jdbcType=VARCHAR}, #{item.starttime,jdbcType=TIMESTAMP}, #{item.endtime,jdbcType=TIMESTAMP},
+      #{item.stopproductionremark,jdbcType=VARCHAR}, #{item.fkFileid,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP},
+      #{item.updateuser,jdbcType=VARCHAR},#{item.fkStopproductiontype,jdbcType=VARCHAR}, #{item.recoveryproductiontime,jdbcType=TIMESTAMP},
+      #{item.fkRecoveryproductionfileid,jdbcType=VARCHAR},#{item.recoveryproductionreason,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+  <select id="selectByPrimaryKeys" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_StopProductionInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pkids !=null and pkids.size>0">
+        and T_BAS_StopProductionInfo.PK_ID in
+        <foreach collection="pkids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </select>
+  <!--
+        author:xsm
+        description: 根据停产主键ID数组 获取多条停产信息
+        param:
+        date: 2020/09/03 11:30
+    -->
+  <select id="getStopProductionInfoByPkids" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_StopProductionInfo.PK_ID,
+    t3.Name StopProductionTypeName,
+    T_BAS_StopProductionInfo.FK_Pollutionid,
+    t_bas_pollution.pollutionname,
+    op.outputname,
+    T_BAS_StopProductionInfo.FK_Outputid,
+    T_BAS_StopProductionInfo.FK_MonitorPointType,
+    convert (varchar (20),T_BAS_StopProductionInfo.StartTime,120) StartTime,
+    convert (varchar (20),T_BAS_StopProductionInfo.EndTime,120) EndTime,
+    StopProductionRemark,
+    T_BAS_StopProductionInfo.FK_FileID,
+    convert (varchar (20),T_BAS_StopProductionInfo.UpdateTime,120) UpdateTime,
+    T_BAS_StopProductionInfo.UpdateUser,
+    T_BAS_StopProductionInfo.FK_StopProductionType,
+    convert (varchar (20),T_BAS_StopProductionInfo.RecoveryProductionTime,120) RecoveryProductionTime,
+    T_BAS_StopProductionInfo.FK_RecoveryProductionFileID,
+    T_BAS_StopProductionInfo.RecoveryProductionReason
+    FROM T_BAS_StopProductionInfo
+    LEFT JOIN (
+    SELECT tw.pk_id as outputid,tw.outputname FROM  t_bas_wateroutputinfo tw
+    union SELECT tg.pk_id as outputid,tg.outputname FROM  T_BAS_GASOutPutInfo tg
+    union SELECT tu.PK_ID as outputid,tu.MonitorPointName outputname FROM  T_BAS_UnorganizedMonitorPointInfo tu
+    ) op ON T_BAS_StopProductionInfo.FK_Outputid = op.outputid
+    LEFT JOIN t_bas_pollution ON t_bas_pollution.pk_pollutionid = T_BAS_StopProductionInfo.fk_pollutionid
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON T_BAS_StopProductionInfo.FK_StopProductionType = t3.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pkids !=null and pkids.size>0">
+        and T_BAS_StopProductionInfo.PK_ID in
+        <foreach collection="pkids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+        author:xsm
+        description: 根据停产主键ID数组 获取停产分组信息(停产 开始时间 结束时间  复产时间 停产类型)
+        param:
+        date: 2020/09/03 11:30
+    -->
+  <select id="getStopProductionGroupDataByPkids" resultType="map" parameterType="map">
+    SELECT DISTINCT
+    convert (varchar (20),T_BAS_StopProductionInfo.StartTime,120) StartTime,
+    convert (varchar (20),T_BAS_StopProductionInfo.EndTime,120) EndTime,
+    StopProductionRemark,
+    T_BAS_StopProductionInfo.FK_FileID,
+    T_BAS_StopProductionInfo.FK_StopProductionType,
+    convert (varchar (20),T_BAS_StopProductionInfo.RecoveryProductionTime,120) RecoveryProductionTime,
+    T_BAS_StopProductionInfo.FK_RecoveryProductionFileID,
+    T_BAS_StopProductionInfo.RecoveryProductionReason
+    FROM T_BAS_StopProductionInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT NULL)
+      <if test="pkids !=null and pkids.size>0">
+        and T_BAS_StopProductionInfo.PK_ID in
+        <foreach collection="pkids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+       author:xsm
+       description: 根据自定义参数获取企业停产信息
+       param:
+       date: 2020/09/03 11:30
+   -->
+  <select id="getEntStopProductionInfosByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_StopProductionInfo.PK_ID pkid,
+    T_BAS_StopProductionInfo.fk_pollutionid fkpollutionid,
+    t_bas_pollution.pollutionname,
+    t3.Name stopproductiontypename,
+    convert (varchar (16),T_BAS_StopProductionInfo.StartTime,120) starttime,
+    convert (varchar (16),T_BAS_StopProductionInfo.EndTime,120) endtime,
+    stopproductionremark,
+    T_BAS_StopProductionInfo.FK_FileID fkfileid,
+    T_BAS_StopProductionInfo.FK_StopProductionType fkstopproductiontype
+    FROM T_BAS_StopProductionInfo
+    LEFT JOIN t_bas_pollution ON t_bas_pollution.pk_pollutionid = T_BAS_StopProductionInfo.fk_pollutionid
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON T_BAS_StopProductionInfo.FK_StopProductionType = t3.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      (T_BAS_StopProductionInfo.FK_Outputid IS  null and T_BAS_StopProductionInfo.FK_MonitorPointType IS  NULL)
+      <if test="(starttime != null and starttime!='') or (endtime != null and endtime!='')">
+      <choose>
+          <when test="starttime != null and starttime !='' and (endtime ==null or endtime == '') ">
+           and (CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.EndTime,120) >= #{starttime} )
+          </when>
+         <when test="endtime != null and endtime !='' and (starttime ==null or starttime == '') ">
+           and (CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.StartTime,120) <![CDATA[<=]]> #{endtime} )
+          </when>
+          <otherwise>
+            and ((CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.StartTime,120) >= #{starttime} AND CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.StartTime,120) <![CDATA[<=]]> #{endtime})
+            or (CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.EndTime,120) >= #{starttime} AND CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.EndTime,120) <![CDATA[<=]]> #{endtime})
+            or (#{starttime} >= CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.StartTime,120) and #{starttime} <![CDATA[<=]]>  CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.EndTime,120))
+            or (#{endtime} >= CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.StartTime,120) and #{endtime} <![CDATA[<=]]>  CONVERT (VARCHAR (10),T_BAS_StopProductionInfo.EndTime,120))
+            )
+          </otherwise>
+      </choose>
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t_bas_pollution.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and  T_BAS_StopProductionInfo.fk_pollutionid =#{pollutionid}
+      </if>
+      <if test="stopproductiontypes !=null and stopproductiontypes.size>0">
+        and t3.Code in
+        <foreach collection="stopproductiontypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by T_BAS_StopProductionInfo.EndTime desc
+  </select>
+
+
+  <!--
+        author:xsm
+        description: 根据停产主键 ID获取停产信息
+        param:
+        date: 2020/02/25 10:29
+    -->
+  <select id="getEntStopProductionDetailByID" resultType="map" parameterType="java.lang.String">
+    SELECT
+    T_BAS_StopProductionInfo.PK_ID pkid,
+    T_BAS_StopProductionInfo.fk_pollutionid fkpollutionid,
+    t_bas_pollution.pollutionname,
+    t3.Name stopproductiontypename,
+    convert (varchar (16),T_BAS_StopProductionInfo.StartTime,120) starttime,
+    convert (varchar (16),T_BAS_StopProductionInfo.EndTime,120) endtime,
+    stopproductionremark,
+    T_BAS_StopProductionInfo.FK_FileID fkfileid,
+    T_BAS_StopProductionInfo.FK_StopProductionType fkstopproductiontype,
+    convert (varchar (20),T_BAS_StopProductionInfo.UpdateTime,120) UpdateTime,
+    T_BAS_StopProductionInfo.UpdateUser
+    FROM T_BAS_StopProductionInfo
+    LEFT JOIN t_bas_pollution ON t_bas_pollution.pk_pollutionid = T_BAS_StopProductionInfo.fk_pollutionid
+    LEFT JOIN PUB_CODE_StopProductionType t3 ON T_BAS_StopProductionInfo.FK_StopProductionType = t3.Code
+    WHERE T_BAS_StopProductionInfo.PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+
+</mapper>

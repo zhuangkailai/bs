@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.particularpollutants.ParticularPollutantsMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.particularpollutants.ParticularPollutantsVO">
+        <id column="PK_DataID" property="pkDataid" jdbcType="VARCHAR"/>
+        <result column="FK_PollutionID" property="fkPollutionid" jdbcType="VARCHAR"/>
+        <result column="FK_OutPutID" property="fkOutputid" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorPointTypeCode" property="fkMonitorpointtypecode" jdbcType="VARCHAR"/>
+        <result column="FK_PollutantCode" property="fkPollutantcode" jdbcType="VARCHAR"/>
+        <result column="DetectionTime" property="detectiontime" jdbcType="DATE"/>
+        <result column="DetectionConcentration" property="detectionconcentration" jdbcType="DOUBLE"/>
+        <result column="IsMainPollutant" property="ismainpollutant" jdbcType="NUMERIC"/>
+        <result column="Version" property="version" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_DataID, FK_PollutionID, FK_OutPutID, FK_MonitorPointTypeCode, FK_PollutantCode, 
+    DetectionTime, DetectionConcentration, IsMainPollutant, Version, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_ParticularPollutants
+        where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_ParticularPollutants
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.ParticularPollutantsVO">
+    insert into T_BAS_ParticularPollutants (PK_DataID, FK_PollutionID, FK_OutPutID, 
+      FK_MonitorPointTypeCode, FK_PollutantCode, 
+      DetectionTime, DetectionConcentration, IsMainPollutant, 
+      Version, UpdateTime, UpdateUser
+      )
+    values (#{pkDataid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkOutputid,jdbcType=VARCHAR}, 
+      #{fkMonitorpointtypecode,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{detectiontime,jdbcType=DATE}, #{detectionconcentration,jdbcType=DOUBLE}, #{ismainpollutant,jdbcType=NUMERIC}, 
+      #{version,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.ParticularPollutantsVO">
+        insert into T_BAS_ParticularPollutants
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkDataid != null">
+                PK_DataID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkOutputid != null">
+                FK_OutPutID,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode,
+            </if>
+            <if test="detectiontime != null">
+                DetectionTime,
+            </if>
+            <if test="detectionconcentration != null">
+                DetectionConcentration,
+            </if>
+            <if test="ismainpollutant != null">
+                IsMainPollutant,
+            </if>
+            <if test="version != null">
+                Version,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkDataid != null">
+                #{pkDataid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkOutputid != null">
+                #{fkOutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="detectiontime != null">
+                #{detectiontime,jdbcType=DATE},
+            </if>
+            <if test="detectionconcentration != null">
+                #{detectionconcentration,jdbcType=DOUBLE},
+            </if>
+            <if test="ismainpollutant != null">
+                #{ismainpollutant,jdbcType=NUMERIC},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.ParticularPollutantsVO">
+        update T_BAS_ParticularPollutants
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkOutputid != null">
+                FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="detectiontime != null">
+                DetectionTime = #{detectiontime,jdbcType=DATE},
+            </if>
+            <if test="detectionconcentration != null">
+                DetectionConcentration = #{detectionconcentration,jdbcType=DOUBLE},
+            </if>
+            <if test="ismainpollutant != null">
+                IsMainPollutant = #{ismainpollutant,jdbcType=NUMERIC},
+            </if>
+            <if test="version != null">
+                Version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.particularpollutants.ParticularPollutantsVO">
+    update T_BAS_ParticularPollutants
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      DetectionTime = #{detectiontime,jdbcType=DATE},
+      DetectionConcentration = #{detectionconcentration,jdbcType=DOUBLE},
+      IsMainPollutant = #{ismainpollutant,jdbcType=NUMERIC},
+      Version = #{version,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_DataID = #{pkDataid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+        author:chengzq
+        description: 通过污染源名称，排口名称，污染物名称，监测点类型，版本号查询污染物库信息
+        param:
+        date: 2019/06/13 14:17
+    -->
+    <select id="getParticularPollutantsByParamMap" resultType="map" parameterType="map">
+        SELECT
+        t_bas_particularpollutants.pk_dataid,
+        t_bas_pollution.pollutionname,
+        case t_bas_particularpollutants.fk_monitorpointtypecode when 1 then t_bas_wateroutputinfo.outputname when 2 then
+        t_bas_gasoutputinfo.outputname end outputname,
+        case t_bas_particularpollutants.fk_monitorpointtypecode when 1 then '废水' when 2 then '废气' end monitorpointtype,
+        pub_code_pollutantfactor.name pollutantname,
+        detectionconcentration,
+        convert (varchar (10),detectiontime,120)detectiontime,
+        case ismainpollutant when 1 then '是' when 0 then '否' end ismainpollutant,
+        t_bas_particularpollutants.version
+        FROM
+        T_BAS_ParticularPollutants
+        JOIN T_BAS_Pollution ON T_BAS_ParticularPollutants.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_ParticularPollutants.FK_OutPutID = T_BAS_WaterOutputInfo.PK_ID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_ParticularPollutants.FK_OutPutID = T_BAS_GASOutPutInfo.PK_ID
+        LEFT JOIN PUB_CODE_PollutantFactor on T_BAS_ParticularPollutants.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        and PUB_CODE_PollutantFactor.IsUsed=1 and PUB_CODE_PollutantFactor.PollutantType in (1,2)
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="outputname!=null and outputname!='' ">
+                and (T_BAS_WaterOutputInfo.OutputName like concat('%',#{outputname},'%') or
+                T_BAS_GASOutPutInfo.OutputName like concat('%',#{outputname},'%') )
+            </if>
+            <if test="pollutantname!=null and pollutantname!='' ">
+                and PUB_CODE_PollutantFactor.name like concat('%',#{pollutantname},'%')
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and T_BAS_ParticularPollutants.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+            <if test="version!=null and version.size>0 ">
+                and T_BAS_ParticularPollutants.version in
+                <foreach collection="version" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by
+        t_bas_particularpollutants.version desc,
+        T_BAS_Pollution.PollutionName,
+        outputname,
+        orderindex
+        desc
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 新增特征污染物库
+        param:
+        date: 2019/06/13 16:00
+    -->
+    <insert id="insertParticularPollutants" parameterType="java.util.List">
+        insert into T_BAS_ParticularPollutants (PK_DataID, FK_PollutionID, FK_OutPutID,
+        FK_MonitorPointTypeCode, FK_PollutantCode,
+        DetectionTime, DetectionConcentration, IsMainPollutant,
+        Version, UpdateTime, UpdateUser
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.pkDataid,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR},
+            #{item.fkOutputid,jdbcType=VARCHAR},
+            #{item.fkMonitorpointtypecode,jdbcType=VARCHAR}, #{item.fkPollutantcode,jdbcType=VARCHAR},
+            #{item.detectiontime,jdbcType=DATE}, #{item.detectionconcentration,jdbcType=DOUBLE},
+            #{item.ismainpollutant,jdbcType=NUMERIC},
+            #{item.version,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP}, #{item.updateuser,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <!--
+        author:chengzq
+        description: 通过id查询特征污染物库
+        param:
+        date: 2019/06/13 18:05
+    -->
+    <select id="selectParticularPollutantsById" parameterType="map" resultType="map">
+        select
+        pk_dataid pkdataid,
+        T_BAS_ParticularPollutants.FK_PollutionID fkpollutionid,
+        t_bas_pollution.pollutionname,
+        case t_bas_particularpollutants.fk_monitorpointtypecode when 1 then t_bas_wateroutputinfo.outputname when 2 then
+        t_bas_gasoutputinfo.outputname end outputname,
+        T_BAS_ParticularPollutants.fk_outputid fkoutputid,
+        T_BAS_ParticularPollutants.fk_monitorpointtypecode fkmonitorpointtypecode,
+        fk_pollutantcode fkpollutantcode,
+        convert (varchar (10),T_BAS_ParticularPollutants.detectiontime,120)detectiontime,
+        detectionconcentration,
+        concat(ismainpollutant,'')ismainpollutant,
+        T_BAS_ParticularPollutants.version,
+        convert (varchar (19),T_BAS_ParticularPollutants.updatetime,120)updatetime,
+        T_BAS_ParticularPollutants.updateuser
+        from T_BAS_ParticularPollutants
+        JOIN T_BAS_Pollution ON T_BAS_ParticularPollutants.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_ParticularPollutants.FK_OutPutID = T_BAS_WaterOutputInfo.PK_ID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_ParticularPollutants.FK_OutPutID = T_BAS_GASOutPutInfo.PK_ID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="id != null and id != '' ">
+                and T_BAS_ParticularPollutants.pk_Dataid =#{id}
+            </if>
+            <if test="version != null and version != '' ">
+                and T_BAS_ParticularPollutants.version =#{version}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/6/21 0021 上午 11:25
+     * @Description: 自定义查询条件获取最新版本特征污染物信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getLastVersionPollutantInfoByParamMap" parameterType="map" resultType="map">
+        SELECT
+        t.fk_pollutionid,
+        t.fk_outputid,
+        t.fk_monitorpointtypecode,
+        t2.name pollutantname
+        FROM
+        t_bas_particularpollutants t
+        JOIN pub_code_pollutantfactor t2 ON t2.code = t.fk_pollutantcode
+        AND t2.PollutantType = t.FK_MonitorPointTypeCode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.version IN (
+            SELECT
+            MAX (t1.version)
+            FROM
+            t_bas_particularpollutants t1
+            )
+            <if test="pollutionid != null and pollutionid != '' ">
+                and t.fk_pollutionid =#{pollutionid}
+            </if>
+            <if test="outputid != null and outputid != '' ">
+                and t.fk_outputid =#{outputid}
+            </if>
+            <if test="monitorpollutant!=null and monitorpollutant!='' ">
+                and t2.name like concat('%',#{monitorpollutant},'%')
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype != '' ">
+                and t.fk_monitorpointtypecode =#{monitorpointtype}
+            </if>
+        </trim>
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2019/8/8 0008 下午 1:42
+     * @Description: 根据特征污染物统计企业数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="countPollutionForPollutant" parameterType="map" resultType="map">
+        select
+        count(t1.fk_pollutionid) num,t3.code,t3.name
+        from
+        t_bas_particularpollutants t1,
+        t_bas_pollution t2,
+        pub_code_pollutantfactor t3
+        where
+        t1.fk_pollutionid = t2.pk_pollutionid
+        and t3.pollutanttype = t1.fk_monitorpointtypecode
+        and t3.code = t1.fk_pollutantcode
+        and t1.version = (
+        select
+        max (t.version)
+        from
+        t_bas_particularpollutants t
+        )
+        <if test="monitorpointtype != null and monitorpointtype != '' ">
+            and t1.fk_monitorpointtypecode =#{monitorpointtype}
+        </if>
+        group by t3.code,t3.name
+    </select>
+
+    <!--
+        author:chengzq
+        description: 修改特征污染物库
+        param:
+        date: 2019/06/13 18:32
+    -->
+    <update id="updateParticularPollutants" parameterType="java.util.List">
+        update T_BAS_ParticularPollutants
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="FK_PollutionID =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.fkPollutionid}
+                </foreach>
+            </trim>
+            <trim prefix="FK_MonitorPointTypeCode =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.fkMonitorpointtypecode}
+                </foreach>
+            </trim>
+            <trim prefix="FK_PollutantCode =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.fkPollutantcode}
+                </foreach>
+            </trim>
+            <trim prefix="DetectionTime =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.detectiontime,jdbcType=DATE}
+                </foreach>
+            </trim>
+            <trim prefix="DetectionConcentration =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.detectionconcentration,jdbcType=DOUBLE}
+                </foreach>
+            </trim>
+            <trim prefix="IsMainPollutant =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.ismainpollutant,jdbcType=NUMERIC}
+                </foreach>
+            </trim>
+            <trim prefix="Version =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.version}
+                </foreach>
+            </trim>
+            <trim prefix="UpdateTime =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.updatetime,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="UpdateUser =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when pk_Dataid=#{item.pkDataid} then #{item.updateuser}
+                </foreach>
+            </trim>
+        </trim>
+        where PK_DataID in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.pkDataid}
+        </foreach>
+    </update>
+
+
+    <!--
+        author:chengzq
+        description: 通过id查询排放口特征污染物库详情
+        param:
+        date: 2019/06/14 09:36
+    -->
+    <select id="getParticularPollutantsDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t_bas_pollution.pollutionname,
+    case t_bas_particularpollutants.fk_monitorpointtypecode when 1 then t_bas_wateroutputinfo.outputname when 2 then t_bas_gasoutputinfo.outputname end outputname,
+    case t_bas_particularpollutants.fk_monitorpointtypecode when 1 then '废水' when 2 then '废气' end monitorpointtype,
+    pub_code_pollutantfactor.name pollutantname,
+    pub_code_pollutantfactor.pollutantunit,
+    detectionconcentration,
+    convert (varchar (10),detectiontime,120)detectiontime,
+    case ismainpollutant when 1 then '是' when 0 then '否' end ismainpollutant,
+    t_bas_particularpollutants.version,
+    t_bas_particularpollutants.updateuser,
+    convert (varchar (10),t_bas_particularpollutants.updatetime,120)updatetime,
+    PUB_CODE_PollutantFactor.pollutantunit
+    FROM
+    T_BAS_ParticularPollutants
+    JOIN T_BAS_Pollution ON T_BAS_ParticularPollutants.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_ParticularPollutants.FK_OutPutID = T_BAS_WaterOutputInfo.PK_ID
+    LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_ParticularPollutants.FK_OutPutID = T_BAS_GASOutPutInfo.PK_ID
+    LEFT JOIN PUB_CODE_PollutantFactor on T_BAS_ParticularPollutants.FK_PollutantCode=PUB_CODE_PollutantFactor.Code and PUB_CODE_PollutantFactor.IsUsed=1 and PUB_CODE_PollutantFactor.PollutantType in (1,2)
+    where pk_dataid=#{id}
+  </select>
+
+    <!--
+        author:chengzq
+        description: 获取最新的版本号
+        param:
+        date: 2019/06/14 09:49
+    -->
+    <select id="getLastVersion" resultType="string">
+     SELECT
+          max(t_bas_particularpollutants.version)  lastversion
+      FROM
+          T_BAS_ParticularPollutants,t_bas_pollution
+      where
+          FK_PollutionID=pk_pollutionid
+      and FK_PollutionID is not null
+      and FK_OutPutID is not null
+  </select>
+
+    <!--
+        author:chengzq
+        description: 通过污染源id，排口id，版本号删除污染物库
+        param:
+        date: 2019/06/15 14:59
+    -->
+    <delete id="deleteByParams" parameterType="map">
+        delete from T_BAS_ParticularPollutants
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionids!=null and pollutionids.size>0">
+                and fk_pollutionid in
+                <foreach collection="pollutionids" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="outputids!=null and outputids.size>0">
+                and fk_outputid in
+                <foreach collection="outputids" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="version!=null and version!=''">
+                and version=#{version}
+            </if>
+            <if test="fkmonitorpointtypecode!=null and fkmonitorpointtypecode!=''">
+                and fk_monitorpointtypecode=#{fkmonitorpointtypecode}
+            </if>
+        </trim>
+    </delete>
+
+
+    <!--
+        author:xsm
+        description: 根据监测点类型和特征污染物查询企业信息列表
+        param:
+        date: 2019/08/09 13:59
+    -->
+    <select id="getPollutionListDataByParamMap" parameterType="map" resultType="map">
+        SELECT
+        t.fk_pollutionid,
+        T_BAS_Pollution.PollutionName,
+        T_BAS_Pollution.Longitude,
+        T_BAS_Pollution.Latitude,
+        t.detectionconcentration
+        FROM
+        (SELECT *
+        FROM (
+        SELECT * ,
+        ROW_NUMBER() OVER ( PARTITION BY FK_Pollutionid,fk_pollutantcode ORDER BY version
+        DESC ) rid
+        FROM t_bas_particularpollutants
+        ) AS t
+        WHERE rid = 1 ) t
+        JOIN pub_code_pollutantfactor t2 ON t2.code = t.fk_pollutantcode
+        AND t2.PollutantType = t.FK_MonitorPointTypeCode
+        LEFT JOIN T_BAS_Pollution ON t.fk_pollutionid = T_BAS_Pollution.PK_PollutionID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                and t2.code = #{pollutantcode}
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype != '' ">
+                and t.fk_monitorpointtypecode =#{monitorpointtype}
+            </if>
+        </trim>
+    </select>
+</mapper>

@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.LicenceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.base.licence.LicenceInfoVO">
+        <id column="PK_LicenceID" jdbcType="VARCHAR" property="pkLicenceid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="FK_LicenceConditionCode" jdbcType="VARCHAR" property="fkLicenceconditioncode"/>
+        <result column="FK_RegionCode" jdbcType="VARCHAR" property="fkRegioncode"/>
+        <result column="LicenceNum" jdbcType="VARCHAR" property="licencenum"/>
+        <result column="LicenceStartDate" jdbcType="TIMESTAMP" property="licencestartdate"/>
+        <result column="LicenceEndDate" jdbcType="TIMESTAMP" property="licenceenddate"/>
+        <result column="LicenceIssueDate" jdbcType="TIMESTAMP" property="licenceissuedate"/>
+        <result column="FK_IssueUnitCode" jdbcType="VARCHAR" property="fkIssueunitcode"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="Remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_LicenceID, FK_PollutionID, FK_LicenceConditionCode, FK_RegionCode, LicenceNum, 
+    LicenceStartDate, LicenceEndDate, LicenceIssueDate, FK_IssueUnitCode, FK_FileID, 
+    Remark, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_PWXKZ_LicenceInfo
+        where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_PWXKZ_LicenceInfo
+    where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteInOrOutMenuData" parameterType="java.lang.String">
+    delete from t_bas_inoutmenuright
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.base.licence.LicenceInfoVO">
+    insert into T_PWXKZ_LicenceInfo (PK_LicenceID, FK_PollutionID, FK_LicenceConditionCode,
+      FK_RegionCode, LicenceNum, LicenceStartDate, 
+      LicenceEndDate, LicenceIssueDate, FK_IssueUnitCode, 
+      FK_FileID, Remark, UpdateTime, 
+      UpdateUser)
+    values (#{pkLicenceid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkLicenceconditioncode,jdbcType=VARCHAR}, 
+      #{fkRegioncode,jdbcType=VARCHAR}, #{licencenum,jdbcType=VARCHAR}, #{licencestartdate,jdbcType=TIMESTAMP}, 
+      #{licenceenddate,jdbcType=TIMESTAMP}, #{licenceissuedate,jdbcType=TIMESTAMP}, #{fkIssueunitcode,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.base.licence.LicenceInfoVO">
+        insert into T_PWXKZ_LicenceInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkLicenceid != null">
+                PK_LicenceID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkLicenceconditioncode != null">
+                FK_LicenceConditionCode,
+            </if>
+            <if test="fkRegioncode != null">
+                FK_RegionCode,
+            </if>
+            <if test="licencenum != null">
+                LicenceNum,
+            </if>
+            <if test="licencestartdate != null">
+                LicenceStartDate,
+            </if>
+            <if test="licenceenddate != null">
+                LicenceEndDate,
+            </if>
+            <if test="licenceissuedate != null">
+                LicenceIssueDate,
+            </if>
+            <if test="fkIssueunitcode != null">
+                FK_IssueUnitCode,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkLicenceid != null">
+                #{pkLicenceid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkLicenceconditioncode != null">
+                #{fkLicenceconditioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRegioncode != null">
+                #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="licencenum != null">
+                #{licencenum,jdbcType=VARCHAR},
+            </if>
+            <if test="licencestartdate != null">
+                #{licencestartdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="licenceenddate != null">
+                #{licenceenddate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="licenceissuedate != null">
+                #{licenceissuedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkIssueunitcode != null">
+                #{fkIssueunitcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.base.licence.LicenceInfoVO">
+        update T_PWXKZ_LicenceInfo
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkLicenceconditioncode != null">
+                FK_LicenceConditionCode = #{fkLicenceconditioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRegioncode != null">
+                FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="licencenum != null">
+                LicenceNum = #{licencenum,jdbcType=VARCHAR},
+            </if>
+            <if test="licencestartdate != null">
+                LicenceStartDate = #{licencestartdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="licenceenddate != null">
+                LicenceEndDate = #{licenceenddate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="licenceissuedate != null">
+                LicenceIssueDate = #{licenceissuedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkIssueunitcode != null">
+                FK_IssueUnitCode = #{fkIssueunitcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.base.licence.LicenceInfoVO">
+    update T_PWXKZ_LicenceInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_LicenceConditionCode = #{fkLicenceconditioncode,jdbcType=VARCHAR},
+      FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      LicenceNum = #{licencenum,jdbcType=VARCHAR},
+      LicenceStartDate = #{licencestartdate,jdbcType=TIMESTAMP},
+      LicenceEndDate = #{licenceenddate,jdbcType=TIMESTAMP},
+      LicenceIssueDate = #{licenceissuedate,jdbcType=TIMESTAMP},
+      FK_IssueUnitCode = #{fkIssueunitcode,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+  </update>
+    <!--
+        author:zhangzc
+        description: 获取过期排污许可证个数
+        param:
+        date: 2019/5/30 9:12
+      -->
+    <select id="countOverdueLicenceNum" resultType="java.lang.Integer">
+      SELECT
+      COUNT(PK_LicenceID) AS num
+      FROM
+      T_PWXKZ_LicenceInfo join T_BAS_Pollution on PK_PollutionID = FK_PollutionID
+      WHERE
+      LicenceEndDate &lt; GETDATE()
+  </select>
+
+
+    <select id="getWaterOutPutDataListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.outputname,
+        t1.outputcode,
+        case when t1.outputtype = '1' then
+        '主要排放口' else '一般排放口'
+        end as outputtype,
+        case when t5.directorindirect = '1' then
+        '直接排口' else '间接排口'
+        end as directorindirect,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.actualflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_pwxk_wateroutputinfo t1
+        inner join t_pwxk_wateroutputpollutantset t2 on t2.fk_wateroutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join pub_code_draindirection t5 on t5.code = t1.fk_draindirection
+        left join t_rp_mactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.outputtype ,t5.directorindirect, t1.outputcode,t1.outputname,t4.orderindex
+    </select>
+
+    <select id="gasOutListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.outputname,
+        t1.outputcode,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.actualflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_pwxk_gasoutputinfo t1
+        inner join t_pwxk_gasoutputpollutantset t2 on t2.fk_gasoutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join t_rp_mactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="outputtype!=null and outputtype!='' ">
+                and t1.outputtype = #{outputtype}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.outputcode,t1.outputname,t4.orderindex
+    </select>
+
+
+    <select id="getProblemSourceDataByParam" resultType="java.util.Map" parameterType="map">
+
+        SELECT COUNT
+        ( t1.pk_id ) countnum,
+        t2.code countcode,
+        t2.name countname,
+        t1.status
+        FROM
+        pub_code_problemsource t2
+        LEFT JOIN (
+        SELECT
+        t1.Status,
+        t1.CheckTime,
+        t1.FK_ProblemSourceCode,
+        t1.PK_ID
+        FROM
+        t_gj_checkproblemexpound t1
+        INNER JOIN T_BAS_Pollution t3 ON t3.PK_PollutionID = t1.FK_PollutionID
+
+        <if test="starttime!=null and starttime!='' ">
+            and convert(VARCHAR(10),t1.CheckTime,120) >=#{starttime}
+        </if>
+        <if test="endtime!=null and endtime!='' ">
+            and convert(VARCHAR(10),t1.CheckTime,120)<![CDATA[<=]]> #{endtime}
+        </if>
+
+        ) t1 ON t1.fk_problemsourcecode = t2.name
+        GROUP BY
+        t2.code,
+        t2.name,
+        t1.status
+    </select>
+
+
+
+    <select id="getWaterOutPutQDataListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.outputname,
+        t1.outputcode,
+        case when t1.outputtype = '1' then
+        '主要排放口' else '一般排放口'
+        end as outputtype,
+        case when t5.directorindirect = '1' then
+        '直接排口' else '间接排口'
+        end as directorindirect,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.oneactualflow,
+        t3.twoactualflow,
+        t3.threeactualflow,
+        t3.actualtotalflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_pwxk_wateroutputinfo t1
+        inner join t_pwxk_wateroutputpollutantset t2 on t2.fk_wateroutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join pub_code_draindirection t5 on t5.code = t1.fk_draindirection
+        left join T_RP_QActualDischargeInfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.outputtype ,t5.directorindirect, t1.outputcode,t1.outputname,t4.orderindex
+    </select>
+
+    <select id="gasQOutListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.outputname,
+        t1.outputcode,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.oneactualflow,
+        t3.twoactualflow,
+        t3.threeactualflow,
+        t3.actualtotalflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_pwxk_gasoutputinfo t1
+        inner join t_pwxk_gasoutputpollutantset t2 on t2.fk_gasoutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join t_rp_qactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="outputtype!=null and outputtype!='' ">
+                and t1.outputtype = #{outputtype}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.outputcode,t1.outputname,t4.orderindex
+    </select>
+
+
+
+    <select id="getWaterOutPutYDataListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.outputname,
+        t1.outputcode,
+        case when t1.outputtype = '1' then
+        '主要排放口' else '一般排放口'
+        end as outputtype,
+        case when t5.directorindirect = '1' then
+        '直接排口' else '间接排口'
+        end as directorindirect,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.oneactualflow,
+        t3.twoactualflow,
+        t3.threeactualflow,
+        t3.fouractualflow,
+        t3.actualtotalflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_pwxk_wateroutputinfo t1
+        inner join t_pwxk_wateroutputpollutantset t2 on t2.fk_wateroutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join pub_code_draindirection t5 on t5.code = t1.fk_draindirection
+        left join T_RP_YActualDischargeInfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.outputtype ,t5.directorindirect, t1.outputcode,t1.outputname,t4.orderindex
+    </select>
+
+    <select id="gasYOutListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.outputname,
+        t1.outputcode,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.oneactualflow,
+        t3.twoactualflow,
+        t3.threeactualflow,
+        t3.fouractualflow,
+        t3.actualtotalflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_pwxk_gasoutputinfo t1
+        inner join t_pwxk_gasoutputpollutantset t2 on t2.fk_gasoutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join t_rp_yactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="outputtype!=null and outputtype!='' ">
+                and t1.outputtype = #{outputtype}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.outputcode,t1.outputname,t4.orderindex
+    </select>
+
+
+    <!--废气、废气超标数据 lip 2022/4/6 9:27 -->
+    <select id="PWOutOverListByParam" resultType="java.util.Map" parameterType="map">
+        select
+            t2.outputcode,
+            t2.outputname,
+            t3.treatmentnum,
+            t3.treatmentname,
+            t1.fk_pollutantcode,
+            t4.name pollutantname,
+            t1.actualconcentration,
+            t1.overdes,
+            convert(varchar(19),t1.overstarttime,120)overstarttime,
+            convert(varchar(19),t1.overendtime,120)overendtime
+        from
+            t_rp_overdischargeinfo t1
+            inner join pub_code_pollutantfactor t4 on t4.code = t1.fk_pollutantcode
+            and t1.FK_MonitorPointTypeCode = t4.pollutanttype
+            <if test="monitorpointtypecode!=null and monitorpointtypecode =='1'.toString() ">
+                left join t_pwxk_wateroutputinfo t2 on t1.fk_outputid = t2.pk_id
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode =='2'.toString() ">
+                left join t_pwxk_gasoutputinfo t2 on t1.fk_outputid = t2.pk_id
+            </if>
+            left join t_gj_gastreatmentfacility t3 on t3.pk_id = t1.fk_facilityid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="reportid!=null and reportid!='' ">
+                and t1.FK_ReportId = #{reportid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t1.FK_MonitorPointTypeCode = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.overstarttime desc
+    </select>
+
+    <!--废气、废气治理设施异常数据 lip 2022/4/6 9:27 -->
+    <select id="getFacilityExceptionDataListByParam" resultType="java.util.Map" parameterType="map">
+        select
+            t1.pk_id,
+            convert( varchar ( 19 ), t1.overstartperiod , 120 ) overstartperiod,
+            convert ( varchar ( 19 ), t1.overendperiod, 120 ) overendperiod,
+            t2.treatmentname,
+            t2.treatmentnum,
+            t1.faultyreason,
+            t1.fk_pollutantcode,
+            t3.name pollutantname,
+            t1.concentrationrange,
+            t1.countermeasures
+        from
+        t_rp_mfacilityexceptioninfo t1
+        inner join pub_code_pollutantfactor t3 on t1.fk_pollutantcode = t3.code
+        and t3.PollutantType = t1.FK_MonitorTypeCode
+        <if test="monitorpointtypecode!=null and monitorpointtypecode =='1'.toString() ">
+            inner join t_gj_watertreatmentfacility t2 on t1.fk_facilityid = t2.pk_id
+        </if>
+        <if test="monitorpointtypecode!=null and monitorpointtypecode =='2'.toString() ">
+            inner join t_gj_gastreatmentfacility t2 on t1.fk_facilityid = t2.pk_id
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="reportid!=null and reportid!='' ">
+                and t1.FK_ReportId = #{reportid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t1.FK_MonitorTypeCode = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.overstartperiod desc
+    </select>
+
+
+
+
+
+    <select id="gasUnOutListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.monitorpointname outputname,
+        t1.monitorpointcode outputcode,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.actualflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_bas_unorganizedmonitorpointinfo t1
+        inner join t_pwxk_gasoutputpollutantset t2 on t2.fk_gasoutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join t_rp_mactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.monitorpointcode,t1.monitorpointname,t4.orderindex
+    </select>
+
+
+
+    <select id="gasUnQOutListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.monitorpointname outputname,
+        t1.monitorpointcode outputcode,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.oneactualflow,
+        t3.twoactualflow,
+        t3.threeactualflow,
+        t3.actualtotalflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_bas_unorganizedmonitorpointinfo t1
+        inner join t_pwxk_gasoutputpollutantset t2 on t2.fk_gasoutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join t_rp_qactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.monitorpointcode,t1.monitorpointname,t4.orderindex
+    </select>
+
+    <select id="gasUnYOutListByParam" resultType="java.util.Map" parameterType="map">
+        select distinct
+        t1.pk_id,
+        t1.monitorpointname outputname,
+        t1.monitorpointcode outputcode,
+        t4.code pollutantcode,
+        t4.name polluantname,
+        t3.oneactualflow,
+        t3.twoactualflow,
+        t3.threeactualflow,
+        t3.fouractualflow,
+        t3.actualtotalflow,
+        t3.remark,
+        t4.orderindex
+        from
+        t_bas_unorganizedmonitorpointinfo t1
+        inner join t_pwxk_gasoutputpollutantset t2 on t2.fk_gasoutputid = t1.pk_id
+        inner join pub_code_pollutantfactor t4 on t4.code = t2.fk_pollutantcode
+        left join t_rp_yactualdischargeinfo t3 on t1.pk_id = t3.fk_outputid
+        and t3.fk_pollutantcode = t4.code
+        <if test="reportid!=null and reportid!='' ">
+            and t3.FK_ReportId = #{reportid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.fk_pollutionid = #{pollutionid}
+            </if>
+            <if test="monitorpointtypecode!=null and monitorpointtypecode!='' ">
+                and t4.pollutanttype = #{monitorpointtypecode}
+            </if>
+        </trim>
+        order by t1.monitorpointcode,t1.monitorpointname,t4.orderindex
+    </select>
+
+
+
+    <select id="getPWLicenceListDataByParamMap" resultType="java.util.Map">
+        select
+        t2.shortername,
+        t1.licencenum,
+        convert (
+        varchar (10),
+        t1.licencestartdate,
+        120
+        ) as licencestartdate,
+        convert (
+        varchar (10),
+        t1.licenceenddate,
+        120
+        ) as licenceenddate,
+        convert (
+        varchar (10),
+        t1.licenceissuedate,
+        120
+        ) as licenceissuedate,
+        t3.name as issueunit,
+        t4.name as LicenceConditionname
+        from
+        T_PWXKZ_LicenceInfo t1
+        join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        left join pub_code_envorganization t3 on t3.code = t1.fk_issueunitcode
+        left join PUB_CODE_LicenceCondition t4 on t4.code = t1.FK_LicenceConditionCode
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="licenceenddate!=null and licenceenddate!='' ">
+                convert (
+                varchar (100),
+                t1.licenceenddate,
+                120
+                ) <![CDATA[<]]> #{licenceenddate}
+            </if>
+            <if test="pollutionid!=null and pollutionid!='' ">
+                t1.fk_pollutionid = #{pollutionid}
+            </if>
+        </trim>
+        order  by licenceenddate desc
+
+    </select>
+
+
+    <!--获取企业云台账信息 lip 2022/5/20 15:47 -->
+    <select id="getEntStandingInfoByParam" resultType="java.util.Map" parameterType="map">
+
+
+        select
+            t2.countnum as tznum,
+            t5.countnum as zxnum,
+            t1.pk_pollutionid,
+            t1.pollutionname ,
+            t3.name industrytypename,
+            t4.name regionname
+        from
+            t_bas_pollution t1
+            left join (
+                select count
+                ( t2.pk_id ) countnum,
+                t1.pk_pollutionid
+                from
+                t_bas_pollution t1
+                inner join t_gj_entstandingbookreport t2 on t1.pk_pollutionid = t2.fk_pollutionid
+                where
+                (convert ( varchar ( 4 ), t2.recordstarttime, 120 ) = #{year} or
+                convert ( varchar ( 4 ), t2.recordendtime, 120 ) = #{year}
+                )
+                group by
+                t1.pk_pollutionid
+            ) t2 on t1.pk_pollutionid = t2.pk_pollutionid
+            left join (
+                select count
+                ( t2.pk_id ) countnum,
+                t1.pk_pollutionid
+                from
+                t_bas_pollution t1
+                inner join t_gj_entexecutereport t2 on t1.pk_pollutionid = t2.fk_pollutionid
+                where
+                convert ( varchar ( 4 ), t2.reporttime, 120 ) = #{year}
+                group by
+                t1.pk_pollutionid
+            ) t5 on t5.pk_pollutionid = t1.pk_pollutionid
+        left join pub_code_industrytype t3 on t3.code = t1.fk_industrytype
+        left join pub_code_region t4 on t4.code = t1.fk_region
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+            <if test="regions !=null and regions.size()>0">
+                and   t4.code in
+                <foreach collection="regions" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="industrytypes !=null and industrytypes.size()>0">
+                and   t3.code in
+                <foreach collection="industrytypes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and t1.pollutionname LIKE '%'+#{pollutionname}+'%'
+            </if>
+
+            <if test="iscomplete!=null and iscomplete =='1'.toString() ">
+                and (t2.countnum >0 and t5.countnum >0)
+            </if>
+
+            <if test="iscomplete!=null and iscomplete =='0'.toString() ">
+                and   (t2.countnum is null or  t5.countnum is null or  t2.countnum = 0 or  t5.countnum =0 )
+            </if>
+
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.pk_pollutionid = #{pollutionid}
+            </if>
+        </trim>
+
+        order by
+        t2.countnum desc,
+        t1.pollutionname
+
+    </select>
+
+
+    <select id="getInOrOutMenuDataListByParam" resultType="java.util.Map" parameterType="map">
+        select
+        t1.menu_code,
+        t1.menu_id,
+        t1.navigateurl,
+        t1.menu_name,
+        t1.menu_title,
+        t1.menu_img
+        from
+        base_sysmenu t1
+        inner join t_bas_inoutmenuright t2 on t1.menu_id = t2.fk_menuid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outmark!=null and outmark!='' ">
+                and t2.outmark = #{outmark}
+            </if>
+            <if test="inmark!=null and inmark!='' ">
+                and t2.inmark = #{inmark}
+            </if>
+        </trim>
+        ORDER BY t1.SortCode
+
+    </select>
+    <select id="getInOrOutAllMenuData" resultType="java.util.Map" parameterType="map">
+        SELECT
+        t1.menu_code,
+        t1.menu_id,
+        t1.navigateurl,
+        t1.menu_name,
+        t1.menu_title,
+        t1.menu_img,
+        t2.inmark,
+        t2.outmark,
+        t1.sortcode
+        FROM
+        base_sysmenu t1
+        LEFT JOIN t_bas_inoutmenuright t2 ON t1.menu_id = t2.fk_menuid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="menucode!=null and menucode!='' ">
+                and t1.ParentId IN ( SELECT t1.menu_id FROM base_sysmenu t1 WHERE t1.Menu_Code = #{menucode} )
+            </if>
+        </trim>
+        ORDER BY t1.SortCode
+    </select>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into t_bas_inoutmenuright (
+        PK_ID,
+        FK_MenuId,
+        InMark,
+        OutMark,
+        UpdateTime,
+        UpdateUser)
+        values
+        <foreach collection="list" separator="," item="item">
+            (#{item.pkid,jdbcType=VARCHAR},
+             #{item.menuid,jdbcType=VARCHAR},
+            #{item.inmark,jdbcType=VARCHAR},
+            #{item.outmark,jdbcType=VARCHAR},
+            #{item.updatetime,jdbcType=TIMESTAMP},
+             #{item.updateuser,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <!--信息公开内容 lip 2022/8/12 9:09 -->
+    <select id="getInfoOpenByParam" parameterType="map" resultType="map">
+        select
+        t.*
+        from
+        T_PWXKZ_InfoOpen t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="licenceid!=null and licenceid!=''">
+                and t.FK_LicenceID  = #{licenceid}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--信息公开内容 lip 2022/8/12 9:09 -->
+    <select id="getStandingBookRequireByParam" parameterType="map" resultType="map">
+        SELECT
+        t.*,
+        t1.Name RecordTypename
+        FROM
+        T_PWXKZ_StandingBookRequire t
+        LEFT JOIN pub_code_StandingBookType t1 ON t.FK_RecordTypeCode = t1.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="licenceid!=null and licenceid!=''">
+                and t.FK_LicenceID  = #{licenceid}
+            </if>
+        </trim>
+        ORDER BY t1.OrderIndex
+    </select>
+
+
+    <!--噪声排放信息 lip 2022/8/12 9:09 -->
+    <select id="getNoiseOutputInfoByParam" parameterType="map" resultType="map">
+        SELECT
+            t.*,
+            t1.Name NoiseTypename
+            FROM
+            T_PWXKZ_NoiseOutputInfo t
+        LEFT JOIN PUB_CODE_NoiseType t1 ON t.FK_NoiseTypeCode = t1.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="licenceid!=null and licenceid!=''">
+                and t.FK_LicenceID  = #{licenceid}
+            </if>
+        </trim>
+        ORDER BY t1.OrderIndex
+    </select>
+
+    <!--改正规定 lip 2022/8/12 9:09 -->
+    <select id="getCorrectProvideByParam" parameterType="map" resultType="map">
+        SELECT
+        t.*,
+        case when t.IsComplete ='1' then '是' else '否' end iscompletename
+        FROM
+        T_PWXKZ_CorrectProvide t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="licenceid!=null and licenceid!=''">
+                and t.FK_LicenceID  = #{licenceid}
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getLastDataListByParam" parameterType="map" resultType="map">
+        SELECT
+            t.pk_licenceid,
+            t.fk_pollutionid,
+            t3.pollutionname,
+            t4.name industrytypename,
+            t5.name entstatename,
+            t6.name pollutionclassname,
+            CONVERT ( VARCHAR ( 10 ), t.licenceissuedate, 120 ) licenceissuedate,
+            CONVERT ( VARCHAR ( 10 ), t.licencestartdate, 120 ) licencestartdate,
+            CONVERT ( VARCHAR ( 10 ), t.licenceenddate, 120 ) licenceenddate
+        FROM
+            t_pwxkz_licenceinfo t
+            INNER JOIN ( SELECT t1.pk_pollutionid FROM t_bas_pollution t1 INNER JOIN t_bas_pollutionlabeldata t2 ON t1.pk_pollutionid = t2.fk_pollutionid
+                <trim prefix="where" prefixOverrides="AND|OR">
+                    <if test="labelcode!=null and labelcode!=''">
+                        and t2.fk_pollutionlabelid  = #{labelcode}
+                    </if>
+                </trim>
+
+            ) t1 ON t1.pk_pollutionid = t.fk_pollutionid
+            INNER JOIN ( SELECT MAX ( t.licencestartdate ) licencestartdate, fk_pollutionid FROM t_pwxkz_licenceinfo t GROUP BY fk_pollutionid ) t2 ON t.fk_pollutionid = t2.fk_pollutionid
+            AND t2.licencestartdate = t.licencestartdate
+            INNER JOIN t_bas_pollution t3 ON t3.pk_pollutionid = t.fk_pollutionid
+            LEFT JOIN pub_code_industrytype t4 ON t4.code = t3.fk_industrytype
+            LEFT JOIN pub_code_entstate t5 ON t5.code = t3.fk_entstate
+            LEFT JOIN pub_code_pollutionclass t6 ON t6.code = t3.fk_pollutionclass
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and t3.pollutionname LIKE '%'+#{pollutionname}+'%'
+            </if>
+        </trim>
+        order  by t3.pollutionname
+    </select>
+
+    <!--文字内容 lip 2022/8/12 9:09 -->
+    <select id="getOtherTextRequireByParam" parameterType="map" resultType="map">
+        SELECT
+        t.*
+        FROM
+        T_PWXKZ_OtherTextRequire t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="licenceid!=null and licenceid!=''">
+                and t.FK_LicenceID  = #{licenceid}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

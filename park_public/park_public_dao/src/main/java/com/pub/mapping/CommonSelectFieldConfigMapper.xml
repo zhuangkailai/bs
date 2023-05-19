@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.CommonSelectFieldConfigMapper">
+    <resultMap id="BaseResultMap" type="com.pub.model.CommonSelectFieldConfigVO">
+        <id column="PK_FieldConfigID" jdbcType="NVARCHAR" property="pkFieldConfigId"/>
+        <result column="FK_TableConfigID" jdbcType="NVARCHAR" property="fkTableConfigId"/>
+        <result column="FieldName" jdbcType="NVARCHAR" property="fieldName"/>
+        <result column="FieldComments" jdbcType="NVARCHAR" property="fieldComments"/>
+        <result column="FieldDataType" jdbcType="NVARCHAR" property="fieldDataType"/>
+        <result column="FieldLength" jdbcType="NUMERIC" property="fieldLength"/>
+        <result column="RelationalTable" jdbcType="NVARCHAR" property="relationalTable"/>
+        <result column="FKKeyField" jdbcType="NVARCHAR" property="fkKeyField"/>
+        <result column="FKNameField" jdbcType="NVARCHAR" property="fkNameField"/>
+        <result column="ConfigType" jdbcType="NVARCHAR" property="configType"/>
+        <result column="UpDateReadonly" jdbcType="NUMERIC" property="updateReadOnly"/>
+        <result column="OrderIndex" jdbcType="NUMERIC" property="orderIndex"/>
+        <result column="CustomOptions" jdbcType="NVARCHAR" property="customOptions"/>
+        <result column="ParentKeyField" jdbcType="NVARCHAR" property="parentKeyField"/>
+        <result column="ControlType" jdbcType="NVARCHAR" property="controlType"/>
+        <result column="ControlWidth" jdbcType="NVARCHAR" property="controlWidth"/>
+        <result column="ControlHeight" jdbcType="NVARCHAR" property="controlHeight"/>
+        <result column="MiddleTable" jdbcType="NVARCHAR" property="middleTable"/>
+        <result column="LeftId" jdbcType="NVARCHAR" property="leftId"/>
+        <result column="RightId" jdbcType="NVARCHAR" property="rightId"/>
+        <result column="ControlTextAlign" jdbcType="NVARCHAR" property="controlTextAlign"/>
+        <result column="ControlDefault" jdbcType="NVARCHAR" property="controlDefault"/>
+        <result column="ShowPage" jdbcType="NUMERIC" property="showPage"/>
+        <result column="LogFieldFlag" jdbcType="NUMERIC" property="logFieldFlag"/>
+        <result column="DefaultOrderType" jdbcType="NVARCHAR" property="defaultOrderType"/>
+        <result column="ValidRules" jdbcType="NVARCHAR" property="validRules"/>
+        <result column="ValidTriggers" jdbcType="NVARCHAR" property="validTriggers"/>
+        <result column="ValidMessage" jdbcType="NVARCHAR" property="validMessage"/>
+        <result column="TableJoinType" jdbcType="NVARCHAR" property="tableJoinType"/>
+        <result column="FieldQueryType" jdbcType="NVARCHAR" property="fieldQueryType"/>
+        <result column="ControlValueFormat" jdbcType="NVARCHAR" property="controlValueFormat"/>
+        <result column="IsRangeQuery" jdbcType="NUMERIC" property="isRangeQuery"/>
+        <result column="ListFixed" jdbcType="NVARCHAR" property="listFixed"/>
+        <result column="OtherFieldName" jdbcType="NVARCHAR" property="otherFieldName"/>
+        <result column="CustomOrderBy" jdbcType="NUMERIC" property="customOrderBy"/>
+        <result column="FilterFieldFlag" jdbcType="NVARCHAR" property="filterFieldFlag"/>
+        <result column="QueryFieldSql" jdbcType="NVARCHAR" property="queryFieldSql"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_FieldConfigID, FK_TableConfigID, FieldName, FieldComments, FieldDataType, FieldLength,
+    RelationalTable, FKKeyField, FKNameField, ConfigType, UpDateReadonly, OrderIndex,
+    CustomOptions, ParentKeyField, ControlType, ControlWidth,ControlHeight,MiddleTable,
+    LeftId,RightId,ControlTextAlign,ControlDefault,ShowPage,LogFieldFlag,DefaultOrderType,ValidRules,
+    ValidTriggers,ValidMessage,TableJoinType,FieldQueryType,ControlValueFormat,IsRangeQuery,listFixed,otherFieldName,customOrderBy,filterFieldFlag,QueryFieldSql
+  </sql>
+
+
+
+
+    <select id="getFieldListByTableIdAndConfigTypeList"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="tableconfigid != null">
+                AND fk_tableconfigid=#{tableconfigid}
+                <if test="configtypelist != null">
+                    AND configtype IN
+                    <foreach item="item" index="index" collection="configtypelist" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+        </trim>
+        order by OrderIndex
+    </select>
+
+
+
+    <select id="getDefaultAddFields" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND fk_tableconfigid=#{pktableconfigid}
+            AND configtype=#{configtype}
+            AND (controltype IS NULL OR controltype = '')
+            AND (controldefault IS NOT NULL AND controldefault != '')
+        </trim>
+        order by OrderIndex
+    </select>
+
+
+    <select id="getFieldsByFkTableConfigIdAndConfigType" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        WHERE
+          fk_tableconfigid=#{pktableconfigid}
+          AND configtype=#{configtype}
+        order by ISNULL(orderindex,10000),orderindex
+    </select>
+
+
+    <select id="getOperateLogFieldFlag"  resultMap="BaseResultMap">
+        SELECT
+ 		com1.FieldComments,com1.FieldName
+		FROM
+		T_SYS_CommonSelectFieldConfig com1
+		WHERE com1.configtype = '${configtype}'
+		and com1.Logfieldflag = ${logfieldflag}
+		AND com1.fk_tableconfigid IN (
+  		SELECT pk_tableconfigid FROM
+  		T_SYS_CommonSelectTableConfig com2
+		WHERE com2.tablename = '${tablename}'
+		)
+		ORDER BY com1.LogFieldFlag
+    </select>
+
+    <select id="getCommonSelectFieldConfigByMap"  resultMap="BaseResultMap">
+        SELECT a.RelationalTable,a.FKKeyField,a.FKNameField,a.FieldComments,a.CustomOptions,
+        		a.MiddleTable,a.LeftId,a.RightId
+		FROM T_SYS_CommonSelectFieldConfig a LEFT JOIN T_SYS_CommonSelectTableConfig b ON a.FK_TableConfigID = b.PK_TableConfigID
+		WHERE a.fieldname = '${fieldname}'
+		AND a.configtype = '${configtype}'
+		AND b.tablename = '${tablename}'
+    </select>
+
+    <select id="getRelationTableFieldNameList"  resultType="map">
+        SELECT ${fkkeyfield},${fknamefield}
+        FROM  ${tablename}
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="fieldlist != null">
+                 AND ${fkkeyfield} IN
+                <foreach item="item" index="index" collection="fieldlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getRegionListByparams"  resultType="map">
+        SELECT code,name
+        FROM  PUB_CODE_Region
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="regioncodelist != null">
+                AND code IN
+                <foreach item="item" index="index" collection="regioncodelist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+	
+
+    <select id="getPollutionListByparams"  resultType="map">
+        SELECT poll.PK_PollutionID as pollutionid,poll.PollutionName as pollutionname
+        FROM  T_BAS_Pollution poll         
+        <trim prefix="WHERE" prefixOverrides="AND |OR">       
+            <if test="pollutionidlist != null">
+               AND pk_pollutionid IN
+                <foreach item="item" index="index" collection="pollutionidlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+	
+
+
+    <select id="getDeleteData"  resultType="java.util.Map">
+        SELECT * 
+		FROM  ${tablename}
+		where ${pkfieldname} = #{pkvalue}
+    </select>
+</mapper>

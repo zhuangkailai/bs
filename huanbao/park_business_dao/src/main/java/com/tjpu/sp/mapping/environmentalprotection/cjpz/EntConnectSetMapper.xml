@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.cjpz.EntConnectSetMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.cjpz.EntConnectSetVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="Port" jdbcType="NUMERIC" property="port" />
+    <result column="CommPortId" jdbcType="VARCHAR" property="commportid" />
+    <result column="BaudRate" jdbcType="NUMERIC" property="baudrate" />
+    <result column="DataBits" jdbcType="NUMERIC" property="databits" />
+    <result column="StopBits" jdbcType="DOUBLE" property="stopbits" />
+    <result column="Parity" jdbcType="NUMERIC" property="parity" />
+    <result column="PickWay" jdbcType="VARCHAR" property="pickway" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, IP, Port, CommPortId, BaudRate, DataBits, StopBits, Parity, 
+    PickWay, Remark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_CJ_EntConnectSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_CJ_EntConnectSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.EntConnectSetVO">
+    insert into T_CJ_EntConnectSet (PK_ID, FK_PollutionID, IP, 
+      Port, CommPortId, BaudRate, 
+      DataBits, StopBits, Parity, 
+      PickWay, Remark, UpdateUser, 
+      UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{port,jdbcType=NUMERIC}, #{commportid,jdbcType=VARCHAR}, #{baudrate,jdbcType=NUMERIC}, 
+      #{databits,jdbcType=NUMERIC}, #{stopbits,jdbcType=DOUBLE}, #{parity,jdbcType=NUMERIC},
+      #{pickway,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.EntConnectSetVO">
+    insert into T_CJ_EntConnectSet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="port != null">
+        Port,
+      </if>
+      <if test="commportid != null">
+        CommPortId,
+      </if>
+      <if test="baudrate != null">
+        BaudRate,
+      </if>
+      <if test="databits != null">
+        DataBits,
+      </if>
+      <if test="stopbits != null">
+        StopBits,
+      </if>
+      <if test="parity != null">
+        Parity,
+      </if>
+      <if test="pickway != null">
+        PickWay,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=NUMERIC},
+      </if>
+      <if test="commportid != null">
+        #{commportid,jdbcType=VARCHAR},
+      </if>
+      <if test="baudrate != null">
+        #{baudrate,jdbcType=NUMERIC},
+      </if>
+      <if test="databits != null">
+        #{databits,jdbcType=NUMERIC},
+      </if>
+      <if test="stopbits != null">
+        #{stopbits,jdbcType=DOUBLE},
+      </if>
+      <if test="parity != null">
+        #{parity,jdbcType=NUMERIC},
+      </if>
+      <if test="pickway != null">
+        #{pickway,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.EntConnectSetVO">
+    update T_CJ_EntConnectSet
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        Port = #{port,jdbcType=NUMERIC},
+      </if>
+      <if test="commportid != null">
+        CommPortId = #{commportid,jdbcType=VARCHAR},
+      </if>
+      <if test="baudrate != null">
+        BaudRate = #{baudrate,jdbcType=NUMERIC},
+      </if>
+      <if test="databits != null">
+        DataBits = #{databits,jdbcType=NUMERIC},
+      </if>
+      <if test="stopbits != null">
+        StopBits = #{stopbits,jdbcType=DOUBLE},
+      </if>
+      <if test="parity != null">
+        Parity = #{parity,jdbcType=NUMERIC},
+      </if>
+      <if test="pickway != null">
+        PickWay = #{pickway,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.EntConnectSetVO">
+    update T_CJ_EntConnectSet
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      Port = #{port,jdbcType=NUMERIC},
+      CommPortId = #{commportid,jdbcType=VARCHAR},
+      BaudRate = #{baudrate,jdbcType=NUMERIC},
+      DataBits = #{databits,jdbcType=NUMERIC},
+      StopBits = #{stopbits,jdbcType=DOUBLE},
+      Parity = #{parity,jdbcType=NUMERIC},
+      PickWay = #{pickway,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+    author:xsm
+    description: 根据自定义参数获取企业连接设置信息
+    param:
+    date: 2021/01/12 13:59
+-->
+  <select id="getEntConnectSetsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    PK_ID,
+    FK_PollutionID,
+    PollutionName,
+    IP,
+    Port,
+    CommPortId,
+    BaudRate,
+    DataBits,
+    StopBits,
+    Remark,
+    case when Parity = 0 THEN 'PARITY_NONE' when Parity = 1 THEN 'PARITY_ODD'
+    when Parity = 2 THEN 'PARITY_EVEN' when Parity = 3 THEN 'PARITY_MARK'
+    when Parity = 4 THEN 'PARITY_SPACE' END Parity,
+    PickWay,
+    UpdateUser,
+    CONVERT (VARCHAR (20),UpdateTime,120) updatetime
+    from
+    (SELECT t1.*,p.PollutionName FROM T_CJ_EntConnectSet t1 JOIN T_BAS_Pollution p  ON t1.FK_PollutionID = p.PK_PollutionID) t
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+        and Fk_PollutionID = #{fk_pollutionid}
+      </if>
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="ip !=null and ip !='' ">
+        and IP like concat('%',#{ip},'%')
+      </if>
+      <if test="pickway !=null and pickway !='' ">
+        and PickWay = #{pickway}
+      </if>
+    </trim>
+    order by
+    <choose>
+      <when test="sortdata!=null and !sortdata.isEmpty()">
+        <foreach collection="sortdata.entrySet()" item="value" index="key">
+          ${key} ${value}
+        </foreach>
+      </when>
+      <otherwise>
+        PollutionName
+      </otherwise>
+    </choose>
+  </select>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/01/12 13:59
+    * @Description: 自定义查询条件获取企业连接设置条数
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <select id="getEntConnectSetNumByParamMap" resultType="Long" parameterType="map">
+    SELECT
+    count(0)
+    FROM
+    T_CJ_EntConnectSet t1
+    JOIN T_BAS_Pollution p  ON t1.FK_PollutionID = p.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+        and T1.Fk_PollutionID = #{fk_pollutionid}
+      </if>
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and P.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="ip !=null and ip !='' ">
+        and T1.IP like concat('%',#{ip},'%')
+      </if>
+      <if test="pickway !=null and pickway !='' ">
+        and PickWay = #{pickway}
+      </if>
+    </trim>
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id查询企业连接设置详情
+ param:
+ date: 2021/01/12 13:59
+-->
+  <select id="getEntConnectSetDetailByID" resultType="map" parameterType="string">
+    SELECT
+    PK_ID,
+    FK_PollutionID,
+    T_BAS_Pollution.PollutionName,
+    IP,
+    Port,
+     CommPortId,
+    BaudRate,
+    DataBits,
+    StopBits,
+    Remark,
+    case when Parity = 0 THEN 'PARITY_NONE' when Parity = 1 THEN 'PARITY_ODD'
+    when Parity = 2 THEN 'PARITY_EVEN' when Parity = 3 THEN 'PARITY_MARK'
+    when Parity = 4 THEN 'PARITY_SPACE' END Parity,
+    PickWay,
+    T_CJ_EntConnectSet.UpdateUser,
+    CONVERT (VARCHAR (20),T_CJ_EntConnectSet.UpdateTime,120) updatetime
+    from
+    T_CJ_EntConnectSet
+    JOIN T_BAS_Pollution ON T_CJ_EntConnectSet.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where T_CJ_EntConnectSet.PK_ID = #{pkid}
+  </select>
+
+</mapper>

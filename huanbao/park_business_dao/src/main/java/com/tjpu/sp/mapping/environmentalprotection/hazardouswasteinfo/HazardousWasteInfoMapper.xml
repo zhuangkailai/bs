@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.hazardouswasteinfo.HazardousWasteInfoMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_PollutionId" property="fkpollutionid" jdbcType="VARCHAR" />
+    <result column="FK_WasteMaterialType" property="fkwastematerialtype" jdbcType="VARCHAR" />
+    <result column="MonthDate" property="monthdate" jdbcType="VARCHAR" />
+    <result column="LastMonthLegacyQuantity" property="lastmonthlegacyquantity" jdbcType="DOUBLE" />
+    <result column="ProductionQuantity" property="productionquantity" jdbcType="DOUBLE" />
+    <result column="PlannedProductionQuantity" property="plannedproductionquantity" jdbcType="DOUBLE" />
+    <result column="StockAdjustQuantity" property="stockadjustquantity" jdbcType="DOUBLE" />
+    <result column="DelegateUtilizationQuantity" property="delegateutilizationquantity" jdbcType="DOUBLE" />
+    <result column="OutProvinceTransferList" property="outprovincetransferlist" jdbcType="DOUBLE" />
+    <result column="ProvinceTransferList" property="provincetransferlist" jdbcType="DOUBLE" />
+    <result column="SelfuseQuantity" property="selfusequantity" jdbcType="DOUBLE" />
+    <result column="AmongUseQuantity" property="amongusequantity" jdbcType="DOUBLE" />
+    <result column="AmongManageQuantity" property="amongmanagequantity" jdbcType="DOUBLE" />
+    <result column="SecondaryQuantity" property="secondaryquantity" jdbcType="DOUBLE" />
+    <result column="EndingStocks" property="endingstocks" jdbcType="DOUBLE" />
+    <result column="OverYearStocks" property="overyearstocks" jdbcType="DOUBLE" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_HazardousWasteInfo.PK_ID,
+    T_BAS_HazardousWasteInfo.FK_PollutionId,
+    T_BAS_HazardousWasteInfo.FK_WasteMaterialType,
+    T_BAS_HazardousWasteInfo.MonthDate,
+    T_BAS_HazardousWasteInfo.LastMonthLegacyQuantity,
+    T_BAS_HazardousWasteInfo.ProductionQuantity,
+    T_BAS_HazardousWasteInfo.PlannedProductionQuantity,
+    T_BAS_HazardousWasteInfo.StockAdjustQuantity,
+    T_BAS_HazardousWasteInfo.DelegateUtilizationQuantity,
+    T_BAS_HazardousWasteInfo.OutProvinceTransferList,
+    T_BAS_HazardousWasteInfo.ProvinceTransferList,
+    T_BAS_HazardousWasteInfo.SelfuseQuantity,
+    T_BAS_HazardousWasteInfo.AmongUseQuantity,
+    T_BAS_HazardousWasteInfo.AmongManageQuantity,
+    T_BAS_HazardousWasteInfo.SecondaryQuantity,
+    T_BAS_HazardousWasteInfo.EndingStocks,
+    T_BAS_HazardousWasteInfo.OverYearStocks,
+    T_BAS_HazardousWasteInfo.Remark,
+    convert(varchar(19),T_BAS_HazardousWasteInfo.UpdateTime,120)UpdateTime,
+    T_BAS_HazardousWasteInfo.UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_HazardousWasteInfo
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_HazardousWasteInfo
+    where PK_ID = #{pkid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.hazardouswasteinfo.HazardousWasteInfoVO" >
+    insert into T_BAS_HazardousWasteInfo
+    (PK_ID,
+    FK_PollutionId,
+    FK_WasteMaterialType,
+    MonthDate,
+    LastMonthLegacyQuantity,
+    ProductionQuantity,
+    PlannedProductionQuantity,
+    StockAdjustQuantity,
+    DelegateUtilizationQuantity,
+    OutProvinceTransferList,
+    ProvinceTransferList,
+    SelfuseQuantity,
+    AmongUseQuantity,
+    AmongManageQuantity,
+    SecondaryQuantity,
+    EndingStocks,
+    OverYearStocks,
+    Remark,
+    UpdateTime,
+    UpdateUser
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkpollutionid,jdbcType=VARCHAR},
+    #{fkwastematerialtype,jdbcType=VARCHAR},
+    #{monthdate,jdbcType=VARCHAR},
+    #{lastmonthlegacyquantity,jdbcType=DOUBLE},
+    #{productionquantity,jdbcType=DOUBLE},
+    #{plannedproductionquantity,jdbcType=DOUBLE},
+    #{stockadjustquantity,jdbcType=DOUBLE},
+    #{delegateutilizationquantity,jdbcType=DOUBLE},
+    #{outprovincetransferlist,jdbcType=DOUBLE},
+    #{provincetransferlist,jdbcType=DOUBLE},
+    #{selfusequantity,jdbcType=DOUBLE},
+    #{amongusequantity,jdbcType=DOUBLE},
+    #{amongmanagequantity,jdbcType=DOUBLE},
+    #{secondaryquantity,jdbcType=DOUBLE},
+    #{endingstocks,jdbcType=DOUBLE},
+    #{overyearstocks,jdbcType=DOUBLE},
+    #{remark,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.hazardouswasteinfo.HazardousWasteInfoVO" >
+    update T_BAS_HazardousWasteInfo
+    set
+    FK_PollutionId=#{fkpollutionid,jdbcType=VARCHAR},
+    FK_WasteMaterialType=#{fkwastematerialtype,jdbcType=VARCHAR},
+    MonthDate=#{monthdate,jdbcType=VARCHAR},
+    LastMonthLegacyQuantity=#{lastmonthlegacyquantity,jdbcType=DOUBLE},
+    ProductionQuantity=#{productionquantity,jdbcType=DOUBLE},
+    PlannedProductionQuantity=#{plannedproductionquantity,jdbcType=DOUBLE},
+    StockAdjustQuantity=#{stockadjustquantity,jdbcType=DOUBLE},
+    DelegateUtilizationQuantity=#{delegateutilizationquantity,jdbcType=DOUBLE},
+    OutProvinceTransferList=#{outprovincetransferlist,jdbcType=DOUBLE},
+    ProvinceTransferList=#{provincetransferlist,jdbcType=DOUBLE},
+    SelfuseQuantity=#{selfusequantity,jdbcType=DOUBLE},
+    AmongUseQuantity=#{amongusequantity,jdbcType=DOUBLE},
+    AmongManageQuantity=#{amongmanagequantity,jdbcType=DOUBLE},
+    SecondaryQuantity=#{secondaryquantity,jdbcType=DOUBLE},
+    EndingStocks=#{endingstocks,jdbcType=DOUBLE},
+    OverYearStocks=#{overyearstocks,jdbcType=DOUBLE},
+    Remark=#{remark,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where  PK_ID = #{pkid}
+  </update>
+  <update id="updateByParams" parameterType="com.tjpu.sp.model.environmentalprotection.hazardouswasteinfo.HazardousWasteInfoVO" >
+    update T_BAS_HazardousWasteInfo
+    set
+    FK_PollutionId=#{fkpollutionid,jdbcType=VARCHAR},
+    FK_WasteMaterialType=#{fkwastematerialtype,jdbcType=VARCHAR},
+    MonthDate=#{monthdate,jdbcType=VARCHAR},
+    LastMonthLegacyQuantity=#{lastmonthlegacyquantity,jdbcType=DOUBLE},
+    ProductionQuantity=#{productionquantity,jdbcType=DOUBLE},
+    PlannedProductionQuantity=#{plannedproductionquantity,jdbcType=DOUBLE},
+    StockAdjustQuantity=#{stockadjustquantity,jdbcType=DOUBLE},
+    DelegateUtilizationQuantity=#{delegateutilizationquantity,jdbcType=DOUBLE},
+    OutProvinceTransferList=#{outprovincetransferlist,jdbcType=DOUBLE},
+    ProvinceTransferList=#{provincetransferlist,jdbcType=DOUBLE},
+    SelfuseQuantity=#{selfusequantity,jdbcType=DOUBLE},
+    AmongUseQuantity=#{amongusequantity,jdbcType=DOUBLE},
+    AmongManageQuantity=#{amongmanagequantity,jdbcType=DOUBLE},
+    SecondaryQuantity=#{secondaryquantity,jdbcType=DOUBLE},
+    EndingStocks=#{endingstocks,jdbcType=DOUBLE},
+    OverYearStocks=#{overyearstocks,jdbcType=DOUBLE},
+    Remark=#{remark,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where FK_PollutionId=#{fkpollutionid} and FK_WasteMaterialType=#{fkwastematerialtype} and MonthDate=#{monthdate}
+  </update>
+
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取危废信息信息
+      param:
+      date: 2020/09/22 18:05
+  -->
+  <select id="getHazardousWasteInfoByParamMap" parameterType="map" resultMap="BaseResultMap">
+      select
+      PUB_CODE_WasteMaterial.code+PUB_CODE_WasteMaterial.name FKWasteMaterialName,
+      T_BAS_Pollution.PollutionName,
+      <include refid="Base_Column_List"/>
+      from T_BAS_HazardousWasteInfo
+      left join PUB_CODE_WasteMaterial on PUB_CODE_WasteMaterial.code=T_BAS_HazardousWasteInfo.FK_WasteMaterialType
+      left join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_HazardousWasteInfo.FK_PollutionId
+      LEFT JOIN PUB_CODE_ControlLeve on PUB_CODE_ControlLeve.code=T_BAS_Pollution.FK_EntControlLeve
+      LEFT JOIN PUB_CODE_IndustryType on PUB_CODE_IndustryType.code=T_BAS_Pollution.FK_IndustryType
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_HazardousWasteInfo.PK_ID = #{pkid}
+        </if>
+        <if test="monthdate!=null and monthdate!='' ">
+          AND T_BAS_HazardousWasteInfo.MonthDate = #{monthdate}
+        </if>
+        <if test="pollutionname!=null and pollutionname!='' ">
+          AND T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+        </if>
+        <if test="wastematerialname!=null and wastematerialname!='' ">
+          AND PUB_CODE_WasteMaterial.code+PUB_CODE_WasteMaterial.name like concat('%',#{wastematerialname},'%')
+        </if>
+        <if test="wastematerialtype!=null and wastematerialtype!=''">
+          and T_BAS_HazardousWasteInfo.FK_WasteMaterialType =  #{wastematerialtype}
+        </if>
+        <if test="industrytype!=null and industrytype!=''">
+          and T_BAS_Pollution.FK_IndustryType =  #{industrytype}
+        </if>
+        <if test="controllevetype!=null and controllevetype!=''">
+          and T_BAS_Pollution.FK_EntControlLeve =  #{controllevetype}
+        </if>
+        <if test="starttime!=null and starttime!=''">
+          and T_BAS_HazardousWasteInfo.MonthDate >=  convert(varchar(7),#{starttime},120)
+        </if>
+        <if test="endtime!=null and endtime!=''">
+          and T_BAS_HazardousWasteInfo.MonthDate <![CDATA[<=]]>  convert(varchar(7),#{endtime},120)
+        </if>
+      </where>
+  </select>
+
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数统计固废信息
+      param:
+      date: 2020/09/27 10:32
+  -->
+  <select id="countHazardousWasteDataByParamMap" resultType="map" parameterType="map">
+    SELECT
+        ${data} as '${alias}',
+        <if test="type!=null and type!=''">
+          ${type} as 'type',
+        </if>
+        COUNT ( fk_Pollutionid ) pollutionnum,
+        Convert(FLOAT,round(sum(LastMonthLegacyQuantity),2)) LastMonthLegacyQuantitysum,
+        Convert(FLOAT,round(sum(ProductionQuantity),2)) ProductionQuantitysum,
+        Convert(FLOAT,round(sum(PlannedProductionQuantity),2)) PlannedProductionQuantitysum,
+        Convert(FLOAT,round(sum(StockAdjustQuantity),2)) StockAdjustQuantitysum,
+        Convert(FLOAT,round(sum(DelegateUtilizationQuantity),2)) DelegateUtilizationQuantitysum,
+        Convert(FLOAT,round(sum(OutProvinceTransferList),2)) OutProvinceTransferListsum,
+        Convert(FLOAT,round(sum(ProvinceTransferList),2)) ProvinceTransferListsum,
+        Convert(FLOAT,round(sum(SelfuseQuantity),2)) SelfuseQuantitysum,
+        Convert(FLOAT,round(sum(AmongUseQuantity),2)) AmongUseQuantitysum,
+        Convert(FLOAT,round(sum(AmongManageQuantity),2)) AmongManageQuantitysum,
+        Convert(FLOAT,round(sum(SecondaryQuantity),2)) SecondaryQuantitysum,
+        Convert(FLOAT,round(sum(EndingStocks),2)) EndingStockssum,
+        Convert(FLOAT,round(sum(OverYearStocks),2)) OverYearStockssum
+    FROM
+        T_BAS_HazardousWasteInfo
+        left join PUB_CODE_WasteMaterial on PUB_CODE_WasteMaterial.code=T_BAS_HazardousWasteInfo.FK_WasteMaterialType
+        JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_HazardousWasteInfo.FK_PollutionId
+        LEFT JOIN PUB_CODE_ControlLeve on PUB_CODE_ControlLeve.code=T_BAS_Pollution.FK_EntControlLeve
+        LEFT JOIN PUB_CODE_IndustryType on PUB_CODE_IndustryType.code=T_BAS_Pollution.FK_IndustryType
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate >=  convert(varchar(7),#{starttime},120)
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate <![CDATA[<=]]>  convert(varchar(7),#{endtime},120)
+      </if>
+      <if test="wastematerialtype!=null and wastematerialtype!=''">
+        and T_BAS_HazardousWasteInfo.FK_WasteMaterialType =  #{wastematerialtype}
+      </if>
+      <if test="industrytype!=null and industrytype!=''">
+        and T_BAS_Pollution.FK_IndustryType =  #{industrytype}
+      </if>
+      <if test="controllevetype!=null and controllevetype!=''">
+        and T_BAS_Pollution.FK_EntControlLeve =  #{controllevetype}
+      </if>
+    </where>
+    GROUP BY
+        ${data}
+        <if test="type!=null and type!=''">
+        ,${type}
+        </if>
+  </select>
+
+  <!--
+      author:xsm
+      description: 通过自定义参数按年分组统计危废情况(生产、贮存、利用)
+      param:
+      date: 2022/05/18 10:05
+  -->
+  <select id="countHazardousWasteDataGroupYearByParamMap" resultType="map" parameterType="map">
+    SELECT
+    convert(varchar(4),T_BAS_HazardousWasteInfo.MonthDate,120) yeardate,
+    Convert(FLOAT,round(sum(ProductionQuantity),2)) ProductionQuantitysum,
+    Convert(FLOAT,round(sum(SelfuseQuantity),2)) SelfuseQuantitysum,
+    Convert(FLOAT,round(sum(EndingStocks),2)) EndingStockssum
+    FROM
+    T_BAS_HazardousWasteInfo
+    JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_HazardousWasteInfo.FK_PollutionId
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate >=  convert(varchar(4),#{starttime},120)
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate <![CDATA[<=]]>  convert(varchar(4),#{endtime},120)
+      </if>
+    </where>
+    GROUP BY convert(varchar(4),T_BAS_HazardousWasteInfo.MonthDate,120)
+  </select>
+
+  <!--
+     author:xsm
+     description: 通过自定义参数按污染类别分组统计危废情况(生产、贮存、利用)
+     param:
+     date: 2022/05/18 10:05
+ -->
+  <select id="countMainHazardousWasteTypeDataByParamMap" resultType="map" parameterType="map">
+    SELECT
+    tt.parentcode,
+    t1.name,
+    Convert(FLOAT,round(sum(ProductionQuantity),2)) ProductionQuantitysum,
+    Convert(FLOAT,round(sum(SelfuseQuantity),2)) SelfuseQuantitysum,
+    Convert(FLOAT,round(sum(EndingStocks),2)) EndingStockssum
+    FROM
+    (select
+    CASE  WHEN PUB_CODE_WasteMaterial.parentcode is not null THEN PUB_CODE_WasteMaterial.parentcode ELSE PUB_CODE_WasteMaterial.code end parentcode,
+    T_BAS_HazardousWasteInfo.ProductionQuantity,
+    T_BAS_HazardousWasteInfo.SelfuseQuantity,
+    T_BAS_HazardousWasteInfo.EndingStocks
+    FROM
+    T_BAS_HazardousWasteInfo
+    left join PUB_CODE_WasteMaterial on PUB_CODE_WasteMaterial.code=T_BAS_HazardousWasteInfo.FK_WasteMaterialType
+    JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_HazardousWasteInfo.FK_PollutionId
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate >=  convert(varchar(4),#{starttime},120)
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate <![CDATA[<=]]>  convert(varchar(4),#{endtime},120)
+      </if>
+    </where>
+    )tt  join pub_code_wastematerial t1 on tt.parentcode = t1.Code
+    group by tt.Parentcode,t1.Name
+  </select>
+
+  <!--
+     author:xsm
+     description: 通过自定义参数统计危废特性数量
+     param:
+     date: 2022/05/18 16:37
+ -->
+  <select id="countHazardousWasteCharacteristicRatioData" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_HazardousWasteInfo.PK_ID pkid,
+    T_BAS_HazardousWasteInfo.FK_WasteMaterialType wastematerialtypecode,
+    PUB_CODE_WasteMaterial.Name wastematerialtypename,
+    PUB_CODE_WasteMaterial.HazardousProperty
+    FROM
+    T_BAS_HazardousWasteInfo
+    left join PUB_CODE_WasteMaterial on PUB_CODE_WasteMaterial.code=T_BAS_HazardousWasteInfo.FK_WasteMaterialType
+    JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_HazardousWasteInfo.FK_PollutionId
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate >= convert(varchar(4),#{starttime},120)
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate <![CDATA[<=]]>  convert(varchar(4),#{endtime},120)
+      </if>
+    </where>
+  </select>
+
+
+  <!--
+     author:xsm
+     description: 通过自定义参数统计企业贮存危废量排名
+     param:
+     date: 2022/05/19 09:25
+ -->
+  <select id="countEntKeepStorageHazardousWasteRankData" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_Pollution.pollutionname,
+    T_BAS_HazardousWasteInfo.FK_WasteMaterialType wastematerialtypecode,
+    PUB_CODE_WasteMaterial.Name wastematerialtypename,
+    Convert(FLOAT,round(sum(EndingStocks),2)) EndingStockssum
+    FROM
+    T_BAS_HazardousWasteInfo
+    left join PUB_CODE_WasteMaterial on PUB_CODE_WasteMaterial.code=T_BAS_HazardousWasteInfo.FK_WasteMaterialType
+    JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_HazardousWasteInfo.FK_PollutionId
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate >= convert(varchar(4),#{starttime},120)
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and T_BAS_HazardousWasteInfo.MonthDate <![CDATA[<=]]>  convert(varchar(4),#{endtime},120)
+      </if>
+    </where>
+    group by T_BAS_Pollution.pollutionname,T_BAS_HazardousWasteInfo.FK_WasteMaterialType,PUB_CODE_WasteMaterial.Name
+    ORDER BY Convert(FLOAT,round(sum(EndingStocks),2)) DESC
+  </select>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.report.ReportInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.report.ReportInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="ReportNumber" jdbcType="VARCHAR" property="reportnumber"/>
+        <result column="ReportStartTime" jdbcType="DATE" property="reportstarttime"/>
+        <result column="ReportEndTime" jdbcType="DATE" property="reportendtime"/>
+        <result column="ReportType" jdbcType="NUMERIC" property="reporttype"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="UpdateDate" jdbcType="TIMESTAMP" property="updatedate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, ReportNumber, ReportStartTime, ReportEndTime, ReportType, FK_FileID, UpdateUser, 
+    UpdateDate
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_ReportInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_ReportInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.report.ReportInfoVO">
+    insert into T_BAS_ReportInfo (PK_ID, ReportNumber, ReportStartTime, 
+      ReportEndTime, ReportType, FK_FileID, 
+      UpdateUser, UpdateDate)
+    values (#{pkId,jdbcType=VARCHAR}, #{reportnumber,jdbcType=VARCHAR}, #{reportstarttime,jdbcType=DATE}, 
+      #{reportendtime,jdbcType=DATE}, #{reporttype,jdbcType=NUMERIC}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.report.ReportInfoVO">
+        insert into T_BAS_ReportInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="reportnumber != null">
+                ReportNumber,
+            </if>
+            <if test="reportstarttime != null">
+                ReportStartTime,
+            </if>
+            <if test="reportendtime != null">
+                ReportEndTime,
+            </if>
+            <if test="reporttype != null">
+                ReportType,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="updatedate != null">
+                UpdateDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="reportnumber != null">
+                #{reportnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="reportstarttime != null">
+                #{reportstarttime,jdbcType=DATE},
+            </if>
+            <if test="reportendtime != null">
+                #{reportendtime,jdbcType=DATE},
+            </if>
+            <if test="reporttype != null">
+                #{reporttype,jdbcType=NUMERIC},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedate != null">
+                #{updatedate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.report.ReportInfoVO">
+        update T_BAS_ReportInfo
+        <set>
+            <if test="reportnumber != null">
+                ReportNumber = #{reportnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="reportstarttime != null">
+                ReportStartTime = #{reportstarttime,jdbcType=DATE},
+            </if>
+            <if test="reportendtime != null">
+                ReportEndTime = #{reportendtime,jdbcType=DATE},
+            </if>
+            <if test="reporttype != null">
+                ReportType = #{reporttype,jdbcType=NUMERIC},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedate != null">
+                UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.report.ReportInfoVO">
+    update T_BAS_ReportInfo
+    set ReportNumber = #{reportnumber,jdbcType=VARCHAR},
+      ReportStartTime = #{reportstarttime,jdbcType=DATE},
+      ReportEndTime = #{reportendtime,jdbcType=DATE},
+      ReportType = #{reporttype,jdbcType=NUMERIC},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <!-- author:xsm description: 根据自定义参数获取报告信息 date: 2019/07/24 10:45-->
+    <select id="getReportInfosByParamMap" parameterType="map" resultType="map">
+        SELECT T_BAS_ReportInfo.PK_ID pkid,
+        T_BAS_FileInfo.OriginalFileName,
+        T_BAS_FileInfo.FileExtName,
+        CONVERT (VARCHAR (20),T_BAS_FileInfo.UploadTime,120) UploadTime,
+        T_BAS_ReportInfo.ReportType,
+        T_BAS_FileInfo.FilePath fileid
+        FROM T_BAS_ReportInfo
+        LEFT JOIN T_BAS_FileInfo ON T_BAS_ReportInfo.FK_FileID = T_BAS_FileInfo.FileFlag
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),T_BAS_ReportInfo.ReportStartTime,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),T_BAS_ReportInfo.ReportStartTime,120) <![CDATA[<=]]>
+                #{endtime}
+            </if>
+            <if test="reporttypes!=null and reporttypes.size>0">
+                AND T_BAS_ReportInfo.ReportType IN
+                <foreach collection="reporttypes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY T_BAS_ReportInfo.ReportType,T_BAS_ReportInfo.UpdateDate
+    </select>
+</mapper>

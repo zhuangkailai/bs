@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorstandard.StandardMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+        <id column="PK_StandardID" jdbcType="VARCHAR" property="pkStandardid"/>
+        <result column="StandardName" jdbcType="VARCHAR" property="standardname"/>
+        <result column="StandardType" jdbcType="VARCHAR" property="standardtype"/>
+        <result column="PublishDate" jdbcType="TIMESTAMP" property="publishdate"/>
+        <result column="UseDate" jdbcType="TIMESTAMP" property="usedate"/>
+        <result column="ApplyRange" jdbcType="VARCHAR" property="applyrange"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkfileid"/>
+        <result column="PublishUnit" jdbcType="VARCHAR" property="publishunit"/>
+        <result column="Abstract" jdbcType="VARCHAR" property="Abstract"/>
+        <result column="KeyWords" jdbcType="VARCHAR" property="keyWords"/>
+        <result column="ApplicableType" jdbcType="VARCHAR" property="applicableType"/>
+    </resultMap>
+
+
+    <resultMap id="pollutantSetMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.PollutantSetDataVO">
+        <id column="standardid" property="pkId" jdbcType="VARCHAR"/>
+        <result column="monitorpointid" property="monitorpointid" jdbcType="VARCHAR"/>
+        <result column="pollutantcode" property="pollutantcode" jdbcType="VARCHAR"/>
+        <result column="pollutantname" property="pollutantname" jdbcType="VARCHAR"/>
+        <result column="standardname" property="standardname" jdbcType="VARCHAR"/>
+        <result column="alarmtype" property="alarmtype" jdbcType="NUMERIC"/>
+        <result column="orderindex" property="orderindex" jdbcType="NUMERIC"/>
+        <result column="standardminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+        <result column="standardmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        <collection property="alarmLevelDataVOList"
+                    ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AlarmLevelDataVO">
+            <id column="alarmid" property="pkId" jdbcType="VARCHAR"/>
+            <result column="levelcode" property="levelcode" jdbcType="NUMERIC"/>
+            <result column="levelname" property="levelname" jdbcType="VARCHAR"/>
+            <result column="concenalarmminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+            <result column="concenalarmmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    PK_StandardID, StandardName, StandardType, PublishDate, UseDate, ApplyRange, UpdateTime, 
+    UpdateUser,FK_FileID,PublishUnit,Abstract,KeyWords,ApplicableType
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_Standard
+        where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_Standard
+    where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+    insert into T_BAS_Standard (PK_StandardID, StandardName, StandardType, 
+      PublishDate, UseDate, ApplyRange, 
+      UpdateTime, UpdateUser,FK_FileID)
+    values (#{pkStandardid,jdbcType=VARCHAR}, #{standardname,jdbcType=VARCHAR}, #{standardtype,jdbcType=VARCHAR}, 
+      #{publishdate,jdbcType=TIMESTAMP}, #{usedate,jdbcType=TIMESTAMP}, #{applyrange,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},#{fkfileid,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+        insert into T_BAS_Standard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkStandardid != null">
+                PK_StandardID,
+            </if>
+            <if test="standardname != null">
+                StandardName,
+            </if>
+            <if test="standardtype != null">
+                StandardType,
+            </if>
+            <if test="publishdate != null">
+                PublishDate,
+            </if>
+            <if test="usedate != null">
+                UseDate,
+            </if>
+            <if test="applyrange != null">
+                ApplyRange,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="fkfileid != null">
+                FK_FileID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkStandardid != null">
+                #{pkStandardid,jdbcType=VARCHAR},
+            </if>
+            <if test="standardname != null">
+                #{standardname,jdbcType=VARCHAR},
+            </if>
+            <if test="standardtype != null">
+                #{standardtype,jdbcType=VARCHAR},
+            </if>
+            <if test="publishdate != null">
+                #{publishdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="usedate != null">
+                #{usedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyrange != null">
+                #{applyrange,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="fkfileid != null">
+                #{fkfileid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+        update T_BAS_Standard
+        <set>
+            <if test="standardname != null">
+                StandardName = #{standardname,jdbcType=VARCHAR},
+            </if>
+            <if test="standardtype != null">
+                StandardType = #{standardtype,jdbcType=VARCHAR},
+            </if>
+            <if test="publishdate != null">
+                PublishDate = #{publishdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="usedate != null">
+                UseDate = #{usedate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyrange != null">
+                ApplyRange = #{applyrange,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="fkfileid != null">
+                FK_FileID = #{fkfileid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorstandard.StandardVO">
+    update T_BAS_Standard
+    set StandardName = #{standardname,jdbcType=VARCHAR},
+      StandardType = #{standardtype,jdbcType=VARCHAR},
+      PublishDate = #{publishdate,jdbcType=TIMESTAMP},
+      UseDate = #{usedate,jdbcType=TIMESTAMP},
+      ApplyRange = #{applyrange,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+       FK_FileID = #{fkfileid,jdbcType=VARCHAR}
+    where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+        author:chengzq
+        description: 获取所有标准
+        param:
+        date: 2019/06/10 09:00
+    -->
+    <select id="getAllStandard" resultType="map">
+    select * from T_BAS_Standard
+  </select>
+
+    <!-- 根据自定义参数获取监测标准列表数据  -->
+    <select id="getMonitorStandardListsByParamMap" parameterType="map" resultType="map">
+        WITH roy
+        AS ( SELECT PK_StandardID ,
+        StandardType = CAST(LEFT(StandardType, CHARINDEX(',', StandardType + ',') - 1) AS NVARCHAR(100)) ,
+        Split = CAST(STUFF(StandardType + ',', 1,
+        CHARINDEX(',', StandardType + ','), '') AS NVARCHAR(100))
+        FROM T_BAS_Standard
+        UNION ALL
+        SELECT PK_StandardID ,
+        StandardType = CAST(LEFT(Split, CHARINDEX(',', Split) - 1) AS NVARCHAR(100)) ,
+        Split = CAST(STUFF(Split, 1, CHARINDEX(',', Split), '') AS NVARCHAR(100))
+        FROM Roy
+        WHERE split > ''
+        )
+        SELECT
+        PK_StandardID,
+        StandardName,
+        StandardType,
+        PublishUnit,Abstract,KeyWords,ApplicableType,
+        FK_FileID,
+        CONVERT(VARCHAR(10),t1.PublishDate,120) PublishDate ,
+        CONVERT(VARCHAR(10),t1.UseDate,120) UseDate
+        FROM T_BAS_Standard t1
+        WHERE t1.PK_StandardID IN(
+        SELECT DISTINCT PK_StandardID
+        FROM roy
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="standardtypes!=null ">
+                and roy.StandardType IN
+                <foreach item="item" index="index" collection="standardtypes"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        )
+        <if test="standardname!=null and standardname!='' ">
+            and t1.StandardName LIKE '%'+#{standardname}+'%'
+        </if>
+        <if test="keywords!=null and keywords!='' ">
+            and t1.KeyWords LIKE '%'+#{keywords}+'%'
+        </if>
+        ORDER BY t1.PK_StandardID
+    </select>
+
+
+    <!-- 根据自定义参数获取监测标准列表数据  -->
+    <select id="getMonitorStandardsByParamMap" parameterType="map" resultType="map">
+
+        select
+            pk_standardid,
+            standardname,
+            convert (
+            varchar (10),
+            publishdate,
+            120
+            ) publishdate,
+            convert (varchar(10), usedate, 120) usedate,
+            applyrange,
+            fk_fileid fileid,
+            publishunit
+        from
+          t_bas_standard
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="standardtype!=null and standardtype!='' ">
+                and CHARINDEX(','+#{standardtype}+',' , ','+standardtype+',') > 0
+            </if>
+            <if test="standardname!=null and standardname!='' ">
+                and StandardName LIKE '%'+#{standardname}+'%'
+            </if>
+
+        </trim>
+        order by  standardname
+    </select>
+
+
+
+
+    <!--获取废水点位污染标准信息 lip 2021/7/26 16:16 -->
+    <select id="getWaterStandardList" parameterType="map" resultMap="pollutantSetMap">
+       select
+        t1.PK_DataID standardid,
+            t1.fk_wateroutputid monitorpointid,
+            t4.code pollutantcode,
+            t4.name pollutantname,
+            t4.orderindex,
+            t3.standardname,
+            t1.standardminvalue,
+            t1.standardmaxvalue,
+            t1.alarmtype,
+            t2.PK_ID as alarmid,
+            t2.fk_alarmlevelcode as levelcode,
+            t6.Name as levelname,
+            t2.concenalarmminvalue,
+            t2.concenalarmmaxvalue
+        from
+            T_BAS_WaterOutPutPollutantSet t1
+            <if test="monitorpointtype.toString() == '1'.toString()">
+                INNER JOIN T_BAS_WaterOutPutInfo t5 on t5.PK_ID = t1.FK_waterOutPutID
+                and (t5.OutPutType = '1'or t5.OutPutType is null)
+            </if>
+            <if test="monitorpointtype.toString() == '37'.toString()">
+                INNER JOIN T_BAS_WaterOutPutInfo t5 on t5.PK_ID = t1.FK_waterOutPutID
+                and t5.OutPutType = '3'
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_waterOutPutID = #{monitorpointid}
+            </if>
+            inner join pub_code_pollutantfactor t4 on t1.fk_pollutantcode = t4.code
+            and t4.pollutanttype = #{monitorpointtype}
+             left join t_bas_standard t3 on t3.pk_standardid = t1.fk_standardid
+            left join t_bas_earlywarningset t2 on t1.fk_wateroutputid = t2.fk_outputid
+
+            and t2.FK_PollutantCode = t1.FK_PollutantCode
+            and t2.fk_alarmlevelcode is not null
+            and ( t2.concenalarmminvalue is not null or t2.concenalarmmaxvalue is not null )
+            LEFT JOIN PUB_CODE_AlarmLevel t6 on t6.Code = t2.FK_AlarmLevelCode
+        <if test="monitorpointid==null or monitorpointid=='' ">
+            where
+              t1.alarmtype is not null
+        </if>
+        ORDER BY levelcode
+            --and ( t1.standardminvalue is not null or t1.standardmaxvalue is not null )
+    </select>
+
+
+
+    <!--获取废气点位污染标准信息 lip 2021/7/26 16:16 -->
+    <select id="getGasStandardList" parameterType="map" resultMap="pollutantSetMap">
+      select
+        t1.PK_DataID standardid,
+            t1.fk_gasoutputid monitorpointid,
+            t4.code pollutantcode,
+            t4.name pollutantname,
+            t4.orderindex,
+            t3.standardname,
+            t1.standardminvalue,
+            t1.standardmaxvalue,
+            t1.alarmtype,
+            t2.PK_ID as alarmid,
+            t2.fk_alarmlevelcode as levelcode,
+            t6.Name as levelname,
+            t2.concenalarmminvalue ,
+            t2.concenalarmmaxvalue
+        from
+            T_BAS_gasOutPutPollutantSet t1
+
+        <if test="monitorpointtype.toString()=='40'.toString() ">
+            INNER JOIN T_BAS_UnorganizedMonitorPointInfo t5 on t5.PK_ID = t1.FK_GasOutPutID
+        </if>
+        <if test=" monitorpointtype.toString()=='2'.toString() ||monitorpointtype.toString()=='22'.toString()">
+            INNER JOIN T_BAS_GASOutPutInfo t5 on t5.PK_ID = t1.FK_GasOutPutID
+            and t5.FK_MonitorPointTypeCode = #{monitorpointtype}
+        </if>
+
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            and t1.FK_GasOutPutID = #{monitorpointid}
+        </if>
+            inner join pub_code_pollutantfactor t4 on t1.fk_pollutantcode = t4.code
+            and t4.pollutanttype = #{monitorpointtype}
+            left join t_bas_standard t3 on t3.pk_standardid = t1.fk_standardid
+            left join t_bas_earlywarningset t2 on t1.fk_gasoutputid = t2.fk_outputid
+            and t2.FK_PollutantCode = t1.FK_PollutantCode
+            and t2.fk_alarmlevelcode is not null
+            and ( t2.concenalarmminvalue is not null or t2.concenalarmmaxvalue is not null )
+            LEFT JOIN PUB_CODE_AlarmLevel t6 on t6.Code = t2.FK_AlarmLevelCode
+
+        <if test="monitorpointid==null or monitorpointid=='' ">
+            where
+            t1.alarmtype is not null
+        </if>
+
+        ORDER BY levelcode
+            --and ( t1.standardminvalue is not null or t1.standardmaxvalue is not null )
+    </select>
+
+
+    <!--获取其他监测点位污染标准信息 lip 2021/7/26 16:16 -->
+    <select id="getOtherStandardList" parameterType="map" resultMap="pollutantSetMap">
+     select
+            t1.PK_DataID standardid,
+            t1.FK_OtherMonintPointID monitorpointid,
+            t4.code pollutantcode,
+            t4.name pollutantname,
+            t4.orderindex,
+            t3.standardname,
+            t1.standardminvalue,
+            t1.standardmaxvalue,
+            t1.alarmtype,
+            t2.PK_ID as alarmid,
+            t2.fk_alarmlevelcode as levelcode,
+            t5.Name as levelname,
+            t2.concenalarmminvalue ,
+            t2.concenalarmmaxvalue
+        from
+            T_BAS_OtherMonitorPointPollutantSet t1
+            inner join pub_code_pollutantfactor t4 on t1.fk_pollutantcode = t4.code
+            and t4.pollutanttype = #{monitorpointtype}
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_OtherMonintPointID = #{monitorpointid}
+            </if>
+            left join t_bas_standard t3 on t3.pk_standardid = t1.fk_standardid
+            left join t_bas_earlywarningset t2 on t1.FK_OtherMonintPointID = t2.fk_outputid
+            and t2.FK_PollutantCode = t1.FK_PollutantCode
+            and t2.fk_alarmlevelcode is not null
+            and ( t2.concenalarmminvalue is not null or t2.concenalarmmaxvalue is not null )
+             LEFT JOIN PUB_CODE_AlarmLevel t5 on t5.Code = t2.FK_AlarmLevelCode
+
+        <if test="monitorpointid==null or monitorpointid=='' ">
+            where
+            t1.alarmtype is not null
+        </if>
+
+            ORDER BY levelcode
+            --and ( t1.standardminvalue is not null or t1.standardmaxvalue is not null )
+
+    </select>
+
+    <!--获取水质点位污染标准信息 lip 2021/7/26 16:16 -->
+    <select id="getWQStandardList" parameterType="map" resultMap="pollutantSetMap">
+    select
+    t1.PK_DataID standardid,
+        t1.FK_WaterPointID monitorpointid,
+        t4.code pollutantcode,
+        t4.name pollutantname,
+        t4.orderindex,
+        t3.standardname,
+        t1.standardminvalue,
+        t1.standardmaxvalue,
+        t1.alarmtype,
+        t2.PK_ID as alarmid,
+        t2.fk_alarmlevelcode as levelcode,
+        t5.Name as levelname,
+        t2.concenalarmminvalue,
+        t2.concenalarmmaxvalue
+    from
+        T_BAS_WaterStationPollutantSet t1
+        inner join pub_code_pollutantfactor t4 on t1.fk_pollutantcode = t4.code
+        and t4.pollutanttype = #{monitorpointtype}
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            and t1.FK_WaterPointID = #{monitorpointid}
+        </if>
+         left join t_bas_standard t3 on t3.pk_standardid = t1.fk_standardid
+        left join t_bas_earlywarningset t2 on t1.FK_WaterPointID = t2.fk_outputid
+        and t2.FK_PollutantCode = t1.FK_PollutantCode
+        and t2.fk_alarmlevelcode is not null
+        and ( t2.concenalarmminvalue is not null or t2.concenalarmmaxvalue is not null )
+        LEFT JOIN PUB_CODE_AlarmLevel t5 on t5.Code = t2.FK_AlarmLevelCode
+        <if test="monitorpointid==null or monitorpointid=='' ">
+            where
+            t1.alarmtype is not null
+        </if>
+
+        ORDER BY levelcode
+        --and ( t1.standardminvalue is not null or t1.standardmaxvalue is not null )
+
+    </select>
+
+    <!--获取废气点位污染标准信息 lip 2021/7/26 16:16 -->
+    <select id="getGasPointStandardDataList" parameterType="map" resultMap="pollutantSetMap">
+        select
+        t1.PK_DataID standardid,
+        t1.fk_gasoutputid monitorpointid,
+        t4.code pollutantcode,
+        t4.name pollutantname,
+        t4.orderindex,
+        t3.standardname,
+        t1.standardminvalue,
+        t1.standardmaxvalue,
+        t1.alarmtype,
+        t2.PK_ID as alarmid,
+        t2.fk_alarmlevelcode as levelcode,
+        t6.Name as levelname,
+        t2.concenalarmminvalue ,
+        t2.concenalarmmaxvalue
+        from
+        T_BAS_gasOutPutPollutantSet t1
+        INNER JOIN T_BAS_GASOutPutInfo t5 on t5.PK_ID = t1.FK_GasOutPutID
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            and t5.FK_MonitorPointTypeCode in
+            <foreach item="item" index="index" collection="monitorpointtypes"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        inner join pub_code_pollutantfactor t4 on t1.fk_pollutantcode = t4.code
+        and t4.pollutanttype = t5.FK_MonitorPointTypeCode
+        left join t_bas_standard t3 on t3.pk_standardid = t1.fk_standardid
+        left join t_bas_earlywarningset t2 on t1.fk_gasoutputid = t2.fk_outputid
+        and t2.FK_PollutantCode = t1.FK_PollutantCode
+        and t2.fk_alarmlevelcode is not null
+        and ( t2.concenalarmminvalue is not null or t2.concenalarmmaxvalue is not null )
+        LEFT JOIN PUB_CODE_AlarmLevel t6 on t6.Code = t2.FK_AlarmLevelCode
+        where
+        t1.alarmtype is not null
+        ORDER BY levelcode
+        --and ( t1.standardminvalue is not null or t1.standardmaxvalue is not null )
+    </select>
+</mapper>

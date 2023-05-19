@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.dischargepermit.LicenceMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.dischargepermit.LicenceVO">
+    <id column="PK_LicenceID" jdbcType="VARCHAR" property="pkLicenceid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_LicenceConditionCode" jdbcType="VARCHAR" property="fkLicenceconditioncode" />
+    <result column="FK_RegionCode" jdbcType="VARCHAR" property="fkRegioncode" />
+    <result column="LicenceNum" jdbcType="VARCHAR" property="licencenum" />
+    <result column="LicenceStartDate" jdbcType="VARCHAR" property="licencestartdate" />
+    <result column="LicenceEndDate" jdbcType="VARCHAR" property="licenceenddate" />
+    <result column="LicenceIssueDate" jdbcType="VARCHAR" property="licenceissuedate" />
+    <result column="FK_IssueUnitCode" jdbcType="VARCHAR" property="fkIssueunitcode" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_LicenceID, FK_PollutionID, FK_LicenceConditionCode, FK_RegionCode, LicenceNum, 
+    LicenceStartDate, LicenceEndDate, LicenceIssueDate, FK_IssueUnitCode, FK_FileID, 
+    Remark, UpdateTime, UpdateUser
+  </sql>
+  <!--回显-->
+  <sql id="Base_Column_List_Echo">
+    PK_LicenceID, FK_PollutionID, FK_LicenceConditionCode, FK_RegionCode, LicenceNum,
+    CONVERT(VARCHAR (10), LicenceIssueDate,120) LicenceIssueDate,
+    CONVERT(VARCHAR (10), LicenceStartDate,120) LicenceStartDate,
+    CONVERT(VARCHAR (10), LicenceEndDate,120) LicenceEndDate, FK_IssueUnitCode, FK_FileID,
+    Remark, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_Echo"/>
+    from T_PWXKZ_LicenceInfo
+    where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_PWXKZ_LicenceInfo
+    where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.dischargepermit.LicenceVO">
+    insert into T_PWXKZ_LicenceInfo (PK_LicenceID, FK_PollutionID, FK_LicenceConditionCode, 
+      FK_RegionCode, LicenceNum, LicenceStartDate, 
+      LicenceEndDate, LicenceIssueDate, FK_IssueUnitCode, 
+      FK_FileID, Remark, UpdateTime, 
+      UpdateUser)
+    values (#{pkLicenceid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkLicenceconditioncode,jdbcType=VARCHAR}, 
+      #{fkRegioncode,jdbcType=VARCHAR}, #{licencenum,jdbcType=VARCHAR}, #{licencestartdate,jdbcType=VARCHAR},
+      #{licenceenddate,jdbcType=VARCHAR}, #{licenceissuedate,jdbcType=VARCHAR}, #{fkIssueunitcode,jdbcType=VARCHAR},
+      #{fkFileid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR},
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.dischargepermit.LicenceVO">
+    insert into T_PWXKZ_LicenceInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkLicenceid != null">
+        PK_LicenceID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fkLicenceconditioncode != null">
+        FK_LicenceConditionCode,
+      </if>
+      <if test="fkRegioncode != null">
+        FK_RegionCode,
+      </if>
+      <if test="licencenum != null">
+        LicenceNum,
+      </if>
+      <if test="licencestartdate != null">
+        LicenceStartDate,
+      </if>
+      <if test="licenceenddate != null">
+        LicenceEndDate,
+      </if>
+      <if test="licenceissuedate != null">
+        LicenceIssueDate,
+      </if>
+      <if test="fkIssueunitcode != null">
+        FK_IssueUnitCode,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkLicenceid != null">
+        #{pkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceconditioncode != null">
+        #{fkLicenceconditioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRegioncode != null">
+        #{fkRegioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="licencenum != null">
+        #{licencenum,jdbcType=VARCHAR},
+      </if>
+      <if test="licencestartdate != null">
+        #{licencestartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceenddate != null">
+        #{licenceenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceissuedate != null">
+        #{licenceissuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkIssueunitcode != null">
+        #{fkIssueunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.dischargepermit.LicenceVO">
+    update T_PWXKZ_LicenceInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceconditioncode != null">
+        FK_LicenceConditionCode = #{fkLicenceconditioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRegioncode != null">
+        FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="licencenum != null">
+        LicenceNum = #{licencenum,jdbcType=VARCHAR},
+      </if>
+      <if test="licencestartdate != null">
+        LicenceStartDate = #{licencestartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceenddate != null">
+        LicenceEndDate = #{licenceenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenceissuedate != null">
+        LicenceIssueDate = #{licenceissuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkIssueunitcode != null">
+        FK_IssueUnitCode = #{fkIssueunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.dischargepermit.LicenceVO">
+    update T_PWXKZ_LicenceInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_LicenceConditionCode = #{fkLicenceconditioncode,jdbcType=VARCHAR},
+      FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      LicenceNum = #{licencenum,jdbcType=VARCHAR},
+      LicenceStartDate = #{licencestartdate,jdbcType=VARCHAR},
+      LicenceEndDate = #{licenceenddate,jdbcType=VARCHAR},
+      LicenceIssueDate = #{licenceissuedate,jdbcType=VARCHAR},
+      FK_IssueUnitCode = #{fkIssueunitcode,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_LicenceID = #{pkLicenceid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 通过自定义参数获取排污许可证信息列表
+      param:
+      date: 2019/10/21 14:24
+  -->
+  <select id="getPermitListByParamMap" parameterType="map" resultType="map">
+      SELECT
+        t1.PK_LicenceID,
+        t1.LicenceNum,
+        CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate,
+        CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+        CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+        t2.Name FKIssueUnitName,
+        t3.Name FKLicenceConditionName
+        FROM
+        T_PWXKZ_LicenceInfo t1
+        LEFT JOIN PUB_CODE_IssueUnit t2 ON t1.FK_IssueUnitCode= t2.Code
+        LEFT JOIN PUB_CODE_LicenceCondition t3 ON t1.FK_LicenceConditionCode=t3.Code
+        LEFT JOIN T_BAS_Pollution t4 ON t1.FK_PollutionID=t4.PK_PollutionID
+        <where>
+          <if test="pollutionid!=null and pollutionid!=''">
+            AND PK_PollutionID =#{pollutionid}
+          </if>
+          <if test="starttime!=null and starttime!=''">
+            AND convert(varchar(10),LicenceStartDate,120) >=#{starttime}
+          </if>
+          <if test="endtime!=null and endtime!=''">
+            AND convert(varchar(10),LicenceEndDate,120) <![CDATA[<=]]> #{endtime}
+          </if>
+        </where>
+        ORDER BY t1.LicenceIssueDate DESC
+  </select>
+
+  <!--
+      author:liyc
+      description: 通过主键id获取排污许可证详情
+      param:
+      date: 2019/10/21 16:03
+  -->
+  <select id="getPermitDetailById" parameterType="java.lang.String" resultType="map">
+         SELECT
+            t1.LicenceNum,
+            t2.PollutionName,
+            t2.Address registeraddress,
+            t2.CorporationName,
+            t2.Address businessaddress,
+            t3.Name FKIndustryTypeName,
+            t2.EntSocialcreditCode,
+            CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+            CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+            t4.Name FKIssueUnitName,
+            CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate
+            FROM
+            T_PWXKZ_LicenceInfo t1
+            LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID=t2.PK_PollutionID
+            LEFT JOIN PUB_CODE_IndustryType t3 ON t2.FK_IndustryType=t3.Code
+            LEFT JOIN PUB_CODE_IssueUnit t4 ON t1.FK_IssueUnitCode=t4.Code
+            WHERE PK_LicenceID=#{id,jdbcType=VARCHAR}
+  </select>
+  <!--
+      author:liyc
+      description: 通过企业id获取排污许可证统计信息
+      param:
+      date: 2019/11/05 14:39
+  -->
+  <select id="getPWXKZLicenseByPollutionId" parameterType="java.lang.String" resultType="map">
+      SELECT
+      t1.PK_LicenceID,
+      CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+      CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate
+      FROM
+      T_PWXKZ_LicenceInfo t1
+      LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID= t2.PK_PollutionID
+      WHERE t1.FK_PollutionID=#{pollutionid,jdbcType=VARCHAR}
+  </select>
+
+
+  <!--
+      author:xsm
+      description: 获取最新排污许可证信息
+      param:
+      date: 2020/13/24 14:13
+  -->
+  <select id="getNewPWXKZLicenseByPollutionId" parameterType="map" resultType="map">
+    SELECT top 1
+    t1.PK_LicenceID,
+    CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+    CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+    case when convert(varchar(10),getdate(),120)>t1.LicenceEndDate then '1' else '0' end isoverdue
+    FROM
+    T_PWXKZ_LicenceInfo t1
+    LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID= t2.PK_PollutionID
+    WHERE t1.FK_PollutionID=#{pollutionid,jdbcType=VARCHAR}
+    ORDER BY t1.LicenceEndDate DESC
+  </select>
+
+  <!--
+      author:xsm
+      description: 通过自定义参数统计排污许可证信息
+      param:
+      date: 2019/10/21 14:24
+  -->
+  <select id="getPermitListDataByParamMap" parameterType="map" resultType="map">
+    SELECT
+    <if test="pagesize!=null and pagesize!='' ">
+      TOP ${pagesize}
+    </if>
+    tt.* FROM (
+    SELECT
+    distinct ROW_NUMBER() OVER (ORDER BY t1.PK_LicenceID) AS RowNumber,
+    t1.PK_LicenceID,
+    t1.LicenceNum,
+    t1.FK_PollutionID fkpollutionid,
+    t4.pollutionname,
+    CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate,
+    CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+    CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+    t2.Name FKIssueUnitName,
+    t3.Name FKLicenceConditionName,
+    STUFF( ( SELECT ',' + pf.Name FROM
+    T_BAS_PollutionLabelData T2,PUB_CODE_PollutionLabel pf
+    WHERE T2.FK_PollutionID = t1.FK_PollutionID
+    AND T2.FK_PollutionLabelID = pf.Code
+    AND pf.LabelType = '排污许可标签'
+    FOR XML PATH ('')
+    ),1,1,'') labelnames
+    FROM
+    T_PWXKZ_LicenceInfo t1
+    inner join (
+    SELECT MAX
+    ( t.LicenceEndDate ) LicenceEndDate,
+    t.FK_PollutionID
+    FROM
+    T_PWXKZ_LicenceInfo t
+    GROUP BY
+    t.FK_PollutionID) t on t.FK_PollutionID = t1.FK_PollutionID
+    and t1.LicenceEndDate = t.LicenceEndDate
+    LEFT JOIN PUB_CODE_IssueUnit t2 ON t1.FK_IssueUnitCode= t2.Code
+    LEFT JOIN PUB_CODE_LicenceCondition t3 ON t1.FK_LicenceConditionCode=t3.Code
+    JOIN T_BAS_Pollution t4 ON t1.FK_PollutionID=t4.PK_PollutionID
+
+    <if test="labelcodes !=null and labelcodes.size>0">
+    JOIN (SELECT DISTINCT FK_PollutionID FROM
+    T_BAS_PollutionLabelData t5
+    WHERE
+    t5.FK_PollutionLabelID IN
+      <foreach collection="labelcodes" open="(" close=")" separator="," item="item">
+        #{item}
+      </foreach>
+     ) t6 ON t4.PK_PollutionID = t6.FK_PollutionID
+    </if>
+    <where>
+      <if test="pollutionid!=null and pollutionid!=''">
+        AND PK_PollutionID =#{pollutionid}
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t4.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="starttime!=null and starttime!=''">
+        AND convert(varchar(10),LicenceStartDate,120) >=#{starttime}
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        AND convert(varchar(10),LicenceEndDate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </where>
+    ) tt
+    <if test="pagesize!=null and pagesize!='' ">
+      where RowNumber > ${(pagenum-1)*pagesize}
+    </if>
+    ORDER BY tt.LicenceIssueDate DESC
+  </select>
+
+  <!-- author:xsm description: 通过自定义参数统计排污许可证条数 date: 2019/12/05 13:20-->
+  <select id="countPermitNumDataByParamMap" resultType="Long">
+    SELECT
+    COUNT (DISTINCT tt.PK_LicenceID ) num
+    FROM
+    (
+    SELECT
+    t1.PK_LicenceID,
+    t1.LicenceNum,
+    t1.FK_PollutionID fkpollutionid,
+    t4.pollutionname,
+    CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate,
+    CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+    CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+    t2.Name FKIssueUnitName,
+    t3.Name FKLicenceConditionName,
+    STUFF( ( SELECT ',' + pf.Name FROM
+    T_BAS_PollutionLabelData T2,PUB_CODE_PollutionLabel pf
+    WHERE T2.FK_PollutionID = t1.FK_PollutionID
+    AND T2.FK_PollutionLabelID = pf.Code
+    AND pf.LabelType = '排污许可标签'
+    FOR XML PATH ('')
+    ),1,1,'') labelnames
+    FROM
+    T_PWXKZ_LicenceInfo t1
+
+    inner join (
+    SELECT MAX
+    ( t.LicenceEndDate ) LicenceEndDate,
+    t.FK_PollutionID
+    FROM
+    T_PWXKZ_LicenceInfo t
+    GROUP BY
+    t.FK_PollutionID) t on t.FK_PollutionID = t1.FK_PollutionID
+    and t1.LicenceEndDate = t.LicenceEndDate
+    LEFT JOIN PUB_CODE_IssueUnit t2 ON t1.FK_IssueUnitCode= t2.Code
+    LEFT JOIN PUB_CODE_LicenceCondition t3 ON t1.FK_LicenceConditionCode=t3.Code
+    JOIN T_BAS_Pollution t4 ON t1.FK_PollutionID=t4.PK_PollutionID
+    LEFT JOIN T_BAS_PollutionLabelData t5 ON t4.PK_PollutionID = t5.FK_PollutionID
+    <if test="labelcodes !=null and labelcodes.size>0">
+      JOIN (SELECT DISTINCT FK_PollutionID FROM
+      T_BAS_PollutionLabelData t5
+      WHERE
+      t5.FK_PollutionLabelID IN
+      <foreach collection="labelcodes" open="(" close=")" separator="," item="item">
+        #{item}
+      </foreach>
+      ) t6 ON t4.PK_PollutionID = t6.FK_PollutionID
+    </if>
+    <where>
+      <if test="pollutionid!=null and pollutionid!=''">
+        AND PK_PollutionID =#{pollutionid}
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t4.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="starttime!=null and starttime!=''">
+        AND convert(varchar(10),LicenceStartDate,120) >=#{starttime}
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        AND convert(varchar(10),LicenceEndDate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </where>
+    ) tt
+  </select>
+
+  <!--
+      author:liyc
+      description: 通过主键id获取排污许可证详情
+      param:
+      date: 2019/10/21 16:03
+  -->
+  <select id="getPermitDetailInfoById" parameterType="java.lang.String" resultType="map">
+    SELECT
+    distinct ROW_NUMBER() OVER (ORDER BY t1.PK_LicenceID) AS RowNumber,
+    t1.PK_LicenceID,
+    t1.LicenceNum,
+    t1.FK_PollutionID fkpollutionid,
+    t4.pollutionname,
+    t4.Address registeraddress,
+    t4.CorporationName,
+    t4.Address businessaddress,
+    t5.Name FKIndustryTypeName,
+    t4.EntSocialcreditCode,
+    CONVERT(VARCHAR (10),t1.LicenceIssueDate,120) LicenceIssueDate,
+    CONVERT(VARCHAR (10),t1.LicenceStartDate,120) LicenceStartDate,
+    CONVERT(VARCHAR (10),t1.LicenceEndDate,120) LicenceEndDate,
+    t2.Code fkissueunitcode,
+    t2.Name FKIssueUnitName,
+    t3.Code fklicenceconditioncode,
+    t3.Name FKLicenceConditionName,
+    t1.Remark,
+    STUFF( ( SELECT ',' + pf.Code FROM
+    T_BAS_PollutionLabelData T2,PUB_CODE_PollutionLabel pf
+    WHERE T2.FK_PollutionID = t1.FK_PollutionID
+    AND T2.FK_PollutionLabelID = pf.Code
+    AND pf.LabelType = '排污许可标签'
+    FOR XML PATH ('')
+    ),1,1,'') labelcodes,
+    STUFF( ( SELECT ',' + pf.Name FROM
+    T_BAS_PollutionLabelData T2,PUB_CODE_PollutionLabel pf
+    WHERE T2.FK_PollutionID = t1.FK_PollutionID
+    AND T2.FK_PollutionLabelID = pf.Code
+    AND pf.LabelType = '排污许可标签'
+    FOR XML PATH ('')
+    ),1,1,'') labelnames,
+    t1.UpdateUser,
+    CONVERT(varchar(19), t1.UpdateTime,120) AS UpdateTime
+    FROM
+    T_PWXKZ_LicenceInfo t1
+    LEFT JOIN PUB_CODE_IssueUnit t2 ON t1.FK_IssueUnitCode= t2.Code
+    LEFT JOIN PUB_CODE_LicenceCondition t3 ON t1.FK_LicenceConditionCode=t3.Code
+    JOIN T_BAS_Pollution t4 ON t1.FK_PollutionID=t4.PK_PollutionID
+    LEFT JOIN PUB_CODE_IndustryType t5 ON t4.FK_IndustryType=t5.Code
+    WHERE t1.PK_LicenceID=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

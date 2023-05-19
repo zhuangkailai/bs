@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.useelectricfacility.UseElectricFacilityMapper">
+    <resultMap id="BaseResultMap" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="FK_Pollutionid" property="fkpollutionid" jdbcType="VARCHAR"/>
+        <result column="FK_ControlPollutionFacilityId" property="fkcontrolpollutionfacilityid" jdbcType="VARCHAR"/>
+        <result column="EquipmentName" property="equipmentname" jdbcType="VARCHAR"/>
+        <result column="Production" property="production" jdbcType="VARCHAR"/>
+        <result column="EquipmentCapacity" property="equipmentcapacity" jdbcType="DOUBLE"/>
+        <result column="PutIntoDate" property="putintodate" jdbcType="VARCHAR"/>
+        <result column="PowerOnOffThreshold" property="poweronoffthreshold" jdbcType="DOUBLE"/>
+        <result column="LoadOnOffThreshold" property="loadonoffthreshold" jdbcType="DOUBLE"/>
+        <result column="FacilityType" property="facilitytype" jdbcType="VARCHAR"/>
+        <result column="InstallPosition" property="installposition" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="ResultListMap" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="FK_Pollutionid" property="fkpollutionid" jdbcType="VARCHAR"/>
+        <result column="FK_ControlPollutionFacilityId" property="fkcontrolpollutionfacilityid" jdbcType="VARCHAR"/>
+        <result column="EquipmentName" property="equipmentname" jdbcType="VARCHAR"/>
+        <result column="controlequipmentname" property="controlequipmentname" jdbcType="VARCHAR"/>
+        <result column="controlpkid" property="controlpkid" jdbcType="VARCHAR"/>
+        <result column="Production" property="production" jdbcType="VARCHAR"/>
+        <result column="EquipmentCapacity" property="equipmentcapacity" jdbcType="DOUBLE"/>
+        <result column="PutIntoDate" property="putintodate" jdbcType="VARCHAR"/>
+        <result column="PowerOnOffThreshold" property="poweronoffthreshold" jdbcType="DOUBLE"/>
+        <result column="LoadOnOffThreshold" property="loadonoffthreshold" jdbcType="DOUBLE"/>
+        <result column="FacilityType" property="facilitytype" jdbcType="VARCHAR"/>
+        <result column="FacilityTypeName" property="facilitytypename" jdbcType="VARCHAR"/>
+        <result column="InstallPosition" property="installposition" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <collection property="monitorpoints" ofType="map" javaType="java.util.List">
+            <id column="DGIMN" property="dgimn" jdbcType="VARCHAR"/>
+            <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR"/>
+            <result column="MonitorStatusName" property="monitorstatusname" jdbcType="VARCHAR"/>
+            <result column="monitorInstallPosition" property="monitorinstallposition" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="getPollutionAndFacilityMap" type="map">
+        <id column="FK_Pollutionid" property="fkpollutionid" jdbcType="VARCHAR"/>
+        <result column="pollutionname" property="pollutionname" jdbcType="VARCHAR"/>
+        <result column="fkindustrytypename" property="fkindustrytypename" jdbcType="VARCHAR"/>
+        <result column="isstop" property="isstop" jdbcType="VARCHAR"/>
+        <collection property="equipments" javaType="java.util.List" ofType="map">
+            <id column="PK_ID" property="equipmentid" jdbcType="VARCHAR"/>
+            <result column="FacilityType" property="facilitytype" jdbcType="VARCHAR"/>
+            <result column="EquipmentName" property="equipmentname" jdbcType="VARCHAR"/>
+            <collection property="monitorpoints" ofType="map" javaType="java.util.List">
+                <id column="monitorid" property="monitorid" jdbcType="VARCHAR"/>
+                <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR"/>
+                <result column="status" property="status" jdbcType="NUMERIC"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    T_BAS_UseElectricFacility.PK_ID,
+    T_BAS_UseElectricFacility.FK_Pollutionid,
+    T_BAS_UseElectricFacility.FK_ControlPollutionFacilityId,
+    T_BAS_UseElectricFacility.EquipmentName,
+    T_BAS_UseElectricFacility.Production,
+    T_BAS_UseElectricFacility.EquipmentCapacity,
+    convert(varchar(10),T_BAS_UseElectricFacility.PutIntoDate,120)PutIntoDate,
+    T_BAS_UseElectricFacility.PowerOnOffThreshold,
+    T_BAS_UseElectricFacility.LoadOnOffThreshold,
+    T_BAS_UseElectricFacility.FacilityType,
+    case T_BAS_UseElectricFacility.FacilityType when 1 then '产污环节' when 2 then '治污环节' end FacilityTypeName,
+    T_BAS_UseElectricFacility.InstallPosition,
+    convert(varchar(19),T_BAS_UseElectricFacility.UpdateTime,120)UpdateTime,
+    T_BAS_UseElectricFacility.UpdateUser
+  </sql>
+
+    <sql id="Base_Result_List">
+    t1.PK_ID,
+    t1.FK_Pollutionid,
+    t1.FK_ControlPollutionFacilityId,
+    t1.EquipmentName,
+    t1.Production,
+    t1.EquipmentCapacity,
+    convert(varchar(10),t1.PutIntoDate,120)PutIntoDate,
+    t1.PowerOnOffThreshold,
+    t1.LoadOnOffThreshold,
+    t1.FacilityType,
+    case t1.FacilityType when 1 then '产污环节' when 2 then '治污环节' end FacilityTypeName,
+    t1.InstallPosition,
+    convert(varchar(19),t1.UpdateTime,120)UpdateTime,
+    t1.UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_UseElectricFacility
+        where PK_ID = #{pkid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_UseElectricFacility
+    where PK_ID = #{pkid}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.useelectricfacility.UseElectricFacilityVO">
+    insert into T_BAS_UseElectricFacility
+    (PK_ID,
+    FK_Pollutionid,
+    FK_ControlPollutionFacilityId,
+    EquipmentName,
+    Production,
+    EquipmentCapacity,
+    PutIntoDate,
+    PowerOnOffThreshold,
+    LoadOnOffThreshold,
+    FacilityType,
+    InstallPosition,
+    UpdateTime,
+    UpdateUser
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkpollutionid,jdbcType=VARCHAR},
+    #{fkcontrolpollutionfacilityid,jdbcType=VARCHAR},
+    #{equipmentname,jdbcType=VARCHAR},
+    #{production,jdbcType=VARCHAR},
+    #{equipmentcapacity,jdbcType=DOUBLE},
+    #{putintodate,jdbcType=VARCHAR},
+    #{poweronoffthreshold,jdbcType=DOUBLE},
+    #{loadonoffthreshold,jdbcType=DOUBLE},
+    #{facilitytype,jdbcType=NUMERIC},
+    #{installposition,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR}
+    )
+  </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.useelectricfacility.UseElectricFacilityVO">
+    update T_BAS_UseElectricFacility
+    set
+    FK_Pollutionid=#{fkpollutionid,jdbcType=VARCHAR},
+    FK_ControlPollutionFacilityId=#{fkcontrolpollutionfacilityid,jdbcType=VARCHAR},
+    EquipmentName=#{equipmentname,jdbcType=VARCHAR},
+    Production=#{production,jdbcType=VARCHAR},
+    EquipmentCapacity=#{equipmentcapacity,jdbcType=DOUBLE},
+    PutIntoDate=#{putintodate,jdbcType=VARCHAR},
+    PowerOnOffThreshold=#{poweronoffthreshold,jdbcType=DOUBLE},
+    LoadOnOffThreshold=#{loadonoffthreshold,jdbcType=DOUBLE},
+    FacilityType=#{facilitytype,jdbcType=NUMERIC},
+    InstallPosition=#{installposition,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+    <!--
+       author:chengzq
+       description: 通过自定义参数获取用电设施信息
+       param:
+       date: 2020/06/18 18:05
+   -->
+    <select id="getUseElectricFacilityByParamMap" parameterType="map" resultMap="ResultListMap">
+        select
+        t2.EquipmentName controlequipmentname,
+        t2.pk_id controlpkid,
+        T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName,
+        case T_BAS_UseElectricFacilityMonitorPoint.MonitorStatus when 0 then '离线' when 1 then '正常' when 2 then '异常' end
+        MonitorStatusName,
+        T_BAS_UseElectricFacilityMonitorPoint.DGIMN,
+        T_BAS_UseElectricFacilityMonitorPoint.InstallPosition monitorInstallPosition,
+        <include refid="Base_Result_List"/>
+        from T_BAS_UseElectricFacility t1
+        LEFT JOIN T_BAS_UseElectricFacility t2 on t1.FK_ControlPollutionFacilityId=t2.pk_id
+        LEFT JOIN T_BAS_UseElectricFacilityMonitorPoint on
+        t1.PK_ID=T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId
+        <where>
+            <if test="pkid!=null and pkid!='' ">
+                AND t1.PK_ID = #{pkid}
+            </if>
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                AND t1.FK_Pollutionid = #{fkpollutionid}
+            </if>
+            <if test="facilitytype!=null and facilitytype!='' ">
+                AND t1.FacilityType=#{facilitytype},
+            </if>
+        </where>
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2020/6/19 0019 下午 1:46
+     * @Description: 获取企业用电设施统计数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getEntFacilityCountData" parameterType="map" resultType="map">
+
+    SELECT
+      t2.pk_pollutionid AS pollutionid,
+      t2.pollutionname,
+      t1.cwnum totalcwnum,
+      t1.zwnum totalzwnum,
+      t2.corporationname,
+      t3.cwnum exceptioncwnum,
+      t3.zwnum exceptionzwnum,
+      t5.name industrytypename
+    FROM
+	  t_bas_pollution t2
+    LEFT JOIN (
+        SELECT
+            t.pk_pollutionid,
+            SUM ( 	CASE 	WHEN t.facilitytype = '1' THEN 	t.num 	END 	) cwnum,
+            SUM ( 	CASE WHEN t.facilitytype = '2' THEN 	t.num 	END ) zwnum
+        FROM
+            (
+                SELECT
+                    t1.pk_pollutionid,
+                    t2.FacilityType,
+                    COUNT (t2.pk_id) num
+                FROM
+                    t_bas_pollution t1
+                INNER JOIN t_bas_useelectricfacility t2 ON t1.pk_pollutionid = t2.fk_pollutionid
+                GROUP BY
+                    t1.pk_pollutionid,
+                    t2.FacilityType
+            ) t
+        GROUP BY
+            t.pk_pollutionid
+    ) t1 ON t1.pk_pollutionid = t2.pk_pollutionid
+    LEFT JOIN (
+        SELECT
+            t.pk_pollutionid,
+            SUM ( CASE 	WHEN t.facilitytype = '1' THEN 	t.num 	END ) cwnum,
+            SUM ( 	CASE 	WHEN t.facilitytype = '2' THEN t.num END ) zwnum
+        FROM
+            (
+                SELECT
+                    t1.pk_pollutionid,
+                    t2.facilitytype,
+                    COUNT (t2.pk_id) num
+                FROM
+                    t_bas_pollution t1
+                INNER JOIN t_bas_useelectricfacility t2 ON t1.pk_pollutionid = t2.fk_pollutionid
+                INNER JOIN t_bas_useelectricfacilitymonitorpoint t3 ON t2.pk_id = t3.fk_useelectricfacilityid
+                INNER JOIN t_bas_devicestatus t4 ON t4.dgimn = t3.dgimn
+                AND t4.fk_monitorpointtypecode = #{monitorpointype}
+                AND t4.status = #{status}
+                GROUP BY
+                    t1.pk_pollutionid,
+                    t2.facilitytype
+            ) t
+        GROUP BY
+            t.pk_pollutionid
+    ) t3 ON t2.pk_pollutionid = t3.pk_pollutionid
+    LEFT JOIN pub_code_industrytype t5 ON t5.code = t2.fk_industrytype
+    ORDER BY
+        t2.PollutionName
+  </select>
+
+    <!--
+     * @author: lip
+     * @date: 2020/6/19 0019 下午 2:57
+     * @Description: 获取用电设施树形结构数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getFacilityTreeDataByParam" parameterType="map" resultType="map">
+        SELECT
+            t1.pk_id equipmentid,
+            t1.equipmentname,
+            t1.installposition,
+            t2.pk_id AS monitorpointid,
+            t2.monitorpointname
+        FROM
+            t_bas_useelectricfacility t1
+        LEFT JOIN t_bas_useelectricfacilitymonitorpoint t2 ON t1.pk_id = t2.fk_useelectricfacilityid
+        WHERE
+            t1.fk_pollutionid = #{pollutionid}
+            ORDER by  t1.installposition,t1.equipmentname, t2.monitorpointname
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 统计用电企业，用电设施，用电监测点个数
+        param:
+        date: 2020/06/19 09:05
+    -->
+    <select id="countUseElectricFacilityInfo" resultType="map" parameterType="map">
+        SELECT
+            'pollution' code,
+            '企业' name,
+            COUNT ( * ) COUNT
+        FROM
+            ( SELECT FK_Pollutionid FROM T_BAS_UseElectricFacilityMonitorPoint JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID= T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid GROUP BY FK_Pollutionid ) t UNION
+        SELECT
+            'produc' code,
+            '产污设施' name,
+            COUNT ( * ) COUNT
+        FROM
+            ( SELECT T_BAS_UseElectricFacility.pk_id FROM T_BAS_UseElectricFacilityMonitorPoint JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID= T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid WHERE FacilityType = 1 group by T_BAS_UseElectricFacility.pk_id ) t1 UNION
+        SELECT
+            'control' code,
+            '治污设施' name,
+            COUNT ( * ) COUNT
+        FROM
+            ( SELECT T_BAS_UseElectricFacility.pk_id FROM T_BAS_UseElectricFacilityMonitorPoint JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID= T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid WHERE FacilityType = 2  group by T_BAS_UseElectricFacility.pk_id ) t3 UNION
+        SELECT
+            'monitorpoint' code,
+            '监测点' name,
+            COUNT ( * ) COUNT
+        FROM
+            ( SELECT T_BAS_UseElectricFacilityMonitorPoint.* FROM T_BAS_UseElectricFacilityMonitorPoint JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID= T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid ) t4
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义条件查询用电设施信息
+        param:
+        date: 2020/06/19 10:30
+    -->
+    <select id="getUseElectricFacilityAndDGIMNByParamMap" resultType="map" parameterType="map">
+        SELECT
+        T_BAS_UseElectricFacility.PK_ID,
+        T_BAS_UseElectricFacility.FK_Pollutionid,
+        T_BAS_UseElectricFacility.EquipmentName,
+        T_BAS_Pollution.pollutionname,
+        PUB_CODE_IndustryType.name fkindustrytypename,
+        T_BAS_Pollution.corporationname,
+        T_BAS_Pollution.address,
+        T_BAS_Pollution.EntSocialcreditCode,
+        T_BAS_Pollution.EnvironmentalManager,
+        T_BAS_Pollution.LinkManPhone,
+        T_BAS_UseElectricFacility.FacilityType,
+        T_BAS_UseElectricFacilityMonitorPoint.dgimn,
+        T_BAS_UseElectricFacility.PowerOnOffThreshold,
+        T_BAS_UseElectricFacility.LoadOnOffThreshold,
+        T_BAS_UseElectricFacilityMonitorPoint.PowerOnOffThreshold  monitorPowerOnOffThreshold,
+        T_BAS_UseElectricFacilityMonitorPoint.LoadOnOffThreshold monitorLoadOnOffThreshold,
+        convert(varchar(10),T_BAS_UseElectricFacility.PutIntoDate,120)PutIntoDate,
+        T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName,
+        T_BAS_UseElectricFacilityMonitorPoint.PK_ID monitorid,
+        T_BAS_DeviceStatus.status
+        FROM
+        T_BAS_UseElectricFacilityMonitorPoint
+        JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID=
+        T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid
+        left JOIN PUB_CODE_IndustryType ON T_BAS_Pollution.FK_IndustryType= PUB_CODE_IndustryType.code
+        left join T_BAS_DeviceStatus on T_BAS_DeviceStatus.DGIMN=T_BAS_UseElectricFacilityMonitorPoint.DGIMN
+        <where>
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and T_BAS_UseElectricFacility.FK_Pollutionid =#{fkpollutionid}
+            </if>
+            <if test="facilitytype!=null and facilitytype!='' ">
+                and T_BAS_UseElectricFacility.FacilityType =#{facilitytype}
+            </if>
+            <if test="fkuseelectricfacilityid!=null and fkuseelectricfacilityid!='' ">
+                and T_BAS_UseElectricFacility.PK_ID =#{fkuseelectricfacilityid}
+            </if>
+            <if test="monitorpointids!=null and monitorpointids.size>0 ">
+                and T_BAS_UseElectricFacilityMonitorPoint.PK_ID  in
+                <foreach collection="monitorpointids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="fkpollutionids!=null and fkpollutionids.size>0 ">
+                and T_BAS_UseElectricFacility.FK_Pollutionid  in
+                <foreach collection="fkpollutionids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and T_BAS_UseElectricFacilityMonitorPoint.PK_ID  =#{monitorpointid}
+            </if>
+            <if test="equipmentname!=null and equipmentname!='' ">
+                and T_BAS_UseElectricFacility.EquipmentName like concat('%',#{equipmentname},'%')
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and T_BAS_Pollution.pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+        </where>
+        order by T_BAS_DeviceStatus.status,T_BAS_Pollution.pollutionname,T_BAS_UseElectricFacility.EquipmentName
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义条件统计企业和设施及监测点数量
+        param:
+        date: 2020/07/04 10:56
+    -->
+    <select id="getPollutionAndFacilityInfoParams" parameterType="map" resultMap="getPollutionAndFacilityMap">
+        SELECT
+        T_BAS_UseElectricFacility.PK_ID,
+        T_BAS_UseElectricFacility.FK_Pollutionid,
+        T_BAS_UseElectricFacility.EquipmentName,
+        T_BAS_Pollution.pollutionname,
+        PUB_CODE_IndustryType.name fkindustrytypename,
+        T_BAS_Pollution.corporationname,
+        T_BAS_UseElectricFacility.FacilityType,
+        T_BAS_UseElectricFacilityMonitorPoint.dgimn,
+        T_BAS_UseElectricFacility.PowerOnOffThreshold,
+        T_BAS_UseElectricFacility.LoadOnOffThreshold,
+        CONVERT ( VARCHAR ( 10 ), T_BAS_UseElectricFacility.PutIntoDate, 120 ) PutIntoDate,
+        T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName,
+        T_BAS_UseElectricFacilityMonitorPoint.PK_ID monitorid,
+        T_BAS_DeviceStatus.status,
+        case when t.count>0 then '停产' else '生产' end  isstop
+        FROM
+        T_BAS_UseElectricFacilityMonitorPoint
+        JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID=
+        T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid
+        LEFT JOIN PUB_CODE_IndustryType ON T_BAS_Pollution.FK_IndustryType= PUB_CODE_IndustryType.code
+        LEFT JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN= T_BAS_UseElectricFacilityMonitorPoint.DGIMN
+        LEFT JOIN (
+        SELECT
+        FK_Pollutionid,
+        COUNT ( 1 ) COUNT
+        FROM
+        T_BAS_StopProductionInfo
+        WHERE
+        FK_MonitorPointType = 2
+        AND EndTime IS NULL
+        AND StartTime IS NOT NULL
+        GROUP BY
+        FK_Pollutionid
+        ) t ON T_BAS_Pollution.PK_PollutionID= t.FK_Pollutionid
+        <where>
+            <if test="isstop!=null and isstop">
+                and t.count>0
+            </if>
+            <if test="isstop!=null and !isstop">
+                and t.count is null
+            </if>
+            <if test="fkindustrytype!=null and fkindustrytype!='' ">
+                and T_BAS_Pollution.FK_IndustryType = #{fkindustrytype}
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and T_BAS_Pollution.pollutionname like concat('%', #{pollutionname},'%')
+            </if>
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and T_BAS_Pollution.PK_PollutionID = #{fkpollutionid}
+            </if>
+        </where>
+    </select>
+
+    <!--
+            author:chengzq
+            description: 通过自定义条件统计企业和设施及监测点数量
+            param:
+            date: 2020/07/04 10:56
+        -->
+    <select id="getPollutionAndFacilityInfoParamMap" resultMap="getPollutionAndFacilityMap" parameterType="map">
+        SELECT
+        T_BAS_UseElectricFacility.PK_ID,
+        T_BAS_UseElectricFacility.FK_Pollutionid,
+        T_BAS_UseElectricFacility.EquipmentName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.corporationname,
+        T_BAS_UseElectricFacility.FacilityType,
+        T_BAS_UseElectricFacilityMonitorPoint.dgimn,
+        T_BAS_UseElectricFacility.PowerOnOffThreshold,
+        T_BAS_UseElectricFacility.LoadOnOffThreshold,
+        CONVERT ( VARCHAR ( 10 ), T_BAS_UseElectricFacility.PutIntoDate, 120 ) PutIntoDate,
+        T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName,
+        T_BAS_UseElectricFacilityMonitorPoint.PK_ID monitorid
+        FROM
+        T_BAS_UseElectricFacilityMonitorPoint
+        right JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID=
+        T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid
+        <where>
+            <if test="fkindustrytype!=null and fkindustrytype!='' ">
+                and T_BAS_Pollution.FK_IndustryType = #{fkindustrytype}
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and T_BAS_Pollution.pollutionname like concat('%', #{pollutionname},'%')
+            </if>
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and T_BAS_Pollution.PK_PollutionID = #{fkpollutionid}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getAllPollutionInfo" parameterType="map" resultType="map">
+        SELECT
+          distinct
+          pollutionname,
+          PK_PollutionID
+        FROM
+        T_BAS_UseElectricFacility
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid
+        <where>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and T_BAS_Pollution.pollutionname like concat('%', #{pollutionname},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 获取排口下用电监测点信息
+        param:
+        date: 2020/09/11 08:58
+    -->
+    <select id="getUseElectricAndOutputByParamMap" resultType="map" parameterType="map">
+        SELECT
+        T_BAS_Pollution.pollutionname,
+        T_BAS_UseElectricFacility.PK_ID,
+        T_BAS_UseElectricFacility.FK_Pollutionid,
+        T_BAS_UseElectricFacility.EquipmentName,
+        T_BAS_UseElectricFacility.FacilityType,
+        T_BAS_UseElectricFacilityMonitorPoint.dgimn,
+        T_BAS_UseElectricFacility.PowerOnOffThreshold,
+        T_BAS_UseElectricFacility.LoadOnOffThreshold,
+        T_BAS_UseElectricFacilityMonitorPoint.PowerOnOffThreshold monitorPowerOnOffThreshold,
+        T_BAS_UseElectricFacilityMonitorPoint.LoadOnOffThreshold monitorLoadOnOffThreshold,
+        CONVERT ( VARCHAR ( 10 ), T_BAS_UseElectricFacility.PutIntoDate, 120 ) PutIntoDate,
+        T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName,
+        T_BAS_UseElectricFacilityMonitorPoint.PK_ID monitorid,
+        T_BAS_OuputElectricPointRelation.FK_MonitorPointType outputtype,
+        T_BAS_OuputElectricPointRelation.FK_MonitorPointId outputid,
+        case when T_BAS_OuputElectricPointRelation.FK_MonitorPointType in (1,37) then T_BAS_WaterOutputInfo.outputname
+             when T_BAS_OuputElectricPointRelation.FK_MonitorPointType in (2,22) then T_BAS_GASOutPutInfo.outputname else '' end outputname,
+        case when T_BAS_OuputElectricPointRelation.FK_MonitorPointType in (1,37) then T_BAS_WaterOutputInfo.dgimn
+             when T_BAS_OuputElectricPointRelation.FK_MonitorPointType in (2,22) then T_BAS_GASOutPutInfo.dgimn else '' end outputdgimn
+        FROM
+        T_BAS_UseElectricFacilityMonitorPoint
+        JOIN T_BAS_UseElectricFacility ON T_BAS_UseElectricFacility.PK_ID= T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID= T_BAS_UseElectricFacility.FK_Pollutionid
+        JOIN T_BAS_OuputElectricPointRelation ON T_BAS_OuputElectricPointRelation.FK_UseElectricFacilityMonitorId= T_BAS_UseElectricFacilityMonitorPoint.pk_id
+        left join T_BAS_WaterOutputInfo on T_BAS_OuputElectricPointRelation.FK_MonitorPointId=T_BAS_WaterOutputInfo.PK_ID and T_BAS_OuputElectricPointRelation.FK_MonitorPointType in (1,37)
+        left join T_BAS_GASOutPutInfo on T_BAS_OuputElectricPointRelation.FK_MonitorPointId=T_BAS_GASOutPutInfo.PK_ID and T_BAS_OuputElectricPointRelation.FK_MonitorPointType in (2,22)
+        <where>
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and T_BAS_UseElectricFacility.FK_Pollutionid =#{fkpollutionid}
+            </if>
+            <if test="outputid!=null and outputid!='' ">
+                and T_BAS_OuputElectricPointRelation.FK_MonitorPointId =#{outputid}
+            </if>
+            <if test="outputtype!=null and outputtype!='' ">
+                and T_BAS_OuputElectricPointRelation.FK_MonitorPointType =#{outputtype}
+            </if>
+            <if test="facilitytype!=null and facilitytype!='' ">
+                and T_BAS_UseElectricFacility.FacilityType =#{facilitytype}
+            </if>
+            <if test="fkuseelectricfacilityid!=null and fkuseelectricfacilityid!='' ">
+                and T_BAS_UseElectricFacility.PK_ID =#{fkuseelectricfacilityid}
+            </if>
+            <if test="monitorpointids!=null and monitorpointids.size>0 ">
+                and T_BAS_UseElectricFacilityMonitorPoint.PK_ID  in
+                <foreach collection="monitorpointids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="fkpollutionids!=null and fkpollutionids.size>0 ">
+                and T_BAS_UseElectricFacility.FK_Pollutionid  in
+                <foreach collection="fkpollutionids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and T_BAS_UseElectricFacilityMonitorPoint.PK_ID  =#{monitorpointid}
+            </if>
+            <if test="equipmentname!=null and equipmentname!='' ">
+                and T_BAS_UseElectricFacility.EquipmentName like concat('%',#{equipmentname},'%')
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and T_BAS_Pollution.pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+            <if test="outputname!=null and outputname!='' ">
+                and (T_BAS_WaterOutputInfo.OutputName like concat('%',#{outputname},'%') or T_BAS_GASOutPutInfo.OutPutName like concat('%',#{outputname},'%'))
+            </if>
+        </where>
+        order by T_BAS_Pollution.pollutionname
+    </select>
+
+
+</mapper>

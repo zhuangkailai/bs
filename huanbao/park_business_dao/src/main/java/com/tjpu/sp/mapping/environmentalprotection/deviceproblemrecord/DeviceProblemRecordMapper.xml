@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.deviceproblemrecord.DeviceProblemRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.deviceproblemrecord.DeviceProblemRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="DGIMN" jdbcType="VARCHAR" property="dgimn" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="ProblemType" jdbcType="NUMERIC" property="problemtype" />
+    <result column="ProblemRemark" jdbcType="VARCHAR" property="problemremark" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="TransferDate" jdbcType="TIMESTAMP" property="transferdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, DGIMN, FK_MonitorPointTypeCode, ProblemType, ProblemRemark, UpdateTime,TransferDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_DeviceProblemRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_DeviceProblemRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.deviceproblemrecord.DeviceProblemRecordVO">
+    insert into T_BAS_DeviceProblemRecord (PK_ID, DGIMN, FK_MonitorPointTypeCode, 
+      ProblemType, ProblemRemark, UpdateTime,TransferDate
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{problemtype,jdbcType=NUMERIC}, #{ProblemRemark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{transferdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.deviceproblemrecord.DeviceProblemRecordVO">
+    insert into T_BAS_DeviceProblemRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="dgimn != null">
+        DGIMN,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="problemtype != null">
+        ProblemType,
+      </if>
+      <if test="problemremark != null">
+        ProblemRemark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="transferdate != null">
+        TransferDate,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="dgimn != null">
+        #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="problemtype != null">
+        #{problemtype,jdbcType=NUMERIC},
+      </if>
+      <if test="problemremark != null">
+        #{problemremark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferdate != null">
+        #{transferdate,jdbcType=TIMESTAMP},
+      </if>
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.deviceproblemrecord.DeviceProblemRecordVO">
+    update T_BAS_DeviceProblemRecord
+    <set>
+      <if test="dgimn != null">
+        DGIMN = #{dgimn,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="problemtype != null">
+        ProblemType = #{problemtype,jdbcType=NUMERIC},
+      </if>
+      <if test="problemremark != null">
+        ProblemRemark = #{problemremark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferdate != null">
+        TransferDate = #{transferdate,jdbcType=TIMESTAMP},
+      </if>
+
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.deviceproblemrecord.DeviceProblemRecordVO">
+    update T_BAS_DeviceProblemRecord
+    set DGIMN = #{dgimn,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      ProblemType = #{problemtype,jdbcType=NUMERIC},
+      ProblemRemark = #{problemremark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      TransferDate = #{transferdate,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取设备问题记录列表
+    param:
+    date: 2021/05/13 17:28
+ -->
+  <select id="getDeviceProblemRecordsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_DeviceProblemRecord.PK_ID,
+    T_BAS_DeviceProblemRecord.DGIMN,
+    case when alltype.MonitorPointName IS NULL then '未知监测点('+T_BAS_DeviceProblemRecord.DGIMN+')' else alltype.MonitorPointName end MonitorPointName,
+    case T_BAS_DeviceProblemRecord.ProblemType when 1 then '设备时间问题' when 2 then '未知设备上传问题' end ProblemType,
+    T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode MonitorPointTypeCode,
+    PUB_CODE_MonitorPointType.Name MonitorPointTypeName,
+    T_BAS_DeviceProblemRecord.ProblemRemark,
+    convert(varchar(10),T_BAS_DeviceProblemRecord.TransferDate,120) TransferDate
+    from
+    T_BAS_DeviceProblemRecord
+    LEFT JOIN
+    (
+    SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+    monitorpointid,T_BAS_Pollution.ShorterName+'-'+T_BAS_GASOutPutInfo.OutPutName as Monitorpointname
+    FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.ShorterName+'-'+T_BAS_WaterOutputInfo.OutPutName as Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '1'
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.ShorterName+'-'+T_BAS_WaterOutputInfo.OutPutName as Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '3'
+    UNION
+    SELECT
+    T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+    monitorpointid,
+    T_BAS_Pollution.ShorterName+'-'+T_BAS_UnorganizedMonitorPointInfo.MonitorPointName as MonitorPointName
+    FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+    T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+    monitorpointid,T_BAS_AirMonitorStation.MonitorPointName FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+    monitorpointid,T_BAS_WaterStationInfo.MonitorPointName FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT
+    T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+    monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName FROM T_BAS_OtherMonitorPoint
+    ) alltype ON T_BAS_DeviceProblemRecord.DGIMN =alltype.DGIMN and T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode =alltype.FK_MonitorPointTypeCode
+    LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointname !=null and monitorpointname !='' ">
+        and alltype.MonitorPointName like concat ('%',#{monitorpointname},'%')
+      </if>
+      <if test="monitorpointtype !=null and monitorpointtype !='' ">
+        and T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode= #{monitorpointtype}
+      </if>
+      <if test="problemtype !=null and problemtype !='' ">
+        and T_BAS_DeviceProblemRecord.ProblemType = #{problemtype}
+      </if>
+      <if test="startdate!=null and startdate!='' ">
+        <if test="startdate.length()==10 ">
+          and convert(varchar(10),T_BAS_DeviceProblemRecord.TransferDate,120) >= #{startdate}
+        </if>
+        <if test="startdate.length()==13 ">
+          and convert(varchar(13),T_BAS_DeviceProblemRecord.TransferDate,120) >= #{startdate}
+        </if>
+      </if>
+      <if test="enddate!=null and enddate!='' ">
+        <if test="enddate.length()==10 ">
+          and convert(varchar(10),T_BAS_DeviceProblemRecord.TransferDate,120) <![CDATA[<=]]> #{enddate}
+        </if>
+        <if test="enddate.length()==13 ">
+          and convert(varchar(13),T_BAS_DeviceProblemRecord.TransferDate,120) <![CDATA[<=]]> #{enddate}
+        </if>
+      </if>
+    </trim>
+    order by alltype.MonitorPointName
+  </select>
+
+
+  <!--
+     author:xsm
+     description: 通过自定义参数获取设备问题记录详情
+     param:
+     date: 2021/05/13 16:59
+  -->
+  <select id="getDeviceProblemRecordDetailById" resultType="map" parameterType="map">
+    SELECT
+     T_BAS_DeviceProblemRecord.PK_ID,
+    T_BAS_DeviceProblemRecord.DGIMN,
+     case when alltype.MonitorPointName IS NULL then '未知监测点('+T_BAS_DeviceProblemRecord.DGIMN+')' else alltype.MonitorPointName end MonitorPointName,
+    case T_BAS_DeviceProblemRecord.ProblemType when 1 then '设备时间问题' when 2 then '未知设备上传问题' end ProblemType,
+    T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode MonitorPointTypeCode,
+    PUB_CODE_MonitorPointType.Name MonitorPointTypeName,
+    T_BAS_DeviceProblemRecord.ProblemRemark,
+    convert(varchar(20),T_BAS_DeviceProblemRecord.UpdateTime,120) UpdateTime,
+    convert(varchar(10),T_BAS_DeviceProblemRecord.TransferDate,120) TransferDate
+    from
+    T_BAS_DeviceProblemRecord
+    LEFT JOIN
+   (
+    SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+    monitorpointid,T_BAS_Pollution.ShorterName+'-'+T_BAS_GASOutPutInfo.OutPutName as Monitorpointname
+    FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.ShorterName+'-'+T_BAS_WaterOutputInfo.OutPutName as Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '1'
+    UNION
+    SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+    T_BAS_Pollution.ShorterName+'-'+T_BAS_WaterOutputInfo.OutPutName as Monitorpointname
+    FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+    T_BAS_Pollution.PK_PollutionID WHERE
+    T_BAS_WaterOutputInfo.outputtype = '3'
+    UNION
+    SELECT
+    T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+    monitorpointid,
+    T_BAS_Pollution.ShorterName+'-'+T_BAS_UnorganizedMonitorPointInfo.MonitorPointName as MonitorPointName
+    FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+    T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+    monitorpointid,T_BAS_AirMonitorStation.MonitorPointName FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+    monitorpointid,T_BAS_WaterStationInfo.MonitorPointName FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT
+    T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+    monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName FROM T_BAS_OtherMonitorPoint
+    ) alltype ON T_BAS_DeviceProblemRecord.DGIMN =alltype.DGIMN and T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode =alltype.FK_MonitorPointTypeCode
+    LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_DeviceProblemRecord.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+    where T_BAS_DeviceProblemRecord.PK_ID = #{id}
+  </select>
+
+</mapper>

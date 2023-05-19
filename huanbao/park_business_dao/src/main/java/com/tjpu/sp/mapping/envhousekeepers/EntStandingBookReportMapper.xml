@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.EntStandingBookReportMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.EntStandingBookReportVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="ReportType" jdbcType="NUMERIC" property="reporttype" />
+    <result column="ReportName" jdbcType="VARCHAR" property="reportname" />
+    <result column="UploadUser" jdbcType="VARCHAR" property="uploaduser" />
+    <result column="UploadTime" jdbcType="TIMESTAMP" property="uploadtime" />
+    <result column="FK_FileId" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="RecordStartTime" jdbcType="TIMESTAMP" property="recordstarttime" />
+    <result column="RecordEndTime" jdbcType="TIMESTAMP" property="recordendtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, ReportType, ReportName, UploadUser, UploadTime, FK_FileId, 
+    UpdateUser, UpdateTime, RecordStartTime, RecordEndTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_EntStandingBookReport
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_EntStandingBookReport
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.EntStandingBookReportVO">
+    insert into T_GJ_EntStandingBookReport (PK_ID, FK_PollutionID, ReportType, 
+      ReportName, UploadUser, UploadTime, 
+      FK_FileId, UpdateUser, UpdateTime, 
+      RecordStartTime, RecordEndTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{reporttype,jdbcType=NUMERIC}, 
+      #{reportname,jdbcType=VARCHAR}, #{uploaduser,jdbcType=VARCHAR}, #{uploadtime,jdbcType=TIMESTAMP}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{recordstarttime,jdbcType=TIMESTAMP}, #{recordendtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntStandingBookReportVO">
+    insert into T_GJ_EntStandingBookReport
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="reporttype != null">
+        ReportType,
+      </if>
+      <if test="reportname != null">
+        ReportName,
+      </if>
+      <if test="uploaduser != null">
+        UploadUser,
+      </if>
+      <if test="uploadtime != null">
+        UploadTime,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileId,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="recordstarttime != null">
+        RecordStartTime,
+      </if>
+      <if test="recordendtime != null">
+        RecordEndTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null">
+        #{reporttype,jdbcType=NUMERIC},
+      </if>
+      <if test="reportname != null">
+        #{reportname,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaduser != null">
+        #{uploaduser,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null">
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordstarttime != null">
+        #{recordstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordendtime != null">
+        #{recordendtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntStandingBookReportVO">
+    update T_GJ_EntStandingBookReport
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null">
+        ReportType = #{reporttype,jdbcType=NUMERIC},
+      </if>
+      <if test="reportname != null">
+        ReportName = #{reportname,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaduser != null">
+        UploadUser = #{uploaduser,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null">
+        UploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileId = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordstarttime != null">
+        RecordStartTime = #{recordstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordendtime != null">
+        RecordEndTime = #{recordendtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.EntStandingBookReportVO">
+    update T_GJ_EntStandingBookReport
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      ReportType = #{reporttype,jdbcType=NUMERIC},
+      ReportName = #{reportname,jdbcType=VARCHAR},
+      UploadUser = #{uploaduser,jdbcType=VARCHAR},
+      UploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      FK_FileId = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      RecordStartTime = #{recordstarttime,jdbcType=TIMESTAMP},
+      RecordEndTime = #{recordendtime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <!--获取列表信息 lip 2021/8/31 17:06 -->
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+      t1.pk_id,
+      t1.reportname,
+      t1.fk_fileid,
+      t1.reporttype,
+      convert ( varchar ( 10 ), t1.recordstarttime, 120 ) recordstarttime,
+      convert ( varchar ( 10 ), t1.recordendtime, 120 ) recordendtime,
+      t1.uploaduser,
+      convert ( varchar ( 10 ), t1.uploadtime, 120 ) uploadtime
+    from
+      t_gj_entstandingbookreport t1
+    <where>
+      <if test="reporttype != null and reporttype !=''">
+        and  t1.ReportType = #{reporttype}
+      </if>
+      <if test="pollutionid != null and pollutionid !=''">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.recordstarttime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !='' ">
+        and CONVERT (VARCHAR (10),t1.recordstarttime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="reportname!=null and reportname!='' ">
+        and t1.reportname like concat('%', #{reportname},'%')
+      </if>
+    </where>
+    order by t1.uploadtime DESC
+  </select>
+
+  <select id="countStandingBookReport" parameterType="map" resultType="map">
+    SELECT COUNT
+    ( DISTINCT t2.FK_PollutionID ) tjnum,
+    COUNT (DISTINCT t1.PK_PollutionID ) totalnum
+    FROM
+    T_BAS_Pollution t1
+    LEFT JOIN T_GJ_EntStandingBookReport t2 ON t2.FK_PollutionID = t1.PK_PollutionID
+    <if test="starttime != null and starttime !=''">
+      AND CONVERT (VARCHAR (10),t2.RecordEndTime,120) >= #{starttime}
+    </if>
+    <if test="endtime != null and endtime !=''">
+      AND CONVERT (VARCHAR (10),t2.RecordEndTime,120) <![CDATA[<=]]> #{endtime}
+    </if>
+
+  </select>
+
+
+  <!--获取企业最新台账信息 lip 2022/10/18 9:07 -->
+  <select id="getEntLastStandingDataByParamMap" parameterType="map" resultType="map">
+    select
+      t.pk_pollutionid,
+      t.pollutionname,
+      t4.name industrytypename,
+      t5.name regionname,
+      t1.reporttype,
+      convert ( varchar ( 10 ), t1.RecordEndTime,120 ) uploadtime
+    from
+      t_bas_pollution t
+      left join pub_code_industrytype t4 on t4.code = t.fk_industrytype
+      left join pub_code_region t5 on t5.code = t.fk_region
+      left join (
+          SELECT
+            t.fk_pollutionid,
+            MAX ( t.RecordEndTime ) RecordEndTime,
+            MAX ( t.reporttype ) reporttype
+            FROM
+            t_gj_entstandingbookreport t
+          GROUP BY
+            t.fk_pollutionid
+          ) t1 on t.pk_pollutionid = t1.fk_pollutionid
+    <where>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.RecordEndTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !='' ">
+        and CONVERT (VARCHAR (10),t1.RecordEndTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="nostarttime != null and nostarttime !=''">
+        AND (CONVERT (VARCHAR (10),t1.RecordEndTime,120) <![CDATA[<]]> #{nostarttime} or t1.RecordEndTime is null )
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t.pollutionname like concat('%', #{pollutionname},'%')
+      </if>
+    </where>
+     order  by  t1.RecordEndTime desc
+  </select>
+
+  <!--获取台账更新信息列表数据 lip 2021/8/31 17:06 -->
+  <select id="getUpdateDataByParamMap" parameterType="map" resultType="map">
+    select
+      t1.daynum,
+      t1.fk_pollutionid,
+      t1.maxtime,
+      t2.pollutionname,
+      t2.shortername
+    from
+      (
+      select
+      t.fk_pollutionid,
+      max ( convert ( varchar ( 19 ), t.uploadtime, 120 ) ) maxtime,
+      count ( t.pk_id ) daynum
+      from
+        (
+          SELECT
+            t.PK_ID,
+            t.fk_pollutionid,
+            t.reporttime AS uploadtime
+          FROM
+          t_gj_entmanualreport t UNION
+          SELECT
+            t.PK_ID,
+            t.fk_pollutionid,
+            t.uploadtime
+          FROM
+            t_gj_entstandingbookreport t UNION
+          SELECT
+            t.PK_ID,
+            t.fk_pollutionid,
+            t.reporttime AS uploadtime
+          FROM
+            t_gj_entexecutereport t
+        ) t
+      <where>
+        <if test="starttime != null and starttime !=''">
+          AND CONVERT (VARCHAR (10),t.uploadtime,120) >= #{starttime}
+        </if>
+        <if test="endtime != null and endtime !='' ">
+          and CONVERT (VARCHAR (10),t.uploadtime,120) <![CDATA[<=]]> #{endtime}
+        </if>
+      </where>
+      group by t.fk_pollutionid
+      ) t1
+      inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+    ORDER BY t1.maxtime desc ,t2.shortername asc
+  </select>
+
+  <!--获取台账更新信息列表数据 lip 2021/8/31 17:06 -->
+  <select id="getNoUpdateDataByParamMap" parameterType="map" resultType="map">
+    select
+    t1.pk_pollutionid,
+    t1.pollutionname,
+    t1.shortername,
+    max ( convert ( varchar ( 19 ), t2.uploadtime, 120 ) ) maxtime
+    from
+    t_bas_pollution t1
+    left join (
+    select
+    t.fk_pollutionid,
+    t.reporttime as uploadtime
+    from
+    t_gj_entmanualreport t union
+    select
+    t.fk_pollutionid,
+    t.uploadtime
+    from
+    t_gj_entstandingbookreport t union
+    select
+    t.fk_pollutionid,
+    t.reporttime as uploadtime
+    from
+    t_gj_entexecutereport t
+    ) t2 on t1.pk_pollutionid = t2.fk_pollutionid
+    where
+    t1.pk_pollutionid not in (
+    select distinct
+    t.fk_pollutionid
+    from
+    (
+      select
+      t.fk_pollutionid,
+      t.reporttime as uploadtime
+      from
+      t_gj_entmanualreport t union
+      select
+      t.fk_pollutionid,
+      t.uploadtime
+      from
+      t_gj_entstandingbookreport t union
+      select
+      t.fk_pollutionid,
+      t.reporttime as uploadtime
+      from
+      t_gj_entexecutereport t
+    ) t
+    <where>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.uploadtime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !='' ">
+        and CONVERT (VARCHAR (10),t.uploadtime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </where>
+    )
+    group by
+    t1.pk_pollutionid,
+    t1.pollutionname,
+    t1.shortername
+    order by
+    maxtime desc,
+    t1.shortername
+  </select>
+
+
+  <!--获取企业台账信息列表数据 lip 2021/8/31 17:06 -->
+  <select id="getAllEntStandingByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t1.*,
+    t2.pollutionname
+    FROM
+    (
+    SELECT
+    t.pk_id,
+    t.fk_pollutionid,
+    CONVERT ( VARCHAR ( 19 ), t.reporttime, 120 ) AS uploadtime,
+    '11' AS reporttype,
+    t.reportname,
+    t.FK_FileId AS fk_fileid
+    FROM
+    t_gj_entmanualreport t UNION
+    SELECT
+    t.pk_id,
+    t.fk_pollutionid,
+    CONVERT ( VARCHAR ( 19 ), t.uploadtime, 120 ),
+    t.reporttype,
+    t.reportname,
+    t.FK_FileId AS fk_fileid
+    FROM
+    t_gj_entstandingbookreport t UNION
+    SELECT
+    t.pk_id,
+    t.fk_pollutionid,
+    CONVERT ( VARCHAR ( 19 ), t.reporttime, 120 ) AS uploadtime,
+    '12' AS reporttype,
+    t.reportname,
+    t.FK_FileId AS fk_fileid
+    FROM
+    t_gj_entexecutereport t
+    ) t1
+    INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+    <where>
+      <if test="pollutionid != null and pollutionid !=''">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.uploadtime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !='' ">
+        and CONVERT (VARCHAR (10),t1.uploadtime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="reportname!=null and reportname!='' ">
+        and t1.reportname like concat('%', #{reportname},'%')
+      </if>
+      <if test="reporttypes!=null and reporttypes.size>0">
+        and t1.reporttype in
+        <foreach collection="reporttypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by t1.uploadtime DESC
+  </select>
+
+  <!--获取详情信息 xsm 2021/9/02 14:22 -->
+  <select id="getEntStandingBookDetailByID" parameterType="String" resultType="map">
+    select
+    t1.pk_id,
+    t1.reportname,
+    t1.fk_fileid,
+    convert ( varchar ( 10 ), t1.recordstarttime, 120 ) recordstarttime,
+    convert ( varchar ( 10 ), t1.recordendtime, 120 ) recordendtime,
+    t1.uploaduser,
+    convert ( varchar ( 10 ), t1.uploadtime, 120 ) uploadtime,
+    t1.updateuser,
+    convert ( varchar ( 19 ), t1.updatetime, 120 ) updatetime
+    from
+    t_gj_entstandingbookreport t1
+    WHERE
+    t1.pk_id = #{pkid}
+  </select>
+
+
+  <!--统计企业台账信息 lip 2021/8/27 10:14 -->
+  <select id="countEntStandingBookData" parameterType="String" resultType="map">
+     select count
+        ( t1.pk_id ) countnum,
+        t1.reporttype
+      from
+          t_gj_entstandingbookreport t1
+      where t1.FK_PollutionID = #{pollutionid}
+      group by
+          t1.reporttype
+
+      union
+      select count
+          ( t1.pk_id ) countnum,
+          '11' reporttype
+      from
+          t_gj_entmanualreport t1
+      where t1.FK_PollutionID = #{pollutionid}
+      union
+      select count
+          ( t1.pk_id ) countnum,
+          '12' reporttype
+      from
+          t_gj_entexecutereport t1
+          where t1.FK_PollutionID = #{pollutionid}
+  </select>
+
+
+</mapper>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entevaluation.EntSynthesizeEvaluationMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.entevaluation.EntSynthesizeEvaluationVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="EvaluationDate" jdbcType="TIMESTAMP" property="evaluationdate" />
+    <result column="FK_EvaluationLevelCode" jdbcType="VARCHAR" property="fkEvaluationlevelcode" />
+    <result column="EvaluationScore" jdbcType="DOUBLE" property="evaluationscore" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="FK_EvaluationSchemeID" jdbcType="VARCHAR" property="fkEvaluationschemeid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, EvaluationDate, FK_EvaluationLevelCode, EvaluationScore, UpdateUser,
+    UpdateTime,FK_EvaluationSchemeID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntSynthesizeEvaluation
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntSynthesizeEvaluation
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntSynthesizeEvaluationVO">
+    insert into T_BAS_EntSynthesizeEvaluation (PK_ID, FK_PollutionID, EvaluationDate,
+      FK_EvaluationLevelCode, EvaluationScore,
+      UpdateUser, UpdateTime,FK_EvaluationSchemeID)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{evaluationdate,jdbcType=TIMESTAMP},
+      #{fkEvaluationlevelcode,jdbcType=VARCHAR}, #{evaluationscore,jdbcType=DOUBLE},
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{fkEvaluationschemeid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntSynthesizeEvaluationVO">
+    insert into T_BAS_EntSynthesizeEvaluation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="evaluationdate != null">
+        EvaluationDate,
+      </if>
+      <if test="fkEvaluationlevelcode != null">
+        FK_EvaluationLevelCode,
+      </if>
+      <if test="evaluationscore != null">
+        EvaluationScore,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="fkEvaluationschemeid != null">
+        FK_EvaluationSchemeID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationdate != null">
+        #{evaluationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkEvaluationlevelcode != null">
+        #{fkEvaluationlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationscore != null">
+        #{evaluationscore,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkEvaluationschemeid != null">
+        #{fkEvaluationschemeid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntSynthesizeEvaluationVO">
+    update T_BAS_EntSynthesizeEvaluation
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationdate != null">
+        EvaluationDate = #{evaluationdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkEvaluationlevelcode != null">
+        FK_EvaluationLevelCode = #{fkEvaluationlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationscore != null">
+        EvaluationScore = #{evaluationscore,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkEvaluationschemeid != null">
+        FK_EvaluationSchemeID = #{fkEvaluationschemeid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntSynthesizeEvaluationVO">
+    update T_BAS_EntSynthesizeEvaluation
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      EvaluationDate = #{evaluationdate,jdbcType=TIMESTAMP},
+      FK_EvaluationLevelCode = #{fkEvaluationlevelcode,jdbcType=VARCHAR},
+      EvaluationScore = #{evaluationscore,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      FK_EvaluationSchemeID = #{fkEvaluationschemeid,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getEntSynthesizeEvaluationListDataByParamMap" parameterType="map" resultType="map">
+    select
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    t1.pollutionname,
+    CONVERT (VARCHAR (10),t.evaluationdate,120) evaluationdate,
+    FK_EvaluationLevelCode fkevaluationlevelcode,
+    t2.Name fkevaluationlevelname,
+    t2.colour,
+    t2.remark levelremark,
+    evaluationscore,
+    t.FK_EvaluationSchemeID fkevaluationschemeid,
+    t3.schemename
+    from
+    T_BAS_EntSynthesizeEvaluation t
+    LEFT JOIN t_bas_pollution t1 ON t1.PK_PollutionID = t.FK_PollutionID
+    LEFT JOIN PUB_CODE_EvaluationLevel t2 ON  t.FK_EvaluationLevelCode = t2.Code
+    LEFT JOIN T_BAS_EntEvaluationScheme t3 ON t.FK_EvaluationSchemeID = t3.PK_SchemeID
+    <where>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.evaluationdate,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.evaluationdate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="pollutionid != null and pollutionid !=''">
+        AND t.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="evaluationdate != null and evaluationdate !=''">
+        AND t.evaluationdate = #{evaluationdate}
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t1.pollutionname like concat('%', #{pollutionname},'%')
+      </if>
+      <if test="evaluationdates!=null and evaluationdates.size>0">
+        and CONVERT (VARCHAR (10),t.evaluationdate,120) in
+        <foreach collection="evaluationdates" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+      <if test="evaluationlevel!=null and evaluationlevel.size>0">
+        and t2.code in
+        <foreach collection="evaluationlevel" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by CONVERT (VARCHAR (10),t.evaluationdate,120) DESC,t1.pollutionname
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取评价等级信息
+    param:
+    date: 2022/03/07 16:34
+-->
+  <select id="getEvaluationLevelByParamMap" parameterType="map" resultType="map">
+    select
+    t.code,
+    t.name,
+    t.minvalue,
+    t.maxvalue
+    from PUB_CODE_EvaluationLevel t
+    <where>
+      <if test="pkid!=null and pkid!='' ">
+        AND PUB_CODE_EvaluationLevel.PK_ID = #{pkid}
+      </if>
+    </where>
+  </select>
+
+  <select id="getLastEntEvaDataListByParam" parameterType="map" resultType="map">
+   SELECT
+    t1.PK_ID as pkid,
+	t2.pollutionname,
+	t2.pk_pollutionid,
+	t1.evaluationscore,
+    CONVERT ( VARCHAR ( 4 ), t1.EvaluationDate, 120 ) EvaluationDate,
+    t4.name industrytypename,
+	t5.name entstatename,
+	t6.name pollutionclassname,
+	t7.name evaluationlevelname
+
+FROM
+	t_bas_entsynthesizeevaluation t1
+	INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+	INNER JOIN ( SELECT MAX ( t.evaluationdate ) evaluationdate, t.FK_PollutionID
+	FROM t_bas_entsynthesizeevaluation t GROUP BY t.FK_PollutionID ) t3 ON t3.FK_PollutionID = t1.FK_PollutionID
+	AND t1.EvaluationDate = t3.evaluationdate
+    LEFT JOIN pub_code_industrytype t4 ON t4.code = t2.fk_industrytype
+	LEFT JOIN pub_code_entstate t5 ON t5.code = t2.fk_entstate
+	LEFT JOIN pub_code_pollutionclass t6 ON t6.code = t2.fk_pollutionclass
+    LEFT JOIN pub_code_evaluationlevel t7 ON t7.code = t1.fk_evaluationlevelcode
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t2.pollutionname LIKE '%'+#{pollutionname}+'%'
+      </if>
+      <if test="levelcode!=null and levelcode!='' ">
+        and t1.fk_evaluationlevelcode = #{levelcode}
+      </if>
+    </trim>
+ORDER BY
+	t1.evaluationscore DESC,
+	t2.pollutionname
+  </select>
+
+  <!-- lip 2022/7/20 11:01 -->
+  <select id="countEntEvaDataList" parameterType="map" resultType="map">
+      SELECT
+        t1.code,
+        t1.name,
+        COUNT ( DISTINCT t2.fk_pollutionid ) countnum
+    FROM
+        pub_code_evaluationlevel t1
+        LEFT JOIN (
+        SELECT
+            t1.fk_evaluationlevelcode,
+            t1.fk_pollutionid
+        FROM
+            t_bas_entsynthesizeevaluation t1
+            INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+            INNER JOIN ( SELECT MAX ( t.evaluationdate ) evaluationdate, t.fk_pollutionid FROM t_bas_entsynthesizeevaluation t GROUP BY t.fk_pollutionid ) t3 ON t3.fk_pollutionid = t1.fk_pollutionid
+            AND t1.evaluationdate = t3.evaluationdate
+        ) t2 ON t1.code = t2.fk_evaluationlevelcode
+    GROUP BY
+        t1.code,
+        t1.name,
+        t1.orderindex
+    ORDER BY
+        t1.orderindex
+
+  </select>
+
+  <select id="getEntRegionEvaDataList" parameterType="map" resultType="map">
+     SELECT
+      t2.regioncode,
+      t2.regionname,
+      t1.code,
+      t1.name,
+      COUNT ( DISTINCT t2.fk_pollutionid ) countnum
+FROM
+	pub_code_evaluationlevel t1
+	INNER JOIN (
+	SELECT
+		t1.fk_evaluationlevelcode,
+		t5.code AS regioncode,
+		t5.Name AS regionname,
+		t1.FK_PollutionID
+	FROM
+		t_bas_entsynthesizeevaluation t1
+		INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+		INNER JOIN PUB_CODE_Region t5 ON t2.FK_Region = t5.Code
+		INNER JOIN ( SELECT MAX ( t.evaluationdate ) evaluationdate, t.fk_pollutionid FROM t_bas_entsynthesizeevaluation t GROUP BY t.fk_pollutionid ) t3 ON t3.fk_pollutionid = t1.fk_pollutionid
+		AND t1.evaluationdate = t3.evaluationdate
+	) t2 ON t1.code = t2.fk_evaluationlevelcode
+GROUP BY
+	t2.regioncode,
+	t2.regionname,
+	t1.code,
+	t1.name,
+	t1.orderindex
+ORDER BY
+	t1.orderindex
+
+  </select>
+
+  <!--
+author:xsm
+description: 通过id获取企业综合评价信息
+param:
+date: 2022/03/08 08:53
+-->
+  <select id="getEntSynthesizeEvaluationDetailById" resultType="map" parameterType="string">
+    select
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    t1.pollutionname,
+    CONVERT (VARCHAR (10),t.evaluationdate,120) evaluationdate,
+    FK_EvaluationLevelCode fkevaluationlevelcode,
+    t2.Name fkevaluationlevelname,
+    evaluationscore,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser,
+    t.FK_EvaluationSchemeID fkevaluationschemeid,
+    t3.schemename
+    from
+    T_BAS_EntSynthesizeEvaluation t
+    LEFT JOIN t_bas_pollution t1 ON t1.PK_PollutionID = t.FK_PollutionID
+    LEFT JOIN PUB_CODE_EvaluationLevel t2 ON  t.FK_EvaluationLevelCode = t2.Code
+    LEFT JOIN T_BAS_EntEvaluationScheme t3 ON t.FK_EvaluationSchemeID = t3.PK_SchemeID
+    where t.PK_ID = #{pkid}
+  </select>
+
+
+    <!--
+author:xsm
+description: 通过企业id获取企业最近两次的评价信息
+param:
+date: 2022/03/08 08:53
+-->
+    <select id="getEntLastTwoEvaluationData" resultType="map" parameterType="string">
+        select FK_PollutionID fkpollutionid,
+        CONVERT (VARCHAR (10),t.evaluationdate,120) evaluationdate,
+        t.evaluationscore,
+        rn
+        from
+       (select T_BAS_EntSynthesizeEvaluation.*,row_number() over (partition by FK_PollutionID order by EvaluationDate desc) rn
+        from T_BAS_EntSynthesizeEvaluation) t
+        where rn in (1,2)
+    </select>
+</mapper>

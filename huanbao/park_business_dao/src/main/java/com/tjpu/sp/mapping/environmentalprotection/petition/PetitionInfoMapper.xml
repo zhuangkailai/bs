@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.petition.PetitionInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.petition.PetitionInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="PetitionTitle" jdbcType="VARCHAR" property="petitiontitle"/>
+        <result column="SubmitTime" jdbcType="VARCHAR" property="submittime"/>
+        <result column="PetitionContent" jdbcType="VARCHAR" property="petitioncontent"/>
+        <result column="UndertakeDepartment" jdbcType="VARCHAR" property="undertakedepartment"/>
+        <result column="CompleteTime" jdbcType="VARCHAR" property="completetime"/>
+        <result column="CompleteReply" jdbcType="VARCHAR" property="completereply"/>
+        <result column="Longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="Latitude" jdbcType="DOUBLE" property="latitude"/>
+        <result column="PetitionAdress" jdbcType="VARCHAR" property="petitionadress"/>
+        <result column="PetitionPeople" jdbcType="VARCHAR" property="petitionpeople"/>
+        <result column="PetitionPeopleTelephone" jdbcType="VARCHAR" property="petitionpeopletelephone"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="PolluteStartTime" jdbcType="VARCHAR" property="pollutestarttime"/>
+        <result column="PolluteEndTime" jdbcType="VARCHAR" property="polluteendtime"/>
+        <result column="Duration" jdbcType="NUMERIC" property="duration"/>
+        <result column="Status" jdbcType="NUMERIC" property="status"/>
+        <result column="Smell" jdbcType="VARCHAR" property="smell"/>
+    </resultMap>
+
+    <resultMap id="DetailResultMap" type="map">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <id column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="Status" jdbcType="VARCHAR" property="status"/>
+        <result column="CompleteReply" jdbcType="VARCHAR" property="completereply"/>
+        <result column="PetitionTitle" jdbcType="VARCHAR" property="petitiontitle"/>
+        <result column="CompleteTime" jdbcType="VARCHAR" property="CompleteTime"/>
+        <result column="UndertakeDepartment" jdbcType="VARCHAR" property="UndertakeDepartment"/>
+        <collection property="DetailData" ofType="map" javaType="java.util.List">
+            <result column="CurrentTaskStatus" jdbcType="VARCHAR" property="currenttaskstatus"/>
+            <result column="User_Name" jdbcType="VARCHAR" property="username"/>
+            <result column="TaskHandleTime" jdbcType="VARCHAR" property="taskhandletime"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, PetitionTitle, SubmitTime, PetitionContent, UndertakeDepartment, CompleteTime, 
+    CompleteReply, Longitude, Latitude, PetitionAdress, PetitionPeople, PetitionPeopleTelephone, 
+    FK_FileID, UpdateTime, UpdateUser,PolluteStartTime,PolluteEndTime,Duration,Status
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_PetitionInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_PetitionInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.petition.PetitionInfoVO">
+    insert into T_BAS_PetitionInfo (PK_ID, PetitionTitle, SubmitTime, 
+      PetitionContent, UndertakeDepartment, CompleteTime, 
+      CompleteReply, Longitude, Latitude, 
+      PetitionAdress, PetitionPeople, PetitionPeopleTelephone, 
+      FK_FileID, UpdateTime, UpdateUser,PolluteStartTime,PolluteEndTime,Duration,Status,smell
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{petitiontitle,jdbcType=VARCHAR}, #{submittime,jdbcType=VARCHAR}, 
+      #{petitioncontent,jdbcType=VARCHAR}, #{undertakedepartment,jdbcType=VARCHAR}, #{completetime,jdbcType=VARCHAR}, 
+      #{completereply,jdbcType=VARCHAR}, #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, 
+      #{petitionadress,jdbcType=VARCHAR}, #{petitionpeople,jdbcType=VARCHAR}, #{petitionpeopletelephone,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{pollutestarttime,jdbcType=VARCHAR}, #{polluteendtime,jdbcType=VARCHAR},
+       #{duration,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC}, #{smell,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.petition.PetitionInfoVO">
+        insert into T_BAS_PetitionInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="petitiontitle != null">
+                PetitionTitle,
+            </if>
+            <if test="submittime != null">
+                SubmitTime,
+            </if>
+            <if test="petitioncontent != null">
+                PetitionContent,
+            </if>
+            <if test="undertakedepartment != null">
+                UndertakeDepartment,
+            </if>
+            <if test="completetime != null">
+                CompleteTime,
+            </if>
+            <if test="completereply != null">
+                CompleteReply,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="petitionadress != null">
+                PetitionAdress,
+            </if>
+            <if test="petitionpeople != null">
+                PetitionPeople,
+            </if>
+            <if test="petitionpeopletelephone != null">
+                PetitionPeopleTelephone,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="pollutestarttime != null">
+                PolluteStartTime,
+            </if>
+            <if test="polluteendtime != null">
+                PolluteEndTime,
+            </if>
+            <if test="duration != null">
+                Duration,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="smell != null">
+                smell,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="petitiontitle != null">
+                #{petitiontitle,jdbcType=VARCHAR},
+            </if>
+            <if test="submittime != null">
+                #{submittime,jdbcType=VARCHAR},
+            </if>
+            <if test="petitioncontent != null">
+                #{petitioncontent,jdbcType=VARCHAR},
+            </if>
+            <if test="undertakedepartment != null">
+                #{undertakedepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="completetime != null">
+                #{completetime,jdbcType=VARCHAR},
+            </if>
+            <if test="completereply != null">
+                #{completereply,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="petitionadress != null">
+                #{petitionadress,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionpeople != null">
+                #{petitionpeople,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionpeopletelephone != null">
+                #{petitionpeopletelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="pollutestarttime != null">
+                #{pollutestarttime,jdbcType=VARCHAR},
+            </if>
+            <if test="polluteendtime != null">
+                #{polluteendtime,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=NUMERIC},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="smell != null">
+                #{smell,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.petition.PetitionInfoVO">
+        update T_BAS_PetitionInfo
+        <set>
+            <if test="petitiontitle != null">
+                PetitionTitle = #{petitiontitle,jdbcType=VARCHAR},
+            </if>
+            <if test="submittime != null">
+                SubmitTime = #{submittime,jdbcType=VARCHAR},
+            </if>
+            <if test="petitioncontent != null">
+                PetitionContent = #{petitioncontent,jdbcType=VARCHAR},
+            </if>
+            <if test="undertakedepartment != null">
+                UndertakeDepartment = #{undertakedepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="completetime != null">
+                CompleteTime = #{completetime,jdbcType=VARCHAR},
+            </if>
+            <if test="completereply != null">
+                CompleteReply = #{completereply,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="petitionadress != null">
+                PetitionAdress = #{petitionadress,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionpeople != null">
+                PetitionPeople = #{petitionpeople,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionpeopletelephone != null">
+                PetitionPeopleTelephone = #{petitionpeopletelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                Status = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="pollutestarttime != null">
+                PolluteStartTime = #{pollutestarttime,jdbcType=VARCHAR},
+            </if>
+            <if test="polluteendtime != null">
+                PolluteEndTime = #{polluteendtime,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                Duration = #{duration,jdbcType=NUMERIC},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="smell != null">
+                Status = #{smell,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.petition.PetitionInfoVO">
+    update T_BAS_PetitionInfo
+    set PetitionTitle = #{petitiontitle,jdbcType=VARCHAR},
+      SubmitTime = #{submittime,jdbcType=VARCHAR},
+      PetitionContent = #{petitioncontent,jdbcType=VARCHAR},
+      UndertakeDepartment = #{undertakedepartment,jdbcType=VARCHAR},
+      CompleteTime = #{completetime,jdbcType=VARCHAR},
+      CompleteReply = #{completereply,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      PetitionAdress = #{petitionadress,jdbcType=VARCHAR},
+      PetitionPeople = #{petitionpeople,jdbcType=VARCHAR},
+      PetitionPeopleTelephone = #{petitionpeopletelephone,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+     PolluteStartTime = #{pollutestarttime,jdbcType=VARCHAR},
+      PolluteEndTime = #{polluteendtime,jdbcType=VARCHAR},
+      Duration = #{duration,jdbcType=NUMERIC},
+      Status = #{status,jdbcType=NUMERIC},
+      smell = #{smell,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+    <!--
+         * @author: lip
+         * @date: 2019/8/1 0001 上午 11:26
+         * @Description: 自定义查询条件获取处置数量数据
+         * @updateUser:
+         * @updateDate:
+         * @updateDescription:
+        -->
+    <select id="getTaskDisposeNumDataByParams" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        t1.PK_ID
+        FROM
+        T_BAS_PetitionInfo t1
+        <if test="userid != null and userid !=''">
+            JOIN T_BAS_TaskFlowRecordInfo t3 ON t3.FK_TaskID = t1.PK_ID
+            AND t3.FK_TaskType = '2'
+            AND t3.FK_TaskHandleUserID = #{userid}
+            and T_BAS_TaskFlowRecordInfo.CurrentTaskStatus = '待处理'
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="taskstatus != null">
+                AND t1.Status = #{taskstatus}
+            </if>
+        </trim>
+    </select>
+
+
+    <!-- author:xsm description: 根据自定义参数统计各状态的任务数量 date: 2019/10/31 11:30-->
+    <select id="countTaskDisposeNumGroupByStatusByParams" parameterType="map" resultType="map">
+        SELECT COUNT(tt.PK_ID) num,tt.Status TaskStatus FROM
+        T_BAS_PetitionInfo tt
+        WHERE tt.Status = 1
+        <if test="starttime != null and starttime!=''">
+            and CONVERT (VARCHAR (10),tt.SubmitTime,120) &gt;= #{starttime}
+        </if>
+        <if test="endtime != null and endtime!=''">
+            and CONVERT (VARCHAR (10),tt.SubmitTime,120)  <![CDATA[<=]]> #{endtime}
+        </if>
+        GROUP BY tt.Status
+        union
+        SELECT COUNT(tt.PK_TaskID) num,tt.TaskStatus FROM
+        (select
+        t1.PK_ID PK_TaskID,
+        t1.Status TaskStatus,
+        STUFF( ( SELECT ',' + T3.FK_TaskHandleUserID FROM
+        T_BAS_TaskFlowRecordInfo T3
+        WHERE T3.FK_TaskID = t1.PK_ID
+        and T3.FK_TaskType = 2
+        and T3.FK_TaskHandleUserID = #{userid}
+        FOR XML PATH ('')
+        ),1,1,'') iscommentuserid
+        FROM T_BAS_PetitionInfo t1
+        where t1.Status != 1
+        <if test="starttime != null and starttime!=''">
+            and CONVERT (VARCHAR (10),t1.SubmitTime,120) &gt;= #{starttime}
+        </if>
+        <if test="endtime != null and endtime!=''">
+            and CONVERT (VARCHAR (10),t1.SubmitTime,120)  <![CDATA[<=]]> #{endtime}
+        </if>
+        )tt WHERE tt.iscommentuserid IS NOT NULL
+        GROUP BY tt.TaskStatus
+    </select>
+
+    <!-- author:xsm description: 根据自定义参数统计某状态的任务数量 date: 2019/08/24 11:30-->
+    <select id="getComplaintTaskDisposeNumDataByParams" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        t1.PK_ID
+        FROM
+        T_BAS_PetitionInfo t1
+        <if test="userid != null and userid !=''">
+            JOIN T_BAS_TaskFlowRecordInfo t3 ON t3.FK_TaskID = t1.PK_ID
+            AND t3.FK_TaskHandleUserID = #{userid}
+            and t3.FK_TaskType = #{tasktype}
+            AND t3.CurrentTaskStatus = #{currenttaskstatus}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="taskstatus != null">
+                AND t1.Status = #{taskstatus}
+            </if>
+            <if test="starttime != null and starttime!=''">
+                and CONVERT (VARCHAR (10),t1.SubmitTime,120) &gt;= #{starttime}
+            </if>
+            <if test="endtime != null and endtime!=''">
+                and CONVERT (VARCHAR (10),t1.SubmitTime,120)  <![CDATA[<=]]> #{endtime}
+            </if>
+        </trim>
+    </select>
+
+    <!--  author:xsm description: 根据监测时间获取投诉信息 date: 2019/07/25 19:19 -->
+    <select id="getPetitionInfosByParamMap" parameterType="map" resultType="map">
+        select
+        T_BAS_PetitionInfo.PK_ID,
+        CONVERT (VARCHAR (20),T_BAS_PetitionInfo.SubmitTime,120)SubmitTime,
+        CONVERT (VARCHAR (16),T_BAS_PetitionInfo.PolluteStartTime,120) PolluteStartTime,
+        CONVERT (VARCHAR (16),T_BAS_PetitionInfo.PolluteEndTime,120) PolluteEndTime,
+        T_BAS_PetitionInfo.Duration,
+        T_BAS_PetitionInfo.PetitionTitle
+        FROM T_BAS_PetitionInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime!=''">
+                and CONVERT (VARCHAR (10),T_BAS_PetitionInfo.SubmitTime,120) &gt;= #{starttime}
+            </if>
+            <if test="endtime != null and endtime!=''">
+                and CONVERT (VARCHAR (10),T_BAS_PetitionInfo.SubmitTime,120)  <![CDATA[<=]]> #{endtime}
+            </if>
+        </trim>
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2019/9/3 0003 上午 10:25
+     * @Description: 自定义查询条件获取投诉数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getPetitionDataByParam" parameterType="map" resultType="map">
+        select
+        PK_ID  pkid,
+        petitiontitle,
+        longitude,
+        latitude
+        from
+        t_bas_petitioninfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime!=''">
+                and convert ( varchar (100), pollutestarttime, 120 ) >=#{starttime}
+            </if>
+            <if test="endtime != null and endtime!=''">
+                and convert ( varchar (100), pollutestarttime, 120 )  <![CDATA[<=]]> #{endtime}
+            </if>
+        </trim>
+    </select>
+
+    <!--  author:xsm description: 根据监测时间和恶臭监测点位MN号获取恶臭点位投诉信息 date: 2019/07/25 19:19 -->
+    <select id="getStinkPetitionInfoByParamMap" parameterType="map" resultType="map">
+        select t1.*,t2.* from(
+        select
+        T_BAS_PetitionInfo.PK_ID,
+        CONVERT (VARCHAR (20),T_BAS_PetitionInfo.SubmitTime,120)SubmitTime,
+        CONVERT (VARCHAR (16),T_BAS_PetitionInfo.PolluteStartTime,120) PolluteStartTime,
+        CONVERT (VARCHAR (16),T_BAS_PetitionInfo.PolluteEndTime,120) PolluteEndTime,
+        T_BAS_PetitionInfo.Duration,
+        T_BAS_PetitionInfo.PetitionTitle
+        FROM T_BAS_PetitionInfo) t1, (
+        SELECT datas.*
+        FROM
+        (SELECT
+        T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,
+        '' PollutionName
+        FROM T_BAS_OtherMonitorPoint
+        where
+
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 9
+
+        UNION ALL
+        SELECT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,
+        T_BAS_Pollution.PollutionName
+        FROM T_BAS_UnorganizedMonitorPointInfo
+        LEFT JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        where
+
+        T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = 40
+
+        )datas
+        JOIN T_BAS_DeviceStatus ON datas.DGIMN = T_BAS_DeviceStatus.DGIMN
+
+        )t2
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime!=''">
+                and CONVERT (VARCHAR (10),t1.SubmitTime,120) &gt;= #{starttime}
+            </if>
+            <if test="endtime != null and endtime!=''">
+                and CONVERT (VARCHAR (10),t1.SubmitTime,120)  <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="dgimns!=null and dgimns.size>0">
+                and t2.DGIMN in
+                <foreach collection="dgimns" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY t1.PK_ID,t2.FK_MonitorPointTypeCode desc,t2.MonitorPointName
+    </select>
+
+    <!-- author:xsm description: 根据自定义参数获取投诉信息 date: 2019/07/16 13:20-->
+    <select id="getComplaintTaskDisposeDataByParams" parameterType="map" resultType="map">
+        SELECT
+        t1.PK_ID,
+        t1.PetitionTitle,
+        CONVERT (VARCHAR (10),t1.SubmitTime,120) SubmitTime,
+        CONVERT (VARCHAR (16),t1.PolluteStartTime,120) PolluteStartTime,
+        CONVERT (VARCHAR (16),t1.PolluteEndTime,120) PolluteEndTime,
+        t1.Duration,
+        t1.Status,
+        t1.Longitude,
+        t1.Latitude,
+        T_BAS_PollutantEventDetailInfo.FK_PollutantCode PollutantCode,
+        <if test="feedbackuserid!=null and feedbackuserid!='' ">
+            STUFF( ( SELECT ',' + tt3.FK_TaskHandleUserID FROM
+            T_BAS_TaskFlowRecordInfo tt3
+            WHERE tt3.FK_TaskID = t1.PK_ID
+            and tt3.CurrentTaskStatus = '待处理'
+            and tt3.FK_TaskHandleUserID = #{feedbackuserid}
+            FOR XML PATH ('')
+            ),1,1,'') isfeedbackuserid,
+            STUFF( ( SELECT ',' + tt3.FK_TaskHandleUserID FROM
+            T_BAS_TaskFlowRecordInfo tt3
+            WHERE tt3.FK_TaskID = t1.PK_ID
+            and tt3.FK_TaskHandleUserID = #{feedbackuserid}
+            FOR XML PATH ('')
+            ),1,1,'') iscommentuserid,
+        </if>
+        STUFF( ( SELECT ',' + bu.User_Name FROM
+        T_BAS_TaskFlowRecordInfo tt3,Base_UserInfo bu
+        WHERE tt3.FK_TaskID = t1.PK_ID
+        and tt3.CurrentTaskStatus = '待处理'
+        AND tt3.FK_TaskHandleUserID = bu.User_ID
+        FOR XML PATH ('')
+        ),1,1,'') User_Name
+        FROM T_BAS_PetitionInfo t1
+        LEFT JOIN T_BAS_PollutantEventDetailInfo ON t1.PK_ID = FK_PolluteEventId
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),t1.SubmitTime,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),t1.SubmitTime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="statuslist != null and statuslist.size>0 ">
+                and t1.Status in
+                <foreach item="item" index="index" collection="statuslist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY t1.SubmitTime
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 获取投诉任务详情
+        param:
+        date: 2019/09/27 17:05
+    -->
+    <select id="getPetitionDetailById" parameterType="map" resultMap="DetailResultMap">
+        SELECT
+        T_BAS_PetitionInfo.PK_ID,
+        case T_BAS_PetitionInfo.Status when 0 then '待分派' when 1 then '待处理' when 2 then '处理中' when 3 then '已忽略' when 4
+        then '已完成' end Status,
+        PetitionTitle,
+        CompleteReply,
+        FK_FileID,
+        Base_UserInfo.User_Name,
+        T_BAS_TaskFlowRecordInfo.CurrentTaskStatus,
+        convert (varchar(16),T_BAS_TaskFlowRecordInfo.TaskHandleTime,120) TaskHandleTime,
+        convert (varchar(10),T_BAS_PetitionInfo.CompleteTime,120) CompleteTime,
+        UndertakeDepartment
+        FROM
+        T_BAS_PetitionInfo
+        LEFT JOIN T_BAS_TaskFlowRecordInfo ON T_BAS_TaskFlowRecordInfo.FK_TaskID= T_BAS_PetitionInfo.PK_ID
+        LEFT JOIN Base_UserInfo on Base_UserInfo.User_ID=T_BAS_TaskFlowRecordInfo.FK_TaskHandleUserID
+        <where>
+            <if test="pkid!=null and pkid!=''">
+                and T_BAS_PetitionInfo.PK_ID=#{pkid}
+            </if>
+        </where>
+    </select>
+
+</mapper>

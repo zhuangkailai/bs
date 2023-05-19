@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.productionmaterials.ProductInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.productionmaterials.ProductInfoVO">
+    <id column="PK_FuelInfoId" jdbcType="VARCHAR" property="pkFuelinfoid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="ProductName" jdbcType="VARCHAR" property="productname" />
+    <result column="ProductionCapacity" jdbcType="DOUBLE" property="productioncapacity" />
+    <result column="MeaUnit" jdbcType="VARCHAR" property="meaunit" />
+    <result column="DesignProductHour" jdbcType="DOUBLE" property="designproducthour" />
+    <result column="OtherProductionInfo" jdbcType="VARCHAR" property="otherproductioninfo" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="PackagingForm" jdbcType="VARCHAR" property="packagingform" />
+    <result column="FK_PhysicalStateCode" jdbcType="VARCHAR" property="fkPhysicalstatecode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_FuelInfoId, FK_PollutionID, ProductName, ProductionCapacity, MeaUnit, DesignProductHour, 
+    OtherProductionInfo, UpdateUser, UpdateTime,PackagingForm,FK_PhysicalStateCode
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCWL_ProductInfo
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SCWL_ProductInfo
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.ProductInfoVO">
+    insert into T_SCWL_ProductInfo (PK_FuelInfoId, FK_PollutionID, ProductName, 
+      ProductionCapacity, MeaUnit, DesignProductHour, 
+      OtherProductionInfo, UpdateUser, UpdateTime,PackagingForm,FK_PhysicalStateCode
+      )
+    values (#{pkFuelinfoid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, 
+      #{productioncapacity,jdbcType=DOUBLE}, #{meaunit,jdbcType=VARCHAR}, #{designproducthour,jdbcType=DOUBLE}, 
+      #{otherproductioninfo,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP},
+      #{packagingform,jdbcType=VARCHAR},#{fkPhysicalstatecode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.ProductInfoVO">
+    insert into T_SCWL_ProductInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkFuelinfoid != null">
+        PK_FuelInfoId,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="productname != null">
+        ProductName,
+      </if>
+      <if test="productioncapacity != null">
+        ProductionCapacity,
+      </if>
+      <if test="meaunit != null">
+        MeaUnit,
+      </if>
+      <if test="designproducthour != null">
+        DesignProductHour,
+      </if>
+      <if test="otherproductioninfo != null">
+        OtherProductionInfo,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="packagingform != null">
+        PackagingForm,
+      </if>
+      <if test="fkPhysicalstatecode != null">
+        FK_PhysicalStateCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkFuelinfoid != null">
+        #{pkFuelinfoid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productioncapacity != null">
+        #{productioncapacity,jdbcType=DOUBLE},
+      </if>
+      <if test="meaunit != null">
+        #{meaunit,jdbcType=VARCHAR},
+      </if>
+      <if test="designproducthour != null">
+        #{designproducthour,jdbcType=DOUBLE},
+      </if>
+      <if test="otherproductioninfo != null">
+        #{otherproductioninfo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="packagingform != null">
+        #{packagingform,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPhysicalstatecode != null">
+        #{fkPhysicalstatecode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.ProductInfoVO">
+    update T_SCWL_ProductInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        ProductName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productioncapacity != null">
+        ProductionCapacity = #{productioncapacity,jdbcType=DOUBLE},
+      </if>
+      <if test="meaunit != null">
+        MeaUnit = #{meaunit,jdbcType=VARCHAR},
+      </if>
+      <if test="designproducthour != null">
+        DesignProductHour = #{designproducthour,jdbcType=DOUBLE},
+      </if>
+      <if test="otherproductioninfo != null">
+        OtherProductionInfo = #{otherproductioninfo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="packagingform != null">
+        PackagingForm = #{packagingform,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPhysicalstatecode != null">
+        FK_PhysicalStateCode = #{fkPhysicalstatecode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.ProductInfoVO">
+    update T_SCWL_ProductInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      ProductName = #{productname,jdbcType=VARCHAR},
+      ProductionCapacity = #{productioncapacity,jdbcType=DOUBLE},
+      MeaUnit = #{meaunit,jdbcType=VARCHAR},
+      DesignProductHour = #{designproducthour,jdbcType=DOUBLE},
+      OtherProductionInfo = #{otherproductioninfo,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      PackagingForm = #{packagingform,jdbcType=VARCHAR},
+      FK_PhysicalStateCode = #{fkPhysicalstatecode,jdbcType=VARCHAR}
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+      author:xsm
+      description: 通过自定义参数获取生产物料产品信息
+      param:
+      date: 2019/10/23 8:45
+   -->
+  <select id="getProductInfosByParamMap" resultType="map" parameterType="map">
+    SELECT
+    PK_FuelInfoId,
+    T_BAS_Pollution.PollutionName,
+    ProductName,
+    ProductionCapacity,
+    MeaUnit,
+    DesignProductHour,
+    OtherProductionInfo,
+    PackagingForm,
+    PUB_CODE_PhysicalState.Name FKPhysicalStateName
+    from
+    T_SCWL_ProductInfo
+    JOIN T_BAS_Pollution on T_SCWL_ProductInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_PhysicalState on T_SCWL_ProductInfo.FK_PhysicalStateCode=PUB_CODE_PhysicalState.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+        and T_SCWL_ProductInfo.Fk_PollutionID = #{fk_pollutionid}
+      </if>
+      <if test="productname!=null and productname!='' ">
+        and T_SCWL_ProductInfo.ProductName like concat('%',#{productname},'%')
+      </if>
+    </trim>
+    order by T_SCWL_ProductInfo.ProductName
+  </select>
+
+
+  <!--
+     author:xsm
+     description: 通过id查询生产物料产品详情
+     param:
+     date: 2019/10/23 8:55
+ -->
+  <select id="getProductInfoDetailByID" resultType="map" parameterType="string">
+   SELECT
+    PK_FuelInfoId,
+    T_BAS_Pollution.PollutionName,
+    ProductName,
+    ProductionCapacity,
+    MeaUnit,
+    DesignProductHour,
+    OtherProductionInfo,
+    T_SCWL_ProductInfo.UpdateUser,
+    convert(varchar(20),T_SCWL_ProductInfo.UpdateTime,120) UpdateTime,
+    PackagingForm,
+    PUB_CODE_PhysicalState.Name FKPhysicalStateName
+    FROM
+    T_SCWL_ProductInfo
+    JOIN T_BAS_Pollution on T_SCWL_ProductInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_PhysicalState on T_SCWL_ProductInfo.FK_PhysicalStateCode=PUB_CODE_PhysicalState.Code
+    where T_SCWL_ProductInfo.PK_FuelInfoId = #{pkid}
+  </select>
+
+
+  <select id="getProductInfoAndPollutionInfoByParamMap" resultType="map" parameterType="map">
+    SELECT tt.* FROM
+    (SELECT
+    t1.PK_ID pk_id,
+    t1.PK_ID monitorpointid,
+    t1.DeviceName monitorpointname,
+    t1.DeviceName outputname,
+    t1.FK_TechnologyStoreId,
+    t1.DGIMN dgimn,
+    t1.FK_MajorHazardSourcesId,
+    t2.MajorHazardSourcesName,
+    t2.Longitude,
+    t2.Latitude,
+    t3.pk_pollutionid,
+    t4.status onlinestatus,
+    case when t4.Status = 1 THEN 1
+    WHEN t4.Status = 0 THEN 2
+    WHEN t4.Status = 2 THEN 3
+    WHEN t4.Status = 3 THEN 4 ELSE 6
+    end orderstatus,
+    case t4.Status when 1 then '正常' when 0 then '离线' when 2 then
+    '超标' when 3 then '异常' END  onlinestatusname,
+    t4.AlarmLevel,
+    t3.shortername,
+    (
+    CAST (
+    t3.ShorterName AS VARCHAR ( 20 )) + '-' + CAST (
+    t2.MajorHazardSourcesName AS VARCHAR ( 20 ))) AS pollutionname
+    FROM
+    T_AQ_HazardSourceProductDevice t1,
+    T_AQ_MajorHazardSources t2,
+    T_BAS_Pollution t3,
+    T_BAS_DeviceStatus t4
+    WHERE
+    t1.FK_MajorHazardSourcesId = t2.PK_ID
+    AND t2.Fk_pollutionID= t3.PK_PollutionID
+    AND t1.DGIMN = t4.DGIMN) tt
+    <if test="userid !=null and userid!=''">
+      JOIN (
+      SELECT
+      FK_MonitorPointID
+      FROM
+      T_BAS_UserMonitorPointRelationData
+      WHERE
+      T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+      AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType=30
+      GROUP BY
+      FK_MonitorPointID
+      ) relation ON tt.pk_id = relation.FK_MonitorPointID
+    </if>
+    <trim prefix="where" prefixOverrides="AND||OR">
+      <if test="dgimns!=null and dgimns.size>0">
+        and tt.dgimn in
+        <foreach collection="dgimns" item="dgimn" close=")" open="(" separator=",">
+          #{dgimn}
+        </foreach>
+      </if>
+      <if test="devicestatus!=null and devicestatus!='' ">
+        and t4.status = #{devicestatus}
+      </if>
+      <if test="pollutionname !=null and pollutionname!=''">
+        AND tt.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="searchname!=null and searchname != ''">
+        AND (tt.shortername like concat('%',#{searchname},'%') or tt.monitorpointname like concat('%',#{searchname},'%'))
+      </if>
+      <if test="shortername !=null and shortername!=''">
+        AND tt.pollutionname like concat('%',#{shortername},'%')
+      </if>
+      <if test="monitorpointname !=null and monitorpointname!=''">
+        AND tt.monitorpointname like concat('%',#{monitorpointname},'%')
+      </if>
+      <if test="monitorpointid!=null and monitorpointid!='' ">
+        and tt.pk_id = #{monitorpointid}
+      </if>
+      <if test="outputids !=null and outputids.size>0">
+        and tt.pk_id in
+        <foreach collection="outputids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+        and tt.onlinestatus in
+        <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER BY tt.pollutionname,tt.outputname
+  </select>
+</mapper>

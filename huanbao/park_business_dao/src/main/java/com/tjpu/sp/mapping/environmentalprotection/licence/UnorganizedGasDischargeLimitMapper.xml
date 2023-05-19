@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.UnorganizedGasDischargeLimitMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.UnorganizedGasDischargeLimitVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_LicenceID" jdbcType="VARCHAR" property="fkLicenceid" />
+    <result column="FK_UnMonitorPointID" jdbcType="VARCHAR" property="fkUnmonitorpointid" />
+    <result column="PollutionProductionName" jdbcType="VARCHAR" property="pollutionproductionname" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="PollutantPreventionMeasure" jdbcType="VARCHAR" property="pollutantpreventionmeasure" />
+    <result column="FK_StandardID" jdbcType="VARCHAR" property="fkStandardid" />
+    <result column="PermitHourConcentration" jdbcType="DOUBLE" property="permithourconcentration" />
+    <result column="PermitDayConcentration" jdbcType="DOUBLE" property="permitdayconcentration" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="PermitOneYear" jdbcType="DOUBLE" property="permitoneyear" />
+    <result column="PermitTwoYear" jdbcType="DOUBLE" property="permittwoyear" />
+    <result column="PermitThreeYear" jdbcType="DOUBLE" property="permitthreeyear" />
+    <result column="PermitFourYear" jdbcType="DOUBLE" property="permitfouryear" />
+    <result column="PermitFiveYear" jdbcType="DOUBLE" property="permitfiveyear" />
+    <result column="SpecialTimeLimitFlow" jdbcType="DOUBLE" property="specialtimelimitflow" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_LicenceID, FK_UnMonitorPointID, PollutionProductionName, FK_PollutantCode, 
+    PollutantPreventionMeasure, FK_StandardID, PermitHourConcentration, PermitDayConcentration, 
+    Remark, PermitOneYear, PermitTwoYear, PermitThreeYear, PermitFourYear, PermitFiveYear, 
+    SpecialTimeLimitFlow, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PWXKZ_UnorganizedGasDischargeLimit
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_PWXKZ_UnorganizedGasDischargeLimit
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.UnorganizedGasDischargeLimitVO">
+    insert into T_PWXKZ_UnorganizedGasDischargeLimit (PK_ID, FK_LicenceID, FK_UnMonitorPointID, 
+      PollutionProductionName, FK_PollutantCode, 
+      PollutantPreventionMeasure, FK_StandardID, 
+      PermitHourConcentration, PermitDayConcentration, 
+      Remark, PermitOneYear, PermitTwoYear, 
+      PermitThreeYear, PermitFourYear, PermitFiveYear, 
+      SpecialTimeLimitFlow, UpdateUser, UpdateTime
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkLicenceid,jdbcType=VARCHAR}, #{fkUnmonitorpointid,jdbcType=VARCHAR}, 
+      #{pollutionproductionname,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{pollutantpreventionmeasure,jdbcType=VARCHAR}, #{fkStandardid,jdbcType=VARCHAR}, 
+      #{permithourconcentration,jdbcType=DOUBLE}, #{permitdayconcentration,jdbcType=DOUBLE}, 
+      #{remark,jdbcType=VARCHAR}, #{permitoneyear,jdbcType=DOUBLE}, #{permittwoyear,jdbcType=DOUBLE}, 
+      #{permitthreeyear,jdbcType=DOUBLE}, #{permitfouryear,jdbcType=DOUBLE}, #{permitfiveyear,jdbcType=DOUBLE}, 
+      #{specialtimelimitflow,jdbcType=DOUBLE}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.UnorganizedGasDischargeLimitVO">
+    insert into T_PWXKZ_UnorganizedGasDischargeLimit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkLicenceid != null">
+        FK_LicenceID,
+      </if>
+      <if test="fkUnmonitorpointid != null">
+        FK_UnMonitorPointID,
+      </if>
+      <if test="pollutionproductionname != null">
+        PollutionProductionName,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="pollutantpreventionmeasure != null">
+        PollutantPreventionMeasure,
+      </if>
+      <if test="fkStandardid != null">
+        FK_StandardID,
+      </if>
+      <if test="permithourconcentration != null">
+        PermitHourConcentration,
+      </if>
+      <if test="permitdayconcentration != null">
+        PermitDayConcentration,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="permitoneyear != null">
+        PermitOneYear,
+      </if>
+      <if test="permittwoyear != null">
+        PermitTwoYear,
+      </if>
+      <if test="permitthreeyear != null">
+        PermitThreeYear,
+      </if>
+      <if test="permitfouryear != null">
+        PermitFourYear,
+      </if>
+      <if test="permitfiveyear != null">
+        PermitFiveYear,
+      </if>
+      <if test="specialtimelimitflow != null">
+        SpecialTimeLimitFlow,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceid != null">
+        #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUnmonitorpointid != null">
+        #{fkUnmonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutionproductionname != null">
+        #{pollutionproductionname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantpreventionmeasure != null">
+        #{pollutantpreventionmeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardid != null">
+        #{fkStandardid,jdbcType=VARCHAR},
+      </if>
+      <if test="permithourconcentration != null">
+        #{permithourconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="permitdayconcentration != null">
+        #{permitdayconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="permitoneyear != null">
+        #{permitoneyear,jdbcType=DOUBLE},
+      </if>
+      <if test="permittwoyear != null">
+        #{permittwoyear,jdbcType=DOUBLE},
+      </if>
+      <if test="permitthreeyear != null">
+        #{permitthreeyear,jdbcType=DOUBLE},
+      </if>
+      <if test="permitfouryear != null">
+        #{permitfouryear,jdbcType=DOUBLE},
+      </if>
+      <if test="permitfiveyear != null">
+        #{permitfiveyear,jdbcType=DOUBLE},
+      </if>
+      <if test="specialtimelimitflow != null">
+        #{specialtimelimitflow,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.UnorganizedGasDischargeLimitVO">
+    update T_PWXKZ_UnorganizedGasDischargeLimit
+    <set>
+      <if test="fkLicenceid != null">
+        FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUnmonitorpointid != null">
+        FK_UnMonitorPointID = #{fkUnmonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutionproductionname != null">
+        PollutionProductionName = #{pollutionproductionname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantpreventionmeasure != null">
+        PollutantPreventionMeasure = #{pollutantpreventionmeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardid != null">
+        FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+      </if>
+      <if test="permithourconcentration != null">
+        PermitHourConcentration = #{permithourconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="permitdayconcentration != null">
+        PermitDayConcentration = #{permitdayconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="permitoneyear != null">
+        PermitOneYear = #{permitoneyear,jdbcType=DOUBLE},
+      </if>
+      <if test="permittwoyear != null">
+        PermitTwoYear = #{permittwoyear,jdbcType=DOUBLE},
+      </if>
+      <if test="permitthreeyear != null">
+        PermitThreeYear = #{permitthreeyear,jdbcType=DOUBLE},
+      </if>
+      <if test="permitfouryear != null">
+        PermitFourYear = #{permitfouryear,jdbcType=DOUBLE},
+      </if>
+      <if test="permitfiveyear != null">
+        PermitFiveYear = #{permitfiveyear,jdbcType=DOUBLE},
+      </if>
+      <if test="specialtimelimitflow != null">
+        SpecialTimeLimitFlow = #{specialtimelimitflow,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.UnorganizedGasDischargeLimitVO">
+    update T_PWXKZ_UnorganizedGasDischargeLimit
+    set FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      FK_UnMonitorPointID = #{fkUnmonitorpointid,jdbcType=VARCHAR},
+      PollutionProductionName = #{pollutionproductionname,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      PollutantPreventionMeasure = #{pollutantpreventionmeasure,jdbcType=VARCHAR},
+      FK_StandardID = #{fkStandardid,jdbcType=VARCHAR},
+      PermitHourConcentration = #{permithourconcentration,jdbcType=DOUBLE},
+      PermitDayConcentration = #{permitdayconcentration,jdbcType=DOUBLE},
+      Remark = #{remark,jdbcType=VARCHAR},
+      PermitOneYear = #{permitoneyear,jdbcType=DOUBLE},
+      PermitTwoYear = #{permittwoyear,jdbcType=DOUBLE},
+      PermitThreeYear = #{permitthreeyear,jdbcType=DOUBLE},
+      PermitFourYear = #{permitfouryear,jdbcType=DOUBLE},
+      PermitFiveYear = #{permitfiveyear,jdbcType=DOUBLE},
+      SpecialTimeLimitFlow = #{specialtimelimitflow,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--获取列表信息数据 lip 2022/8/8 17:20 -->
+  <select id="getDataListByParam" parameterType="map" resultType="map">
+    select
+      t.pk_id,
+      t.permitdayconcentration,
+      t.permitoneyear,
+      t.permittwoyear,
+      t.permitthreeyear,
+      t.permitfouryear,
+      t.permitfiveyear,
+      t.permithourconcentration,
+      t.pollutantpreventionmeasure,
+      t.pollutionproductionname,
+      t.remark,
+      t1.monitorpointcode,
+      t1.monitorpointname,
+      t2.name as pollutantname,
+      t3.standardname,
+      t.specialtimelimitflow
+    from
+    t_pwxkz_unorganizedgasdischargelimit t
+      inner join t_bas_unorganizedmonitorpointinfo t1 on t.fk_unmonitorpointid = t1.pk_id
+      inner join pub_code_pollutantfactor t2 on t2.code = t.fk_pollutantcode
+      and t2.pollutanttype = '2'
+      left join t_bas_standard t3 on t3.pk_standardid = t.fk_standardid
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="licenceid!=null and licenceid!=''">
+        and t.FK_LicenceID  = #{licenceid}
+      </if>
+      ORDER BY t1.monitorpointcode,t2.OrderIndex
+    </trim>
+  </select>
+
+
+ <!--获取挥发性有机物无组织排放量 lip 2022/8/8 17:20 -->
+  <select id="getVolatilityDataListByParam" parameterType="map" resultType="map">
+    SELECT * FROM  T_PWXKZ_VolatilityUnorganizedPollutantOutput
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="licenceid!=null and licenceid!=''">
+        and  FK_LicenceID  = #{licenceid}
+      </if>
+      ORDER BY TypeName
+    </trim>
+  </select>
+
+
+  <!--排污单位大气排放总许可量 lip 2022/8/9 9:57 -->
+  <select id="getTotalDataListByParam" parameterType="map" resultType="map">
+    select
+      t.pk_id,
+      t.nooneyear,
+      t.notwoyear,
+      t.nothreeyear,
+      t.nofouryear,
+      t.nofiveyear,
+      t.organizedoneyear,
+      t.organizedtwoyear,
+      t.organizedthreeyear,
+      t.organizedfouryear,
+      t.organizedfiveyear,
+      t1.name pollutantname
+    from
+    t_pwxkz_gasdischargetotallimit t
+    inner join pub_code_pollutantfactor t1 on t.fk_pollutantcode = t1.code
+    and  t1.pollutanttype = '2'
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="licenceid!=null and licenceid!=''">
+        and t.FK_LicenceID  = #{licenceid}
+      </if>
+      ORDER BY  t1.OrderIndex
+    </trim>
+  </select>
+  
+</mapper>

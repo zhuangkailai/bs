@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.problemconsult.CommonProblemRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.problemconsult.CommonProblemRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CommonProblemType" jdbcType="VARCHAR" property="fkCommonproblemtype" />
+    <result column="ProblemTitle" jdbcType="VARCHAR" property="problemtitle" />
+    <result column="ReplyContent" jdbcType="VARCHAR" property="replycontent" />
+    <result column="RecordUser" jdbcType="VARCHAR" property="recorduser" />
+    <result column="RecordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="ProblemContent" jdbcType="VARCHAR" property="problemcontent" />
+    <result column="FK_ProblemFileID" jdbcType="VARCHAR" property="fkProblemfileid" />
+    <result column="FK_ReplyFileID" jdbcType="VARCHAR" property="fkReplyfileid" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CommonProblemType, ProblemTitle, ReplyContent, RecordUser, RecordTime, 
+    UpdateTime, UpdateUser, ProblemContent, FK_ProblemFileID, FK_ReplyFileID, OrderIndex
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_CommonProblemRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_CommonProblemRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.problemconsult.CommonProblemRecordVO">
+    insert into T_GJ_CommonProblemRecord (PK_ID, FK_CommonProblemType, ProblemTitle, 
+      ReplyContent, RecordUser, RecordTime, 
+      UpdateTime, UpdateUser, ProblemContent, 
+      FK_ProblemFileID, FK_ReplyFileID, OrderIndex
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkCommonproblemtype,jdbcType=VARCHAR}, #{problemtitle,jdbcType=VARCHAR}, 
+      #{replycontent,jdbcType=VARCHAR}, #{recorduser,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{problemcontent,jdbcType=VARCHAR}, 
+      #{fkProblemfileid,jdbcType=VARCHAR}, #{fkReplyfileid,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.problemconsult.CommonProblemRecordVO">
+    insert into T_GJ_CommonProblemRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkCommonproblemtype != null">
+        FK_CommonProblemType,
+      </if>
+      <if test="problemtitle != null">
+        ProblemTitle,
+      </if>
+      <if test="replycontent != null">
+        ReplyContent,
+      </if>
+      <if test="recorduser != null">
+        RecordUser,
+      </if>
+      <if test="recordtime != null">
+        RecordTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="problemcontent != null">
+        ProblemContent,
+      </if>
+      <if test="fkProblemfileid != null">
+        FK_ProblemFileID,
+      </if>
+      <if test="fkReplyfileid != null">
+        FK_ReplyFileID,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkCommonproblemtype != null">
+        #{fkCommonproblemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="problemtitle != null">
+        #{problemtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="replycontent != null">
+        #{replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="problemcontent != null">
+        #{problemcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="fkProblemfileid != null">
+        #{fkProblemfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReplyfileid != null">
+        #{fkReplyfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.problemconsult.CommonProblemRecordVO">
+    update T_GJ_CommonProblemRecord
+    <set>
+      <if test="fkCommonproblemtype != null">
+        FK_CommonProblemType = #{fkCommonproblemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="problemtitle != null">
+        ProblemTitle = #{problemtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="replycontent != null">
+        ReplyContent = #{replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="recorduser != null">
+        RecordUser = #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="problemcontent != null">
+        ProblemContent = #{problemcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="fkProblemfileid != null">
+        FK_ProblemFileID = #{fkProblemfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReplyfileid != null">
+        FK_ReplyFileID = #{fkReplyfileid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.problemconsult.CommonProblemRecordVO">
+    update T_GJ_CommonProblemRecord
+    set FK_CommonProblemType = #{fkCommonproblemtype,jdbcType=VARCHAR},
+      ProblemTitle = #{problemtitle,jdbcType=VARCHAR},
+      ReplyContent = #{replycontent,jdbcType=VARCHAR},
+      RecordUser = #{recorduser,jdbcType=VARCHAR},
+      RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      ProblemContent = #{problemcontent,jdbcType=VARCHAR},
+      FK_ProblemFileID = #{fkProblemfileid,jdbcType=VARCHAR},
+      FK_ReplyFileID = #{fkReplyfileid,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+   author:xsm
+   description: 通过自定义参数查询常见问题记录
+   param:
+   date: 2021/08/18 13:39
+-->
+  <select id="getCommonProblemRecordByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID pkid,
+    FK_CommonProblemType fkcommonproblemtype,
+    t1.Name commonproblemtypename,
+    ProblemTitle,
+    ReplyContent,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ProblemContent,
+    FK_ProblemFileID fkproblemfileid,
+    FK_ReplyFileID fkreplyfileid,
+    t.OrderIndex
+    FROM
+    T_GJ_CommonProblemRecord t
+    JOIN PUB_CODE_CommonProblemType t1 ON t.FK_CommonProblemType = t1.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="problemtitle !=null and problemtitle !='' ">
+        and t.ProblemTitle like concat('%',#{problemtitle},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="problemtypes !=null and problemtypes.size>0">
+        and t.FK_CommonProblemType in
+        <foreach collection="problemtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by t.OrderIndex,t1.OrderIndex,t.ProblemTitle
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id获取常见问题记录详情
+ param:
+ date: 2021/08/18 13:39
+-->
+  <select id="getCommonProblemRecordDetailByID" resultType="map" parameterType="string">
+   SELECT
+    t.PK_ID pkid,
+    FK_CommonProblemType fkcommonproblemtype,
+    t1.Name commonproblemtypename,
+    ProblemTitle,
+    ReplyContent,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ProblemContent,
+    FK_ProblemFileID fkproblemfileid,
+    FK_ReplyFileID fkreplyfileid,
+    t.OrderIndex,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_CommonProblemRecord t
+    JOIN PUB_CODE_CommonProblemType t1 ON t.FK_CommonProblemType = t1.Code
+    where t.PK_ID = #{pkid}
+  </select>
+
+
+  <!--
+   author:xsm
+   description: 通过自定义参数查询常见问题类型
+   param:
+   date: 2021/08/18 13:39
+-->
+  <select id="getCommonProblemTypesByParam" resultType="map" parameterType="map">
+    SELECT DISTINCT
+    t1.Code,
+    t1.Name,
+    t1.OrderIndex
+    FROM
+    PUB_CODE_CommonProblemType t1
+    left JOIN T_GJ_CommonProblemRecord t  ON t.FK_CommonProblemType = t1.Code
+    order by t1.OrderIndex,t1.Code
+  </select>
+
+
+  <!--
+  author:xsm
+  description: 通过自定义参数查询主要常见问题
+  param:
+  date: 2021/08/18 13:39
+-->
+  <select id="getKeyCommonProblemRecordByParam" resultType="map" parameterType="map">
+    SELECT
+    b.PK_ID pkid,
+    ProblemTitle,
+    FK_CommonProblemType
+    from(
+    select *,ROW_NUMBER() over(partition by FK_CommonProblemType order by OrderIndex desc) vn
+    from T_GJ_CommonProblemRecord) b
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="problemtypes !=null and problemtypes.size>0">
+        and b.FK_CommonProblemType in
+        <foreach collection="problemtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="pagesize != null and pagesize !=''">
+       and b.vn <![CDATA[<=]]> #{pagesize}
+      </if>
+    </trim>
+    order by FK_CommonProblemType,OrderIndex
+  </select>
+</mapper>

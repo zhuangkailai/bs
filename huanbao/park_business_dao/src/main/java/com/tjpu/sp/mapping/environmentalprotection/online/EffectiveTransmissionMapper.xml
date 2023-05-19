@@ -1,0 +1,1157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.online.EffectiveTransmissionMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.online.EffectiveTransmissionVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid"/>
+        <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+        <result column="DGIMN" jdbcType="VARCHAR" property="dgimn"/>
+        <result column="CountDate" jdbcType="DATE" property="countdate"/>
+        <result column="ShouldNumber" jdbcType="NUMERIC" property="shouldnumber"/>
+        <result column="TransmissionNumber" jdbcType="NUMERIC" property="transmissionnumber"/>
+        <result column="ShouldEffectiveNumber" jdbcType="NUMERIC" property="shouldeffectivenumber"/>
+        <result column="EffectiveNumber" jdbcType="NUMERIC" property="effectivenumber"/>
+        <result column="TransmissionRate" jdbcType="DOUBLE" property="transmissionrate"/>
+        <result column="EffectiveRate" jdbcType="DOUBLE" property="effectiverate"/>
+        <result column="TransmissionEffectiveRate" jdbcType="DOUBLE" property="transmissioneffectiverate"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <resultMap id="PollutionAndOutPutResultMap" type="map">
+        <id column="pkid" jdbcType="VARCHAR" property="pkid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="FK_PollutionID"/>
+        <result column="pollutionname" jdbcType="VARCHAR" property="pollutionname"/>
+        <result column="CountDate" jdbcType="VARCHAR" property="CountDate"/>
+        <collection property="monitorpointlist" ofType="map" javaType="java.util.Set">
+            <id column="monitor" jdbcType="VARCHAR" property="monitor"/>
+            <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+            <result column="ShouldNumber" jdbcType="NUMERIC" property="shouldnumber"/>
+            <result column="TransmissionNumber" jdbcType="NUMERIC" property="transmissionnumber"/>
+            <result column="ShouldEffectiveNumber" jdbcType="NUMERIC" property="shouldeffectivenumber"/>
+            <result column="EffectiveNumber" jdbcType="NUMERIC" property="effectivenumber"/>
+            <result column="isEffectiveTransmission" jdbcType="NUMERIC" property="isEffectiveTransmission"/>
+            <result column="pollutantname" jdbcType="VARCHAR" property="pollutantname"/>
+            <result column="outputname" jdbcType="VARCHAR" property="outputname"/>
+            <result column="TransmissionRate" jdbcType="DOUBLE" property="transmissionrate"/>
+            <result column="EffectiveRate" jdbcType="DOUBLE" property="effectiverate"/>
+            <result column="TransmissionEffectiveRate" jdbcType="DOUBLE" property="transmissioneffectiverate"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    T_ONLINE_EffectiveTransmission.PK_ID, T_ONLINE_EffectiveTransmission.FK_PollutionID, T_ONLINE_EffectiveTransmission.FK_MonitorPointID, T_ONLINE_EffectiveTransmission.FK_PollutantCode, T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode,
+    T_ONLINE_EffectiveTransmission.DGIMN, CONVERT (VARCHAR (10),CountDate,120)CountDate, ShouldNumber, TransmissionNumber, ShouldEffectiveNumber, EffectiveNumber,
+    TransmissionRate, EffectiveRate, TransmissionEffectiveRate, CONVERT (VARCHAR (10),T_ONLINE_EffectiveTransmission.UpdateTime,120)UpdateTime, T_ONLINE_EffectiveTransmission.UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_ONLINE_EffectiveTransmission
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_ONLINE_EffectiveTransmission
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByParamMap" parameterType="map">
+        <if test="mns!=null and mns.size>0">
+            delete from T_ONLINE_EffectiveTransmission
+            <where>
+                and dgimn in
+                <foreach collection="mns" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+                <if test="starttime!=null and starttime!=''">
+                    and convert(varchar(10),CountDate,120) >= convert(varchar(10),#{starttime},120)
+                </if>
+                <if test="endtime!=null and endtime!=''">
+                    and convert(varchar(10),CountDate,120) <![CDATA[<=]]> convert(varchar(10),#{endtime},120)
+                </if>
+            </where>
+        </if>
+
+    </delete>
+    <insert id="insertBatch" parameterType="list">
+        <if test="effectivetransmissionvos!=null and effectivetransmissionvos.size>0">
+            insert into T_ONLINE_EffectiveTransmission (PK_ID, FK_PollutionID, FK_MonitorPointID,
+            FK_PollutantCode, FK_MonitorPointTypeCode,
+            DGIMN, CountDate, ShouldNumber,
+            TransmissionNumber, ShouldEffectiveNumber,
+            EffectiveNumber, TransmissionRate, EffectiveRate,
+            TransmissionEffectiveRate, UpdateTime,
+            UpdateUser)
+            values
+            <foreach collection="effectivetransmissionvos" item="item" separator=",">
+                (#{item.pkId,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR},
+                #{item.fkMonitorpointid,jdbcType=VARCHAR},
+                #{item.fkPollutantcode,jdbcType=VARCHAR}, #{item.fkMonitorpointtypecode,jdbcType=VARCHAR},
+                #{item.dgimn,jdbcType=VARCHAR}, #{item.countdate,jdbcType=DATE}, #{item.shouldnumber,jdbcType=NUMERIC},
+                #{item.transmissionnumber,jdbcType=NUMERIC}, #{item.shouldeffectivenumber,jdbcType=NUMERIC},
+                #{item.effectivenumber,jdbcType=NUMERIC}, #{item.transmissionrate,jdbcType=DOUBLE},
+                #{item.effectiverate,jdbcType=DOUBLE},
+                #{item.transmissioneffectiverate,jdbcType=DOUBLE}, #{item.updatetime,jdbcType=TIMESTAMP},
+                #{item.updateuser,jdbcType=VARCHAR})
+            </foreach>
+        </if>
+    </insert>
+
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.online.EffectiveTransmissionVO">
+    insert into T_ONLINE_EffectiveTransmission (PK_ID, FK_PollutionID, FK_MonitorPointID, 
+      FK_PollutantCode, FK_MonitorPointTypeCode, 
+      DGIMN, CountDate, ShouldNumber, 
+      TransmissionNumber, ShouldEffectiveNumber, 
+      EffectiveNumber, TransmissionRate, EffectiveRate, 
+      TransmissionEffectiveRate, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{dgimn,jdbcType=VARCHAR}, #{countdate,jdbcType=DATE}, #{shouldnumber,jdbcType=NUMERIC}, 
+      #{transmissionnumber,jdbcType=NUMERIC}, #{shouldeffectivenumber,jdbcType=NUMERIC}, 
+      #{effectivenumber,jdbcType=NUMERIC}, #{transmissionrate,jdbcType=DOUBLE}, #{effectiverate,jdbcType=DOUBLE}, 
+      #{transmissioneffectiverate,jdbcType=DOUBLE}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.online.EffectiveTransmissionVO">
+        insert into T_ONLINE_EffectiveTransmission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointID,
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+            <if test="countdate != null">
+                CountDate,
+            </if>
+            <if test="shouldnumber != null">
+                ShouldNumber,
+            </if>
+            <if test="transmissionnumber != null">
+                TransmissionNumber,
+            </if>
+            <if test="shouldeffectivenumber != null">
+                ShouldEffectiveNumber,
+            </if>
+            <if test="effectivenumber != null">
+                EffectiveNumber,
+            </if>
+            <if test="transmissionrate != null">
+                TransmissionRate,
+            </if>
+            <if test="effectiverate != null">
+                EffectiveRate,
+            </if>
+            <if test="transmissioneffectiverate != null">
+                TransmissionEffectiveRate,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="countdate != null">
+                #{countdate,jdbcType=DATE},
+            </if>
+            <if test="shouldnumber != null">
+                #{shouldnumber,jdbcType=NUMERIC},
+            </if>
+            <if test="transmissionnumber != null">
+                #{transmissionnumber,jdbcType=NUMERIC},
+            </if>
+            <if test="shouldeffectivenumber != null">
+                #{shouldeffectivenumber,jdbcType=NUMERIC},
+            </if>
+            <if test="effectivenumber != null">
+                #{effectivenumber,jdbcType=NUMERIC},
+            </if>
+            <if test="transmissionrate != null">
+                #{transmissionrate,jdbcType=DOUBLE},
+            </if>
+            <if test="effectiverate != null">
+                #{effectiverate,jdbcType=DOUBLE},
+            </if>
+            <if test="transmissioneffectiverate != null">
+                #{transmissioneffectiverate,jdbcType=DOUBLE},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.online.EffectiveTransmissionVO">
+        update T_ONLINE_EffectiveTransmission
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                DGIMN = #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="countdate != null">
+                CountDate = #{countdate,jdbcType=DATE},
+            </if>
+            <if test="shouldnumber != null">
+                ShouldNumber = #{shouldnumber,jdbcType=NUMERIC},
+            </if>
+            <if test="transmissionnumber != null">
+                TransmissionNumber = #{transmissionnumber,jdbcType=NUMERIC},
+            </if>
+            <if test="shouldeffectivenumber != null">
+                ShouldEffectiveNumber = #{shouldeffectivenumber,jdbcType=NUMERIC},
+            </if>
+            <if test="effectivenumber != null">
+                EffectiveNumber = #{effectivenumber,jdbcType=NUMERIC},
+            </if>
+            <if test="transmissionrate != null">
+                TransmissionRate = #{transmissionrate,jdbcType=DOUBLE},
+            </if>
+            <if test="effectiverate != null">
+                EffectiveRate = #{effectiverate,jdbcType=DOUBLE},
+            </if>
+            <if test="transmissioneffectiverate != null">
+                TransmissionEffectiveRate = #{transmissioneffectiverate,jdbcType=DOUBLE},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.online.EffectiveTransmissionVO">
+    update T_ONLINE_EffectiveTransmission
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      DGIMN = #{dgimn,jdbcType=VARCHAR},
+      CountDate = #{countdate,jdbcType=DATE},
+      ShouldNumber = #{shouldnumber,jdbcType=NUMERIC},
+      TransmissionNumber = #{transmissionnumber,jdbcType=NUMERIC},
+      ShouldEffectiveNumber = #{shouldeffectivenumber,jdbcType=NUMERIC},
+      EffectiveNumber = #{effectivenumber,jdbcType=NUMERIC},
+      TransmissionRate = #{transmissionrate,jdbcType=DOUBLE},
+      EffectiveRate = #{effectiverate,jdbcType=DOUBLE},
+      TransmissionEffectiveRate = #{transmissioneffectiverate,jdbcType=DOUBLE},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+          * @author: lip
+          * @date: 2019/7/31 0014 下午 2:59
+          * @Description: 自定义查询条件获取有效传输数据
+          * @updateUser:
+          * @updateDate:
+          * @updateDescription:
+         -->
+    <select id="getEffectiveTransmissionByParamMap" resultType="java.util.Map">
+        select
+        t1.effectiverate,t1.transmissionrate
+        ,t1.transmissioneffectiverate,t1.shouldnumber,t1.transmissionnumber,t1.shouldeffectivenumber,t1.effectivenumber
+        from
+        t_online_effectivetransmission t1
+
+        <choose>
+            <when test="monitorpointtype=='1'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join t_bas_wateroutputinfo t3 on t3.pk_id = fk_monitorpointid
+                and (
+                t3.outputtype is null
+                or t3.outputtype = '1'
+                )
+                join T_BAS_WaterOutPutPollutantSet t5 on t5.FK_WaterOutPutID = t1.FK_MonitorPointID and
+                t5.FK_PollutionID=t1.fk_pollutionid
+            </when>
+            <when test="monitorpointtype=='37'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join t_bas_wateroutputinfo t3 on t3.pk_id = fk_monitorpointid
+                and t3.outputtype = '3'
+                join T_BAS_WaterOutPutPollutantSet t5 on t5.FK_WaterOutPutID = t1.FK_MonitorPointID and
+                t5.FK_PollutionID=t1.fk_pollutionid
+            </when>
+
+
+            <when test="monitorpointtype=='2'.toString() or monitorpointtype=='22'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join t_bas_gasoutputinfo t3 on t3.pk_id = fk_monitorpointid
+                and t3.FK_MonitorPointTypeCode = t1.FK_MonitorPointTypeCode
+                join T_BAS_GasOutPutPollutantSet t5 on t5.FK_GasOutPutID = t1.FK_MonitorPointID and
+                t5.FK_PollutionID=t1.fk_pollutionid
+            </when>
+            <when test="monitorpointtype=='40'.toString() or monitorpointtype=='41'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join T_BAS_UnorganizedMonitorPointInfo t3 on t3.pk_id = fk_monitorpointid
+                and t3.fk_monitorpointtypecode = t1.fk_monitorpointtypecode
+                join T_BAS_GasOutPutPollutantSet t5 on t5.FK_GasOutPutID = t1.FK_MonitorPointID and
+                t5.FK_PollutionID=t1.fk_pollutionid
+            </when>
+            <when test="monitorpointtype=='5'.toString()">
+                join T_BAS_AirMonitorStation t3 on t3.PK_AirID = t1.fk_monitorpointid
+                join T_BAS_AirStationPollutantSet t5 on t5.FK_AirMonintPointID = t1.FK_MonitorPointID
+            </when>
+            <when test="monitorpointtype=='6'.toString()">
+                join T_BAS_WaterStationInfo t3 on t3.PK_WaterStationID = t1.fk_monitorpointid
+                join T_BAS_WaterStationPollutantSet t5 on t5.FK_WaterPointID = t1.FK_MonitorPointID
+            </when>
+
+            <when test="monitorpointtype=='30'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join T_AQ_StorageTankInfo t3 on t3.pk_id = fk_monitorpointid
+                join T_AQ_StorageTankSet t5 on t5.FK_StorageTankID = t1.FK_MonitorPointID
+            </when>
+
+            <when test="monitorpointtype=='57'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join T_AQ_HazardSourceProductDevice t3 on t3.PK_ID = fk_monitorpointid
+                join T_AQ_ProductDevicePollutantSet t5 on t5.FK_ProductDeviceID = t1.FK_MonitorPointID
+            </when>
+            <when test="monitorpointtype=='54'.toString() or monitorpointtype=='55'.toString() or monitorpointtype=='56'.toString()">
+                join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                join T_AQ_RiskAreaMonitorPoint t3 on t3.PK_MonitorPointID = fk_monitorpointid
+                join T_AQ_RiskAreaMonitorPointPollutantSet t5 on t5.FK_RiskAreaMonintID = t1.FK_MonitorPointID
+            </when>
+            <otherwise>
+                join T_BAS_OtherMonitorPoint t3 on t3.PK_MonitorPointID = t1.fk_monitorpointid
+                and t3.FK_MonitorPointTypeCode = t1.FK_MonitorPointTypeCode
+                join T_BAS_OtherMonitorPointPollutantSet t5 on t5.FK_OtherMonintPointID = t1.FK_MonitorPointID
+            </otherwise>
+        </choose>
+
+        <if test="monitorpointtype != null and monitorpointtype!='52'">
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation
+
+                <choose>
+                    <when test="monitorpointtype=='1'.toString()
+                    or monitorpointtype=='37'.toString()
+                    or monitorpointtype=='2'.toString()
+                    or monitorpointtype=='22'.toString()
+                    or monitorpointtype=='40'.toString()
+                    or monitorpointtype=='41'.toString()
+                    or monitorpointtype=='30'.toString()
+                    or monitorpointtype=='57'.toString()">
+                        ON t3.pk_id = relation.FK_MonitorPointID
+                    </when>
+                    <when test="monitorpointtype=='5'.toString()">
+                        ON t3.PK_AirID = relation.FK_MonitorPointID
+                    </when>
+                    <when test="monitorpointtype=='6'.toString()">
+                        ON t3.PK_WaterStationID = relation.FK_MonitorPointID
+                    </when>
+
+                    <when test="monitorpointtype=='6'.toString()">
+                        ON t3.PK_WaterStationID = relation.FK_MonitorPointID
+                    </when>
+                    <otherwise>
+                        ON t3.PK_MonitorPointID = relation.FK_MonitorPointID
+                    </otherwise>
+                </choose>
+            </if>
+        </if>
+        join pub_code_pollutantfactor t4 on t4.code = t1.fk_pollutantcode and t4.pollutanttype =
+        t1.fk_monitorpointtypecode and t5.FK_PollutantCode=t4.code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype!=null">
+                and t1.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="countdate != null and countdate !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) = #{countdate}
+            </if>
+            <if test="dgimn != null and dgimn !=''">
+                and t1.dgimn = #{dgimn}
+            </if>
+            AND t1.effectiverate IS NOT NULL
+            AND t1.transmissionrate IS NOT NULL
+            AND t1.transmissioneffectiverate IS NOT NULL
+            AND t5.isEffectiveTransmission = 1
+        </trim>
+    </select>
+
+
+    <select id="getStinkEffectiveTransmissionByParamMap" resultType="java.util.Map">
+        SELECT
+        t1.effectiverate,
+        t1.transmissionrate,
+        t1.transmissioneffectiverate,
+        t1.shouldnumber,
+        t1.transmissionnumber,
+        t1.shouldeffectivenumber,
+        t1.effectivenumber
+        FROM
+        t_online_effectivetransmission t1
+        INNER JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_MonitorPointID = t2.PK_MonitorPointID
+        AND t2.FK_MonitorPointTypeCode = #{monitorpointtype}
+        UNION
+        SELECT
+        t1.effectiverate,
+        t1.transmissionrate,
+        t1.transmissioneffectiverate,
+        t1.shouldnumber,
+        t1.transmissionnumber,
+        t1.shouldeffectivenumber,
+        t1.effectivenumber
+        FROM
+        t_online_effectivetransmission t1
+        INNER JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_MonitorPointID = t2.PK_ID
+        AND t2.FK_MonitorPointTypeCode = #{entmonitorpointtype}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="dgimn != null and dgimn !=''">
+                and t1.dgimn = #{dgimn}
+            </if>
+            AND t1.effectiverate IS NOT NULL
+            AND t1.transmissionrate IS NOT NULL
+            AND t1.transmissioneffectiverate IS NOT NULL
+        </trim>
+    </select>
+
+
+    <select id="getGasEffectiveTransmissionByParamMap" resultType="java.util.Map">
+        SELECT
+        t1.effectiverate,
+        t1.transmissionrate,
+        t1.transmissioneffectiverate,
+        t1.shouldnumber,
+        t1.transmissionnumber,
+        t1.shouldeffectivenumber,
+        t1.effectivenumber
+        FROM
+        t_online_effectivetransmission t1
+        INNER JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_MonitorPointID = t2.PK_ID
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            and t2.FK_MonitorPointTypeCode in
+            <foreach item="item" index="index" collection="monitorpointtypes"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="userid !=null and userid != '' ">
+            JOIN (
+            SELECT
+            FK_MonitorPointID monitorpointid
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON t1.FK_MonitorPointID = relation.monitorpointid
+        </if>
+        join T_BAS_GasOutPutPollutantSet t5 on t5.FK_GasOutPutID = t1.FK_MonitorPointID and
+        t5.FK_PollutionID=t1.fk_pollutionid
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="dgimn != null and dgimn !=''">
+                and t1.dgimn = #{dgimn}
+            </if>
+            AND t1.effectiverate IS NOT NULL
+            AND t1.transmissionrate IS NOT NULL
+            AND t1.transmissioneffectiverate IS NOT NULL
+            AND t5.isEffectiveTransmission = 1
+        </trim>
+    </select>
+
+    <!--
+          * @author: lip
+          * @date: 2019/7/31 0014 下午 2:59
+          * @Description: 自定义查询条件获取最新时间
+          * @updateUser:
+          * @updateDate:
+          * @updateDescription:
+         -->
+    <select id="getLastDateByParamMap" resultType="String">
+        select
+        max( convert(varchar(10),t1.countdate,120)) countdate
+        from
+        t_online_effectivetransmission t1
+        <if test="monitorpointtype=='1'.toString()">
+            join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+            join t_bas_wateroutputinfo t3 on t3.pk_id = fk_monitorpointid
+            and (
+            t3.outputtype is null
+            or t3.outputtype = '1'
+            )
+        </if>
+        <if test="monitorpointtype=='37'.toString()">
+            join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+            join t_bas_wateroutputinfo t3 on t3.pk_id = fk_monitorpointid
+            and t3.outputtype = '3'
+        </if>
+        <if test="monitorpointtype=='2'.toString() or monitorpointtype=='22'.toString() ">
+            join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+            join t_bas_gasoutputinfo t3 on t3.pk_id = fk_monitorpointid
+        </if>
+        <if test="monitorpointtype=='40'.toString() or monitorpointtype=='41'.toString()">
+            join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+            join T_BAS_UnorganizedMonitorPointInfo t3 on t3.pk_id = fk_monitorpointid
+            and t3.fk_monitorpointtypecode = t1.fk_monitorpointtypecode
+        </if>
+        <if test="monitorpointtype=='9'.toString() or monitorpointtype=='10'or monitorpointtype=='52'or monitorpointtype=='12'or monitorpointtype=='33'">
+            join T_BAS_OtherMonitorPoint t3 on t3.PK_MonitorPointID = t1.fk_monitorpointid
+            and t3.FK_MonitorPointTypeCode = t1.FK_MonitorPointTypeCode
+        </if>
+        <if test="monitorpointtype=='5'.toString()">
+            join T_BAS_AirMonitorStation t3 on t3.PK_AirID = t1.fk_monitorpointid
+        </if>
+        <if test="monitorpointtype=='30'.toString()">
+            join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+            join T_AQ_StorageTankInfo t3 on t3.pk_id = fk_monitorpointid
+        </if>
+
+        <if test="monitorpointtype=='6'.toString()">
+            join T_BAS_WaterStationInfo t3 on t3.PK_WaterStationID = t1.fk_monitorpointid
+        </if>
+        join pub_code_pollutantfactor t4 on t4.code = t1.fk_pollutantcode and t4.pollutanttype =
+        t1.fk_monitorpointtypecode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype!=null">
+                and t1.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取企业，监测点，传输有效信息
+        param:
+        date: 2020/01/16 11:47
+    -->
+    <select id="getPollutionEffectiveTransmissionInfoByParamMap" parameterType="map"
+            resultMap="PollutionAndOutPutResultMap">
+
+        select * from (
+        SELECT
+        T_ONLINE_EffectiveTransmission.FK_PollutionID,
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointID,
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode,
+        case when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (1,2,22,37,40,41,38) then pollutionname when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (9,10,12,33)
+        then T_BAS_OtherMonitorPoint.MonitorPointName when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=5 then
+        T_BAS_AirMonitorStation.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=6 then T_BAS_WaterStationInfo.MonitorPointName else ''
+        end pollutionname,
+        case when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.outputname
+        when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (2,22)
+        then T_BAS_GASOutPutInfo.outputname WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = 22 THEN
+        T_BAS_GASOutPutInfo.outputname when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (40,41,38) then
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (9,10,12,33) then
+        T_BAS_OtherMonitorPoint.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=5 then T_BAS_AirMonitorStation.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=6 then T_BAS_WaterStationInfo.MonitorPointName end
+        outputname,
+        CASE
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 1, 37 ) THEN
+        T_BAS_WaterOutPutPollutantSet.isEffectiveTransmission
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 2, 22 ) THEN
+        T_BAS_GasOutPutPollutantSet.isEffectiveTransmission
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = 22 THEN
+        T_BAS_GasOutPutPollutantSet.isEffectiveTransmission
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 40, 41, 38 ) THEN
+        T_BAS_GasOutPutPollutantSet.isEffectiveTransmission
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 9, 10, 12, 33 ) THEN
+        T_BAS_OtherMonitorPointPollutantSet.isEffectiveTransmission
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode= 5 THEN
+        T_BAS_AirStationPollutantSet.isEffectiveTransmission
+        WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode= 6 THEN
+        T_BAS_WaterStationPollutantSet.isEffectiveTransmission
+        END isEffectiveTransmission,
+        concat(case when len(T_ONLINE_EffectiveTransmission.FK_PollutionID) <![CDATA[<=]]>0 then
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointID else T_ONLINE_EffectiveTransmission.FK_PollutionID
+        end,'$',CountDate) pkid,
+        concat(T_ONLINE_EffectiveTransmission.FK_MonitorPointID,'$',PUB_CODE_PollutantFactor.name) monitor,
+        convert (varchar(10),CountDate,120)CountDate,
+        ShouldNumber,
+        TransmissionNumber,
+        ShouldEffectiveNumber,
+        EffectiveNumber,
+        TransmissionRate,
+        EffectiveRate,
+        TransmissionEffectiveRate,
+        PUB_CODE_PollutantFactor.name pollutantname
+        FROM
+        T_ONLINE_EffectiveTransmission
+        join PUB_CODE_MonitorPointType on
+        PUB_CODE_MonitorPointType.code=T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode
+        LEFT JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_ONLINE_EffectiveTransmission.FK_PollutionID
+        LEFT JOIN T_BAS_WaterOutputInfo on T_BAS_WaterOutputInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_GASOutPutInfo on T_BAS_GASOutPutInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_OtherMonitorPoint on
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo on
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_AirMonitorStation on
+        T_BAS_AirMonitorStation.PK_AirID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_WaterStationInfo on
+        T_BAS_WaterStationInfo.PK_WaterStationID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN PUB_CODE_PollutantFactor on
+        PUB_CODE_PollutantFactor.code=T_ONLINE_EffectiveTransmission.FK_PollutantCode and
+        PUB_CODE_PollutantFactor.IsUsed=1 and
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+        LEFT join T_BAS_WaterOutPutPollutantSet on
+        T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        and T_BAS_WaterOutPutPollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        and T_ONLINE_EffectiveTransmission.FK_PollutionID=T_BAS_WaterOutPutPollutantSet.FK_PollutionID
+        and T_BAS_WaterOutPutPollutantSet.isEffectiveTransmission = 1
+        LEFT join T_BAS_GasOutPutPollutantSet on
+        T_BAS_GasOutPutPollutantSet.FK_GasOutPutID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        and T_BAS_GasOutPutPollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        and T_ONLINE_EffectiveTransmission.FK_PollutionID=T_BAS_GasOutPutPollutantSet.FK_PollutionID
+        and T_BAS_GasOutPutPollutantSet.isEffectiveTransmission = 1
+        LEFT join T_BAS_AirStationPollutantSet on T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        and T_BAS_AirStationPollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        and T_BAS_AirStationPollutantSet.isEffectiveTransmission = 1
+        LEFT join T_BAS_WaterStationPollutantSet on T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        and T_BAS_WaterStationPollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        and T_BAS_WaterStationPollutantSet.isEffectiveTransmission = 1
+        LEFT join T_BAS_OtherMonitorPointPollutantSet on T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        and T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        and T_BAS_OtherMonitorPointPollutantSet.isEffectiveTransmission = 1
+        ) t
+        <where>
+            len(t.pollutionname)>0 and len(t.outputname)>0
+            <if test="fkmonitorpointtypecodes!=null and fkmonitorpointtypecodes.size>0">
+                and t.FK_MonitorPointTypeCode in
+                <foreach collection="fkmonitorpointtypecodes" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and t.pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="fkpollutionid !=null and fkpollutionid !='' ">
+                and t.FK_PollutionID = #{fkpollutionid}
+            </if>
+        </where>
+        order by t.pollutionname,t.countDate desc
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取监测点传输有效率信息
+        param:
+        date: 2020/01/16 17:21
+    -->
+    <select id="getEffectiveTransmissionInfoByParamMap" resultType="map" parameterType="map">
+        select * from(
+        select
+        case when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.outputname
+        when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (2,22)
+        then T_BAS_GASOutPutInfo.outputname when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (40,41,38)
+        then T_BAS_UnorganizedMonitorPointInfo.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (9,10,52,12,33) then
+        T_BAS_OtherMonitorPoint.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=5 then T_BAS_AirMonitorStation.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=6 then T_BAS_WaterStationInfo.MonitorPointName end
+        outputname,
+        PUB_CODE_PollutantFactor.name pollutantname,
+        pollutionname,
+        shortername,
+        <include refid="Base_Column_List"/>
+        from T_ONLINE_EffectiveTransmission
+        LEFT JOIN PUB_CODE_PollutantFactor on
+        PUB_CODE_PollutantFactor.code=T_ONLINE_EffectiveTransmission.FK_PollutantCode and
+        PUB_CODE_PollutantFactor.IsUsed=1 and
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+        LEFT JOIN T_BAS_WaterOutputInfo on T_BAS_WaterOutputInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_GASOutPutInfo on T_BAS_GASOutPutInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_OtherMonitorPoint on
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo on
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_AirMonitorStation on
+        T_BAS_AirMonitorStation.PK_AirID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_WaterStationInfo on
+        T_BAS_WaterStationInfo.PK_WaterStationID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_ONLINE_EffectiveTransmission.FK_pollutionID
+        ) t
+        <where>
+
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and fk_pollutionid=#{fkpollutionid}
+            </if>
+            <if test="countdate!=null and countdate!='' ">
+                AND CONVERT (VARCHAR (10),CountDate,120) =CONVERT (VARCHAR (10), #{countdate},120)
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="monitorpointids !=null and monitorpointids.size>0">
+                and FK_MonitorPointID in
+                <foreach collection="monitorpointids" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionname != null and pollutionname !=''">
+                AND pollutionname like concat('%', #{pollutionname},'%')
+            </if>
+            <if test="outputname != null and outputname !=''">
+                AND outputname like concat('%', #{outputname},'%')
+            </if>
+            <if test="fkmonitorpointtypecodes!=null and fkmonitorpointtypecodes.size>0">
+                and FK_MonitorPointTypeCode in
+                <foreach collection="fkmonitorpointtypecodes" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            AND effectiverate IS NOT NULL
+            AND transmissionrate IS NOT NULL
+            AND transmissioneffectiverate IS NOT NULL
+        </where>
+        order by FK_MonitorPointTypeCode
+    </select>
+
+
+    <select id="getMonitorEffectiveTransmissionInfoByParamMap" resultType="map" parameterType="map">
+        select  * FROM (
+        select
+        outputname,
+        case when pollutionname is null then '-' else pollutionname end pollutionname,
+        shortername,
+        CountDate,
+        FK_PollutionID,
+        FK_MonitorPointID,
+        FK_MonitorPointTypeCode,
+        case when SUM ( shouldnumber ) is null then '' else SUM ( shouldnumber ) end shouldnumber,
+        case when SUM ( transmissionnumber ) is null then '' else SUM ( transmissionnumber ) end transmissionnumber,
+        case when SUM ( shouldeffectivenumber ) is null then '' else SUM ( shouldeffectivenumber ) end
+        shouldeffectivenumber,
+        case when SUM ( effectivenumber ) is null then '' else SUM ( effectivenumber ) end effectivenumber
+        from(
+            SELECT
+            outputname,
+            pollutantname,
+            pollutionname,
+            shortername,
+            CASE WHEN isEffectiveTransmission = 1 THEN shouldnumber ELSE 0 END shouldnumber,
+            CASE WHEN isEffectiveTransmission = 1 THEN
+            transmissionnumber ELSE 0
+            END transmissionnumber,
+            CASE
+
+            WHEN isEffectiveTransmission = 1 THEN
+            shouldeffectivenumber ELSE 0
+            END shouldeffectivenumber,
+            FK_PollutionID,
+            FK_MonitorPointID,
+            FK_MonitorPointTypeCode,
+            CONVERT ( VARCHAR ( 10 ), CountDate, 120 ) CountDate,
+            CASE
+
+            WHEN isEffectiveTransmission = 1 THEN
+            effectivenumber ELSE 0
+            END effectivenumber
+            FROM
+            (
+            SELECT
+            CASE
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 1, 37 ) THEN T_BAS_WaterOutputInfo.outputname
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 2, 22 ) THEN T_BAS_GASOutPutInfo.outputname
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 40, 41, 38 ) THEN T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( SELECT DISTINCT T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FROM T_BAS_OtherMonitorPoint ) THEN
+            T_BAS_OtherMonitorPoint.MonitorPointName
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = 5 THEN T_BAS_AirMonitorStation.MonitorPointName
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = 6 THEN T_BAS_WaterStationInfo.MonitorPointName
+            END outputname,
+            PUB_CODE_PollutantFactor.name pollutantname,
+            pollutionname,
+            shortername,
+            shouldnumber,
+            transmissionnumber,
+            shouldeffectivenumber,
+            effectivenumber,
+            CountDate,
+            T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode,
+            T_ONLINE_EffectiveTransmission.FK_PollutionID,
+            T_ONLINE_EffectiveTransmission.FK_MonitorPointID,
+            CASE
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 1, 37 ) THEN T_BAS_WaterOutPutPollutantSet.isEffectiveTransmission
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( 2, 22 ) THEN T_BAS_GasOutPutPollutantSet.isEffectiveTransmission
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode IN ( SELECT DISTINCT T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FROM T_BAS_OtherMonitorPoint ) THEN
+            T_BAS_OtherMonitorPointPollutantSet.isEffectiveTransmission
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = 5 THEN T_BAS_AirStationPollutantSet.isEffectiveTransmission
+            WHEN T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = 6 THEN T_BAS_WaterStationPollutantSet.isEffectiveTransmission ELSE 1
+            END isEffectiveTransmission
+            FROM
+            T_ONLINE_EffectiveTransmission
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.code = T_ONLINE_EffectiveTransmission.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            LEFT JOIN T_BAS_OtherMonitorPoint ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            LEFT JOIN T_BAS_AirMonitorStation ON T_BAS_AirMonitorStation.PK_AirID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            LEFT JOIN T_BAS_WaterStationInfo ON T_BAS_WaterStationInfo.PK_WaterStationID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            LEFT JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID = T_ONLINE_EffectiveTransmission.FK_pollutionID
+            LEFT JOIN T_BAS_WaterOutPutPollutantSet ON T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            AND T_BAS_WaterOutPutPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+            AND T_ONLINE_EffectiveTransmission.FK_PollutionID = T_BAS_WaterOutPutPollutantSet.FK_PollutionID
+            LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_GasOutPutID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            AND T_BAS_GasOutPutPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+            AND T_ONLINE_EffectiveTransmission.FK_PollutionID = T_BAS_GasOutPutPollutantSet.FK_PollutionID
+            LEFT JOIN T_BAS_AirStationPollutantSet ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            AND T_BAS_AirStationPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+            LEFT JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationPollutantSet.FK_WaterPointID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            AND T_BAS_WaterStationPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+            LEFT JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID = T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+            AND T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+            <if test="fkmonitorpointtypecodes!=null and fkmonitorpointtypecodes.size>0">
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in
+                <foreach collection="fkmonitorpointtypecodes" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            ) tab
+        ) t
+        <if test="userid !=null and userid != '' ">
+            JOIN (
+            SELECT
+            FK_MonitorPointID monitorpointid
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON t.FK_MonitorPointID = relation.monitorpointid
+        </if>
+        <where>
+            (t.outputname IS not NULL AND t.outputname!='')
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and fk_pollutionid=#{fkpollutionid}
+            </if>
+            <if test="countdate!=null and countdate!='' ">
+                AND CONVERT (VARCHAR (10),CountDate,120) =CONVERT (VARCHAR (10), #{countdate},120)
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="monitorpointids !=null and monitorpointids.size>0">
+                and FK_MonitorPointID in
+                <foreach collection="monitorpointids" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionname != null and pollutionname !=''">
+                AND pollutionname like concat('%', #{pollutionname},'%')
+            </if>
+            <if test="outputname != null and outputname !=''">
+                AND outputname like concat('%', #{outputname},'%')
+            </if>
+            <if test="fkmonitorpointtypecodes!=null and fkmonitorpointtypecodes.size>0">
+                and FK_MonitorPointTypeCode in
+                <foreach collection="fkmonitorpointtypecodes" separator="," close=")" open="(" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY
+        outputname,
+        pollutionname,
+        CountDate,
+        FK_PollutionID,
+        FK_MonitorPointID,
+        FK_MonitorPointTypeCode,
+        shortername
+        )tab
+        -- +1是为了避免除零异常
+        order by  (transmissionnumber+1) / (shouldnumber+1) * (effectivenumber+1) / (shouldeffectivenumber+1)
+        desc, CountDate desc,FK_MonitorPointTypeCode
+    </select>
+
+
+    <select id="getOutPutEffectiveTransmissionInfoByParamMap" resultType="map" parameterType="map">
+        select
+        case when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.outputname
+        when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (2,22)
+        then T_BAS_GASOutPutInfo.outputname when T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (40,41,38)
+        then T_BAS_UnorganizedMonitorPointInfo.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode in (9,10,52,12,33) then
+        T_BAS_OtherMonitorPoint.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=5 then T_BAS_AirMonitorStation.MonitorPointName when
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=6 then T_BAS_WaterStationInfo.MonitorPointName end
+        outputname,
+        PUB_CODE_PollutantFactor.name pollutantname,
+        pollutionname,
+        shortername,
+        <if test="fkmonitorpointtypecode != null or monitorpointtype != null">
+        PollutantSet.isEffectiveTransmission,
+        </if>
+        PUB_CODE_PollutantFactor.orderindex,
+        <include refid="Base_Column_List"/>
+        from T_ONLINE_EffectiveTransmission
+        LEFT JOIN PUB_CODE_PollutantFactor on
+        PUB_CODE_PollutantFactor.code=T_ONLINE_EffectiveTransmission.FK_PollutantCode and
+        PUB_CODE_PollutantFactor.IsUsed=1 and
+        T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+        LEFT JOIN T_BAS_WaterOutputInfo on T_BAS_WaterOutputInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_GASOutPutInfo on T_BAS_GASOutPutInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_OtherMonitorPoint on
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo on
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_AirMonitorStation on
+        T_BAS_AirMonitorStation.PK_AirID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_WaterStationInfo on
+        T_BAS_WaterStationInfo.PK_WaterStationID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+        LEFT JOIN T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_ONLINE_EffectiveTransmission.FK_pollutionID
+        <choose>
+            <when test="fkmonitorpointtypecode==1 or fkmonitorpointtypecode==37">
+                join T_BAS_WaterOutPutPollutantSet PollutantSet on
+                PollutantSet.FK_WaterOutPutID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_PollutionID=PollutantSet.FK_PollutionID
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+            </when>
+            <when test="fkmonitorpointtypecode==2 or fkmonitorpointtypecode==22">
+                join T_BAS_GasOutPutPollutantSet PollutantSet on
+                PollutantSet.FK_GasOutPutID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_PollutionID=PollutantSet.FK_PollutionID
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+            </when>
+            <when test="monitorpointtype=='5'.toString()">
+                join T_BAS_AirStationPollutantSet PollutantSet on PollutantSet.FK_AirMonintPointID =
+                T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+            </when>
+            <when test="monitorpointtype=='6'.toString()">
+                join T_BAS_WaterStationPollutantSet PollutantSet on PollutantSet.FK_WaterPointID =
+                T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+
+            </when>
+            <when test="monitorpointtype=='40'.toString() or monitorpointtype=='41'.toString()">
+                join T_BAS_GasOutPutPollutantSet PollutantSet on
+                PollutantSet.FK_GasOutPutID=T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_PollutionID=PollutantSet.FK_PollutionID
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+
+            </when>
+            <when test="monitorpointtype=='30'.toString()">
+                join T_AQ_StorageTankSet PollutantSet on PollutantSet.FK_StorageTankID =
+                T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+            </when>
+            <otherwise>
+                join T_BAS_OtherMonitorPointPollutantSet PollutantSet on PollutantSet.FK_OtherMonintPointID =
+                T_ONLINE_EffectiveTransmission.FK_MonitorPointID
+                and PollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode=#{fkmonitorpointtypecode}
+            </otherwise>
+        </choose>
+
+
+        <if test="datauserid != null and datauserid !=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = #{fkmonitorpointtypecode}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_ONLINE_EffectiveTransmission.FK_MonitorPointID = relation.FK_MonitorPointID
+        </if>
+        <where>
+            <if test="fkpollutionid!=null and fkpollutionid!='' ">
+                and T_ONLINE_EffectiveTransmission.fk_pollutionid=#{fkpollutionid}
+            </if>
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+            </if>
+            <if test="countdate!=null and countdate!='' ">
+                AND CONVERT (VARCHAR (10),CountDate,120) =CONVERT (VARCHAR (10), #{countdate},120)
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) >= #{starttime}
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (10),CountDate,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="monitorpointids !=null and monitorpointids.size>0">
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointID in
+                <foreach collection="monitorpointids" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and T_ONLINE_EffectiveTransmission.DGIMN in
+                <foreach collection="dgimns" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="fkmonitorpointtypecode!=null and fkmonitorpointtypecode!='' ">
+                and T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode = #{fkmonitorpointtypecode}
+            </if>
+            AND effectiverate IS NOT NULL
+            AND transmissionrate IS NOT NULL
+            AND transmissioneffectiverate IS NOT NULL
+        </where>
+        order by T_ONLINE_EffectiveTransmission.FK_MonitorPointTypeCode
+    </select>
+
+
+    <select id="getAllEffectiveTransmissionDataByParam" resultType="map" parameterType="map">
+        SELECT sum(case when tt.TransmissionRate!=1 then 1 else 0 end) missingnum
+        from
+        (select
+        t.FK_MonitorPointID,
+        max(t.TransmissionRate) TransmissionRate
+        FROM T_ONLINE_EffectiveTransmission t
+        join T_BAS_DeviceStatus t1 ON t.FK_MonitorPointTypeCode = t1.FK_MonitorPointTypeCode AND t1.DGIMN = t.DGIMN
+        join PUB_CODE_MonitorPointType on t.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+        <where>
+            PUB_CODE_MonitorPointType.MonitoringClass is not null and PUB_CODE_MonitorPointType.IsUsed = 1
+            AND transmissionrate IS NOT NULL
+            <if test="countdate!=null and countdate!='' ">
+                AND CONVERT (VARCHAR (10),CountDate,120) = #{countdate}
+            </if>
+            <if test="monitorpointtypecodes !=null and monitorpointtypecodes.size>0">
+                and t.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypecodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        group by t.FK_MonitorPointID
+        )tt
+    </select>
+
+    <!-- 统计设备传输率(按类型分组) -->
+    <select id="countDeviceTransmissionRateDataGroupByType" resultType="map" parameterType="map">
+        select
+        t.ShouldNumber,
+        t.TransmissionNumber,
+        t.FK_MonitorPointTypeCode fkmonitorpointtypecode,
+        tmonitor.Name fkmonitorpointtypename
+        FROM T_ONLINE_EffectiveTransmission t
+        join T_BAS_DeviceStatus t1 ON t.FK_MonitorPointTypeCode = t1.FK_MonitorPointTypeCode AND t1.DGIMN = t.DGIMN
+        join
+        (
+        select
+        Code,
+        IsUsed,
+        Category,
+        MonitoringClass,
+        OrderIndex,
+        CASE WHEN (PUB_CODE_MonitorPointType.MainName IS NOT NULL AND PUB_CODE_MonitorPointType.MainName!='') THEN
+        PUB_CODE_MonitorPointType.MainName ELSE PUB_CODE_MonitorPointType.Name END Name
+        from PUB_CODE_MonitorPointType) tmonitor
+        on t.FK_MonitorPointTypeCode = tmonitor.Code
+        <where>
+            tmonitor.MonitoringClass is not null and tmonitor.IsUsed = 1
+            <if test="startmonth!=null and startmonth!='' ">
+                AND CONVERT (VARCHAR (7),CountDate,120) >= #{startmonth}
+            </if>
+            <if test="endmonth!=null and endmonth!='' ">
+                AND CONVERT (VARCHAR (7),CountDate,120) <![CDATA[<=]]> #{endmonth}
+            </if>
+        </where>
+        order by t.FK_MonitorPointTypeCode
+    </select>
+</mapper>

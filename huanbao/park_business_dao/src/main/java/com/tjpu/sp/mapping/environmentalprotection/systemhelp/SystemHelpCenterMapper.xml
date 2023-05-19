@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.systemhelp.SystemHelpCenterMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.systemhelp.SystemHelpCenterVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="ProblemName" jdbcType="VARCHAR" property="problemname" />
+    <result column="Resolvent" jdbcType="VARCHAR" property="resolvent" />
+    <result column="FK_ImgID" jdbcType="VARCHAR" property="fkImgid" />
+    <result column="ProblemType" jdbcType="VARCHAR" property="problemtype" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, ProblemName, Resolvent, FK_ImgID, ProblemType, OrderIndex, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_SystemHelpCenter
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_SystemHelpCenter
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.systemhelp.SystemHelpCenterVO">
+    insert into T_BAS_SystemHelpCenter (PK_ID, ProblemName, Resolvent, 
+      FK_ImgID, ProblemType, OrderIndex, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{problemname,jdbcType=VARCHAR}, #{resolvent,jdbcType=VARCHAR}, 
+      #{fkImgid,jdbcType=VARCHAR}, #{problemtype,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.systemhelp.SystemHelpCenterVO">
+    insert into T_BAS_SystemHelpCenter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="problemname != null">
+        ProblemName,
+      </if>
+      <if test="resolvent != null">
+        Resolvent,
+      </if>
+      <if test="fkImgid != null">
+        FK_ImgID,
+      </if>
+      <if test="problemtype != null">
+        ProblemType,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="problemname != null">
+        #{problemname,jdbcType=VARCHAR},
+      </if>
+      <if test="resolvent != null">
+        #{resolvent,jdbcType=VARCHAR},
+      </if>
+      <if test="fkImgid != null">
+        #{fkImgid,jdbcType=VARCHAR},
+      </if>
+      <if test="problemtype != null">
+        #{problemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.systemhelp.SystemHelpCenterVO">
+    update T_BAS_SystemHelpCenter
+    <set>
+      <if test="problemname != null">
+        ProblemName = #{problemname,jdbcType=VARCHAR},
+      </if>
+      <if test="resolvent != null">
+        Resolvent = #{resolvent,jdbcType=VARCHAR},
+      </if>
+      <if test="fkImgid != null">
+        FK_ImgID = #{fkImgid,jdbcType=VARCHAR},
+      </if>
+      <if test="problemtype != null">
+        ProblemType = #{problemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.systemhelp.SystemHelpCenterVO">
+    update T_BAS_SystemHelpCenter
+    set ProblemName = #{problemname,jdbcType=VARCHAR},
+      Resolvent = #{resolvent,jdbcType=VARCHAR},
+      FK_ImgID = #{fkImgid,jdbcType=VARCHAR},
+      ProblemType = #{problemtype,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+      author:xsm
+      description: 通过自定义参数获取系统帮助信息
+      param:
+      date: 2020/02/14 10:17
+  -->
+  <select id="getSystemHelpInfosByParamMap" resultType="map" parameterType="map">
+    SELECT PK_ID,
+    ProblemName,
+    CASE ProblemType WHEN '1' THEN '智慧环保' WHEN '2' THEN '智慧安全' WHEN '3' THEN '智慧应急' WHEN '4' THEN '综合管理' WHEN '5' THEN '园区视频在线监控' WHEN '6' THEN '网络要求' WHEN '7' THEN '注意事项'  END ProblemType,
+    OrderIndex,
+    T_BAS_SystemHelpCenter.UpdateUser,
+    convert(varchar(20),T_BAS_SystemHelpCenter.UpdateTime,120) UpdateTime
+    FROM
+    T_BAS_SystemHelpCenter
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="problemname !=null and problemname !='' ">
+        and T_BAS_SystemHelpCenter.ProblemName like concat('%',#{problemname},'%')
+      </if>
+      <if test="problemtypes !=null and problemtypes.size>0 ">
+        and T_BAS_SystemHelpCenter.ProblemType in
+        <foreach collection="problemtypes" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by T_BAS_SystemHelpCenter.OrderIndex,ProblemName
+  </select>
+
+  <!--
+     author:xsm
+     description: 通过id查询系统帮助信息详情
+     param:
+     date: 2020/02/14 10:49
+ -->
+  <select id="getSystemHelpInfoDetailByID" resultType="map" parameterType="string">
+    SELECT PK_ID,
+    ProblemName,
+    CASE ProblemType WHEN '1' THEN '智慧环保' WHEN '2' THEN '智慧安全' WHEN '3' THEN '智慧应急' WHEN '4' THEN '综合管理' WHEN '5' THEN '园区视频在线监控' WHEN '6' THEN '网络要求' WHEN '7' THEN '注意事项' END ProblemType,
+    OrderIndex,
+    FK_ImgID,
+    Resolvent,
+    T_BAS_SystemHelpCenter.UpdateUser,
+    convert(varchar(20),T_BAS_SystemHelpCenter.UpdateTime,120) UpdateTime
+    FROM
+    T_BAS_SystemHelpCenter
+    where T_BAS_SystemHelpCenter.PK_ID = #{pkid}
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 获取所有系统帮助信息
+    param:
+    date: 2020/02/14 14:18
+-->
+  <select id="getAllSystemHelpInfos" resultType="map">
+    SELECT PK_ID,
+    ProblemName,
+    CASE ProblemType WHEN '1' THEN '智慧环保' WHEN '2' THEN '智慧安全' WHEN '3' THEN '智慧应急' WHEN '4' THEN '综合管理' WHEN '5' THEN '园区视频在线监控' WHEN '6' THEN '网络要求' WHEN '7' THEN '注意事项' END ProblemType,
+    OrderIndex,
+    FK_ImgID,
+    Resolvent,
+    T_BAS_SystemHelpCenter.UpdateUser,
+    convert(varchar(20),T_BAS_SystemHelpCenter.UpdateTime,120) UpdateTime
+    FROM
+    T_BAS_SystemHelpCenter
+    ORDER BY  OrderIndex
+  </select>
+</mapper>

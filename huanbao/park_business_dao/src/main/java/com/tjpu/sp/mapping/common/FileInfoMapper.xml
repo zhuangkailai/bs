@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.FileInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.FileInfoVO">
+        <id column="PK_FileID" jdbcType="VARCHAR" property="pkFileid"/>
+        <result column="OriginalFileName" jdbcType="VARCHAR" property="originalfilename"/>
+        <result column="FileName" jdbcType="VARCHAR" property="filename"/>
+        <result column="FileSize" jdbcType="NUMERIC" property="filesize"/>
+        <result column="FileExtName" jdbcType="VARCHAR" property="fileextname"/>
+        <result column="UploadUser" jdbcType="VARCHAR" property="uploaduser"/>
+        <result column="UploadTime" jdbcType="TIMESTAMP" property="uploadtime"/>
+        <result column="BusinessType" jdbcType="NUMERIC" property="businesstype"/>
+        <result column="FileFlag" jdbcType="VARCHAR" property="fileflag"/>
+        <result column="FilePath" jdbcType="VARCHAR" property="filepath"/>
+        <result column="BusinessFileType" jdbcType="VARCHAR" property="businessfiletype"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_FileID, OriginalFileName, FileName, FileSize, FileExtName, UploadUser, UploadTime, 
+    BusinessType, FileFlag, FilePath, BusinessFileType
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_FileInfo
+        where PK_FileID = #{pkFileid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_FileInfo
+    where PK_FileID = #{pkFileid,jdbcType=VARCHAR}
+  </delete>
+
+
+    <!--
+     * @author: lip
+     * @date: 2018/11/10 0010 下午 3:16
+     * @Description:根据文件路径（mongodb中的文件主键）
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <delete id="deleteByFilePath" parameterType="java.lang.String">
+    delete from T_BAS_FileInfo
+    where FilePath = #{filePath,jdbcType=VARCHAR}
+  </delete>
+
+
+    <insert id="insert" parameterType="com.tjpu.sp.model.common.FileInfoVO">
+    insert into T_BAS_FileInfo (PK_FileID, OriginalFileName, FileName, 
+      FileSize, FileExtName, UploadUser, 
+      UploadTime, BusinessType, FileFlag, 
+      FilePath, BusinessFileType)
+    values (#{pkFileid,jdbcType=VARCHAR}, #{originalfilename,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, 
+      #{filesize,jdbcType=NUMERIC}, #{fileextname,jdbcType=VARCHAR}, #{uploaduser,jdbcType=VARCHAR}, 
+      #{uploadtime,jdbcType=TIMESTAMP}, #{businesstype,jdbcType=NUMERIC}, #{fileflag,jdbcType=VARCHAR}, 
+      #{filepath,jdbcType=VARCHAR}, #{businessfiletype,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.FileInfoVO">
+        insert into T_BAS_FileInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkFileid != null">
+                PK_FileID,
+            </if>
+            <if test="originalfilename != null">
+                OriginalFileName,
+            </if>
+            <if test="filename != null">
+                FileName,
+            </if>
+            <if test="filesize != null">
+                FileSize,
+            </if>
+            <if test="fileextname != null">
+                FileExtName,
+            </if>
+            <if test="uploaduser != null">
+                UploadUser,
+            </if>
+            <if test="uploadtime != null">
+                UploadTime,
+            </if>
+            <if test="businesstype != null">
+                BusinessType,
+            </if>
+            <if test="fileflag != null">
+                FileFlag,
+            </if>
+            <if test="filepath != null">
+                FilePath,
+            </if>
+            <if test="businessfiletype != null">
+                BusinessFileType,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkFileid != null">
+                #{pkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="originalfilename != null">
+                #{originalfilename,jdbcType=VARCHAR},
+            </if>
+            <if test="filename != null">
+                #{filename,jdbcType=VARCHAR},
+            </if>
+            <if test="filesize != null">
+                #{filesize,jdbcType=NUMERIC},
+            </if>
+            <if test="fileextname != null">
+                #{fileextname,jdbcType=VARCHAR},
+            </if>
+            <if test="uploaduser != null">
+                #{uploaduser,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadtime != null">
+                #{uploadtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businesstype != null">
+                #{businesstype,jdbcType=NUMERIC},
+            </if>
+            <if test="fileflag != null">
+                #{fileflag,jdbcType=VARCHAR},
+            </if>
+            <if test="filepath != null">
+                #{filepath,jdbcType=VARCHAR},
+            </if>
+            <if test="businessfiletype != null">
+                #{businessfiletype,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.FileInfoVO">
+        update T_BAS_FileInfo
+        <set>
+            <if test="originalfilename != null">
+                OriginalFileName = #{originalfilename,jdbcType=VARCHAR},
+            </if>
+            <if test="filename != null">
+                FileName = #{filename,jdbcType=VARCHAR},
+            </if>
+            <if test="filesize != null">
+                FileSize = #{filesize,jdbcType=NUMERIC},
+            </if>
+            <if test="fileextname != null">
+                FileExtName = #{fileextname,jdbcType=VARCHAR},
+            </if>
+            <if test="uploaduser != null">
+                UploadUser = #{uploaduser,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadtime != null">
+                UploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businesstype != null">
+                BusinessType = #{businesstype,jdbcType=NUMERIC},
+            </if>
+            <if test="fileflag != null">
+                FileFlag = #{fileflag,jdbcType=VARCHAR},
+            </if>
+            <if test="filepath != null">
+                FilePath = #{filepath,jdbcType=VARCHAR},
+            </if>
+            <if test="businessfiletype != null">
+                BusinessFileType = #{businessfiletype,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where PK_FileID = #{pkFileid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.FileInfoVO">
+    update T_BAS_FileInfo
+    set OriginalFileName = #{originalfilename,jdbcType=VARCHAR},
+      FileName = #{filename,jdbcType=VARCHAR},
+      FileSize = #{filesize,jdbcType=NUMERIC},
+      FileExtName = #{fileextname,jdbcType=VARCHAR},
+      UploadUser = #{uploaduser,jdbcType=VARCHAR},
+      UploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      BusinessType = #{businesstype,jdbcType=NUMERIC},
+      FileFlag = #{fileflag,jdbcType=VARCHAR},
+      FilePath = #{filepath,jdbcType=VARCHAR},
+      BusinessFileType = #{businessfiletype,jdbcType=VARCHAR}
+    where PK_FileID = #{pkFileid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+    description: 根据文件标识和文件业务相关类型以及业务类型下的文件类型获取文件信息
+    param: fileflag 文件标识（对应业务表中附件字段所存的ID）（必传）
+    param: businesstype     文件业务相关类型（必传）
+    param: businessfiletype 业务类型下的文件类型（非必传）
+    create: ZhangZhangChao in 2018/11/10 15:24
+    -->
+    <select id="getFilesInfoByParam" resultMap="BaseResultMap">
+        SELECT
+        OriginalFileName,
+        FileName,
+        FileSize,
+        FileExtName,
+        UploadUser,
+        UploadTime,
+        BusinessType,
+        FileFlag,
+        FilePath,
+        BusinessFileType
+        FROM
+        T_BAS_FileInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            FileFlag = #{fileflag}
+            <if test="businesstype!=null and businesstype!=''">
+                AND BusinessType = #{businesstype}
+            </if>
+            <if test="businessfiletype!=null and businessfiletype!=''">
+                AND BusinessFileType = #{businessfiletype}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/5/13 0013 上午 9:13
+     * @Description: 自定义动态参数查询文件集合
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+
+    <select id="getFilesByParamMap" resultMap="BaseResultMap">
+        SELECT
+        OriginalFileName,
+        FileName,
+        FileSize,
+        FileExtName,
+        UploadUser,
+        UploadTime,
+        BusinessType,
+        FileFlag,
+        FilePath,
+        BusinessFileType
+        FROM
+        T_BAS_FileInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="filepaths != null and filepaths.size > 0">
+                and FilePath in
+                <foreach collection="filepaths" index="index" item="item" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="businesstype!=null and businesstype!=''">
+                AND BusinessType = #{businesstype}
+            </if>
+            <if test="uploadtime!=null and uploadtime!=''">
+                AND CONVERT(VARCHAR(10),UploadTime,120) = #{uploadtime}
+            </if>
+
+            <if test="businessfiletype!=null and businessfiletype!=''">
+                AND BusinessFileType = #{businessfiletype}
+            </if>
+            ORDER by UploadTime DESC
+        </trim>
+    </select>
+
+
+
+
+    <select id="getFileIdsListByParam" parameterType="map" resultType="String">
+        SELECT DISTINCT
+        FilePath
+        from T_BAS_FileInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="exts != null and exts.size > 0">
+                and FileExtName in
+                <foreach collection="exts" index="index" item="item" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+    description: 根据文件标识和文件业务相关类型以及业务类型下的文件类型获取文件信息
+    param: fileflags 文件标识集合（对应业务表中附件字段所存的ID）（必传）
+    param: businesstype     文件业务相关类型（必传）
+    param: businessfiletype 业务类型下的文件类型（非必传）
+    create: chengzq in 2019/06/22 15:24
+    -->
+    <select id="getFilesInfosByParam" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        PK_FileID,
+        OriginalFileName,
+        FileName,
+        FileSize,
+        FileExtName,
+        UploadUser,
+        UploadTime,
+        BusinessType,
+        FileFlag,
+        FilePath,
+        BusinessFileType
+        FROM
+        T_BAS_FileInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fileflags!=null and fileflags.size>0">
+                FileFlag in
+                <foreach collection="fileflags" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="businesstypes!=null and businesstypes.size>0">
+             and    BusinessType in
+                <foreach collection="businesstypes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="businesstype!=null and businesstype!=''">
+                AND BusinessType = #{businesstype}
+            </if>
+            <if test="businessfiletype!=null and businessfiletype!=''">
+                AND BusinessFileType = #{businessfiletype}
+            </if>
+        </trim>
+    </select>
+
+    <!--
+    description: 根据文件标识和文件业务相关类型以及业务类型下的文件类型删除文件信息
+    param: fileflags 文件标识集合（对应业务表中附件字段所存的ID）（必传）
+    param: businesstype     文件业务相关类型（必传）
+    param: businessfiletype 业务类型下的文件类型（非必传）
+    create: chengzq in 2019/06/22 15:24
+    -->
+    <delete id="deleteByParam"  parameterType="map">
+        delete
+        FROM
+        T_BAS_FileInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fileflags!=null and fileflags.size>0">
+                FileFlag in
+                <foreach collection="fileflags" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="businesstype!=null and businesstype!=''">
+                AND BusinessType = #{businesstype}
+            </if>
+            <if test="businessfiletype!=null and businessfiletype!=''">
+                AND BusinessFileType = #{businessfiletype}
+            </if>
+        </trim>
+    </delete>
+
+    <!--
+        author:chengzq
+        description: 通过fileflag查询文件信息
+        param:
+        date: 2019/11/12 09:58
+    -->
+    <select id="getFileInfoByFileflag" resultType="map" parameterType="string">
+        SELECT
+        OriginalFileName FileName,
+        filepath fkfileid
+        FROM
+        T_BAS_FileInfo
+        where fileflag=#{fileflag}
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取文件信息
+        param:
+        date: 2020/02/21 10:37
+    -->
+    <select id="getProbleDataInfo" resultType="java.util.Map" parameterType="map">
+        select
+        OriginalFileName FileName,
+        filepath fkfileid,
+        convert(varchar(19),uploadtime,120)uploadtime
+        from
+        T_BAS_FileInfo
+        <where>
+            <if test="Businesstype!=null and Businesstype!=''">
+                and BusinessType = #{Businesstype}
+            </if>
+            <if test="starttime!=null and starttime!=''">
+                and convert(varchar(10),uploadtime,120) >= #{starttime}
+            </if>
+            <if test="endtime!=null and endtime!=''">
+                and convert(varchar(10),uploadtime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+        </where>
+        order by
+        uploadtime desc
+    </select>
+
+    <!--
+       author:xsm
+       description: 通过fileflag查询文件信息
+       param:
+       date: 2021/07/08 09:11
+   -->
+    <select id="getFileDataByFileflags" resultType="map" parameterType="map">
+        SELECT
+        FileFlag,
+        OriginalFileName filename,
+        filepath,
+        FileExtName
+        FROM
+        T_BAS_FileInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            (T_BAS_FileInfo.FileFlag is not null and T_BAS_FileInfo.FileFlag !='')
+            AND
+            ( T_BAS_FileInfo.filepath !='' AND T_BAS_FileInfo.filepath  is not null and T_BAS_FileInfo.filepath !='')
+            <if test="fileflag!=null and fileflag!=''">
+                and FileFlag = #{fileflag}
+            </if>
+            <if test="fileflags!=null and fileflags.size>0">
+               AND FileFlag in
+                <foreach collection="fileflags" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+</mapper>

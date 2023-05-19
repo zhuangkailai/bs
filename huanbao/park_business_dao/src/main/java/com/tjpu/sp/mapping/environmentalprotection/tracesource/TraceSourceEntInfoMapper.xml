@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesource.TraceSourceEntInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEntInfoVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="FK_PolluteEventId" property="fkPolluteeventid" jdbcType="VARCHAR" />
+    <result column="FK_PollutionId" property="fkPollutionid" jdbcType="VARCHAR" />
+    <result column="ResultType" property="resulttype" jdbcType="NUMERIC" />
+    <result column="Ranking" property="ranking" jdbcType="NUMERIC" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, FK_PolluteEventId, FK_PollutionId, ResultType, Ranking, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_TraceSourceEntInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_TraceSourceEntInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEntInfoVO" >
+    insert into T_BAS_TraceSourceEntInfo (PK_ID, FK_PolluteEventId, FK_PollutionId, 
+      ResultType, Ranking, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPolluteeventid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, 
+      #{resulttype,jdbcType=NUMERIC}, #{ranking,jdbcType=NUMERIC}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEntInfoVO" >
+    insert into T_BAS_TraceSourceEntInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="fkPolluteeventid != null" >
+        FK_PolluteEventId,
+      </if>
+      <if test="fkPollutionid != null" >
+        FK_PollutionId,
+      </if>
+      <if test="resulttype != null" >
+        ResultType,
+      </if>
+      <if test="ranking != null" >
+        Ranking,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPolluteeventid != null" >
+        #{fkPolluteeventid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null" >
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="resulttype != null" >
+        #{resulttype,jdbcType=NUMERIC},
+      </if>
+      <if test="ranking != null" >
+        #{ranking,jdbcType=NUMERIC},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEntInfoVO" >
+    update T_BAS_TraceSourceEntInfo
+    <set >
+      <if test="fkPolluteeventid != null" >
+        FK_PolluteEventId = #{fkPolluteeventid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null" >
+        FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="resulttype != null" >
+        ResultType = #{resulttype,jdbcType=NUMERIC},
+      </if>
+      <if test="ranking != null" >
+        Ranking = #{ranking,jdbcType=NUMERIC},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEntInfoVO" >
+    update T_BAS_TraceSourceEntInfo
+    set FK_PolluteEventId = #{fkPolluteeventid,jdbcType=VARCHAR},
+      FK_PollutionId = #{fkPollutionid,jdbcType=VARCHAR},
+      ResultType = #{resulttype,jdbcType=NUMERIC},
+      Ranking = #{ranking,jdbcType=NUMERIC},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 通过事件id删除溯源企业
+      param:
+      date: 2019/09/23 09:54
+  -->
+  <delete id="deleteByPetitionIdAndResultType" parameterType="map">
+    delete from T_BAS_TraceSourceEntInfo
+     <where>
+       <if test="eventid!=null and eventi!='' ">
+         FK_PolluteEventId = #{eventid,jdbcType=VARCHAR}
+       </if>
+       <if test="resulttype!=null and resulttype!='' ">
+         and ResultType = #{resulttype}
+       </if>
+     </where>
+  </delete>
+
+  <!--
+      author:chengzq
+      description: 批量新增溯源企业信息
+      param:
+      date: 2019/09/23 10:32
+  -->
+  <insert id="insertEntInfoBatch" parameterType="java.util.List">
+    insert into T_BAS_TraceSourceEntInfo (PK_ID, FK_PolluteEventId, FK_PollutionId, ResultType, Ranking, UpdateTime, UpdateUser)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId},#{item.fkPolluteeventid},#{item.fkPollutionid},#{item.resulttype},#{item.ranking},#{item.updatetime},#{item.updateuser})
+    </foreach>
+
+  </insert>
+
+
+  <!--
+      author:chengzq
+      description: 通过污染事件id获取会商信息
+      param:
+      date: 2019/09/24 09:32
+  -->
+  <select id="getConsultationResultByEventId" parameterType="string" resultType="map">
+   SELECT
+        fk_pollutionid,
+        PollutionName
+    FROM
+        T_BAS_TraceSourceEntInfo
+    join T_BAS_Pollution on T_BAS_TraceSourceEntInfo.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+    where FK_PolluteEventId = #{eventid} order by Ranking
+  </select>
+</mapper>

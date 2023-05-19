@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.notice.NoticeReceiveInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.notice.NoticeReceiveInfoVO">
+    <id column="PK_NoticeReceiveID" jdbcType="NVARCHAR" property="pkNoticereceiveid" />
+    <result column="NoticeReceiverID" jdbcType="NVARCHAR" property="noticereceiverid" />
+    <result column="NoticeReceiverName" jdbcType="NVARCHAR" property="noticereceivername" />
+    <result column="FK_NoticeID" jdbcType="NVARCHAR" property="fkNoticeid" />
+    <result column="IsRead" jdbcType="INTEGER" property="isread" />
+    <!--关联单个通知信息-->
+    <association property="noticeVO" javaType="com.tjpu.sp.model.environmentalprotection.notice.NoticeVO">
+      <id column="PK_NoticeID" jdbcType="NVARCHAR" property="pkNoticeid" />
+      <result column="NoticeTitle" jdbcType="NVARCHAR" property="noticetitle" />
+      <result column="NoticeContent" jdbcType="NVARCHAR" property="noticecontent" />
+      <result column="FK_SendUserID" jdbcType="NVARCHAR" property="fkSenduserid" />
+      <result column="SendUserName" jdbcType="NVARCHAR" property="sendusername" />
+      <result column="SendTime" jdbcType="TIMESTAMP" property="sendtime" />
+
+    </association>
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_NoticeReceiveID, NoticeReceiverID, NoticeReceiverName, FK_NoticeID, IsRead
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_NoticeReceiveInfo
+    where PK_NoticeReceiveID = #{pkNoticereceiveid,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SYS_NoticeReceiveInfo
+    where PK_NoticeReceiveID = #{pkNoticereceiveid,jdbcType=NVARCHAR}
+  </delete>
+
+
+  <delete id="deleteByNoticeid" parameterType="java.lang.String">
+    delete from T_SYS_NoticeReceiveInfo
+    where FK_NoticeID = #{fkNoticeid,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeReceiveInfoVO">
+    insert into T_SYS_NoticeReceiveInfo (PK_NoticeReceiveID, NoticeReceiverID, 
+      NoticeReceiverName, FK_NoticeID, IsRead
+      )
+    values (#{pkNoticereceiveid,jdbcType=NVARCHAR}, #{noticereceiverid,jdbcType=NVARCHAR}, 
+      #{noticereceivername,jdbcType=NVARCHAR}, #{fkNoticeid,jdbcType=NVARCHAR}, #{isread,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeReceiveInfoVO">
+    insert into T_SYS_NoticeReceiveInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkNoticereceiveid != null">
+        PK_NoticeReceiveID,
+      </if>
+      <if test="noticereceiverid != null">
+        NoticeReceiverID,
+      </if>
+      <if test="noticereceivername != null">
+        NoticeReceiverName,
+      </if>
+      <if test="fkNoticeid != null">
+        FK_NoticeID,
+      </if>
+      <if test="isread != null">
+        IsRead,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkNoticereceiveid != null">
+        #{pkNoticereceiveid,jdbcType=NVARCHAR},
+      </if>
+      <if test="noticereceiverid != null">
+        #{noticereceiverid,jdbcType=NVARCHAR},
+      </if>
+      <if test="noticereceivername != null">
+        #{noticereceivername,jdbcType=NVARCHAR},
+      </if>
+      <if test="fkNoticeid != null">
+        #{fkNoticeid,jdbcType=NVARCHAR},
+      </if>
+      <if test="isread != null">
+        #{isread,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeReceiveInfoVO">
+    update T_SYS_NoticeReceiveInfo
+    <set>
+      <if test="noticereceiverid != null">
+        NoticeReceiverID = #{noticereceiverid,jdbcType=NVARCHAR},
+      </if>
+      <if test="noticereceivername != null">
+        NoticeReceiverName = #{noticereceivername,jdbcType=NVARCHAR},
+      </if>
+      <if test="fkNoticeid != null">
+        FK_NoticeID = #{fkNoticeid,jdbcType=NVARCHAR},
+      </if>
+      <if test="isread != null">
+        IsRead = #{isread,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PK_NoticeReceiveID = #{pkNoticereceiveid,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeReceiveInfoVO">
+    update T_SYS_NoticeReceiveInfo
+    set NoticeReceiverID = #{noticereceiverid,jdbcType=NVARCHAR},
+      NoticeReceiverName = #{noticereceivername,jdbcType=NVARCHAR},
+      FK_NoticeID = #{fkNoticeid,jdbcType=NVARCHAR},
+      IsRead = #{isread,jdbcType=INTEGER}
+    where PK_NoticeReceiveID = #{pkNoticereceiveid,jdbcType=NVARCHAR}
+  </update>
+
+  <!--
+  * @author: xsm
+  * @date: 2020/03/16 0016 下午 5:33
+  * @Description: 自定义查询条件查询记录
+  * @updateUser:
+  * @updateDate:
+  * @updateDescription:
+ -->
+
+  <select id="getReceiveNoticeInfoByParam" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    t2.IsRead,
+    t2.PK_NoticeReceiveID,
+    t1.*
+    FROM
+    (
+    SELECT
+    PK_NoticeID,
+    NoticeTitle,
+    NoticeContent,
+    SendTime,
+    User_Name sendusername,
+    FileID,
+    isRecall,
+    FK_SendUserID
+    FROM
+    T_SYS_Notice
+    LEFT JOIN Base_UserInfo ON FK_SendUserID = User_ID
+    where T_SYS_Notice.isRecall = 0
+    ) t1,
+    T_SYS_NoticeReceiveInfo t2
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t2.FK_NoticeID = t1.PK_NoticeID
+      <if test="senduserids != null">
+        AND t1.FK_SendUserID in
+        <foreach item="item" index="index" collection="senduserids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+
+      <if test="isread != null">
+        AND t2.IsRead = #{isread}
+      </if>
+      <if test="noticereceiverid != null">
+        AND t2.NoticeReceiverID = #{noticereceiverid}
+      </if>
+      <if test="noticetitle!=null and noticetitle!='' ">
+        AND NoticeTitle LIKE CONCAT('%',#{noticetitle},'%')
+      </if>
+      <if test="startsendtime != null">
+        AND CONVERT (VARCHAR(10),t1.SendTime,120) >= #{startsendtime}
+      </if>
+      <if test="endsendtime != null">
+        AND CONVERT (VARCHAR(10),t1.SendTime,120) <![CDATA[<=]]> #{endsendtime}
+      </if>
+    </trim>
+    order by t1.SendTime DESC
+  </select>
+
+  <!--
+     * @author: xsm
+     * @date: 2018/10/15 0015 下午 3:04
+     * @Description:根据条件删除记录
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+  <delete id="deleteReceiveNoticeByParam" parameterType="map">
+    delete from T_SYS_NoticeReceiveInfo
+    where where FK_NoticeID in
+
+    <foreach item="item" index="index" collection="noticeids"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and NoticeReceiverID =#{userid}
+  </delete>
+
+  <!--
+     * @author: xsm
+     * @date: 2020/03/16 0016 下午 3:22
+     * @Description: 根据主键id集合更新是否已读标记
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+
+  <update id="updateIsReadByIds" parameterType="map">
+    update T_SYS_NoticeReceiveInfo
+    set
+    IsRead = #{isRead}
+    where FK_NoticeID in
+
+    <foreach item="item" index="index" collection="noticeids"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and NoticeReceiverID =#{userid}
+
+  </update>
+
+  <!--
+   * @author: xsm
+   * @date: 2020/03/16 0016 下午 2:39
+   * @Description:批量插入记录
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_SYS_NoticeReceiveInfo
+    ( PK_NoticeReceiveID, NoticeReceiverID,
+    NoticeReceiverName, FK_NoticeID, IsRead
+    )
+    values
+    <foreach collection="list" item="items" index="index" separator=",">
+      (
+      #{items.pkNoticereceiveid},
+      #{items.noticereceiverid},
+      #{items.noticereceivername},
+      #{items.fkNoticeid},
+      #{items.isread}
+      )
+    </foreach>
+  </insert>
+</mapper>

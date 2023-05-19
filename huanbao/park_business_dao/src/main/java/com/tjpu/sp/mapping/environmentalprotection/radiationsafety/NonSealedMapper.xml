@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.radiationsafety.NonSealedMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.radiationsafety.NonSealedVO">
+    <id column="PK_NonSealedMaterialId" jdbcType="VARCHAR" property="pkNonsealedmaterialid" />
+    <result column="FK_LicenceID" jdbcType="VARCHAR" property="fkLicenceid" />
+    <result column="FK_WorkPlaceID" jdbcType="VARCHAR" property="fkWorkplaceid" />
+    <result column="FK_WorkPlaceLevelCode" jdbcType="VARCHAR" property="fkWorkplacelevelcode" />
+    <result column="FK_RadionuclideCode" jdbcType="VARCHAR" property="fkRadionuclidecode" />
+    <result column="DayMaxOperation" jdbcType="VARCHAR" property="daymaxoperation" />
+    <result column="YearMaxOperation" jdbcType="VARCHAR" property="yearmaxoperation" />
+    <result column="FK_ActivityTypeCode" jdbcType="VARCHAR" property="fkActivitytypecode" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_NonSealedMaterialId, FK_LicenceID, FK_WorkPlaceID, FK_WorkPlaceLevelCode, FK_RadionuclideCode, 
+    DayMaxOperation, YearMaxOperation, FK_ActivityTypeCode, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_HYFS_NonSealedMaterial
+    where PK_NonSealedMaterialId = #{pkNonsealedmaterialid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_HYFS_NonSealedMaterial
+    where PK_NonSealedMaterialId = #{pkNonsealedmaterialid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.NonSealedVO">
+    insert into T_HYFS_NonSealedMaterial (PK_NonSealedMaterialId, FK_LicenceID, 
+      FK_WorkPlaceID, FK_WorkPlaceLevelCode, FK_RadionuclideCode, 
+      DayMaxOperation, YearMaxOperation, FK_ActivityTypeCode, 
+      UpdateUser, UpdateTime)
+    values (#{pkNonsealedmaterialid,jdbcType=VARCHAR}, #{fkLicenceid,jdbcType=VARCHAR}, 
+      #{fkWorkplaceid,jdbcType=VARCHAR}, #{fkWorkplacelevelcode,jdbcType=VARCHAR}, #{fkRadionuclidecode,jdbcType=VARCHAR}, 
+      #{daymaxoperation,jdbcType=VARCHAR}, #{yearmaxoperation,jdbcType=VARCHAR}, #{fkActivitytypecode,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.NonSealedVO">
+    insert into T_HYFS_NonSealedMaterial
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkNonsealedmaterialid != null">
+        PK_NonSealedMaterialId,
+      </if>
+      <if test="fkLicenceid != null">
+        FK_LicenceID,
+      </if>
+      <if test="fkWorkplaceid != null">
+        FK_WorkPlaceID,
+      </if>
+      <if test="fkWorkplacelevelcode != null">
+        FK_WorkPlaceLevelCode,
+      </if>
+      <if test="fkRadionuclidecode != null">
+        FK_RadionuclideCode,
+      </if>
+      <if test="daymaxoperation != null">
+        DayMaxOperation,
+      </if>
+      <if test="yearmaxoperation != null">
+        YearMaxOperation,
+      </if>
+      <if test="fkActivitytypecode != null">
+        FK_ActivityTypeCode,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkNonsealedmaterialid != null">
+        #{pkNonsealedmaterialid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceid != null">
+        #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWorkplaceid != null">
+        #{fkWorkplaceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWorkplacelevelcode != null">
+        #{fkWorkplacelevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRadionuclidecode != null">
+        #{fkRadionuclidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="daymaxoperation != null">
+        #{daymaxoperation,jdbcType=VARCHAR},
+      </if>
+      <if test="yearmaxoperation != null">
+        #{yearmaxoperation,jdbcType=VARCHAR},
+      </if>
+      <if test="fkActivitytypecode != null">
+        #{fkActivitytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.NonSealedVO">
+    update T_HYFS_NonSealedMaterial
+    <set>
+      <if test="fkLicenceid != null">
+        FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWorkplaceid != null">
+        FK_WorkPlaceID = #{fkWorkplaceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWorkplacelevelcode != null">
+        FK_WorkPlaceLevelCode = #{fkWorkplacelevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRadionuclidecode != null">
+        FK_RadionuclideCode = #{fkRadionuclidecode,jdbcType=VARCHAR},
+      </if>
+      <if test="daymaxoperation != null">
+        DayMaxOperation = #{daymaxoperation,jdbcType=VARCHAR},
+      </if>
+      <if test="yearmaxoperation != null">
+        YearMaxOperation = #{yearmaxoperation,jdbcType=VARCHAR},
+      </if>
+      <if test="fkActivitytypecode != null">
+        FK_ActivityTypeCode = #{fkActivitytypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_NonSealedMaterialId = #{pkNonsealedmaterialid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.radiationsafety.NonSealedVO">
+    update T_HYFS_NonSealedMaterial
+    set FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      FK_WorkPlaceID = #{fkWorkplaceid,jdbcType=VARCHAR},
+      FK_WorkPlaceLevelCode = #{fkWorkplacelevelcode,jdbcType=VARCHAR},
+      FK_RadionuclideCode = #{fkRadionuclidecode,jdbcType=VARCHAR},
+      DayMaxOperation = #{daymaxoperation,jdbcType=VARCHAR},
+      YearMaxOperation = #{yearmaxoperation,jdbcType=VARCHAR},
+      FK_ActivityTypeCode = #{fkActivitytypecode,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_NonSealedMaterialId = #{pkNonsealedmaterialid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 通过自定义参数获取非密封放射性物质信息列表
+      param:
+      date: 2019/10/23 10:09
+  -->
+  <select id="getNonSealedByParamMap" parameterType="map" resultType="map">
+      SELECT
+        t1.PK_NonSealedMaterialId,
+        t2.LicenceNum,
+        t3.Name FKWorkPlaceLevelName,
+        t4.Name FKRadionuclideName,
+        t1.DayMaxOperation,
+        t1.YearMaxOperation,
+        t5.Name FKActivityTypeName
+        FROM
+        T_HYFS_NonSealedMaterial t1
+        LEFT JOIN T_HYFS_LicenceInfo t2 ON t1.FK_LicenceID= t2.PK_LicenceId
+        LEFT JOIN PUB_CODE_WorkPlaceLevel t3 ON t1.FK_WorkPlaceLevelCode=t3.Code
+        LEFT JOIN PUB_CODE_Radionuclide t4 ON t1.FK_RadionuclideCode=t4.Code
+        LEFT JOIN PUB_CODE_ActivityType t5 ON t1.FK_ActivityTypeCode=t5.Code
+        JOIN T_BAS_Pollution p  ON p.PK_PollutionID = t2.FK_PollutionID
+        <where>
+          <if test="fkpollutionid!=null and fkpollutionid!=''">
+            and t2.FK_PollutionID=#{fkpollutionid}
+          </if>
+          <if test="licenceid!=null and licenceid!=''">
+            and t2.PK_LicenceId=#{licenceid}
+          </if>
+          <if test="licencenum!=null and licencenum!=''">
+            and t2.LicenceNum LIKE concat('%',#{licencenum,jdbcType=VARCHAR},'%')
+          </if>
+          <if test="fkworkplacelevelcodes!=null and fkworkplacelevelcodes.size>0">
+              and t1.FK_WorkPlaceLevelCode in
+            <foreach collection="fkworkplacelevelcodes" index="index" item="item" open="("
+                     separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
+        </where>
+  </select>
+  <!--
+      author:liyc
+      description: 获取非密封放射性物质详情信息
+      param:
+      date: 2019/10/23 10:59
+  -->
+  <select id="getNonSealedDetailById" parameterType="java.lang.String" resultType="map">
+      SELECT
+        t2.LicenceNum,
+        t3.Name FKWorkPlaceLevelName,
+        t4.Name FKRadionuclideName,
+        t1.DayMaxOperation,
+        t1.YearMaxOperation,
+        t5.Name FKActivityTypeName
+        FROM
+        T_HYFS_NonSealedMaterial t1
+        LEFT JOIN T_HYFS_LicenceInfo t2 ON t1.FK_LicenceID= t2.PK_LicenceId
+        LEFT JOIN PUB_CODE_WorkPlaceLevel t3 ON t1.FK_WorkPlaceLevelCode=t3.Code
+        LEFT JOIN PUB_CODE_Radionuclide t4 ON t1.FK_RadionuclideCode=t4.Code
+        LEFT JOIN PUB_CODE_ActivityType t5 ON t1.FK_ActivityTypeCode=t5.Code
+        WHERE PK_NonSealedMaterialId=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

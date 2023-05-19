@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.productionmaterials.FuelInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.productionmaterials.FuelInfoVO">
+    <id column="PK_FuelInfoId" jdbcType="VARCHAR" property="pkFuelinfoid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FuelName" jdbcType="VARCHAR" property="fuelname" />
+    <result column="AshContent" jdbcType="DOUBLE" property="ashcontent" />
+    <result column="VolatilizationContent" jdbcType="DOUBLE" property="volatilizationcontent" />
+    <result column="Sulfur" jdbcType="DOUBLE" property="sulfur" />
+    <result column="SulfurPercent" jdbcType="DOUBLE" property="sulfurpercent" />
+    <result column="SulfurContent" jdbcType="DOUBLE" property="sulfurcontent" />
+    <result column="Calorific" jdbcType="DOUBLE" property="calorific" />
+    <result column="Calorificvalue" jdbcType="DOUBLE" property="calorificvalue" />
+    <result column="AnnualMaxImumUse" jdbcType="DOUBLE" property="annualmaximumuse" />
+    <result column="Mercury" jdbcType="DOUBLE" property="mercury" />
+    <result column="YearMaxUnit" jdbcType="VARCHAR" property="yearmaxunit" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_FuelInfoId, FK_PollutionID, FuelName, AshContent, VolatilizationContent, Sulfur, 
+    SulfurPercent, SulfurContent, Calorific, Calorificvalue, AnnualMaxImumUse, Mercury, 
+    YearMaxUnit, Remark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCWL_FuelInfo
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SCWL_FuelInfo
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.FuelInfoVO">
+    insert into T_SCWL_FuelInfo (PK_FuelInfoId, FK_PollutionID, FuelName,
+      AshContent, VolatilizationContent, Sulfur, 
+      SulfurPercent, SulfurContent, Calorific, 
+      Calorificvalue, AnnualMaxImumUse, Mercury, 
+      YearMaxUnit, Remark, UpdateUser, 
+      UpdateTime)
+    values (#{pkFuelinfoid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fuelname,jdbcType=VARCHAR}, 
+      #{ashcontent,jdbcType=DOUBLE}, #{volatilizationcontent,jdbcType=DOUBLE}, #{sulfur,jdbcType=DOUBLE}, 
+      #{sulfurpercent,jdbcType=DOUBLE}, #{sulfurcontent,jdbcType=DOUBLE}, #{calorific,jdbcType=DOUBLE}, 
+      #{calorificvalue,jdbcType=DOUBLE}, #{annualmaximumuse,jdbcType=DOUBLE}, #{mercury,jdbcType=DOUBLE}, 
+      #{yearmaxunit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.FuelInfoVO">
+    insert into T_SCWL_FuelInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkFuelinfoid != null">
+        PK_FuelInfoId,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fuelname != null">
+        FuelName,
+      </if>
+      <if test="ashcontent != null">
+        AshContent,
+      </if>
+      <if test="volatilizationcontent != null">
+        VolatilizationContent,
+      </if>
+      <if test="sulfur != null">
+        Sulfur,
+      </if>
+      <if test="sulfurpercent != null">
+        SulfurPercent,
+      </if>
+      <if test="sulfurcontent != null">
+        SulfurContent,
+      </if>
+      <if test="calorific != null">
+        Calorific,
+      </if>
+      <if test="calorificvalue != null">
+        Calorificvalue,
+      </if>
+      <if test="annualmaximumuse != null">
+        AnnualMaxImumUse,
+      </if>
+      <if test="mercury != null">
+        Mercury,
+      </if>
+      <if test="yearmaxunit != null">
+        YearMaxUnit,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkFuelinfoid != null">
+        #{pkFuelinfoid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuelname != null">
+        #{fuelname,jdbcType=VARCHAR},
+      </if>
+      <if test="ashcontent != null">
+        #{ashcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="volatilizationcontent != null">
+        #{volatilizationcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="sulfur != null">
+        #{sulfur,jdbcType=DOUBLE},
+      </if>
+      <if test="sulfurpercent != null">
+        #{sulfurpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="sulfurcontent != null">
+        #{sulfurcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="calorific != null">
+        #{calorific,jdbcType=DOUBLE},
+      </if>
+      <if test="calorificvalue != null">
+        #{calorificvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="annualmaximumuse != null">
+        #{annualmaximumuse,jdbcType=DOUBLE},
+      </if>
+      <if test="mercury != null">
+        #{mercury,jdbcType=DOUBLE},
+      </if>
+      <if test="yearmaxunit != null">
+        #{yearmaxunit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.FuelInfoVO">
+    update T_SCWL_FuelInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fuelname != null">
+        FuelName = #{fuelname,jdbcType=VARCHAR},
+      </if>
+      <if test="ashcontent != null">
+        AshContent = #{ashcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="volatilizationcontent != null">
+        VolatilizationContent = #{volatilizationcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="sulfur != null">
+        Sulfur = #{sulfur,jdbcType=DOUBLE},
+      </if>
+      <if test="sulfurpercent != null">
+        SulfurPercent = #{sulfurpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="sulfurcontent != null">
+        SulfurContent = #{sulfurcontent,jdbcType=DOUBLE},
+      </if>
+      <if test="calorific != null">
+        Calorific = #{calorific,jdbcType=DOUBLE},
+      </if>
+      <if test="calorificvalue != null">
+        Calorificvalue = #{calorificvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="annualmaximumuse != null">
+        AnnualMaxImumUse = #{annualmaximumuse,jdbcType=DOUBLE},
+      </if>
+      <if test="mercury != null">
+        Mercury = #{mercury,jdbcType=DOUBLE},
+      </if>
+      <if test="yearmaxunit != null">
+        YearMaxUnit = #{yearmaxunit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.FuelInfoVO">
+    update T_SCWL_FuelInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FuelName = #{fuelname,jdbcType=VARCHAR},
+      AshContent = #{ashcontent,jdbcType=DOUBLE},
+      VolatilizationContent = #{volatilizationcontent,jdbcType=DOUBLE},
+      Sulfur = #{sulfur,jdbcType=DOUBLE},
+      SulfurPercent = #{sulfurpercent,jdbcType=DOUBLE},
+      SulfurContent = #{sulfurcontent,jdbcType=DOUBLE},
+      Calorific = #{calorific,jdbcType=DOUBLE},
+      Calorificvalue = #{calorificvalue,jdbcType=DOUBLE},
+      AnnualMaxImumUse = #{annualmaximumuse,jdbcType=DOUBLE},
+      Mercury = #{mercury,jdbcType=DOUBLE},
+      YearMaxUnit = #{yearmaxunit,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_FuelInfoId = #{pkFuelinfoid,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取企业燃料信息
+    param:
+    date: 2019/10/18 13:35
+ -->
+  <select id="getFuelInfosByParamMap" resultType="map" parameterType="map">
+    SELECT
+    PK_FuelInfoId,
+    FuelName,
+    AshContent,
+    Sulfur,
+    VolatilizationContent,
+    Calorific,
+    AnnualMaxImumUse,
+    T_SCWL_FuelInfo.Remark
+    FROM
+    T_SCWL_FuelInfo
+    JOIN T_BAS_Pollution on T_SCWL_FuelInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+        and T_SCWL_FuelInfo.Fk_PollutionID = #{fk_pollutionid}
+      </if>
+      <if test="fuelname!=null and fuelname!='' ">
+        and T_SCWL_FuelInfo.FuelName like concat('%',#{fuelname},'%')
+      </if>
+    </trim>
+    order by T_SCWL_FuelInfo.FuelName
+  </select>
+
+  <!--
+     author:xsm
+     description: 通过id查询燃料详情
+     param:
+     date: 2019/10/18 13:35
+ -->
+  <select id="getFuelInfoDetailByID" resultType="map" parameterType="string">
+    SELECT
+    T_BAS_Pollution.PollutionName,
+      PK_FuelInfoId,
+      FuelName,
+      AshContent,
+      VolatilizationContent,
+      Sulfur,
+      SulfurPercent,
+	  SulfurContent,
+	  Calorific,
+	  Calorificvalue,
+	  AnnualMaxImumUse,
+	  Mercury,
+      YearMaxUnit,
+	 T_SCWL_FuelInfo.Remark,
+     T_SCWL_FuelInfo.UpdateUser,
+    convert(varchar(20),T_SCWL_FuelInfo.UpdateTime,120) UpdateTime
+    FROM
+    T_SCWL_FuelInfo
+    JOIN T_BAS_Pollution on T_SCWL_FuelInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where T_SCWL_FuelInfo.PK_FuelInfoId = #{pkid}
+  </select>
+</mapper>

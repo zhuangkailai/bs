@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.productionmaterials.RawMaterialMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.productionmaterials.RawMaterialVO">
+    <id column="PK_RawMaterialId" jdbcType="VARCHAR" property="pkRawmaterialid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="MaterialName" jdbcType="VARCHAR" property="materialname" />
+    <result column="FK_MaterialType" jdbcType="VARCHAR" property="fkMaterialtype" />
+    <result column="Consume" jdbcType="DOUBLE" property="consume" />
+    <result column="MeaUnit" jdbcType="VARCHAR" property="meaunit" />
+    <result column="SulphurProportion" jdbcType="DOUBLE" property="sulphurproportion" />
+    <result column="HarmfulProportion" jdbcType="VARCHAR" property="harmfulproportion" />
+    <result column="Utilization" jdbcType="DOUBLE" property="utilization" />
+    <result column="MaterialPurity" jdbcType="DOUBLE" property="materialpurity" />
+    <result column="FK_FireRiskTypeCode" jdbcType="VARCHAR" property="fkFirerisktypecode" />
+    <result column="FK_HazardLevelCode" jdbcType="VARCHAR" property="fkHazardlevelcode" />
+    <result column="FK_HazardTypeCode" jdbcType="VARCHAR" property="fkHazardtypecode" />
+    <result column="ExplosionLimit" jdbcType="DOUBLE" property="explosionlimit" />
+    <result column="MaterialSources" jdbcType="VARCHAR" property="materialsources" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_RawMaterialId, FK_PollutionID, MaterialName, FK_MaterialType, Consume, MeaUnit, 
+    SulphurProportion, HarmfulProportion, Utilization, MaterialPurity, FK_FireRiskTypeCode, 
+    FK_HazardLevelCode, FK_HazardTypeCode, ExplosionLimit, MaterialSources,Remark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCWL_RawMaterial
+    where PK_RawMaterialId = #{pkRawmaterialid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SCWL_RawMaterial
+    where PK_RawMaterialId = #{pkRawmaterialid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.RawMaterialVO">
+    insert into T_SCWL_RawMaterial (PK_RawMaterialId, FK_PollutionID, MaterialName, 
+      FK_MaterialType, Consume, MeaUnit, 
+      SulphurProportion, HarmfulProportion, Utilization, 
+      MaterialPurity, FK_FireRiskTypeCode, FK_HazardLevelCode,
+      FK_HazardTypeCode, ExplosionLimit, MaterialSources,Remark,
+      UpdateUser, UpdateTime)
+    values (#{pkRawmaterialid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{materialname,jdbcType=VARCHAR}, 
+      #{fkMaterialtype,jdbcType=VARCHAR}, #{consume,jdbcType=DOUBLE}, #{meaunit,jdbcType=VARCHAR}, 
+      #{sulphurproportion,jdbcType=DOUBLE}, #{harmfulproportion,jdbcType=VARCHAR}, #{utilization,jdbcType=DOUBLE}, 
+      #{materialpurity,jdbcType=DOUBLE}, #{fkFirerisktypecode,jdbcType=VARCHAR}, #{fkHazardlevelcode,jdbcType=VARCHAR},
+      #{fkHazardtypecode,jdbcType=VARCHAR}, #{explosionlimit,jdbcType=DOUBLE}, #{materialsources,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.RawMaterialVO">
+    insert into T_SCWL_RawMaterial
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkRawmaterialid != null">
+        PK_RawMaterialId,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="materialname != null">
+        MaterialName,
+      </if>
+      <if test="fkMaterialtype != null">
+        FK_MaterialType,
+      </if>
+      <if test="consume != null">
+        Consume,
+      </if>
+      <if test="meaunit != null">
+        MeaUnit,
+      </if>
+      <if test="sulphurproportion != null">
+        SulphurProportion,
+      </if>
+      <if test="harmfulproportion != null">
+        HarmfulProportion,
+      </if>
+      <if test="utilization != null">
+        Utilization,
+      </if>
+      <if test="materialpurity != null">
+        MaterialPurity,
+      </if>
+      <if test="fkFirerisktypecode != null">
+        FK_FireRiskTypeCode,
+      </if>
+      <if test="fkHazardlevelcode != null">
+        FK_HazardLevelCode,
+      </if>
+      <if test="fkHazardtypecode != null">
+        FK_HazardTypeCode,
+      </if>
+      <if test="explosionlimit != null">
+        ExplosionLimit,
+      </if>
+      <if test="materialsources != null">
+        MaterialSources,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkRawmaterialid != null">
+        #{pkRawmaterialid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="materialname != null">
+        #{materialname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMaterialtype != null">
+        #{fkMaterialtype,jdbcType=VARCHAR},
+      </if>
+      <if test="consume != null">
+        #{consume,jdbcType=DOUBLE},
+      </if>
+      <if test="meaunit != null">
+        #{meaunit,jdbcType=VARCHAR},
+      </if>
+      <if test="sulphurproportion != null">
+        #{sulphurproportion,jdbcType=DOUBLE},
+      </if>
+      <if test="harmfulproportion != null">
+        #{harmfulproportion,jdbcType=VARCHAR},
+      </if>
+      <if test="utilization != null">
+        #{utilization,jdbcType=DOUBLE},
+      </if>
+      <if test="materialpurity != null">
+        #{materialpurity,jdbcType=DOUBLE},
+      </if>
+      <if test="fkFirerisktypecode != null">
+        #{fkFirerisktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkHazardlevelcode != null">
+        #{fkHazardlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkHazardtypecode != null">
+        #{fkHazardtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="explosionlimit != null">
+        #{explosionlimit,jdbcType=DOUBLE},
+      </if>
+      <if test="materialsources != null">
+        #{materialsources,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.RawMaterialVO">
+    update T_SCWL_RawMaterial
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="materialname != null">
+        MaterialName = #{materialname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMaterialtype != null">
+        FK_MaterialType = #{fkMaterialtype,jdbcType=VARCHAR},
+      </if>
+      <if test="consume != null">
+        Consume = #{consume,jdbcType=DOUBLE},
+      </if>
+      <if test="meaunit != null">
+        MeaUnit = #{meaunit,jdbcType=VARCHAR},
+      </if>
+      <if test="sulphurproportion != null">
+        SulphurProportion = #{sulphurproportion,jdbcType=DOUBLE},
+      </if>
+      <if test="harmfulproportion != null">
+        HarmfulProportion = #{harmfulproportion,jdbcType=VARCHAR},
+      </if>
+      <if test="utilization != null">
+        Utilization = #{utilization,jdbcType=DOUBLE},
+      </if>
+      <if test="materialpurity != null">
+        MaterialPurity = #{materialpurity,jdbcType=DOUBLE},
+      </if>
+      <if test="fkFirerisktypecode != null">
+        FK_FireRiskTypeCode = #{fkFirerisktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkHazardlevelcode != null">
+        FK_HazardLevelCode = #{fkHazardlevelcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkHazardtypecode != null">
+        FK_HazardTypeCode = #{fkHazardtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="explosionlimit != null">
+        ExplosionLimit = #{explosionlimit,jdbcType=DOUBLE},
+      </if>
+      <if test="materialsources != null">
+        MaterialSources = #{materialsources,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_RawMaterialId = #{pkRawmaterialid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.productionmaterials.RawMaterialVO">
+    update T_SCWL_RawMaterial
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      MaterialName = #{materialname,jdbcType=VARCHAR},
+      FK_MaterialType = #{fkMaterialtype,jdbcType=VARCHAR},
+      Consume = #{consume,jdbcType=DOUBLE},
+      MeaUnit = #{meaunit,jdbcType=VARCHAR},
+      SulphurProportion = #{sulphurproportion,jdbcType=DOUBLE},
+      HarmfulProportion = #{harmfulproportion,jdbcType=VARCHAR},
+      Utilization = #{utilization,jdbcType=DOUBLE},
+      MaterialPurity = #{materialpurity,jdbcType=DOUBLE},
+      FK_FireRiskTypeCode = #{fkFirerisktypecode,jdbcType=VARCHAR},
+      FK_HazardLevelCode = #{fkHazardlevelcode,jdbcType=VARCHAR},
+      FK_HazardTypeCode = #{fkHazardtypecode,jdbcType=VARCHAR},
+      ExplosionLimit = #{explosionlimit,jdbcType=DOUBLE},
+      MaterialSources = #{materialsources,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_RawMaterialId = #{pkRawmaterialid,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+   author:xsm
+   description: 通过自定义参数获取主要原料及辅料信息
+   param:
+   date: 2019/10/18 10:22
+-->
+  <select id="getRawMaterialsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    PK_RawMaterialId,
+    MaterialName,
+    PUB_CODE_MaterialType.Name materialtypename,
+    Utilization,
+    MaterialPurity,
+    PUB_CODE_FireRiskType.Name FireRiskTypeName,
+    PUB_CODE_OccupatHazardLevel.Name OccupatHazardLevelName,
+    PUB_CODE_ChemicalHazardType.Name ChemicalHazardTypeName
+    FROM
+    T_SCWL_RawMaterial
+    JOIN T_BAS_Pollution on T_SCWL_RawMaterial.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_MaterialType ON T_SCWL_RawMaterial.FK_MaterialType = PUB_CODE_MaterialType.Code
+    LEFT JOIN PUB_CODE_FireRiskType ON T_SCWL_RawMaterial.FK_FireRiskTypeCode = PUB_CODE_FireRiskType.Code
+    LEFT JOIN PUB_CODE_OccupatHazardLevel ON T_SCWL_RawMaterial.FK_HazardLevelCode = PUB_CODE_OccupatHazardLevel.Code
+    LEFT JOIN PUB_CODE_ChemicalHazardType ON T_SCWL_RawMaterial.FK_HazardTypeCode = PUB_CODE_ChemicalHazardType.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+        and T_SCWL_RawMaterial.Fk_PollutionID = #{fk_pollutionid}
+      </if>
+      <if test="materialname!=null and materialname!='' ">
+        and T_SCWL_RawMaterial.MaterialName like concat('%',#{materialname},'%')
+      </if>
+      <if test="materialtypecodes !=null and materialtypecodes.size>0 ">
+        and T_SCWL_RawMaterial.FK_MaterialType in
+        <foreach collection="materialtypecodes" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by T_SCWL_RawMaterial.MaterialName,T_SCWL_RawMaterial.FK_MaterialType
+  </select>
+
+  <!--
+     author:xsm
+     description: 通过id查询主要原料及辅料详情
+     param:
+     date: 2019/10/18 10:22
+ -->
+  <select id="getRawMaterialDetailByID" resultType="map" parameterType="string">
+   SELECT
+    PK_RawMaterialId,
+    PUB_CODE_MaterialType.Name materialtypename,
+    T_BAS_Pollution.PollutionName,
+    MaterialName,
+    Consume,
+    MeaUnit,
+    SulphurProportion,
+    HarmfulProportion,
+    T_SCWL_RawMaterial.Remark,
+    Utilization,
+    MaterialPurity,
+	PUB_CODE_FireRiskType.Name FireRiskTypeName,
+	PUB_CODE_OccupatHazardLevel.Name OccupatHazardLevelName,
+	PUB_CODE_ChemicalHazardType.Name ChemicalHazardTypeName,
+	MaterialSources,
+	ExplosionLimit,
+    T_SCWL_RawMaterial.UpdateUser,
+    convert(varchar(20),T_SCWL_RawMaterial.UpdateTime,120) UpdateTime
+    FROM
+    T_SCWL_RawMaterial
+    JOIN T_BAS_Pollution on T_SCWL_RawMaterial.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_MaterialType ON T_SCWL_RawMaterial.FK_MaterialType = PUB_CODE_MaterialType.Code
+	LEFT JOIN PUB_CODE_FireRiskType ON T_SCWL_RawMaterial.FK_FireRiskTypeCode = PUB_CODE_FireRiskType.Code
+	LEFT JOIN PUB_CODE_OccupatHazardLevel ON T_SCWL_RawMaterial.FK_HazardLevelCode = PUB_CODE_OccupatHazardLevel.Code
+	LEFT JOIN PUB_CODE_ChemicalHazardType ON T_SCWL_RawMaterial.FK_HazardTypeCode = PUB_CODE_ChemicalHazardType.Code
+    where T_SCWL_RawMaterial.PK_RawMaterialId = #{pkid}
+  </select>
+</mapper>

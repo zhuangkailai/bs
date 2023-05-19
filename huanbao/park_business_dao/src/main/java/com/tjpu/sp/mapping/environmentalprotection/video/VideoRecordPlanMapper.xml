@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.video.VideoRecordPlanMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.video.VideoRecordPlanVO">
+    <id column="PK_VideoRecordPlanID" jdbcType="VARCHAR" property="pkVideorecordplanid" />
+    <result column="FK_VedioCameraID" jdbcType="VARCHAR" property="fkVediocameraid" />
+    <result column="PlanTranscribeDay" jdbcType="VARCHAR" property="plantranscribeday" />
+    <result column="StartTime" jdbcType="VARCHAR" property="starttime" />
+    <result column="EndTime" jdbcType="VARCHAR" property="endtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_VideoRecordPlanID, FK_VedioCameraID, PlanTranscribeDay, StartTime, EndTime, UpdateTime, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_VideoRecordPlan
+    where PK_VideoRecordPlanID = #{pkVideorecordplanid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_VideoRecordPlan
+    where PK_VideoRecordPlanID = #{pkVideorecordplanid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoRecordPlanVO">
+    insert into T_BAS_VideoRecordPlan (PK_VideoRecordPlanID, FK_VedioCameraID, 
+      PlanTranscribeDay, StartTime, EndTime, 
+      UpdateTime, UpdateUser)
+    values (#{pkVideorecordplanid,jdbcType=VARCHAR}, #{fkVediocameraid,jdbcType=VARCHAR}, 
+      #{plantranscribeday,jdbcType=VARCHAR}, #{starttime,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoRecordPlanVO">
+    insert into T_BAS_VideoRecordPlan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkVideorecordplanid != null">
+        PK_VideoRecordPlanID,
+      </if>
+      <if test="fkVediocameraid != null">
+        FK_VedioCameraID,
+      </if>
+      <if test="plantranscribeday != null">
+        PlanTranscribeDay,
+      </if>
+      <if test="starttime != null">
+        StartTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkVideorecordplanid != null">
+        #{pkVideorecordplanid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkVediocameraid != null">
+        #{fkVediocameraid,jdbcType=VARCHAR},
+      </if>
+      <if test="plantranscribeday != null">
+        #{plantranscribeday,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoRecordPlanVO">
+    update T_BAS_VideoRecordPlan
+    <set>
+      <if test="fkVediocameraid != null">
+        FK_VedioCameraID = #{fkVediocameraid,jdbcType=VARCHAR},
+      </if>
+      <if test="plantranscribeday != null">
+        PlanTranscribeDay = #{plantranscribeday,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        StartTime = #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        EndTime = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_VideoRecordPlanID = #{pkVideorecordplanid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoRecordPlanVO">
+    update T_BAS_VideoRecordPlan
+    set FK_VedioCameraID = #{fkVediocameraid,jdbcType=VARCHAR},
+      PlanTranscribeDay = #{plantranscribeday,jdbcType=VARCHAR},
+      StartTime = #{starttime,jdbcType=VARCHAR},
+      EndTime = #{endtime,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_VideoRecordPlanID = #{pkVideorecordplanid,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--author:xsm description: 根据摄像头ID获取视频录制计划信息  param: date: 2020/2/19 17:21 -->
+  <select id="getVideoRecordPlanInfoByVideoCameraID" parameterType="java.lang.String" resultType="map">
+    SELECT   PK_VideoRecordPlanID, FK_VedioCameraID,
+      PlanTranscribeDay, StartTime, EndTime,
+       convert (varchar(20),T_BAS_VideoRecordPlan.UpdateTime,120) UpdateTime, UpdateUser
+    FROM
+    T_BAS_VideoRecordPlan
+    WHERE
+    T_BAS_VideoRecordPlan.FK_VedioCameraID = #{vediocameraid}
+  </select>
+</mapper>

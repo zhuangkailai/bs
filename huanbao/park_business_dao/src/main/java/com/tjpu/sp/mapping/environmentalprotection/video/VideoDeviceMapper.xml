@@ -1,0 +1,2193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.video.VideoDeviceMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.video.VideoDeviceVO">
+        <id column="PK_VedioDeviceID" jdbcType="VARCHAR" property="pkVediodeviceid"/>
+        <result column="VedioDeviceName" jdbcType="VARCHAR" property="vediodevicename"/>
+        <result column="VedioDeviceNumber" jdbcType="VARCHAR" property="vediodevicenumber"/>
+        <result column="VedioDevicePosition" jdbcType="VARCHAR" property="vediodeviceposition"/>
+        <result column="IP" jdbcType="VARCHAR" property="ip"/>
+        <result column="UserName" jdbcType="VARCHAR" property="username"/>
+        <result column="UserPassword" jdbcType="VARCHAR" property="userpassword"/>
+        <result column="DevicePort" jdbcType="VARCHAR" property="deviceport"/>
+    </resultMap>
+    <resultMap id="PollutionResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="vediotype" javaType="java.util.List">
+            <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="outputname" jdbcType="VARCHAR" property="label"/>
+            <result column="pk_pollutionid" jdbcType="VARCHAR" property="pkpollutionid"/>
+            <result column="pollutionname" jdbcType="VARCHAR" property="pollutionname"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="shortername" jdbcType="VARCHAR" property="shortername"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="vediocameraname"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+        </collection>
+    </resultMap>
+    <resultMap id="PollutionsResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+            <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+                <id column="outputtype" jdbcType="VARCHAR" property="label"/>
+                <result column="outputstype" jdbcType="VARCHAR" property="branchcode"/>
+                <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+                <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                <collection property="childrendata" ofType="map" column="PK_VedioDeviceID" javaType="java.util.List">
+                    <id column="VedioDeviceName" jdbcType="VARCHAR" property="label"/>
+                    <result column="PK_VedioDeviceID" jdbcType="VARCHAR" property="id"/>
+                    <result column="cameratype" jdbcType="VARCHAR" property="branchcode"/>
+                    <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                    <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+                    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                    <collection property="childrendata" ofType="map" column="PK_VedioCameraID"
+                                javaType="java.util.List">
+                        <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                        <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+                        <result column="VedioCameraTypeName" jdbcType="VARCHAR" property="VedioCameraTypeName"/>
+                        <result column="RTSP" jdbcType="VARCHAR" property="RTSP"/>
+                        <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR"
+                                property="FK_MonitorPointOrOutPutID"/>
+                        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                        <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+                        <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+                        <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+                    </collection>
+                </collection>
+            </collection>
+    </resultMap>
+    <resultMap id="OtherMonitorResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+            <id column="outputname" jdbcType="VARCHAR" property="label"/>
+            <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="RTSP" jdbcType="VARCHAR" property="RTSP"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="vediocameraname"/>
+            <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="StorageTankAndRoomResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="vediotype" javaType="java.util.List">
+            <id column="outputname" jdbcType="VARCHAR" property="label"/>
+            <result column="pk_pollutionid" jdbcType="VARCHAR" property="pollutionid"/>
+            <result column="pollutionname" jdbcType="VARCHAR" property="pollutionname"/>
+            <result column="pollutiontype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="vediocameraname"/>
+            <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="StorageTankAndRoomsResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+       <!-- <collection property="childrendata" ofType="map" column="FK_MonitorPointTypeCode" javaType="java.util.List">
+            <id column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="label"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="id"/>
+            <result column="outputname" jdbcType="VARCHAR" property="label"/>
+            <result column="outputstype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>-->
+            <collection property="childrendata" ofType="map" column="PK_VedioDeviceID" javaType="java.util.List">
+                <id column="VedioDeviceName" jdbcType="VARCHAR" property="label"/>
+                <result column="PK_VedioDeviceID" jdbcType="VARCHAR" property="id"/>
+                <result column="cameratype" jdbcType="VARCHAR" property="branchcode"/>
+                <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+                <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+                    <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                    <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+                    <result column="VedioCameraTypeName" jdbcType="VARCHAR" property="VedioCameraTypeName"/>
+                    <result column="RTSP" jdbcType="VARCHAR" property="RTSP"/>
+                    <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+                    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                    <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+                    <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+                </collection>
+            </collection>
+        <!--</collection>-->
+    </resultMap>
+
+    <resultMap id="OtherMonitorsResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <collection property="childrendata" ofType="map" column="PK_VedioDeviceID" javaType="java.util.List">
+                <id column="VedioDeviceName" jdbcType="VARCHAR" property="label"/>
+                <result column="PK_VedioDeviceID" jdbcType="VARCHAR" property="id"/>
+                <result column="cameratype" jdbcType="VARCHAR" property="branchcode"/>
+                <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+                <result column="RTSP" jdbcType="VARCHAR" property="RTSP"/>
+                <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+                    <result column="pk_pollutionid" jdbcType="VARCHAR" property="pk_pollutionid"/>
+                    <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+                    <result column="VedioCameraTypeName" jdbcType="VARCHAR" property="VedioCameraTypeName"/>
+                    <result column="RTSP" jdbcType="VARCHAR" property="RTSP"/>
+                    <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+                    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+                    <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+                    <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+                </collection>
+            </collection>
+    </resultMap>
+    <resultMap id="VedioResultMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+            <id column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+            <result column="isdefault" jdbcType="VARCHAR" property="IsDefault"/>
+        </collection>
+    </resultMap>
+    <resultMap id="VedioResultsMap" type="map">
+        <id column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <result column="vedioid" jdbcType="VARCHAR" property="id"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioDeviceID" javaType="java.util.List">
+            <id column="VedioDeviceName" jdbcType="VARCHAR" property="label"/>
+            <result column="PK_VedioDeviceID" jdbcType="VARCHAR" property="id"/>
+            <result column="cameratype" jdbcType="VARCHAR" property="branchcode"/>
+            <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+                <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+                <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+                <result column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+                <result column="VedioCameraTypeName" jdbcType="VARCHAR" property="VedioCameraTypeName"/>
+                <result column="RTSP" jdbcType="VARCHAR" property="RTSP"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <resultMap id="PollutionAndVedioResultsMap" type="map">
+        <id column="pk_pollutionid" jdbcType="VARCHAR" property="id"/>
+        <result column="pollutionname" jdbcType="VARCHAR" property="label"/>
+        <result column="pollutiontype" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioDeviceID" javaType="java.util.List">
+            <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="IsShow" jdbcType="VARCHAR" property="isshow"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+            <result column="isdefault" jdbcType="VARCHAR" property="IsDefault"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="MonitorTypeAndVedioResultsMap" type="map">
+        <id column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="id"/>
+        <result column="FK_MonitorPointTypeName" jdbcType="VARCHAR" property="label"/>
+        <result column="pollutiontype" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioDeviceID" javaType="java.util.List">
+            <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="vedioname" jdbcType="VARCHAR" property="label"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+            <result column="isdefault" jdbcType="VARCHAR" property="IsDefault"/>
+        </collection>
+    </resultMap>
+    <resultMap id="GroupPollutionResultMap" type="map">
+        <id column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="id"/>
+        <result column="vediotype" jdbcType="VARCHAR" property="label"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+            <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+            <result column="outputname" jdbcType="VARCHAR" property="outputname"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+            <result column="isdefault" jdbcType="VARCHAR" property="IsDefault"/>
+        </collection>
+    </resultMap>
+    <resultMap id="OtherMonitorTypeResultMap" type="map">
+        <id column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="id"/>
+        <result column="FK_MonitorPointTypeName" jdbcType="VARCHAR" property="label"/>
+        <result column="vediocode" jdbcType="VARCHAR" property="branchcode"/>
+        <collection property="childrendata" ofType="map" column="PK_VedioCameraID" javaType="java.util.List">
+            <id column="PK_VedioCameraID" jdbcType="VARCHAR" property="id"/>
+            <result column="isoverlay" jdbcType="VARCHAR" property="isoverlay"/>
+            <result column="VedioManufactor" jdbcType="VARCHAR" property="VedioManufactor"/>
+            <result column="vediostype" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="VedioCameraNumber" jdbcType="VARCHAR" property="VedioCameraNumber"/>
+            <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="FK_MonitorPointOrOutPutID"/>
+            <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="FK_MonitorPointTypeCode"/>
+            <result column="DevicePort" jdbcType="VARCHAR" property="DevicePort"/>
+            <result column="Longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="Latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="VedioCameraName" jdbcType="VARCHAR" property="label"/>
+            <result column="outputname" jdbcType="VARCHAR" property="outputname"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="RTSP"/>
+            <result column="isdefault" jdbcType="VARCHAR" property="IsDefault"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="PollutionVideoResultMap" type="java.util.LinkedList">
+        <discriminator javaType="string" column="vediotype">
+            <case value="企业视频" resultMap="PollutionAndVedioResultsMap"/>
+            <case value="高空瞭望视频" resultMap="VedioResultMap"/>
+            <case value="恶臭视频" resultMap="GroupPollutionResultMap"/>
+            <case value="VOC视频" resultMap="GroupPollutionResultMap"/>
+            <case value="微型站视频" resultMap="GroupPollutionResultMap"/>
+            <case value="空气视频" resultMap="GroupPollutionResultMap"/>
+            <case value="水质视频" resultMap="GroupPollutionResultMap"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="PollutionVideoResultMap2" type="java.util.LinkedList">
+        <discriminator javaType="string" column="resulttypemaps">
+            <case value="pollution" resultMap="PollutionAndVedioResultsMap"/>
+            <case value="other" resultMap="GroupPollutionResultMap"/>
+            <case value="vedio" resultMap="VedioResultMap"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="MonitorTypeVideoResultMap" type="java.util.LinkedList">
+        <discriminator javaType="string" column="vediotype">
+            <case value="企业视频" resultMap="MonitorTypeAndVedioResultsMap"/>
+            <case value="高空瞭望视频" resultMap="VedioResultMap"/>
+            <case value="恶臭视频" resultMap="OtherMonitorTypeResultMap"/>
+            <case value="VOC视频" resultMap="OtherMonitorTypeResultMap"/>
+            <case value="微型站视频" resultMap="OtherMonitorTypeResultMap"/>
+            <case value="空气视频" resultMap="OtherMonitorTypeResultMap"/>
+            <case value="水质视频" resultMap="OtherMonitorTypeResultMap"/>
+        </discriminator>
+    </resultMap>
+    <resultMap id="MonitorTypeVideoResultMap2" type="java.util.LinkedList">
+        <discriminator javaType="string" column="resulttypemaps">
+            <case value="monitor" resultMap="MonitorTypeAndVedioResultsMap"/>
+            <case value="vedio" resultMap="VedioResultMap"/>
+            <case value="other" resultMap="OtherMonitorTypeResultMap"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="VideoAndOutPut" type="java.util.LinkedList">
+        <discriminator javaType="string" column="vediotype">
+            <case value="企业视频" resultMap="PollutionResultMap"/>
+            <case value="企业仓库视频" resultMap="StorageTankAndRoomResultMap"/>
+            <case value="企业贮罐区视频" resultMap="StorageTankAndRoomResultMap"/>
+            <case value="生产场所视频" resultMap="StorageTankAndRoomResultMap"/>
+            <case value="空气视频" resultMap="OtherMonitorResultMap"/>
+            <case value="恶臭视频" resultMap="OtherMonitorResultMap"/>
+            <case value="VOC视频" resultMap="OtherMonitorResultMap"/>
+            <case value="微型站视频" resultMap="OtherMonitorResultMap"/>
+            <case value="高空瞭望视频" resultMap="VedioResultMap"/>
+            <case value="水质视频" resultMap="OtherMonitorResultMap"/>
+        </discriminator>
+    </resultMap>
+    <resultMap id="VideoAndOutPuts" type="java.util.LinkedList">
+        <discriminator javaType="string" column="vediotype">
+            <case value="企业视频" resultMap="PollutionsResultMap"/>
+            <case value="企业仓库视频" resultMap="StorageTankAndRoomsResultMap"/>
+            <case value="企业贮罐区视频" resultMap="StorageTankAndRoomsResultMap"/>
+            <case value="生产场所视频" resultMap="StorageTankAndRoomsResultMap"/>
+            <case value="空气视频" resultMap="OtherMonitorsResultMap"/>
+            <case value="恶臭视频" resultMap="OtherMonitorsResultMap"/>
+            <case value="VOC视频" resultMap="OtherMonitorsResultMap"/>
+            <case value="微型站视频" resultMap="OtherMonitorsResultMap"/>
+            <case value="高空瞭望视频" resultMap="VedioResultsMap"/>
+            <case value="水质视频" resultMap="OtherMonitorsResultMap"/>
+        </discriminator>
+    </resultMap>
+    <resultMap id="VideoAndOutPuts2" type="java.util.LinkedList">
+        <discriminator javaType="string" column="resulttypemaps">
+            <case value="pollution" resultMap="PollutionsResultMap"/>
+            <case value="storage" resultMap="StorageTankAndRoomsResultMap"/>
+            <case value="other" resultMap="OtherMonitorsResultMap"/>
+            <case value="vedio" resultMap="VedioResultsMap"/>
+        </discriminator>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    PK_VedioDeviceID, VedioDeviceName, VedioDeviceNumber, VedioDevicePosition, IP, UserName, 
+    UserPassword, DevicePort
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_VideoDevice
+        where PK_VedioDeviceID = #{pkVediodeviceid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_VideoDevice
+    where PK_VedioDeviceID = #{pkVediodeviceid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoDeviceVO">
+    insert into T_BAS_VideoDevice (PK_VedioDeviceID, VedioDeviceName, 
+      VedioDeviceNumber, VedioDevicePosition, 
+      IP, UserName, UserPassword, 
+      DevicePort)
+    values (#{pkVediodeviceid,jdbcType=VARCHAR}, #{vediodevicename,jdbcType=VARCHAR}, 
+      #{vediodevicenumber,jdbcType=VARCHAR}, #{vediodeviceposition,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{userpassword,jdbcType=VARCHAR}, 
+      #{deviceport,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoDeviceVO">
+        insert into T_BAS_VideoDevice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkVediodeviceid != null">
+                PK_VedioDeviceID,
+            </if>
+            <if test="vediodevicename != null">
+                VedioDeviceName,
+            </if>
+            <if test="vediodevicenumber != null">
+                VedioDeviceNumber,
+            </if>
+            <if test="vediodeviceposition != null">
+                VedioDevicePosition,
+            </if>
+            <if test="ip != null">
+                IP,
+            </if>
+            <if test="username != null">
+                UserName,
+            </if>
+            <if test="userpassword != null">
+                UserPassword,
+            </if>
+            <if test="deviceport != null">
+                DevicePort,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkVediodeviceid != null">
+                #{pkVediodeviceid,jdbcType=VARCHAR},
+            </if>
+            <if test="vediodevicename != null">
+                #{vediodevicename,jdbcType=VARCHAR},
+            </if>
+            <if test="vediodevicenumber != null">
+                #{vediodevicenumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vediodeviceposition != null">
+                #{vediodeviceposition,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceport != null">
+                #{deviceport,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoDeviceVO">
+        update T_BAS_VideoDevice
+        <set>
+            <if test="vediodevicename != null">
+                VedioDeviceName = #{vediodevicename,jdbcType=VARCHAR},
+            </if>
+            <if test="vediodevicenumber != null">
+                VedioDeviceNumber = #{vediodevicenumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vediodeviceposition != null">
+                VedioDevicePosition = #{vediodeviceposition,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                IP = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                UserName = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                UserPassword = #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceport != null">
+                DevicePort = #{deviceport,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_VedioDeviceID = #{pkVediodeviceid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.video.VideoDeviceVO">
+    update T_BAS_VideoDevice
+    set VedioDeviceName = #{vediodevicename,jdbcType=VARCHAR},
+      VedioDeviceNumber = #{vediodevicenumber,jdbcType=VARCHAR},
+      VedioDevicePosition = #{vediodeviceposition,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      UserName = #{username,jdbcType=VARCHAR},
+      UserPassword = #{userpassword,jdbcType=VARCHAR},
+      DevicePort = #{deviceport,jdbcType=VARCHAR}
+    where PK_VedioDeviceID = #{pkVediodeviceid,jdbcType=VARCHAR}
+  </update>
+    <select id="getAllVideoDevice" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_VideoDevice
+        order by VedioDeviceName
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 获取企业视频和排口信息
+        param:
+        date: 2019/09/25 09:07
+    -->
+    <select id="getVideoAndOutPutInfos" resultMap="VideoAndOutPut">
+        <!--企业视频 -->
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.VedioCameraName outputname,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay
+        ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+        where
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,37,2,22,40,41)
+        <!--其它视频  只关联企业 不关联点位-->
+        union
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.VedioCameraName outputname,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay
+        ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+        where
+        (T_BAS_VideoCamera.FK_MonitorPointTypeCode IS NULL
+        AND T_BAS_VideoCamera.FK_MonitorPointOrOutPutID IS NULL
+        AND T_BAS_VideoCamera.FK_PollutionId IS NOT NULL)
+        <!--固废 -->
+        union
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.VedioCameraName outputname,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        '13',
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay
+        ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+        where
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=13
+
+        <!--监测点视频 -->
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.VedioCameraName  outputname,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.VedioManufactor,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        PUB_CODE_MonitorPointType.Name+'视频' vediotype,
+        case  T_BAS_VideoCamera.FK_MonitorPointTypeCode when 9 THEN 'stench' when 10 THEN  'voc' when 33 THEN  'micro' END  vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        3 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode in(9,10,33)
+        LEFT JOIN T_BAS_OtherMonitorPoint on
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay
+        ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+        LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.VedioCameraName  outputname,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.VedioManufactor,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        '空气视频' vediotype,
+        'air' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        3 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=5
+        LEFT JOIN T_BAS_AirMonitorStation on
+        T_BAS_AirMonitorStation.PK_AirID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay
+        ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.VedioCameraName  outputname,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.VedioManufactor,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        '水质视频' vediotype,
+        'waterstation' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        3 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=6
+        LEFT JOIN T_BAS_WaterStationInfo on
+        T_BAS_WaterStationInfo.PK_WaterStationID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay
+        ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+        <!--高空瞭望视频 -->
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '' outputname,
+        '' FK_MonitorPointOrOutPutID,
+        '' FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.VedioManufactor,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        CASE  WHEN (overlay.FK_VedioCameraID IS NOT NULL OR overlay.FK_VedioCameraID != '') THEN '1' ELSE '0' END isoverlay,
+        '高空瞭望视频' vediotype,
+        'high' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        1 orderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        (T_BAS_VideoCamera.FK_MonitorPointTypeCode is null
+        and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is null
+        AND  T_BAS_VideoCamera.FK_PollutionId IS  NULL )
+        LEFT JOIN (SELECT FK_VedioCameraID FROM T_BAS_VideoOverlay GROUP BY FK_VedioCameraID) overlay ON T_BAS_VideoCamera.PK_VedioCameraID = overlay.FK_VedioCameraID
+        order by orderindex,pollutionname,outputname,VedioCameraName
+
+    </select>
+
+    <select id="getVideoAndOutPutsInfos" resultMap="VideoAndOutPuts2" parameterType="map">
+        <!--环保系统视频 -->
+            <!--企业视频 -->
+            SELECT
+            *
+            FROM
+            (SELECT
+            VedioCameraName,
+            T_BAS_VideoCamera.PK_VedioCameraID,
+            VedioCameraNumber,
+            DevicePort,
+            concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+            T_BAS_VideoDevice.VedioDeviceName,
+            T_BAS_VideoDevice.ip,
+            T_BAS_VideoDevice.username,
+            T_BAS_VideoDevice.userpassword,
+            case when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.OutputName when
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode in (2) then T_BAS_GASOutPutInfo.outputname when
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode in (40,41) then T_BAS_UnorganizedMonitorPointInfo.MonitorPointName end
+            outputname,
+            case T_BAS_VideoCamera.FK_MonitorPointTypeCode when 1 then '废水' when 37 then '雨水' when 2 then '废气' when 22 then '烟气' when 40
+            then '厂界恶臭' when 41 then '厂界小型站' when 30 then '贮罐' when 57 then '生产场所' when 31 then '企业仓库' when 54 then '泄露监测' when 55 then '易燃气体' when 56 then '有毒气体' end outputtype,
+            T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+            T_BAS_VideoCamera.RTSP,
+            case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+            T_BAS_Pollution.pollutionname,
+            T_BAS_Pollution.pk_pollutionid,
+            T_BAS_Pollution.shortername,
+            '企业视频' vediotype,
+            'pollution' vediocode,
+            'pollution' resulttypemaps,
+            '${pollutionflag}' vedioid,
+            'output' outputstype,
+            'pollutioninfo' pollutiontype,
+            'camera' cameratype,
+            'video' vediostype,
+            2 orderindex
+            FROM
+            T_BAS_VideoCamera
+            JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+            LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+            T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+
+            where
+            len( IsNULL(pk_pollutionid,'')) > 0 and
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode in (
+            1,2,22,37,40,41
+            )
+        <!--其它企业视频（只关联企业不关联点位） -->
+        union
+        SELECT
+        VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        DevicePort,
+        concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+        T_BAS_VideoDevice.VedioDeviceName,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '其它'outputname,
+        '其它'outputtype,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        'other' FK_MonitorPointTypeCode,
+        T_BAS_VideoCamera.RTSP,
+        case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'pollution' resulttypemaps,
+        '${pollutionflag}' vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        where
+        (len( IsNULL(pk_pollutionid,'')) > 0 AND len( IsNULL(T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,'')) = 0)
+
+        <!--固废 -->
+            union
+            SELECT
+            T_BAS_VideoCamera.VedioCameraName,
+            T_BAS_VideoCamera.PK_VedioCameraID,
+            VedioCameraNumber,
+            DevicePort,
+            concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+            T_BAS_VideoDevice.VedioDeviceName,
+            T_BAS_VideoDevice.ip,
+            T_BAS_VideoDevice.username,
+            T_BAS_VideoDevice.userpassword,
+            '' outputname,
+            '固废' outputtype,
+            T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+            '13',
+            T_BAS_VideoCamera.RTSP,
+            case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+            T_BAS_Pollution.pollutionname,
+            T_BAS_Pollution.pk_pollutionid,
+            T_BAS_Pollution.shortername,
+            '企业视频' vediotype,
+            'pollution' vediocode,
+            'pollution' resulttypemaps,
+            '${solidwasteflag}' vedioid,
+            'output' outputstype,
+            'pollutioninfo' pollutiontype,
+            'camera' cameratype,
+            'video' vediostype,
+            2 orderindex
+            FROM
+            T_BAS_VideoCamera
+            JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+            left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+            where
+            len( IsNULL(pk_pollutionid,'')) > 0 and T_BAS_VideoCamera.FK_MonitorPointTypeCode=13
+            <!--监测点视频 -->
+            union
+            select
+            T_BAS_VideoCamera.VedioCameraName,
+            T_BAS_VideoCamera.PK_VedioCameraID,
+            VedioCameraNumber,
+            DevicePort,
+            concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+            T_BAS_VideoDevice.VedioDeviceName,
+            T_BAS_VideoDevice.ip,
+            T_BAS_VideoDevice.username,
+            T_BAS_VideoDevice.userpassword,
+            T_BAS_OtherMonitorPoint.MonitorPointName outputname,
+            PUB_CODE_MonitorPointType.Name outputtype,
+            T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+            T_BAS_VideoCamera.RTSP,
+            case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+            '' pollutionname,
+            '' pk_pollutionid,
+            '' shortername,
+            PUB_CODE_MonitorPointType.Name+'视频' vediotype,
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode  vediocode,
+           'other' resulttypemaps,
+             '${pointflag}'  vedioid,
+            'output' outputstype,
+            'pollutioninfo' pollutiontype,
+            'camera' cameratype,
+            'video' vediostype,
+            3 orderindex
+            FROM
+            T_BAS_VideoCamera
+            JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+
+        <if test="monitorpointtypecodes !=null and monitorpointtypecodes.size()>0">
+            and
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode IN
+            <foreach collection="monitorpointtypecodes" separator="," open="(" close=")" item="item">
+                #{item}
+            </foreach>
+        </if>
+
+            AND T_BAS_VideoCamera.FK_MonitorPointTypeCode NOT IN ( 1, 2, 22, 37, 40, 41, 5, 6 )
+            LEFT JOIN T_BAS_OtherMonitorPoint on
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_VideoCamera.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+            union
+            select
+            T_BAS_VideoCamera.VedioCameraName,
+            T_BAS_VideoCamera.PK_VedioCameraID,
+            VedioCameraNumber,
+            DevicePort,
+            concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+            T_BAS_VideoDevice.VedioDeviceName,
+            T_BAS_VideoDevice.ip,
+            T_BAS_VideoDevice.username,
+            T_BAS_VideoDevice.userpassword,
+            T_BAS_AirMonitorStation.MonitorPointName outputname,
+            PUB_CODE_MonitorPointType.Name outputtype,
+            T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+            T_BAS_VideoCamera.RTSP,
+            case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+            '' pollutionname,
+            '' pk_pollutionid,
+            '' shortername,
+            PUB_CODE_MonitorPointType.Name+'视频' vediotype,
+            '5' vediocode,
+           'other' resulttypemaps,
+            '${pointflag}' vedioid,
+            'output' outputstype,
+            'pollutioninfo' pollutiontype,
+            'camera' cameratype,
+            'video' vediostype,
+            3 orderindex
+            FROM
+            T_BAS_VideoCamera
+            JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode=5
+            LEFT JOIN T_BAS_AirMonitorStation on
+            T_BAS_AirMonitorStation.PK_AirID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN PUB_CODE_MonitorPointType ON PUB_CODE_MonitorPointType.Code = 5
+            union
+            select
+            T_BAS_VideoCamera.VedioCameraName,
+            T_BAS_VideoCamera.PK_VedioCameraID,
+            VedioCameraNumber,
+            DevicePort,
+            concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+            T_BAS_VideoDevice.VedioDeviceName,
+            T_BAS_VideoDevice.ip,
+            T_BAS_VideoDevice.username,
+            T_BAS_VideoDevice.userpassword,
+            T_BAS_WaterStationInfo.MonitorPointName outputname,
+            PUB_CODE_MonitorPointType.Name outputtype,
+            T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+            T_BAS_VideoCamera.RTSP,
+            case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+            '' pollutionname,
+            '' pk_pollutionid,
+            '' shortername,
+            PUB_CODE_MonitorPointType.Name+'视频' vediotype,
+            '6' vediocode,
+          'other' resulttypemaps,
+            '${pointflag}' vedioid,
+            'output' outputstype,
+            'pollutioninfo' pollutiontype,
+            'camera' cameratype,
+            'video' vediostype,
+            3 orderindex
+            FROM
+            T_BAS_VideoCamera
+            JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode=6
+            LEFT JOIN T_BAS_WaterStationInfo on
+            T_BAS_WaterStationInfo.PK_WaterStationID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+            LEFT JOIN PUB_CODE_MonitorPointType ON PUB_CODE_MonitorPointType.Code = 6
+        <!--高空瞭望视频 -->
+        <if  test="categorys.size>0">
+            union
+        </if>
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        DevicePort,
+        concat(T_BAS_VideoDevice.PK_VedioDeviceID,'+',T_BAS_VideoCamera.PK_VedioCameraID)PK_VedioDeviceID,
+        T_BAS_VideoDevice.VedioDeviceName,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_VideoCamera.RTSP,
+        case  T_BAS_VideoCamera.VedioCameraType when 1 THEN '枪机' when 2 THEN  '球机' END  VedioCameraTypeName,
+        '' outputname,
+        '' outputtype,
+        '' FK_MonitorPointOrOutPutID,
+        '' FK_MonitorPointTypeCode,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        '高空瞭望视频' vediotype,
+        'high' vediocode,
+        'vedio' resulttypemaps,
+        '${highflag}' vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        1 orderindex
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        (len( IsNULL(T_BAS_VideoCamera.FK_MonitorPointTypeCode,'')) = 0
+        and len( IsNULL(T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,'')) = 0
+        and len( IsNULL(T_BAS_VideoCamera.FK_PollutionId,''))=0)
+        ) tt
+        <if test="name != null and name!=''">
+            WHERE
+            ( VedioCameraName LIKE concat('%',#{name},'%')
+            OR VedioDeviceName LIKE concat('%',#{name},'%')
+            OR vediotype LIKE concat('%',#{name},'%')
+            OR outputname LIKE concat('%',#{name},'%')  )
+        </if>
+        order by orderindex,pollutionname,outputname,VedioDeviceName,VedioCameraName
+    </select>
+
+    <!--
+     * @author: xsm
+     * @date: 2021/11/01 0001 上午 11:14
+     * @Description: 获取非安全全部监测点类型集合
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getAllEnvMonitorTypeList" parameterType="map" resultType="map">
+        select
+        code monitorpointtypecode,
+        name monitorpointtypename
+        from
+        pub_code_monitorpointtype
+        where isused = '1' AND Category = 1
+        <if test="nomonitortypes !=null and nomonitortypes.size>0">
+            and pub_code_monitorpointtype.code NOT in
+            <foreach collection="nomonitortypes" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        order by orderindex
+    </select>
+
+
+    <select id="getHighVideoInfos" parameterType="map" resultType="map">
+       select
+            t_bas_videocamera.vediocameraname,
+            t_bas_videocamera.pkvediocameraid,
+            vediocameranumber,
+            deviceport,
+            concat ( t_bas_videodevice.pk_vediodeviceid, '+', t_bas_videocamera.pk_vediocameraid ) pk_vediodeviceid,
+            t_bas_videodevice.vediodevicename,
+            t_bas_videodevice.ip,
+            t_bas_videodevice.username,
+            t_bas_videodevice.userpassword,
+            t_bas_videocamera.rtsp,
+        case
+                t_bas_videocamera.vediocameratype
+                when 1 then
+                '枪机'
+                when 2 then
+                '球机'
+            end vediocameratypename
+        from
+            t_bas_videocamera
+            join t_bas_videodevice on t_bas_videocamera.fk_vediodeviceid= t_bas_videodevice.pk_vediodeviceid
+            and ( t_bas_videocamera.fk_monitorpointtypecode is null and t_bas_videocamera.fk_monitorpointoroutputid is null and t_bas_videocamera.fk_pollutionid is null )
+        order by
+            vediodevicename,
+            vediocameraname
+    </select>
+
+    <select id="getAllVideoDeviceNames" resultType="map">
+        select
+            t_bas_videodevice.VedioDeviceName,
+            t_bas_videodevice.PK_VedioDeviceID
+        from
+            t_bas_videodevice
+    </select>
+
+
+    <!--20190529 xsm 验证是否有重复数据-->
+    <select id="selectVideoDeviceByparamMap" parameterType="map" resultType="map">
+        select
+        *
+        from T_BAS_VideoCamera LEFT JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID =
+        T_BAS_VideoDevice.PK_VedioDeviceID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fkMonitorpointoroutputid ==null or fkMonitorpointoroutputid =='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is NOT NULL
+            </if>
+            <if test="fkMonitorpointoroutputid !=null and fkMonitorpointoroutputid !='' ">
+                and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID != #{fkMonitorpointoroutputid}
+            </if>
+            <if test="videodeviceid!=null and videodeviceid !='' ">
+                AND T_BAS_VideoCamera.FK_VedioDeviceID=#{videodeviceid}
+            </if>
+        </trim>
+    </select>
+
+    <!--
+        author:chengzq
+        description: 查询企业和高空瞭望视频
+        param:
+        date: 2020/12/16 11:56
+    -->
+    <select id="getPollutionVideoInfos" resultMap="PollutionVideoResultMap2">
+        <!--企业视频 -->
+        select * from (
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        case when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,37) then T_BAS_Pollution.shortername +'-'+
+        T_BAS_WaterOutputInfo.OutputName +'-'+ T_BAS_VideoCamera.VedioCameraName when
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode in (2) then T_BAS_Pollution.shortername +'-'+
+        T_BAS_GASOutPutInfo.outputname +'-'+ T_BAS_VideoCamera.VedioCameraName when
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode in (40,41) then T_BAS_Pollution.shortername +'-'+
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName +'-'+ T_BAS_VideoCamera.VedioCameraName end
+        outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'pollution' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        2 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        where
+        pk_pollutionid is not null and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode in (
+        1,2,22,37,40,41
+        )
+        union
+        <!--企业其它视频 只关联企业不关联监测点 -->
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+         T_BAS_Pollution.shortername +'-'+ T_BAS_VideoCamera.VedioCameraName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        'other' FK_MonitorPointTypeCode,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'pollution' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        2 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        where
+        (pk_pollutionid is not null and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is NULL)
+        union
+        <!--固废 -->
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '' outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        '13',
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'pollution' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        2 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        where
+        pk_pollutionid is not null and FK_MonitorPointOrOutPutID is null and FK_MonitorPointTypeCode is null
+        <!--监测点视频 -->
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_OtherMonitorPoint.MonitorPointName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID FK_MonitorPointOrOutPutID,
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FK_MonitorPointTypeCode,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        PUB_CODE_MonitorPointType.Name+'视频' vediotype,
+        case  T_BAS_VideoCamera.FK_MonitorPointTypeCode when 9 THEN 'stench' when 10 THEN  'voc' when 33 THEN  'micro' END  vediocode,
+        'other' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        3 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        <if test="monitorpointtypecodes !=null and monitorpointtypecodes.size()>0">
+            and T_BAS_VideoCamera.FK_MonitorPointTypeCode in
+            <foreach collection="monitorpointtypecodes" separator="," open="(" close=")" item="item">
+                #{item}
+            </foreach>
+        </if>
+        AND T_BAS_VideoCamera.FK_MonitorPointTypeCode NOT IN ( 1, 2, 22, 37, 40, 41, 5, 6 )
+        LEFT JOIN T_BAS_OtherMonitorPoint on
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_VideoCamera.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_AirMonitorStation.MonitorPointName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_AirMonitorStation.PK_AirID FK_MonitorPointOrOutPutID,
+        '5' FK_MonitorPointTypeCode,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        '空气视频' vediotype,
+        'air' vediocode,
+        'other' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        3 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=5
+        LEFT JOIN T_BAS_AirMonitorStation on
+        T_BAS_AirMonitorStation.PK_AirID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_WaterStationInfo.MonitorPointName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_WaterStationInfo.PK_WaterStationID FK_MonitorPointOrOutPutID,
+        '6' FK_MonitorPointTypeCode,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        '水质视频' vediotype,
+        'waterstation' vediocode,
+        'other' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        3 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=6
+        LEFT JOIN T_BAS_WaterStationInfo on
+        T_BAS_WaterStationInfo.PK_WaterStationID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+
+        <!--高空瞭望视频 -->
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '' outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        '' FK_MonitorPointOrOutPutID,
+        '' FK_MonitorPointTypeCode,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        '高空瞭望视频' vediotype,
+        'high' vediocode,
+        'vedio' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        IsShow,
+        1 orderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        (T_BAS_VideoCamera.FK_MonitorPointTypeCode is null and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is null
+        AND T_BAS_VideoCamera.FK_PollutionId is null
+        )
+        )t
+        <where>
+            <if test="pkpollutionid!=null and pkpollutionid!=''">
+                and pk_pollutionid=#{pkpollutionid}
+            </if>
+            <if test="customname!=null and customname!='' ">
+                and (t.VedioCameraName like concat('%',#{customname},'%') or  t.pollutionname like concat('%',#{customname},'%'))
+            </if>
+        </where>
+        order by orderindex,pollutionname,VedioCameraName
+    </select>
+
+
+    <select id="getMonitorTypeVideoInfos" resultMap="MonitorTypeVideoResultMap2" parameterType="map">
+        <!--企业视频 -->
+        select * from (
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        case when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,37) then T_BAS_Pollution.shortername +'-'+ T_BAS_WaterOutputInfo.OutputName +'-'+ T_BAS_VideoCamera.VedioCameraName
+        when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (2) then T_BAS_Pollution.shortername +'-'+ T_BAS_GASOutPutInfo.outputname +'-'+ T_BAS_VideoCamera.VedioCameraName
+        when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (40,41) then T_BAS_Pollution.shortername +'-'+ T_BAS_UnorganizedMonitorPointInfo.MonitorPointName +'-'+ T_BAS_VideoCamera.VedioCameraName
+        end outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        PUB_CODE_MonitorPointType.code FK_MonitorPointTypeCode,
+        PUB_CODE_MonitorPointType.name FK_MonitorPointTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'monitor' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        PUB_CODE_MonitorPointType.OrderIndex typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        left JOIN T_BAS_Pollution ON  T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        left join PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=T_BAS_VideoCamera.FK_MonitorPointTypeCode
+        where
+        pk_pollutionid is not null and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode in (
+        1,2,22,37,40,41
+        ) and PUB_CODE_MonitorPointType.IsUsed=1
+        union
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_Pollution.shortername +'-' +T_BAS_VideoCamera.VedioCameraName  outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        'other' FK_MonitorPointTypeCode,
+        '其它' FK_MonitorPointTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'monitor' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        1 typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        left JOIN T_BAS_Pollution ON  T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        where
+        (pk_pollutionid is not null and  FK_MonitorPointOrOutPutID is null and FK_MonitorPointTypeCode is null)
+        union
+        <!--固废 -->
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '' outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        '13' FK_MonitorPointTypeCode,
+        '固废' FK_MonitorPointTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        'monitor' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        PUB_CODE_MonitorPointType.OrderIndex typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        left join PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=T_BAS_VideoCamera.FK_MonitorPointTypeCode
+        where
+        pk_pollutionid is not null and T_BAS_VideoCamera.FK_MonitorPointTypeCode=13
+
+        <!--监测点视频 -->
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_OtherMonitorPoint.MonitorPointName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID FK_MonitorPointOrOutPutID,
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode FK_MonitorPointTypeCode,
+        PUB_CODE_MonitorPointType.Name FK_MonitorPointTypeName,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        PUB_CODE_MonitorPointType.Name+'视频' vediotype,
+        case  T_BAS_VideoCamera.FK_MonitorPointTypeCode when 9 THEN 'stench' when 10 THEN  'voc' when 33 THEN  'micro' END  vediocode,
+        'other' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        3 orderindex,
+        3 typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+
+        <if test="monitorpointtypecodes !=null and monitorpointtypecodes.size()>0">
+          and  T_BAS_VideoCamera.FK_MonitorPointTypeCode in
+            <foreach collection="monitorpointtypecodes" separator="," open="(" close=")" item="item">
+                #{item}
+            </foreach>
+        </if>
+
+        AND T_BAS_VideoCamera.FK_MonitorPointTypeCode NOT IN ( 1, 2, 22, 37, 40, 41, 5, 6 )
+        LEFT JOIN T_BAS_OtherMonitorPoint on
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_VideoCamera.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_AirMonitorStation.MonitorPointName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_AirMonitorStation.PK_AirID FK_MonitorPointOrOutPutID,
+        '5' FK_MonitorPointTypeCode,
+        '空气' FK_MonitorPointTypeName,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        '空气视频' vediotype,
+        'air' vediocode,
+        'other' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        3 orderindex,
+        3 typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=5
+        LEFT JOIN T_BAS_AirMonitorStation on
+        T_BAS_AirMonitorStation.PK_AirID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_WaterStationInfo.MonitorPointName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_WaterStationInfo.PK_WaterStationID FK_MonitorPointOrOutPutID,
+        '6' FK_MonitorPointTypeCode,
+        '水质' FK_MonitorPointTypeName,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        '水质视频' vediotype,
+        'waterstation' vediocode,
+        'other' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        3 orderindex,
+        3 typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        T_BAS_VideoCamera.FK_MonitorPointTypeCode=6
+        LEFT JOIN T_BAS_WaterStationInfo on
+        T_BAS_WaterStationInfo.PK_WaterStationID=T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+
+        <!--高空瞭望视频 -->
+        union
+        select
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '' outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        '' FK_MonitorPointOrOutPutID,
+        'gk' FK_MonitorPointTypeCode,
+        '高空瞭望' FK_MonitorPointTypeName,
+        '' pollutionname,
+        '' pk_pollutionid,
+        '' shortername,
+        T_BAS_VideoCamera.VedioCameraName vedioname,
+        '高空瞭望视频' vediotype,
+        'high' vediocode,
+        'vedio' resulttypemaps,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        1 orderindex,
+        0 typeorderindex,
+        T_BAS_VideoCamera.IsDefault,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID and
+        (T_BAS_VideoCamera.FK_MonitorPointTypeCode is null
+        and T_BAS_VideoCamera.FK_MonitorPointOrOutPutID is null
+        AND T_BAS_VideoCamera.FK_PollutionId is NULL )
+        )t
+        <where>
+            <if test="pkpollutionid != null and pkpollutionid!= '' ">
+              and pk_pollutionid= #{pkpollutionid}
+            </if>
+            <if test="customname!=null and customname != ''">
+                AND t.VedioCameraName LIKE CONCAT('%',#{customname},'%')
+            </if>
+            <if test="notneedhigh!=null and notneedhigh == 'yes'">
+                AND t.FK_MonitorPointTypeCode !='gk'
+            </if>
+        </where>
+        order by orderindex,typeorderindex,shortername,vedioname
+    </select>
+
+
+
+
+    <select id="getPollutionAllVideoInfos" resultMap="MonitorTypeVideoResultMap" parameterType="map">
+        <!--企业视频 -->
+        select * from (
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        case when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,37) then T_BAS_Pollution.shortername +'-'+ T_BAS_WaterOutputInfo.OutputName +'-'+ T_BAS_VideoCamera.VedioCameraName
+        when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (2,22) then T_BAS_Pollution.shortername +'-'+ T_BAS_GASOutPutInfo.outputname +'-'+ T_BAS_VideoCamera.VedioCameraName
+        when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (40,41) then T_BAS_Pollution.shortername +'-'+ T_BAS_UnorganizedMonitorPointInfo.MonitorPointName +'-'+ T_BAS_VideoCamera.VedioCameraName
+        <if test='categorys.contains("2")'>
+            when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (30) then T_BAS_Pollution.shortername +'-'+ T_AQ_StorageTankAreaInfo.StorageTankAreaName +'-'+ T_BAS_VideoCamera.VedioCameraName
+            when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (54,55,56) then T_BAS_Pollution.shortername +'-'+ T_AQ_RiskAreaMonitorPoint.MonitorPointName +'-'+ T_BAS_VideoCamera.VedioCameraName
+            when T_BAS_VideoCamera.FK_MonitorPointTypeCode in (57) then T_BAS_Pollution.shortername +'-'+ T_AQ_MajorHazardSources.MajorHazardSourcesName +'-'+ T_BAS_VideoCamera.VedioCameraName
+        </if>
+        end outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        PUB_CODE_MonitorPointType.code FK_MonitorPointTypeCode,
+        PUB_CODE_MonitorPointType.name FK_MonitorPointTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        T_BAS_Pollution.shortername+'-'+T_BAS_VideoCamera.VedioCameraName vedioname,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        PUB_CODE_MonitorPointType.OrderIndex typeorderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        LEFT JOIN T_BAS_WaterOutputInfo ON T_BAS_WaterOutputInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        LEFT JOIN T_BAS_GASOutPutInfo ON T_BAS_GASOutPutInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        <if test='categorys.contains("2")'>
+            LEFT JOIN T_AQ_StorageTankAreaInfo ON T_AQ_StorageTankAreaInfo.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID and T_BAS_VideoCamera.FK_MonitorPointTypeCode=30
+            LEFT JOIN T_AQ_RiskAreaMonitorPoint ON T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID and T_BAS_VideoCamera.FK_MonitorPointTypeCode in (54,55,56)
+            LEFT JOIN T_AQ_MajorHazardSources ON T_AQ_MajorHazardSources.PK_ID= T_BAS_VideoCamera.FK_MonitorPointOrOutPutID and T_BAS_VideoCamera.FK_MonitorPointTypeCode=57
+        </if>
+        LEFT JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID
+        left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        left join PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=T_BAS_VideoCamera.FK_MonitorPointTypeCode
+        where
+        <if test='categorys!=null and categorys.contains("2")'>
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,2,22,37,40,41,30,54,55,56,57) and PUB_CODE_MonitorPointType.IsUsed=1
+        </if>
+        <if test='categorys!=null and !categorys.contains("2")'>
+            T_BAS_VideoCamera.FK_MonitorPointTypeCode in (1,2,22,37,40,41) and PUB_CODE_MonitorPointType.IsUsed=1
+        </if>
+        union
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        T_BAS_Pollution.shortername +'-'+ T_BAS_VideoCamera.VedioCameraName outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        'other' FK_MonitorPointTypeCode,
+        '其它' FK_MonitorPointTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        T_BAS_Pollution.shortername+'-'+T_BAS_VideoCamera.VedioCameraName vedioname,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        3 typeorderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        left JOIN T_BAS_Pollution ON  T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        where
+        (pk_pollutionid is not null and  FK_MonitorPointOrOutPutID is null and FK_MonitorPointTypeCode is null)
+
+        union
+        <!--固废 -->
+        SELECT
+        T_BAS_VideoCamera.VedioCameraName,
+        T_BAS_VideoCamera.PK_VedioCameraID,
+        VedioCameraNumber,
+        T_BAS_VideoCamera.Longitude,
+        T_BAS_VideoCamera.Latitude,
+        DevicePort,
+        T_BAS_VideoDevice.ip,
+        T_BAS_VideoDevice.username,
+        T_BAS_VideoDevice.userpassword,
+        '' outputname,
+        T_BAS_VideoCamera.VedioManufactor,
+        T_BAS_VideoCamera.FK_MonitorPointOrOutPutID,
+        '13' FK_MonitorPointTypeCode,
+        '固废' FK_MonitorPointTypeName,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.pk_pollutionid,
+        T_BAS_Pollution.shortername,
+        T_BAS_Pollution.shortername+'-'+T_BAS_VideoCamera.VedioCameraName vedioname,
+        '企业视频' vediotype,
+        'pollution' vediocode,
+        NEWID() vedioid,
+        'output' outputstype,
+        'pollutioninfo' pollutiontype,
+        'camera' cameratype,
+        'video' vediostype,
+        2 orderindex,
+        PUB_CODE_MonitorPointType.OrderIndex typeorderindex,
+        RTSP
+        FROM
+        T_BAS_VideoCamera
+        JOIN T_BAS_VideoDevice ON T_BAS_VideoCamera.FK_VedioDeviceID= T_BAS_VideoDevice.PK_VedioDeviceID
+        left JOIN T_BAS_Pollution ON T_BAS_VideoCamera.FK_PollutionId=T_BAS_Pollution.PK_PollutionID
+        left join PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.code=T_BAS_VideoCamera.FK_MonitorPointTypeCode
+        where
+        pk_pollutionid is not null and FK_MonitorPointOrOutPutID is null and FK_MonitorPointTypeCode is null
+        )t
+        <where>
+            <if test="pkpollutionid!=null and pkpollutionid!=''">
+                and pk_pollutionid=#{pkpollutionid}
+            </if>
+        </where>
+        order by orderindex,pollutionname,VedioCameraName
+    </select>
+
+
+
+    <!--企业排口视频信息 lip 2022/10/13 10:29 -->
+    <resultMap id="EntVideoMap" type="map">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
+        <result column="branchcode" jdbcType="VARCHAR" property="branchcode"/>
+
+        <result column="orderindex" jdbcType="VARCHAR" property="orderindex"/>
+        <collection property="childrendata" ofType="map" column="vediotype" javaType="java.util.List">
+            <id column="vid" jdbcType="VARCHAR" property="id"/>
+            <result column="vlabel" jdbcType="VARCHAR" property="label"/>
+            <result column="vbranchcode" jdbcType="VARCHAR" property="branchcode"/>
+            <result column="fk_monitorpointoroutputid" jdbcType="VARCHAR" property="fk_monitorpointoroutputid"/>
+            <result column="fk_monitorpointtypecode" jdbcType="VARCHAR" property="fk_monitorpointtypecode"/>
+            <result column="rtsp" jdbcType="VARCHAR" property="rtsp"/>
+            <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+            <result column="isdefault" jdbcType="VARCHAR" property="isdefault"/>
+            <result column="isshow" jdbcType="VARCHAR" property="isshow"/>
+            <result column="vediocameranumber" jdbcType="VARCHAR" property="vediocameranumber"/>
+            <result column="vediomanufactor" jdbcType="VARCHAR" property="vediomanufactor"/>
+            <result column="deviceport" jdbcType="VARCHAR" property="deviceport"/>
+            <result column="ip" jdbcType="VARCHAR" property="ip"/>
+            <result column="userpassword" jdbcType="VARCHAR" property="userpassword"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+        </collection>
+    </resultMap>
+    <!--获取企业废水、雨水视频数据 lip 2022/10/13 10:23 -->
+    <select id="getWaterVideoDataListByParam" resultMap="EntVideoMap" parameterType="map">
+        SELECT
+            t1.pk_pollutionid AS id,
+            t1.pollutionname AS label,
+            'pollutioninfo' AS branchcode,
+            '2' AS orderindex,
+            t2.pk_id AS fk_monitorpointoroutputid,
+            t.pk_vediocameraid AS vid,
+            t.vediocameraname AS vlabel,
+            '' as vbranchcode,
+            t.fk_monitorpointtypecode,
+            t.rtsp,
+            t.longitude,
+            t.latitude,
+            t.isdefault,
+            t.isshow,
+            t.vediocameranumber,
+            t.vediomanufactor,
+            tt.deviceport,
+            tt.ip,
+            tt.userpassword,
+            tt.username
+        FROM
+            t_bas_videocamera t
+            INNER JOIN t_bas_videodevice tt ON tt.pk_vediodeviceid = t.fk_vediodeviceid
+            INNER JOIN t_bas_pollution t1 ON t1.pk_pollutionid = t.fk_pollutionid
+            INNER JOIN t_bas_wateroutputinfo t2 ON t2.pk_id = t.fk_monitorpointoroutputid
+        <where>
+            <if test="pkpollutionid!=null and pkpollutionid!=''">
+                and pk_pollutionid=#{pkpollutionid}
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype!=''">
+                and t.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="customname!=null and customname!=''">
+                and (t.VedioCameraName like CONCAT('%',#{customname},'%')
+                    or t1.PollutionName like CONCAT('%',#{customname},'%') )
+            </if>
+
+        </where>
+        order  by t.fk_monitorpointtypecode,t1.PollutionName
+    </select>
+
+
+    <!--获取企业废气、烟气视频数据 lip 2022/10/13 10:23 -->
+    <select id="getGasVideoDataListByParam" resultMap="EntVideoMap" parameterType="map">
+        SELECT
+        t1.pk_pollutionid AS id,
+        t1.pollutionname AS label,
+        'pollutioninfo' AS branchcode,
+        '3' AS orderindex,
+        t2.pk_id AS fk_monitorpointoroutputid,
+        t.pk_vediocameraid AS vid,
+        t.vediocameraname AS vlabel,
+        '' as vbranchcode,
+        t.fk_monitorpointtypecode,
+        t.rtsp,
+        t.longitude,
+        t.latitude,
+        t.isdefault,
+        t.isshow,
+        t.vediocameranumber,
+        t.vediomanufactor,
+        tt.deviceport,
+        tt.ip,
+        tt.userpassword,
+        tt.username
+        FROM
+        t_bas_videocamera t
+        INNER JOIN t_bas_videodevice tt ON tt.pk_vediodeviceid = t.fk_vediodeviceid
+        INNER JOIN t_bas_pollution t1 ON t1.pk_pollutionid = t.fk_pollutionid
+        INNER JOIN t_bas_gasoutputinfo t2 ON t2.pk_id = t.fk_monitorpointoroutputid
+        <where>
+            <if test="pkpollutionid!=null and pkpollutionid!=''">
+                and pk_pollutionid=#{pkpollutionid}
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype!=''">
+                and t.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="customname!=null and customname!=''">
+                and (t.VedioCameraName like CONCAT('%',#{customname},'%')
+                or t1.PollutionName like CONCAT('%',#{customname},'%') )
+            </if>
+
+        </where>
+        order  by t.fk_monitorpointtypecode,t1.PollutionName
+    </select>
+
+    <!--获取空气视频数据 lip 2022/10/13 10:23 -->
+    <select id="getAirVideoDataListByParam" resultMap="EntVideoMap" parameterType="map">
+        SELECT
+            ${id} AS id,
+            '空气视频' AS label,
+            'airinfo' AS branchcode,
+            t.fk_monitorpointtypecode AS orderindex,
+            t2.PK_AirID AS fk_monitorpointoroutputid,
+            t.pk_vediocameraid AS vid,
+            t.vediocameraname AS vlabel,
+            'video' as vbranchcode,
+            t.fk_monitorpointtypecode,
+            t.rtsp,
+            t.longitude,
+            t.latitude,
+            t.isdefault,
+            t.isshow,
+            t.vediocameranumber,
+            t.vediomanufactor,
+            tt.deviceport,
+            tt.ip,
+            tt.userpassword,
+            tt.username
+        FROM
+        t_bas_videocamera t
+        INNER JOIN t_bas_videodevice tt ON tt.pk_vediodeviceid = t.fk_vediodeviceid
+        INNER JOIN T_BAS_AirMonitorStation t2 ON t2.PK_AirID = t.fk_monitorpointoroutputid
+        <where>
+            <if test="monitorpointtype!=null and monitorpointtype!=''">
+                and t.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="customname!=null and customname!=''">
+                and t.VedioCameraName like CONCAT('%',#{customname},'%')
+
+            </if>
+        </where>
+        order  by t.VedioCameraName
+    </select>
+
+
+    <!--获取水质视频数据 lip 2022/10/13 10:23 -->
+    <select id="getWaterQVideoDataListByParam" resultMap="EntVideoMap" parameterType="map">
+        SELECT
+        ${id} AS id,
+        '水质视频' AS label,
+        'waterqinfo' AS branchcode,
+        t.fk_monitorpointtypecode AS orderindex,
+        t2.PK_WaterStationID AS fk_monitorpointoroutputid,
+        t.pk_vediocameraid AS vid,
+        t.vediocameraname AS vlabel,
+        'video' as vbranchcode,
+        t.fk_monitorpointtypecode,
+        t.rtsp,
+        t.longitude,
+        t.latitude,
+        t.isdefault,
+        t.isshow,
+        t.vediocameranumber,
+        t.vediomanufactor,
+        tt.deviceport,
+        tt.ip,
+        tt.userpassword,
+        tt.username
+        FROM
+        t_bas_videocamera t
+        INNER JOIN t_bas_videodevice tt ON tt.pk_vediodeviceid = t.fk_vediodeviceid
+        INNER JOIN T_BAS_WaterStationInfo t2 ON t2.PK_WaterStationID = t.fk_monitorpointoroutputid
+        <where>
+            <if test="monitorpointtype!=null and monitorpointtype!=''">
+                and t.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="customname!=null and customname!=''">
+                and t.VedioCameraName like CONCAT('%',#{customname},'%')
+            </if>
+        </where>
+        order  by t.VedioCameraName
+    </select>
+
+    <!--获取水质视频数据 lip 2022/10/13 10:23 -->
+    <select id="getOtherVideoDataListByParam" resultMap="EntVideoMap" parameterType="map">
+        SELECT
+            ${id} AS id,
+            t3.name +'视频' AS label,
+            t3.code+'info' AS branchcode,
+            t.fk_monitorpointtypecode AS orderindex,
+            t2.PK_MonitorPointID AS fk_monitorpointoroutputid,
+            t.pk_vediocameraid AS vid,
+            t.vediocameraname AS vlabel,
+            'video' as vbranchcode,
+            t.fk_monitorpointtypecode,
+            t.rtsp,
+            t.longitude,
+            t.latitude,
+            t.isdefault,
+            t.isshow,
+            t.vediocameranumber,
+            t.vediomanufactor,
+            tt.deviceport,
+            tt.ip,
+            tt.userpassword,
+            tt.username
+        FROM
+        t_bas_videocamera t
+        INNER JOIN t_bas_videodevice tt ON tt.pk_vediodeviceid = t.fk_vediodeviceid
+        INNER JOIN T_BAS_OtherMonitorPoint t2 ON t2.PK_MonitorPointID = t.fk_monitorpointoroutputid
+        INNER JOIN PUB_CODE_MonitorPointType t3 on t3.code = t.fk_monitorpointtypecode
+
+        <where>
+            <if test="monitorpointtype!=null and monitorpointtype!=''">
+                and t.fk_monitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="customname!=null and customname!=''">
+                and t.VedioCameraName like CONCAT('%',#{customname},'%')
+            </if>
+        </where>
+        order  by t.VedioCameraName
+    </select><!--获取水质视频数据 lip 2022/10/13 10:23 -->
+
+    <!--高空视频 lip 2022/10/13 11:26 -->
+    <select id="getHighVideoDataListByParam" resultMap="EntVideoMap" parameterType="map">
+        SELECT
+            'high_1' AS id,
+            '高空瞭望视频' AS label,
+            'high' AS branchcode,
+            '0' AS orderindex,
+            t.fk_monitorpointoroutputid AS fk_monitorpointoroutputid,
+            t.pk_vediocameraid AS vid,
+            t.vediocameraname AS vlabel,
+            'video' as vbranchcode,
+            t.fk_monitorpointtypecode,
+            t.rtsp,
+            t.longitude,
+            t.latitude,
+            t.isdefault,
+            t.isshow,
+            t.vediocameranumber,
+            t.vediomanufactor,
+            tt.deviceport,
+            tt.ip,
+            tt.userpassword,
+            tt.username
+        FROM
+        t_bas_videocamera t
+        INNER JOIN t_bas_videodevice tt ON tt.pk_vediodeviceid = t.fk_vediodeviceid
+        <where>
+            ( t.FK_MonitorPointTypeCode IS NULL AND t.FK_MonitorPointOrOutPutID IS NULL AND t.FK_PollutionId IS NULL )
+            <if test="customname!=null and customname!=''">
+                and t.VedioCameraName like CONCAT('%',#{customname},'%')
+            </if>
+        </where>
+        order  by t.VedioCameraName
+    </select>
+
+</mapper>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.patrol.PatrolTeamMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="TeamName" jdbcType="VARCHAR" property="teamname" />
+    <result column="FK_UserId" jdbcType="VARCHAR" property="fkUserid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="FK_ReviewerId" jdbcType="VARCHAR" property="fkReviewerid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, TeamName, FK_UserId, Remark, UpdateTime, UpdateUser,FK_ReviewerId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_PatrolTeam
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_PatrolTeam
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamVO">
+    insert into T_BAS_PatrolTeam (PK_ID, TeamName, FK_UserId, 
+      Remark, UpdateTime, UpdateUser,FK_ReviewerId
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{teamname,jdbcType=VARCHAR}, #{fkUserid,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+       #{fkReviewerid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamVO">
+    insert into T_BAS_PatrolTeam
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="teamname != null">
+        TeamName,
+      </if>
+      <if test="fkUserid != null">
+        FK_UserId,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="fkReviewerid != null">
+        FK_ReviewerId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamname != null">
+        #{teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUserid != null">
+        #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReviewerid != null">
+        #{fkReviewerid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamVO">
+    update T_BAS_PatrolTeam
+    <set>
+      <if test="teamname != null">
+        TeamName = #{teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUserid != null">
+        FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReviewerid != null">
+        FK_ReviewerId = #{fkReviewerid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamVO">
+    update T_BAS_PatrolTeam
+    set TeamName = #{teamname,jdbcType=VARCHAR},
+      FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      FK_ReviewerId = #{fkReviewerid,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getDataListByParamMap" resultType="map" parameterType="map">
+    select
+      t1.pk_id,
+      t1.teamname,
+      t1.fk_userid,
+      t1.fk_reviewerid,
+      t2.user_name as teamleader,
+      t3.user_name as reviewer
+    from
+      t_bas_patrolteam t1
+    left join base_userinfo t2 on t1.fk_userid = t2.user_id
+    left join base_userinfo t3 on t1.fk_reviewerid = t3.user_id
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="teamname !=null and teamname !='' ">
+        and t1.teamname like concat('%',#{teamname},'%')
+      </if>
+    </trim>
+    order by t1.teamname
+   </select>
+
+  <select id="getTeamDataList" resultType="map">
+    select
+      t1.pk_id,
+      t1.teamname,
+      t1.fk_userid,
+      t1.fk_reviewerid,
+      t2.user_name as teamleader,
+      t3.user_name as reviewer
+    from
+      t_bas_patrolteam t1
+      left join base_userinfo t2 on t1.fk_userid = t2.user_id
+      left join base_userinfo t3 on t1.fk_reviewerid = t3.user_id
+      order by t1.teamname
+   </select>
+
+
+  <select id="getDataMapByParam" resultType="map" parameterType="map">
+    select
+    t1.pk_id
+    from
+    t_bas_patrolteam t1
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="teamname !=null and teamname !='' ">
+        and t1.teamname = #{teamname}
+      </if>
+      <if test="id !=null and id !='' ">
+        and t1.pk_id != #{id}
+      </if>
+    </trim>
+  </select>
+
+
+  <select id="getDetailOrEditById" resultType="map" parameterType="string">
+    select
+      t1.pk_id,
+      t1.teamname,
+      t1.fk_userid,
+      t1.fk_reviewerid,
+      t2.user_name as teamleader,
+      t3.user_name as reviewer
+    from
+      t_bas_patrolteam t1
+       left join base_userinfo t2 on t1.fk_userid = t2.user_id
+       left join base_userinfo t3 on t1.fk_reviewerid = t3.user_id
+    where t1.pk_id = #{pkid}
+   </select>
+
+
+  <!-- author:xsm description: 获取审核人信息 date: 2021/07/27 13:52-->
+  <select id="getOverReviewerUserTreeData"  parameterType="map" resultType="java.util.Map">
+    SELECT DISTINCT t2.User_ID,t2.User_Name
+    FROM T_BAS_PatrolTeamEntOrPoint t JOIN T_BAS_PatrolTeam t1 ON t.FK_TeamId = t1.PK_ID
+    JOIN Base_UserInfo t2 ON t1.fk_reviewerid = t2.User_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t.FK_PollutionId = #{pollutionid}
+      </if>
+      <if test="monitorpointid!=null and monitorpointid!='' ">
+        and  t.FK_MonitorPointId = #{monitorpointid}
+      </if>
+    <if test="monitorpointtype!=null and monitorpointtype!='' ">
+      and t.FK_MonitorPointTypeCode = #{monitorpointtype}
+    </if>
+    </trim>
+  </select>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.watercorrelation.WaterCorrelationMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_WaterPollutionID" jdbcType="VARCHAR" property="fkWaterpollutionid" />
+    <result column="FK_WaterMonitorPointID" jdbcType="VARCHAR" property="fkWatermonitorpointid" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="FK_OutfallPollutionID" jdbcType="VARCHAR" property="fkOutfallpollutionid" />
+    <result column="FK_OutfallMonitorPointID" jdbcType="VARCHAR" property="fkOutfallmonitorpointid" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_WaterPollutionID, FK_WaterMonitorPointID, StartTime,
+    EndTime, FK_OutfallPollutionID, FK_OutfallMonitorPointID,
+    updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_WaterCorrelation
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_WaterCorrelation
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationVO">
+    insert into T_BAS_WaterCorrelation (PK_ID, FK_WaterPollutionID, FK_WaterMonitorPointID,
+      StartTime, EndTime,
+      FK_OutfallPollutionID, FK_OutfallMonitorPointID, 
+      updatetime
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkWaterpollutionid,jdbcType=VARCHAR}, #{fkWatermonitorpointid,jdbcType=VARCHAR},
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
+      #{fkOutfallpollutionid,jdbcType=VARCHAR}, #{fkOutfallmonitorpointid,jdbcType=VARCHAR}, 
+       #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationVO">
+    insert into T_BAS_WaterCorrelation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkWaterpollutionid != null">
+        FK_WaterPollutionID,
+      </if>
+      <if test="fkWatermonitorpointid != null">
+        FK_WaterMonitorPointID,
+      </if>
+      <if test="starttime != null">
+        StartTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="fkOutfallpollutionid != null">
+        FK_OutfallPollutionID,
+      </if>
+      <if test="fkOutfallmonitorpointid != null">
+        FK_OutfallMonitorPointID,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWaterpollutionid != null">
+        #{fkWaterpollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWatermonitorpointid != null">
+        #{fkWatermonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkOutfallpollutionid != null">
+        #{fkOutfallpollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutfallmonitorpointid != null">
+        #{fkOutfallmonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationVO">
+    update T_BAS_WaterCorrelation
+    <set>
+      <if test="fkWaterpollutionid != null">
+        FK_WaterPollutionID = #{fkWaterpollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWatermonitorpointid != null">
+        FK_WaterMonitorPointID = #{fkWatermonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        StartTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkOutfallpollutionid != null">
+        FK_OutfallPollutionID = #{fkOutfallpollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutfallmonitorpointid != null">
+        FK_OutfallMonitorPointID = #{fkOutfallmonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationVO">
+    update T_BAS_WaterCorrelation
+    set FK_WaterPollutionID = #{fkWaterpollutionid,jdbcType=VARCHAR},
+      FK_WaterMonitorPointID = #{fkWatermonitorpointid,jdbcType=VARCHAR},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      FK_OutfallPollutionID = #{fkOutfallpollutionid,jdbcType=VARCHAR},
+      FK_OutfallMonitorPointID = #{fkOutfallmonitorpointid,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="map">
+    select  * from T_BAS_WaterCorrelation  where 1=1
+    <if test="fkWaterpollutionid != null">
+      and FK_WaterPollutionID = #{fkWaterpollutionid,jdbcType=VARCHAR}
+    </if>
+    <if test="fkWatermonitorpointid != null">
+      and FK_WaterMonitorPointID = #{fkWatermonitorpointid,jdbcType=VARCHAR}
+    </if>
+    <if test="starttime != null">
+      and StartTime = #{starttime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endtime != null">
+      and EndTime = #{endtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="fkOutfallpollutionid != null">
+      and FK_OutfallPollutionID = #{fkOutfallpollutionid,jdbcType=VARCHAR}
+    </if>
+    <if test="fkOutfallmonitorpointid != null">
+      and FK_OutfallMonitorPointID = #{fkOutfallmonitorpointid,jdbcType=VARCHAR}
+    </if>
+    order by EndTime desc
+  </select>
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.maillistinfo.MailListInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.maillistinfo.MailListInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="PeopleName" jdbcType="VARCHAR" property="peoplename" />
+    <result column="ContactUnit" jdbcType="VARCHAR" property="contactunit" />
+    <result column="Telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="Positions" jdbcType="VARCHAR" property="positions" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, PeopleName, ContactUnit, Telephone, UpdateTime, UpdateUser, Positions
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_MailListInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getMailListInfoDataByParam" parameterType="map" resultType="map">
+    select
+      pk_id,
+      peoplename,
+      contactunit,
+      telephone,
+      positions
+    from
+      t_bas_maillistinfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="contactunit!=null and contactunit !=''">
+        and contactunit like concat('%',#{contactunit},'%')
+      </if>
+    </trim>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_MailListInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.maillistinfo.MailListInfoVO">
+    insert into T_BAS_MailListInfo (PK_ID, PeopleName, ContactUnit, 
+      Telephone, UpdateTime, UpdateUser, 
+      Positions)
+    values (#{pkId,jdbcType=VARCHAR}, #{peoplename,jdbcType=VARCHAR}, #{contactunit,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, 
+      #{positions,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.maillistinfo.MailListInfoVO">
+    insert into T_BAS_MailListInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="peoplename != null">
+        PeopleName,
+      </if>
+      <if test="contactunit != null">
+        ContactUnit,
+      </if>
+      <if test="telephone != null">
+        Telephone,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="positions != null">
+        Positions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="peoplename != null">
+        #{peoplename,jdbcType=VARCHAR},
+      </if>
+      <if test="contactunit != null">
+        #{contactunit,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="positions != null">
+        #{positions,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.maillistinfo.MailListInfoVO">
+    update T_BAS_MailListInfo
+    <set>
+      <if test="peoplename != null">
+        PeopleName = #{peoplename,jdbcType=VARCHAR},
+      </if>
+      <if test="contactunit != null">
+        ContactUnit = #{contactunit,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        Telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="positions != null">
+        Positions = #{positions,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.maillistinfo.MailListInfoVO">
+    update T_BAS_MailListInfo
+    set PeopleName = #{peoplename,jdbcType=VARCHAR},
+      ContactUnit = #{contactunit,jdbcType=VARCHAR},
+      Telephone = #{telephone,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      Positions = #{positions,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!-- author:xsm description: 获取所有联系单位信息 date: 2019/09/17 11:48-->
+  <select id="getContactUnitSelectData"  resultType="map">
+    SELECT DISTINCT datas.ContactUnit FROM(
+      SELECT T_BAS_MailListInfo.ContactUnit  FROM
+      T_BAS_MailListInfo
+      WHERE T_BAS_MailListInfo.ContactUnit is not NULL
+      UNION ALL
+      SELECT T_BAS_Pollution.PollutionName ContactUnit FROM
+      T_BAS_Pollution
+      ) datas
+    ORDER BY datas.ContactUnit
+  </select>
+
+  <!-- author:xsm description: 获取所有联系单位信息 date: 2019/09/17 11:48-->
+  <select id="isTableDataHaveInfoByContactUnitAndPeopleName" parameterType="map" resultType="map">
+    SELECT *  FROM
+    T_BAS_MailListInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="contactunit ==''">
+        AND T_BAS_MailListInfo.ContactUnit IS NULL
+      </if>
+      <if test="contactunit != null and contactunit !=''">
+        AND T_BAS_MailListInfo.ContactUnit = #{contactunit}
+      </if>
+      <if test="peoplename != null and peoplename !=''">
+        AND T_BAS_MailListInfo.PeopleName = #{peoplename}
+      </if>
+    </trim>
+  </select>
+</mapper>

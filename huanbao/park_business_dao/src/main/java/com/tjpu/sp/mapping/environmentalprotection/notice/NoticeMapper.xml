@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.notice.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.notice.NoticeVO">
+    <id column="PK_NoticeID" jdbcType="NVARCHAR" property="pkNoticeid" />
+    <result column="NoticeTitle" jdbcType="NVARCHAR" property="noticetitle" />
+    <result column="NoticeContent" jdbcType="NVARCHAR" property="noticecontent" />
+    <result column="FK_SendUserID" jdbcType="NVARCHAR" property="fkSenduserid" />
+    <result column="FileID" jdbcType="NVARCHAR" property="fileid" />
+    <result column="SendUserName" jdbcType="NVARCHAR" property="sendusername" />
+    <result column="SendTime" jdbcType="TIMESTAMP" property="sendtime" />
+    <result column="isRecall" jdbcType="NUMERIC" property="isrecall" />
+    <!--嵌入子查询，获取多个接收人-->
+    <collection property="noticeReceiveInfoVOS" select="getnoticeReceiveInfos" column="PK_NoticeID"></collection>
+
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_NoticeID, NoticeTitle, NoticeContent, FK_SendUserID, SendUserName, SendTime,FileID,isrecall
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_Notice
+    where PK_NoticeID = #{pkNoticeid,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SYS_Notice
+    where PK_NoticeID = #{pkNoticeid,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeVO">
+    insert into T_SYS_Notice (PK_NoticeID, NoticeTitle, NoticeContent, 
+      FK_SendUserID, SendUserName, SendTime,FileID,isrecall
+      )
+    values (#{pkNoticeid,jdbcType=NVARCHAR}, #{noticetitle,jdbcType=NVARCHAR}, #{noticecontent,jdbcType=NVARCHAR}, 
+      #{fkSenduserid,jdbcType=NVARCHAR}, #{sendusername,jdbcType=NVARCHAR}, #{sendtime,jdbcType=TIMESTAMP},#{fileid,jdbcType=NVARCHAR},#{isrecall,jdbcType=NUMERIC}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeVO">
+    insert into T_SYS_Notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkNoticeid != null">
+        PK_NoticeID,
+      </if>
+      <if test="noticetitle != null">
+        NoticeTitle,
+      </if>
+      <if test="noticecontent != null">
+        NoticeContent,
+      </if>
+      <if test="fkSenduserid != null">
+        FK_SendUserID,
+      </if>
+      <if test="sendusername != null">
+        SendUserName,
+      </if>
+      <if test="sendtime != null">
+        SendTime,
+      </if>
+      <if test="fileid != null">
+        FileID,
+      </if>
+      <if test="isrecall != null">
+        isrecall,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkNoticeid != null">
+        #{pkNoticeid,jdbcType=NVARCHAR},
+      </if>
+      <if test="noticetitle != null">
+        #{noticetitle,jdbcType=NVARCHAR},
+      </if>
+      <if test="noticecontent != null">
+        #{noticecontent,jdbcType=NVARCHAR},
+      </if>
+      <if test="fkSenduserid != null">
+        #{fkSenduserid,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendusername != null">
+        #{sendusername,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null">
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileid != null">
+        #{fileid,jdbcType=NVARCHAR},
+      </if>
+      <if test="isrecall != null">
+        #{isrecall,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeVO">
+    update T_SYS_Notice
+    <set>
+      <if test="noticetitle != null">
+        NoticeTitle = #{noticetitle,jdbcType=NVARCHAR},
+      </if>
+      <if test="noticecontent != null">
+        NoticeContent = #{noticecontent,jdbcType=NVARCHAR},
+      </if>
+      <if test="fkSenduserid != null">
+        FK_SendUserID = #{fkSenduserid,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendusername != null">
+        SendUserName = #{sendusername,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null">
+        SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileid != null">
+        FileID = #{fileid,jdbcType=NVARCHAR},
+      </if>
+      <if test="isrecall != null">
+        FileID = #{isrecall,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where PK_NoticeID = #{pkNoticeid,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.notice.NoticeVO">
+    update T_SYS_Notice
+    set NoticeTitle = #{noticetitle,jdbcType=NVARCHAR},
+      NoticeContent = #{noticecontent,jdbcType=NVARCHAR},
+      FK_SendUserID = #{fkSenduserid,jdbcType=NVARCHAR},
+      SendUserName = #{sendusername,jdbcType=NVARCHAR},
+      SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      FileID = #{fileid,jdbcType=NVARCHAR},
+      isrecall = #{isrecall,jdbcType=NUMERIC}
+    where PK_NoticeID = #{pkNoticeid,jdbcType=NVARCHAR}
+  </update>
+
+  <!--嵌入子查询，获取多个接收人-->
+  <select id="getnoticeReceiveInfos" resultType="com.tjpu.sp.model.environmentalprotection.notice.NoticeReceiveInfoVO">
+    SELECT
+    PK_NoticeReceiveID,
+    User_Name noticereceivername,
+    User_ID noticereceiverid,
+    IsRead
+    FROM
+    T_SYS_NoticeReceiveInfo
+    LEFT JOIN Base_UserInfo ON User_ID = NoticeReceiverID
+    where FK_NoticeID = #{PK_NoticeID}
+  </select>
+
+
+
+
+  <!--
+   * @author: xsm
+   * @date: 2020/03/16 0016 下午 3:11
+   * @Description: 自定义查询条件查询记录
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+
+  <select id="getNoticeInfoByParam" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+
+    <if test="topnum != null">
+      top ${topnum}
+    </if>
+
+    t1.PK_NoticeID,
+    t1.NoticeTitle,
+    t1.NoticeContent,
+    t4.User_Name sendusername,
+    t1.SendTime,
+    t1.isRecall,
+    t1.FileID
+    FROM
+    T_SYS_Notice t1
+    LEFT JOIN Base_UserInfo t4 ON t4.User_ID = t1.FK_SendUserID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="senduserids != null">
+        AND t1.FK_SendUserID in
+        <foreach item="item" index="index" collection="senduserids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="senduserid!=null and senduserid!='' ">
+        AND t1.FK_SendUserID = #{senduserid}
+      </if>
+      <if test="noticetitle!=null and noticetitle!='' ">
+        AND t1.NoticeTitle LIKE CONCAT('%',#{noticetitle},'%')
+      </if>
+
+      <if test="startsendtime!=null and startsendtime!='' ">
+        AND CONVERT (VARCHAR (10),t1.SendTime,120) >= #{startsendtime}
+      </if>
+      <if test="endsendtime!=null and endsendtime!='' ">
+        AND CONVERT (VARCHAR (10),t1.SendTime,120) <![CDATA[<=]]> #{endsendtime}
+      </if>
+    </trim>
+    order by SendTime DESC
+  </select>
+
+
+  <select id="getNoticeDetailDataByNoticeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    t1.PK_NoticeID,
+    t1.NoticeTitle,
+    t1.NoticeContent,
+    t4.User_Name sendusername,
+    t1.SendTime,
+    t1.FileID
+    FROM
+    T_SYS_Notice t1
+    LEFT JOIN Base_UserInfo t4 ON t4.User_ID = t1.FK_SendUserID
+    where t1.PK_NoticeID = #{noticeid,jdbcType=NVARCHAR}
+  </select>
+
+
+  <!--
+  * @author: xsm
+  * @date: 2021/09/10 0010 上午 11:57
+  * @Description: 自定义查询条件获取用户未读的通知信息
+ -->
+  <select id="getNoReadNoticeDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t.PK_NoticeID pkid,
+    convert(varchar,t1.IsRead) isread,
+    t.NoticeTitle,
+    '您有一条通知【'+ t.NoticeTitle+'】' messagestr,
+    convert(varchar(19),t.SendTime,120) SendTime,
+    convert(varchar(19),t.SendTime,120) UpdateTime
+    FROM
+    T_SYS_Notice t
+    JOIN T_SYS_NoticeReceiveInfo t1 ON t.PK_NoticeID =t1.FK_NoticeID AND t1.IsRead = 0
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="userid!=null and userid!='' ">
+        and t1.NoticeReceiverID = #{userid}
+      </if>
+    </trim>
+  </select>
+
+</mapper>

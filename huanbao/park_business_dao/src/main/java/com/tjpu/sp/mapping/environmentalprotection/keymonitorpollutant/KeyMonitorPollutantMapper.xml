@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.keymonitorpollutant.KeyMonitorPollutantMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.keymonitorpollutant.KeyMonitorPollutantVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+        <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_PollutantCode, FK_MonitorPointTypeCode, OrderIndex, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_KeyMonitorPollutant
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_KeyMonitorPollutant
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.keymonitorpollutant.KeyMonitorPollutantVO">
+    insert into T_BAS_KeyMonitorPollutant (PK_ID, FK_PollutantCode, FK_MonitorPointTypeCode, 
+      OrderIndex, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{orderindex,jdbcType=NUMERIC}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.keymonitorpollutant.KeyMonitorPollutantVO">
+        insert into T_BAS_KeyMonitorPollutant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="orderindex != null">
+                OrderIndex,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutantcode != null">
+                #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="orderindex != null">
+                #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.keymonitorpollutant.KeyMonitorPollutantVO">
+        update T_BAS_KeyMonitorPollutant
+        <set>
+            <if test="fkPollutantcode != null">
+                FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="orderindex != null">
+                OrderIndex = #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.keymonitorpollutant.KeyMonitorPollutantVO">
+    update T_BAS_KeyMonitorPollutant
+    set FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--author:xsm description:根据自定义参数获取重点污染物信息 param:date: 2019/6/22 2:31 -->
+    <select id="getKeyMonitorPollutantsByParamMap" parameterType="map" resultType="map">
+        select t1.PK_ID,t1.FK_PollutantCode pollutantcode,
+        t2.Name pollutantname,
+        t3.Name pollutanttype,
+        t2.PollutantUnit pollutantunit,
+        t1.OrderIndex,
+        convert(varchar(20),t1.UpdateTime,120) UpdateTime,
+        t1.UpdateUser
+        FROM T_BAS_KeyMonitorPollutant t1 JOIN PUB_CODE_PollutantFactor t2 ON t1.FK_PollutantCode =t2.Code AND
+        t1.FK_MonitorPointTypeCode = t2.PollutantType
+        LEFT JOIN PUB_CODE_MonitorPointType t3 ON t1.FK_MonitorPointTypeCode =t3.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutantname !=null and pollutantname !='' ">
+                and t2.Name like concat('%', #{pollutantname},'%')
+            </if>
+            <if test="pkid !=null and pkid !='' ">
+                and t1.PK_ID = #{pkid}
+            </if>
+            <if test="pollutanttype !=null and pollutanttype.size>0">
+                and t1.FK_MonitorPointTypeCode in
+                <foreach collection="pollutanttype" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY t1.FK_MonitorPointTypeCode,t1.OrderIndex
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过污染物类型获取重点污染物信息
+        param:
+        date: 2019/06/25 13:26
+    -->
+    <select id="selectByPollutanttype" parameterType="string" resultType="map">
+   select * from T_BAS_KeyMonitorPollutant,PUB_CODE_PollutantFactor
+    where T_BAS_KeyMonitorPollutant.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+		AND T_BAS_KeyMonitorPollutant.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+		AND FK_MonitorPointTypeCode=#{pollutanttype}
+    ORDER BY PUB_CODE_PollutantFactor.OrderIndex
+  </select>
+
+    <!--
+        author:xsm
+        description: 通过多个污染物类型获取重点污染物信息
+        param:
+        date: 2019/06/25 13:26
+    -->
+    <select id="selectByPollutanttypes" parameterType="map" resultType="map">
+        select
+        PUB_CODE_PollutantFactor.Code,PUB_CODE_PollutantFactor.Name,PUB_CODE_PollutantFactor.PollutantUnit
+        from T_BAS_KeyMonitorPollutant,PUB_CODE_PollutantFactor
+        where T_BAS_KeyMonitorPollutant.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+        AND T_BAS_KeyMonitorPollutant.FK_PollutantCode=PUB_CODE_PollutantFactor.Code
+        <if test="pollutanttypes !=null and pollutanttypes.size>0">
+            and FK_MonitorPointTypeCode in
+            <foreach collection="pollutanttypes" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+</mapper>

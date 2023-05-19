@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.parkprofile.ParkProfileMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="PollutionNum" property="pollutionnum" jdbcType="NUMERIC" />
+    <result column="PollutionSettledNum" property="pollutionsettlednum" jdbcType="NUMERIC" />
+    <result column="PersonNum" property="personnum" jdbcType="NUMERIC" />
+    <result column="Area" property="area" jdbcType="DOUBLE" />
+    <result column="PlaningBuilLand" property="planingbuilland" jdbcType="DOUBLE" />
+    <result column="PlaningBuilingLand" property="planingbuilingland" jdbcType="DOUBLE" />
+    <result column="BuildProject" property="buildproject" jdbcType="DOUBLE" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_ParkProfile.PK_ID,
+    T_BAS_ParkProfile.PollutionNum,
+    T_BAS_ParkProfile.PollutionSettledNum,
+    T_BAS_ParkProfile.PersonNum,
+    T_BAS_ParkProfile.Area,
+    T_BAS_ParkProfile.PlaningBuilLand,
+    T_BAS_ParkProfile.PlaningBuilingLand,
+    T_BAS_ParkProfile.BuildProject,
+    convert(varchar(19),T_BAS_ParkProfile.UpdateTime,120)UpdateTime,
+    T_BAS_ParkProfile.UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_ParkProfile
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_ParkProfile
+    where PK_ID = #{pkid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.parkprofile.ParkProfileVO" >
+    insert into T_BAS_ParkProfile
+    (PK_ID,
+    PollutionNum,
+    PollutionSettledNum,
+    PersonNum,
+    Area,
+    PlaningBuilLand,
+    PlaningBuilingLand,
+    BuildProject,
+    UpdateTime,
+    UpdateUser
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{pollutionnum,jdbcType=NUMERIC},
+    #{pollutionsettlednum,jdbcType=NUMERIC},
+    #{personnum,jdbcType=NUMERIC},
+    #{area,jdbcType=DOUBLE},
+    #{planingbuilland,jdbcType=DOUBLE},
+    #{planingbuilingland,jdbcType=DOUBLE},
+    #{buildproject,jdbcType=DOUBLE},
+    #{updatetime,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.parkprofile.ParkProfileVO" >
+    update T_BAS_ParkProfile
+    set
+    PollutionNum=#{pollutionnum,jdbcType=NUMERIC},
+    PollutionSettledNum=#{pollutionsettlednum,jdbcType=NUMERIC},
+    PersonNum=#{personnum,jdbcType=NUMERIC},
+    Area=#{area,jdbcType=DOUBLE},
+    PlaningBuilLand=#{planingbuilland,jdbcType=DOUBLE},
+    PlaningBuilingLand=#{planingbuilingland,jdbcType=DOUBLE},
+    BuildProject=#{buildproject,jdbcType=DOUBLE},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取园区概况信息
+      param:
+      date: 2020/11/13 18:05
+  -->
+  <select id="getParkProfileByParamMap" parameterType="map" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from T_BAS_ParkProfile
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_ParkProfile.PK_ID = #{pkid}
+        </if>
+        <if test="starttime!=null and starttime!='' ">
+          AND convert(varchar(10),T_BAS_ParkProfile.UpdateTime,120) > convert(varchar(10),#{starttime},120)
+        </if>
+        <if test="endtime!=null and endtime!='' ">
+          AND convert(varchar(10),T_BAS_ParkProfile.UpdateTime,120) <![CDATA[<=]]> convert(varchar(10),#{endtime},120)
+        </if>
+      </where>
+      order by UpdateTime desc
+  </select>
+</mapper>

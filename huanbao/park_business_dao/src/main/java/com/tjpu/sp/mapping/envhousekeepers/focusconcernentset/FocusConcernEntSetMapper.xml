@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.focusconcernentset.FocusConcernEntSetMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.focusconcernentset.FocusConcernEntSetVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="ConcernUser" jdbcType="VARCHAR" property="concernuser" />
+    <result column="ConcernTime" jdbcType="TIMESTAMP" property="concerntime" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, ConcernUser, ConcernTime, Remark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_FocusConcernEntSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPollutionid" parameterType="java.lang.String" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from T_GJ_FocusConcernEntSet
+    where FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_FocusConcernEntSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.focusconcernentset.FocusConcernEntSetVO">
+    insert into T_GJ_FocusConcernEntSet (PK_ID, FK_PollutionID, ConcernUser, 
+      ConcernTime, Remark, UpdateUser, 
+      UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{concernuser,jdbcType=VARCHAR}, 
+      #{concerntime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.focusconcernentset.FocusConcernEntSetVO">
+    insert into T_GJ_FocusConcernEntSet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="concernuser != null">
+        ConcernUser,
+      </if>
+      <if test="concerntime != null">
+        ConcernTime,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="concernuser != null">
+        #{concernuser,jdbcType=VARCHAR},
+      </if>
+      <if test="concerntime != null">
+        #{concerntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.focusconcernentset.FocusConcernEntSetVO">
+    update T_GJ_FocusConcernEntSet
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="concernuser != null">
+        ConcernUser = #{concernuser,jdbcType=VARCHAR},
+      </if>
+      <if test="concerntime != null">
+        ConcernTime = #{concerntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.focusconcernentset.FocusConcernEntSetVO">
+    update T_GJ_FocusConcernEntSet
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      ConcernUser = #{concernuser,jdbcType=VARCHAR},
+      ConcernTime = #{concerntime,jdbcType=TIMESTAMP},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取重点关注企业设置信息
+    param:
+    date: 2021/08/05 15:01
+-->
+  <select id="getFocusConcernEntSetsByParamMap" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID pkid,
+    t1.FK_PollutionID fkpollutionid,
+    t2.pollutionname,
+    t2.shortername,
+    t1.concernuser,
+    Base_UserInfo.User_Name concernusername,
+    convert(varchar(10),t1.ConcernTime,120) concerntime,
+    t1.Remark
+    FROM
+    T_GJ_FocusConcernEntSet t1
+    LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+    LEFT JOIN Base_UserInfo on t1.ConcernUser = Base_UserInfo.User_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        t2.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="concernusername!=null and concernusername!='' ">
+        Base_UserInfo.User_Name like concat('%',#{concernusername},'%')
+      </if>
+    </trim>
+  </select>
+</mapper>

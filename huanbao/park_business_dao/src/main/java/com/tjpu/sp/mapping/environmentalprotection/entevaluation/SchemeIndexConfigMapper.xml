@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entevaluation.SchemeIndexConfigMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.entevaluation.SchemeIndexConfigVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_SchemeID" jdbcType="VARCHAR" property="fkSchemeid" />
+    <result column="FK_EvaluationIndexID" jdbcType="VARCHAR" property="fkEvaluationindexid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_SchemeID, FK_EvaluationIndexID, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_SchemeIndexConfig
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_SchemeIndexConfig
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByEntEvaluationSchemeID" parameterType="java.lang.String">
+    delete from T_BAS_SchemeIndexConfig
+    where FK_SchemeID = #{fkSchemeid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.SchemeIndexConfigVO">
+    insert into T_BAS_SchemeIndexConfig (PK_ID, FK_SchemeID, FK_EvaluationIndexID, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkSchemeid,jdbcType=VARCHAR}, #{fkEvaluationindexid,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.SchemeIndexConfigVO">
+    insert into T_BAS_SchemeIndexConfig
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkSchemeid != null">
+        FK_SchemeID,
+      </if>
+      <if test="fkEvaluationindexid != null">
+        FK_EvaluationIndexID,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkSchemeid != null">
+        #{fkSchemeid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEvaluationindexid != null">
+        #{fkEvaluationindexid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.SchemeIndexConfigVO">
+    update T_BAS_SchemeIndexConfig
+    <set>
+      <if test="fkSchemeid != null">
+        FK_SchemeID = #{fkSchemeid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEvaluationindexid != null">
+        FK_EvaluationIndexID = #{fkEvaluationindexid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.SchemeIndexConfigVO">
+    update T_BAS_SchemeIndexConfig
+    set FK_SchemeID = #{fkSchemeid,jdbcType=VARCHAR},
+      FK_EvaluationIndexID = #{fkEvaluationindexid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+  * @author: xsm
+  * @date: 2022/03/14 0014 下午 13:33
+  * @Description: 批量插入方案指标配置信息
+  * @updateUser:
+  * @updateDate:
+  * @updateDescription:
+ -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_SchemeIndexConfig (PK_ID, FK_SchemeID, FK_EvaluationIndexID,
+    UpdateUser, UpdateTime)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkSchemeid,jdbcType=VARCHAR}, #{item.fkEvaluationindexid,jdbcType=VARCHAR},
+      #{item.updateuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+
+  <select id="getSchemeIndexConfigListDataBySchemeID" parameterType="String" resultType="map">
+    select
+    PK_ID,
+    FK_SchemeID fkschemeid,
+    FK_EvaluationIndexID fkevaluationindexid
+    from T_BAS_SchemeIndexConfig
+    WHERE T_BAS_SchemeIndexConfig.FK_SchemeID = #{fkSchemeid}
+  </select>
+</mapper>

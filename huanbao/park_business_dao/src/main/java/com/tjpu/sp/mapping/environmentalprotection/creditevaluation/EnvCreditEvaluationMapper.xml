@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.creditevaluation.EnvCreditEvaluationMapper">
+    <resultMap id="BaseResultMap"
+               type="com.tjpu.sp.model.environmentalprotection.creditevaluation.EnvCreditEvaluationVO">
+        <id column="PK_CreditEvaluationID" jdbcType="VARCHAR" property="pkCreditEvaluationid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="EvaluationYear" jdbcType="VARCHAR" property="evaluationyear"/>
+        <result column="EvaluationRsult" jdbcType="VARCHAR" property="evaluationrsult"/>
+        <result column="ReviewRsult" jdbcType="VARCHAR" property="reviewrsult"/>
+        <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_CreditEvaluationID, FK_PollutionID, EvaluationYear, EvaluationRsult, ReviewRsult, FK_FileID,UpdateUser,
+    UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_XYPJ_EnvCreditEvaluation
+        where PK_CreditEvaluationID = #{pkCreditEvaluationid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_XYPJ_EnvCreditEvaluation
+    where PK_CreditEvaluationID = #{pkCreditEvaluationid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.creditevaluation.EnvCreditEvaluationVO">
+    insert into T_XYPJ_EnvCreditEvaluation (PK_CreditEvaluationID, FK_PollutionID, EvaluationYear,
+      EvaluationRsult, ReviewRsult, FK_FileID, UpdateUser,
+      UpdateTime)
+    values (#{pkCreditEvaluationid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{evaluationyear,jdbcType=VARCHAR},
+      #{evaluationrsult,jdbcType=VARCHAR}, #{reviewrsult,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR},#{updateuser,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.creditevaluation.EnvCreditEvaluationVO">
+        insert into T_XYPJ_EnvCreditEvaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkCreditEvaluationid != null">
+                PK_CreditEvaluationID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="evaluationyear != null">
+                EvaluationYear,
+            </if>
+            <if test="evaluationrsult != null">
+                EvaluationRsult,
+            </if>
+            <if test="reviewrsult != null">
+                ReviewRsult,
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkCreditEvaluationid != null">
+                #{pkCreditEvaluationid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="evaluationyear != null">
+                #{evaluationyear,jdbcType=VARCHAR},
+            </if>
+            <if test="evaluationrsult != null">
+                #{evaluationrsult,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewrsult != null">
+                #{reviewrsult,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.creditevaluation.EnvCreditEvaluationVO">
+        update T_XYPJ_EnvCreditEvaluation
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="evaluationyear != null">
+                EvaluationYear = #{evaluationyear,jdbcType=VARCHAR},
+            </if>
+            <if test="evaluationrsult != null">
+                EvaluationRsult = #{evaluationrsult,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewrsult != null">
+                ReviewRsult = #{reviewrsult,jdbcType=VARCHAR},
+            </if>
+            <if test="fkFileid != null">
+                FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_CreditEvaluationID = #{pkCreditEvaluationid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.creditevaluation.EnvCreditEvaluationVO">
+    update T_XYPJ_EnvCreditEvaluation
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      EvaluationYear = #{evaluationyear,jdbcType=VARCHAR},
+      EvaluationRsult = #{evaluationrsult,jdbcType=VARCHAR},
+      ReviewRsult = #{reviewrsult,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_CreditEvaluationID = #{pkCreditEvaluationid,jdbcType=VARCHAR}
+  </update>
+
+
+
+    <!-- lip 2022/7/20 11:01 -->
+    <select id="countEntEvaDataList" parameterType="map" resultType="map">
+     SELECT
+        t1.code,
+        t1.name,
+        COUNT ( DISTINCT t2.fk_pollutionid ) countnum
+    FROM
+        PUB_CODE_EntEnvCredit t1
+        LEFT JOIN (
+        SELECT
+            t1.ReviewRsult,
+            t1.fk_pollutionid
+        FROM
+            T_XYPJ_EnvCreditEvaluation t1
+            INNER JOIN t_bas_pollution t2 ON t1.fk_pollutionid = t2.pk_pollutionid
+            INNER JOIN ( SELECT MAX ( t.EvaluationYear ) EvaluationYear, t.FK_PollutionID FROM T_XYPJ_EnvCreditEvaluation t GROUP BY t.fk_pollutionid ) t3 ON t3.fk_pollutionid = t1.fk_pollutionid
+            AND t1.EvaluationYear = t3.EvaluationYear
+        ) t2 ON t1.code = t2.ReviewRsult
+    GROUP BY
+        t1.code,
+        t1.name,
+        t1.orderindex
+    ORDER BY
+        t1.orderindex
+
+  </select>
+
+    <!-- lip 2022/7/20 11:01 -->
+    <select id="getLastEntEvaDataListByParam" parameterType="map" resultType="map">
+        select
+            t1.reviewrsult,
+            t1.fk_pollutionid,
+            t2.pollutionname,
+            t2.regionjson,
+            t2.latitude,
+            t2.longitude,
+            t2.shortername,
+            t4.name industrytypename,
+            t5.name entstatename,
+            t6.name pollutionclassname,
+            t7.name evaluationlevelname,
+            t1.EvaluationYear	as  evaluationdate
+        from
+            t_xypj_envcreditevaluation t1
+            inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+            left join ( select max ( t.evaluationyear ) evaluationyear, t.fk_pollutionid from t_xypj_envcreditevaluation t group by t.fk_pollutionid ) t3 on t3.fk_pollutionid = t1.fk_pollutionid
+            and t1.evaluationyear = t3.evaluationyear
+            left join pub_code_entenvcredit t7 on t7.code = t1.reviewrsult
+            left join pub_code_industrytype t4 on t4.code = t2.fk_industrytype
+            left join pub_code_entstate t5 on t5.code = t2.fk_entstate
+            left join pub_code_pollutionclass t6 on t6.code = t2.fk_pollutionclass
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionname!=null and pollutionname!='' ">
+                and t2.pollutionname LIKE '%'+#{pollutionname}+'%'
+            </if>
+            <if test="levelcode!=null and levelcode!='' ">
+                and t1.reviewrsult = #{levelcode}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getLastEntEnvCreditByPid" parameterType="String" resultType="String">
+     select top 1
+        t1.name as reviewrsult
+    from
+        t_xypj_envcreditevaluation t
+        left join pub_code_entenvcredit t1 on t1.code = t.reviewrsult
+    where
+        t.evaluationyear = ( select max ( evaluationyear ) from t_xypj_envcreditevaluation
+
+        where fk_pollutionid = #{pollutionid} )
+			 and  t.fk_pollutionid = #{pollutionid}
+
+  </select>
+
+
+    <!--企业各个行政区划信用评价 lip 2022/7/25 9:21 -->
+    <select id="getEntRegionEvaDataList" parameterType="map" resultType="map">
+          select
+              t2.regioncode,
+              t2.regionname,
+              t1.code,
+              t1.name,
+              count ( distinct t2.fk_pollutionid ) countnum
+        from
+            pub_code_entenvcredit t1
+            inner join (
+            select
+                t1.reviewrsult,
+                t5.code as regioncode,
+                t5.name as regionname,
+                t1.fk_pollutionid
+            from
+                t_xypj_envcreditevaluation t1
+                inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+                inner join pub_code_region t5 on t2.fk_region = t5.code
+                inner join ( select max ( t.evaluationyear ) evaluationyear, t.fk_pollutionid from t_xypj_envcreditevaluation t group by t.fk_pollutionid ) t3 on t3.fk_pollutionid = t1.fk_pollutionid
+                and t1.evaluationyear = t3.evaluationyear
+            ) t2 on t1.code = t2.reviewrsult
+        group by
+            t2.regioncode,
+            t2.regionname,
+            t1.code,
+            t1.name,
+            t1.orderindex
+        order by
+            t1.orderindex
+
+  </select>
+
+
+
+    <!--
+      author:xsm
+      description: 通过自定义参数获取环境信用评价信息
+      param:
+      date: 2019/10/17 9:03
+  -->
+    <select id="getEnvCreditEvaluationsByParamMap" resultType="map" parameterType="map">
+        SELECT
+        PK_CreditEvaluationID id,
+        T_BAS_Pollution.PollutionName pollutionname,
+        EvaluationYear evaluationyear,
+        pt1.name evaluationrsult,
+        pt2.name reviewrsult,
+        reviewrsult reviewrsultcode,
+        evaluationrsult evaluationrsultcode
+        from
+        T_XYPJ_EnvCreditEvaluation  JOIN T_BAS_Pollution ON T_XYPJ_EnvCreditEvaluation.FK_PollutionID =
+        T_BAS_Pollution.PK_PollutionID
+        left  join PUB_CODE_EntEnvCredit pt1 on pt1.code = T_XYPJ_EnvCreditEvaluation.EvaluationRsult
+        left  join PUB_CODE_EntEnvCredit pt2 on pt2.code = T_XYPJ_EnvCreditEvaluation.ReviewRsult
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+                and T_XYPJ_EnvCreditEvaluation.Fk_PollutionID = #{fk_pollutionid}
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                AND T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="evaluationyear !=null and evaluationyear !='' ">
+                and T_XYPJ_EnvCreditEvaluation.EvaluationYear = #{evaluationyear}
+            </if>
+            <if test="evaluationrsults !=null and evaluationrsults.size>0 ">
+                and T_XYPJ_EnvCreditEvaluation.EvaluationRsult in
+                <foreach collection="evaluationrsults" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by T_XYPJ_EnvCreditEvaluation.EvaluationYear DESC
+    </select>
+
+
+    <!--
+   author:xsm
+   description: 通过id查询环境信用评价详情
+   param:
+   date: 2019/10/17 9:27
+-->
+    <select id="getEnvCreditEvaluationDetailByID" resultType="map" parameterType="string">
+      SELECT
+      PK_CreditEvaluationID pkid,
+      T_BAS_Pollution.PollutionName,
+      EvaluationYear,
+      pt1.name evaluationrsult,
+      pt2.name reviewrsult,
+
+      FK_FileID fkfileid,
+      T_XYPJ_EnvCreditEvaluation.UpdateUser,
+      CONVERT(varchar(20), T_XYPJ_EnvCreditEvaluation.UpdateTime,120) UpdateTime
+      from
+      T_XYPJ_EnvCreditEvaluation  JOIN T_BAS_Pollution ON T_XYPJ_EnvCreditEvaluation.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+
+      left  join PUB_CODE_EntEnvCredit pt1 on pt1.code = T_XYPJ_EnvCreditEvaluation.EvaluationRsult
+      left  join PUB_CODE_EntEnvCredit pt2 on pt2.code = T_XYPJ_EnvCreditEvaluation.ReviewRsult
+
+      where T_XYPJ_EnvCreditEvaluation.PK_CreditEvaluationID = #{pkid}
+    </select>
+</mapper>

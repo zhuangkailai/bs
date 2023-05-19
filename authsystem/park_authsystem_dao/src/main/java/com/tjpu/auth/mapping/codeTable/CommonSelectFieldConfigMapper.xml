@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.codeTable.CommonSelectFieldConfigMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.codeTable.CommonSelectFieldConfigVO">
+        <id column="PK_FieldConfigID" jdbcType="NVARCHAR" property="pkFieldConfigId"/>
+        <result column="FK_TableConfigID" jdbcType="NVARCHAR" property="fkTableConfigId"/>
+        <result column="FieldName" jdbcType="NVARCHAR" property="fieldName"/>
+        <result column="FieldComments" jdbcType="NVARCHAR" property="fieldComments"/>
+        <result column="FieldDataType" jdbcType="NVARCHAR" property="fieldDataType"/>
+        <result column="FieldLength" jdbcType="NUMERIC" property="fieldLength"/>
+        <result column="RelationalTable" jdbcType="NVARCHAR" property="relationalTable"/>
+        <result column="FKKeyField" jdbcType="NVARCHAR" property="fkKeyField"/>
+        <result column="FKNameField" jdbcType="NVARCHAR" property="fkNameField"/>
+        <result column="ConfigType" jdbcType="NVARCHAR" property="configType"/>
+        <result column="UpDateReadonly" jdbcType="NUMERIC" property="updateReadOnly"/>
+        <result column="OrderIndex" jdbcType="NUMERIC" property="orderIndex"/>
+        <result column="CustomOptions" jdbcType="NVARCHAR" property="customOptions"/>
+        <result column="ParentKeyField" jdbcType="NVARCHAR" property="parentKeyField"/>
+        <result column="ControlType" jdbcType="NVARCHAR" property="controlType"/>
+        <result column="ControlWidth" jdbcType="NVARCHAR" property="controlWidth"/>
+        <result column="ControlHeight" jdbcType="NVARCHAR" property="controlHeight"/>
+        <result column="MiddleTable" jdbcType="NVARCHAR" property="middleTable"/>
+        <result column="LeftId" jdbcType="NVARCHAR" property="leftId"/>
+        <result column="RightId" jdbcType="NVARCHAR" property="rightId"/>
+        <result column="ControlTextAlign" jdbcType="NVARCHAR" property="controlTextAlign"/>
+        <result column="ControlDefault" jdbcType="NVARCHAR" property="controlDefault"/>
+        <result column="ShowPage" jdbcType="NUMERIC" property="showPage"/>
+        <result column="LogFieldFlag" jdbcType="NUMERIC" property="logFieldFlag"/>
+        <result column="DefaultOrderType" jdbcType="NVARCHAR" property="defaultOrderType"/>
+        <result column="ValidRules" jdbcType="NVARCHAR" property="validRules"/>
+        <result column="ValidTriggers" jdbcType="NVARCHAR" property="validTriggers"/>
+        <result column="ValidMessage" jdbcType="NVARCHAR" property="validMessage"/>
+        <result column="TableJoinType" jdbcType="NVARCHAR" property="tableJoinType"/>
+        <result column="FieldQueryType" jdbcType="NVARCHAR" property="fieldQueryType"/>
+        <result column="ControlValueFormat" jdbcType="NVARCHAR" property="controlValueFormat"/>
+        <result column="IsRangeQuery" jdbcType="NUMERIC" property="isRangeQuery"/>
+        <result column="ListFixed" jdbcType="NVARCHAR" property="listFixed"/>
+        <result column="OtherFieldName" jdbcType="NVARCHAR" property="otherFieldName"/>
+        <result column="CustomOrderBy" jdbcType="NUMERIC" property="customOrderBy"/>
+        <result column="FilterFieldFlag" jdbcType="NVARCHAR" property="filterFieldFlag"/>
+        <result column="QueryFieldSql" jdbcType="NVARCHAR" property="queryFieldSql"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_FieldConfigID, FK_TableConfigID, FieldName, FieldComments, FieldDataType, FieldLength,
+    RelationalTable, FKKeyField, FKNameField, ConfigType, UpDateReadonly, OrderIndex,
+    CustomOptions, ParentKeyField, ControlType, ControlWidth,ControlHeight,MiddleTable,
+    LeftId,RightId,ControlTextAlign,ControlDefault,ShowPage,LogFieldFlag,DefaultOrderType,ValidRules,
+    ValidTriggers,ValidMessage,TableJoinType,FieldQueryType,ControlValueFormat,IsRangeQuery,listFixed,otherFieldName,customOrderBy,filterFieldFlag,QueryFieldSql
+  </sql>
+
+    <select id="getCommonSelectFieldConfigVO" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="tableconfigid != null">
+                AND fk_tableconfigid=#{tableconfigid}
+            </if>
+            <if test="configtype != null">
+                AND configtype=#{configtype}
+            </if>
+            <if test="controltype != null">
+                AND controltype=#{controltype}
+            </if>
+            <if test="relationtablelistflag != null">
+                AND fieldname=#{relationtablelistflag}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+     * @author: zhangzc
+     * @date: 2018/4/22 13:02
+     * @Description: 动态条件查询获取符合条件的字段信息集合
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+     * @param
+     * @return
+     -->
+    <select id="getFieldListByParam" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="tableconfigid != null">
+                AND fk_tableconfigid=#{tableconfigid}
+            </if>
+            <if test="configtype != null">
+                AND configtype=#{configtype}
+            </if>
+            <if test="controltype != null">
+                AND controltype=#{controltype}
+            </if>
+            <if test="relationtablelistflag != null">
+                AND fieldname=#{relationtablelistflag}
+            </if>
+        </trim>
+        order by OrderIndex
+    </select>
+
+    <!--
+      author: zzc
+      date: 2018/7/18 14:03
+      Description: 根据配置表ID和字段类型集合获取字段对象
+      param:
+      return:
+     -->
+    <select id="getFieldListByTableIdAndConfigTypeList"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="tableconfigid != null">
+                AND fk_tableconfigid=#{tableconfigid}
+                <if test="configtypelist != null">
+                    AND configtype IN
+                    <foreach item="item" index="index" collection="configtypelist" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+        </trim>
+        order by OrderIndex
+    </select>
+
+
+    <!--
+       author: zzc
+       date: 2018/6/25 11:15
+       Description: 通过表id和字段类型以及控件类型查询表的默认字段
+       param:
+       return:
+      -->
+    <select id="getDefaultAddFields" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND fk_tableconfigid=#{pktableconfigid}
+            AND configtype=#{configtype}
+            AND (controltype IS NULL OR controltype = '')
+            AND (controldefault IS NOT NULL AND controldefault != '')
+        </trim>
+        order by OrderIndex
+    </select>
+
+    <!--
+      author: zzc
+      date: 2018/6/25 11:15
+      Description: 通过表id和字段类型查询字段集合
+      param:
+      return:
+     -->
+    <select id="getFieldsByFkTableConfigIdAndConfigType" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_CommonSelectFieldConfig
+        WHERE
+          fk_tableconfigid=#{pktableconfigid}
+          AND configtype=#{configtype}
+        order by ISNULL(orderindex,10000),orderindex
+    </select>
+
+    <!--
+   * @author: xsm
+   * @date: 2018/7/11 13:15
+   * @Description: 获取日志描述要显示的带标记的字段
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+   * @param
+   * @return
+   -->
+    <select id="getOperateLogFieldFlag"  resultMap="BaseResultMap">
+        SELECT
+ 		com1.FieldComments,com1.FieldName
+		FROM
+		T_SYS_CommonSelectFieldConfig com1
+		WHERE com1.configtype = '${configtype}'
+		and com1.Logfieldflag = ${logfieldflag}
+		AND com1.fk_tableconfigid IN (
+  		SELECT pk_tableconfigid FROM
+  		T_SYS_CommonSelectTableConfig com2
+		WHERE com2.tablename = '${tablename}'
+		)
+		ORDER BY com1.LogFieldFlag
+    </select>
+
+    <!--
+    * @author: xsm
+    * @date: 2018/7/11 13:36
+    * @Description: 根据map中的查询条件获取配置信息，用来判断字段是否有关联关系
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+    * @param
+    * @return
+    -->
+    <select id="getCommonSelectFieldConfigByMap"  resultMap="BaseResultMap">
+        SELECT a.RelationalTable,a.FKKeyField,a.FKNameField,a.FieldComments,a.CustomOptions,
+        		a.MiddleTable,a.LeftId,a.RightId
+		FROM T_SYS_CommonSelectFieldConfig a LEFT JOIN T_SYS_CommonSelectTableConfig b ON a.FK_TableConfigID = b.PK_TableConfigID
+		WHERE a.fieldname = '${fieldname}'
+		AND a.configtype = '${configtype}'
+		AND b.tablename = '${tablename}'
+    </select>
+
+    <!--
+    * @author: xsm
+    * @date: 2018/8/8 10:02
+    * @Description: 获取关联表里一对多的字段数据
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+    * @param
+    * @return
+    -->
+    <select id="getRelationTableFieldNameList"  resultType="map">
+        SELECT ${fkkeyfield},${fknamefield}
+        FROM  ${tablename}
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="fieldlist != null">
+                 AND ${fkkeyfield} IN
+                <foreach item="item" index="index" collection="fieldlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+	 <!--
+    * @author: xsm
+    * @date: 2018/8/8 10:03
+    * @Description: 根据查询条件去查询行政区划信息（跨库查询）
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+    * @param
+    * @return
+    -->
+    <select id="getRegionListByparams"  resultType="map">
+        SELECT code,name
+        FROM  PUB_CODE_Region
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="regioncodelist != null">
+                AND code IN
+                <foreach item="item" index="index" collection="regioncodelist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+	
+	 <!--
+    * @author: xsm
+    * @date: 2018/7/11 15:15
+    * @Description: 根据查询条件去查询污染源企业信息（跨库查询）
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+    * @param
+    * @return
+    -->
+    <select id="getPollutionListByparams"  resultType="map">
+        SELECT poll.PK_PollutionID as pollutionid,poll.PollutionName as pollutionname
+        FROM  T_BAS_Pollution poll         
+        <trim prefix="WHERE" prefixOverrides="AND |OR">       
+            <if test="pollutionidlist != null">
+               AND pk_pollutionid IN
+                <foreach item="item" index="index" collection="pollutionidlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+	
+
+    <!--
+   * @author: xsm
+   * @date: 2018/7/11 15:15
+   * @Description: 用map接收删除的那条数据
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+   * @param
+   * @return
+   -->
+    <select id="getDeleteData"  resultType="java.util.Map">
+        SELECT * 
+		FROM  ${tablename}
+		where ${pkfieldname} = #{pkvalue}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SYS_CommonSelectFieldConfig
+        where pk_fieldconfigid = #{pkfieldconfigid,jdbcType=NVARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SYS_CommonSelectFieldConfig
+    where pk_fieldconfigid = #{pkfieldconfigid,jdbcType=NVARCHAR}
+  </delete>
+
+    <insert id="insert" parameterType="com.tjpu.auth.model.codeTable.CommonSelectFieldConfigVO">
+    insert into T_SYS_CommonSelectFieldConfig (PK_FieldConfigID, FK_TableConfigID, 
+      FieldName, FieldComments, FieldDataType, 
+      FieldLength, RelationalTable, FKKeyField, 
+      FKNameField, ConfigType, UpDateReadonly, 
+      OrderIndex, CustomOptions, ParentKeyField, 
+      ControlType, ControlWidth,ControlHeight,MiddleTable,LeftId,RightId)
+    values (#{pkFieldConfigId,jdbcType=NVARCHAR}, #{fkTableConfigId,jdbcType=NVARCHAR},
+      #{fieldName,jdbcType=NVARCHAR}, #{fieldComments,jdbcType=NVARCHAR}, #{fieldDataType,jdbcType=NVARCHAR},
+      #{fieldLength,jdbcType=NUMERIC}, #{relationalTable,jdbcType=NVARCHAR}, #{fkKeyField,jdbcType=NVARCHAR},
+      #{fkNameField,jdbcType=NVARCHAR}, #{configType,jdbcType=NVARCHAR}, #{updateReadOnly,jdbcType=NUMERIC},
+      #{orderIndex,jdbcType=NUMERIC}, #{customOptions,jdbcType=NVARCHAR}, #{parentKeyField,jdbcType=NVARCHAR},
+      #{controlType,jdbcType=NVARCHAR}, #{controlWidth,jdbcType=NVARCHAR}),#{controlHeight,jdbcType=NVARCHAR}),
+      #{middleTable,jdbcType=NVARCHAR}),#{leftId,jdbcType=NVARCHAR}),#{rightId,jdbcType=NVARCHAR}),#{controlTextAlign,jdbcType=NVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.codeTable.CommonSelectFieldConfigVO">
+        insert into T_SYS_CommonSelectFieldConfig
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkFieldConfigId != null">
+                PK_FieldConfigID,
+            </if>
+            <if test="fkTableConfigId != null">
+                FK_TableConfigID,
+            </if>
+            <if test="fieldName != null">
+                FieldName,
+            </if>
+            <if test="fieldComments != null">
+                FieldComments,
+            </if>
+            <if test="fieldDataType != null">
+                FieldDataType,
+            </if>
+            <if test="fieldLength != null">
+                FieldLength,
+            </if>
+            <if test="relationalTable != null">
+                RelationalTable,
+            </if>
+            <if test="fkKeyField != null">
+                FKKeyField,
+            </if>
+            <if test="fkNameField != null">
+                FKNameField,
+            </if>
+            <if test="configType != null">
+                ConfigType,
+            </if>
+            <if test="updateReadOnly != null">
+                UpDateReadonly,
+            </if>
+            <if test="orderIndex != null">
+                OrderIndex,
+            </if>
+            <if test="customOptions != null">
+                CustomOptions,
+            </if>
+            <if test="parentKeyField != null">
+                ParentKeyField,
+            </if>
+            <if test="controlType != null">
+                ControlType,
+            </if>
+            <if test="controlWidth != null">
+                ControlWidth,
+            </if>
+            <if test="controlHeight != null">
+                ControlHeight,
+            </if>
+            <if test="MiddleTable != null">
+                MiddleTable,
+            </if>
+            <if test="LeftId != null">
+                LeftId,
+            </if>
+            <if test="RightId != null">
+                RightId,
+            </if>
+            <if test="ControlTextAlign != null">
+                ControlTextAlign,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkFieldConfigId != null">
+                #{pkFieldConfigId,jdbcType=NVARCHAR},
+            </if>
+            <if test="fkTableConfigId != null">
+                #{fkTableConfigId,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldName != null">
+                #{fieldName,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldComments != null">
+                #{fieldComments,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldDataType != null">
+                #{fieldDataType,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldLength != null">
+                #{fieldLength,jdbcType=NUMERIC},
+            </if>
+            <if test="relationalTable != null">
+                #{relationalTable,jdbcType=NVARCHAR},
+            </if>
+            <if test="fkKeyField != null">
+                #{fkKeyField,jdbcType=NVARCHAR},
+            </if>
+            <if test="fkNameField != null">
+                #{fkNameField,jdbcType=NVARCHAR},
+            </if>
+            <if test="configType != null">
+                #{configType,jdbcType=NVARCHAR},
+            </if>
+            <if test="updateReadOnly != null">
+                #{updateReadOnly,jdbcType=NUMERIC},
+            </if>
+            <if test="orderIndex != null">
+                #{orderIndex,jdbcType=NUMERIC},
+            </if>
+            <if test="customOptions != null">
+                #{customOptions,jdbcType=NVARCHAR},
+            </if>
+            <if test="parentKeyField != null">
+                #{parentKeyField,jdbcType=NVARCHAR},
+            </if>
+            <if test="controlType != null">
+                #{controlType,jdbcType=NVARCHAR},
+            </if>
+            <if test="controlWidth != null">
+                #{controlWidth,jdbcType=NVARCHAR},
+            </if>
+            <if test="controlHeight != null">
+                #{controlHeight,jdbcType=NVARCHAR},
+            </if>
+            <if test="MiddleTable != null">
+                #{middleTable,jdbcType=NVARCHAR},
+            </if>
+            <if test="LeftId != null">
+                #{leftId,jdbcType=NVARCHAR},
+            </if>
+            <if test="RightId != null">
+                #{rightId,jdbcType=NVARCHAR},
+            </if>
+            <if test="ControlTextAlign != null">
+                #{controlTextAlign,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.codeTable.CommonSelectFieldConfigVO">
+        update T_SYS_CommonSelectFieldConfig
+        <set>
+            <if test="fkTableConfigId != null">
+                FK_TableConfigID = #{fkTableConfigId,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldName != null">
+                FieldName = #{fieldName,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldComments != null">
+                FieldComments = #{fieldComments,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldDataType != null">
+                FieldDataType = #{fieldDataType,jdbcType=NVARCHAR},
+            </if>
+            <if test="fieldLength != null">
+                FieldLength = #{fieldLength,jdbcType=NUMERIC},
+            </if>
+            <if test="relationalTable != null">
+                RelationalTable = #{relationalTable,jdbcType=NVARCHAR},
+            </if>
+            <if test="fkKeyField != null">
+                FKKeyField = #{fkKeyField,jdbcType=NVARCHAR},
+            </if>
+            <if test="fkNameField != null">
+                FKNameField = #{fkNameField,jdbcType=NVARCHAR},
+            </if>
+            <if test="configType != null">
+                ConfigType = #{configType,jdbcType=NVARCHAR},
+            </if>
+            <if test="updateReadOnly != null">
+                UpDateReadonly = #{updateReadOnly,jdbcType=NUMERIC},
+            </if>
+            <if test="orderIndex != null">
+                OrderIndex = #{orderIndex,jdbcType=NUMERIC},
+            </if>
+            <if test="customOptions != null">
+                CustomOptions = #{customOptions,jdbcType=NVARCHAR},
+            </if>
+            <if test="parentKeyField != null">
+                ParentKeyField = #{parentKeyField,jdbcType=NVARCHAR},
+            </if>
+            <if test="controlType != null">
+                ControlType = #{controlType,jdbcType=NVARCHAR},
+            </if>
+            <if test="controlWidth != null">
+                #{controlWidth,jdbcType=NVARCHAR},
+            </if>
+            <if test="controlHeight != null">
+                #{controlHeight,jdbcType=NVARCHAR},
+            </if>
+            <if test="MiddleTable != null">
+                #{middleTable,jdbcType=NVARCHAR},
+            </if>
+            <if test="LeftId != null">
+                #{leftId,jdbcType=NVARCHAR},
+            </if>
+            <if test="RightId != null">
+                #{rightId,jdbcType=NVARCHAR},
+            </if>
+            <if test="ControlTextAlign != null">
+                #{controlTextAlign,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where PK_FieldConfigID = #{pkFieldConfigId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.codeTable.CommonSelectFieldConfigVO">
+    update T_SYS_CommonSelectFieldConfig
+    set FK_TableConfigID = #{fkTableConfigId,jdbcType=NVARCHAR},
+      FieldName = #{fieldName,jdbcType=NVARCHAR},
+      FieldComments = #{fieldComments,jdbcType=NVARCHAR},
+      FieldDataType = #{fieldDataType,jdbcType=NVARCHAR},
+      FieldLength = #{fieldLength,jdbcType=NUMERIC},
+      RelationalTable = #{relationalTable,jdbcType=NVARCHAR},
+      FKKeyField = #{fkkeyField,jdbcType=NVARCHAR},
+      FKNameField = #{fkNameField,jdbcType=NVARCHAR},
+      ConfigType = #{configType,jdbcType=NVARCHAR},
+      UpDateReadonly = #{updateReadOnly,jdbcType=NUMERIC},
+      OrderIndex = #{orderIndex,jdbcType=NUMERIC},
+      CustomOptions = #{customOptions,jdbcType=NVARCHAR},
+      ParentKeyField = #{parentKeyField,jdbcType=NVARCHAR},
+      ControlType = #{controlType,jdbcType=NVARCHAR},
+      ControlWidth = #{controlWidth,jdbcType=NVARCHAR},
+      ControlHeight = #{controlHeight,jdbcType=NVARCHAR},
+      MiddleTable = #{middleTable,jdbcType=NVARCHAR},
+      LeftId = #{leftId,jdbcType=NVARCHAR},
+      RightId = #{rightId,jdbcType=NVARCHAR},
+      ControlTextAlign = #{controlTextAlign,jdbcType=NVARCHAR}
+    where PK_FieldConfigID = #{pkFieldConfigId,jdbcType=NVARCHAR}
+  </update>
+</mapper>

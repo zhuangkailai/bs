@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.checkentinfo.CheckEntInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.checkentinfo.CheckEntInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CheckTypeCode" jdbcType="VARCHAR" property="fkChecktypecode" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="LinkMan" jdbcType="VARCHAR" property="linkman" />
+    <result column="Telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="CheckPeople" jdbcType="VARCHAR" property="checkpeople" />
+    <result column="CheckTime" jdbcType="TIMESTAMP" property="checktime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="EntAddress" jdbcType="VARCHAR" property="entaddress" />
+    <result column="Status" jdbcType="NUMERIC" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CheckTypeCode, FK_PollutionID, LinkMan, Telephone, CheckPeople, CheckTime, 
+    UpdateUser, UpdateTime,EntAddress,Status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_CheckEntInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_CheckEntInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.CheckEntInfoVO">
+    insert into T_GJ_CheckEntInfo (PK_ID, FK_CheckTypeCode, FK_PollutionID, 
+      LinkMan, Telephone, CheckPeople, 
+      CheckTime, UpdateUser, UpdateTime,EntAddress,Status
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkChecktypecode,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, 
+      #{linkman,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{checkpeople,jdbcType=VARCHAR}, 
+      #{checktime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP},#{entaddress,jdbcType=VARCHAR}
+      ,#{status,jdbcType=NUMERIC}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.CheckEntInfoVO">
+    insert into T_GJ_CheckEntInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkChecktypecode != null">
+        FK_CheckTypeCode,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="linkman != null">
+        LinkMan,
+      </if>
+      <if test="telephone != null">
+        Telephone,
+      </if>
+      <if test="checkpeople != null">
+        CheckPeople,
+      </if>
+      <if test="checktime != null">
+        CheckTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="entaddress != null">
+        EntAddress,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkChecktypecode != null">
+        #{fkChecktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="checkpeople != null">
+        #{checkpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entaddress != null">
+        #{entaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.CheckEntInfoVO">
+    update T_GJ_CheckEntInfo
+    <set>
+      <if test="fkChecktypecode != null">
+        FK_CheckTypeCode = #{fkChecktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        LinkMan = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        Telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="checkpeople != null">
+        CheckPeople = #{checkpeople,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entaddress != null">
+        EntAddress = #{entaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.checkentinfo.CheckEntInfoVO">
+    update T_GJ_CheckEntInfo
+    set FK_CheckTypeCode = #{fkChecktypecode,jdbcType=VARCHAR},
+      FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      LinkMan = #{linkman,jdbcType=VARCHAR},
+      Telephone = #{telephone,jdbcType=VARCHAR},
+      CheckPeople = #{checkpeople,jdbcType=VARCHAR},
+      CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+       EntAddress = #{entaddress,jdbcType=VARCHAR},
+       Status = #{status,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+     author:xsm
+     description: 获取所有检查企业数据且按企业和检查日期分组
+     param:
+     date: 2021/06/29 16:01
+ -->
+  <select id="getAllCheckEntInfoGroupByEntAndData" parameterType="map" resultType="map">
+    SELECT
+    t.FK_PollutionID,
+    t1.PollutionName,
+    convert(varchar(10),t.CheckTime,120) CheckTime,
+    CASE  WHEN max(t3.PK_ID) IS NOT NULL THEN 1 ELSE 0 END  isfocuson,
+    <if test="checktype!=null and checktype==2 ">
+      CASE  WHEN max(t5.PK_ID) IS NOT NULL THEN 1 ELSE 0 END  isfeedback,
+      case  when max(t4.PK_ID) IS NOT NULL then 1 ELSE 0 end isread,
+      case  when max(t5.PK_ID) IS NOT NULL then max(t5.PK_ID) ELSE ''END feedbackid,
+    </if>
+    min(t.Status) status
+    FROM
+    T_GJ_CheckEntInfo t
+    JOIN T_BAS_Pollution t1 ON t.FK_PollutionID = t1.PK_PollutionID
+    JOIN T_GJ_InspectType t2 ON t.FK_CheckTypeCode =t2.PK_ID
+    LEFT JOIN T_GJ_FocusConcernEntSet t3 ON  t.FK_PollutionID = t3.FK_PollutionID
+    <if test="checktype!=null and checktype==2 ">
+      left join T_GJ_EntCheckFeedbackRecord t5 on t.FK_PollutionID =t5.FK_PollutionID
+      and CONVERT (VARCHAR (10),t.CheckTime,120) = CONVERT (VARCHAR (10),t5.CheckTime,120)
+      LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+      <trim prefix="where" prefixOverrides="AND|OR">
+        <if test="userid!=null and userid!='' ">
+          and T_BAS_MessageReadUser.UserID = #{userid}
+        </if>
+        <if test="messagetype!=null and messagetype!='' ">
+          and T_BAS_MessageReadUser.MessageType = #{messagetype}
+        </if>
+      </trim>
+      )t4 on t4.FK_RecordID = t5.PK_ID
+    </if>
+    LEFT JOIN (
+    SELECT
+    info.PK_ID fk_checkentinfoid,
+    STUFF( ( SELECT '、' + fk_username FROM T_GJ_UserCheckEnt WHERE fk_checkentinfoid = info.PK_ID FOR XML PATH ( '' ) ), 1, 1, '' ) AS checkPerson
+    FROM
+    T_GJ_CheckEntInfo info
+    GROUP BY
+    info.pk_id
+    ) t6 ON t6.fk_checkentinfoid = t.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checkperson!=null and checkperson!='' ">
+        t6.checkPerson like concat('%',#{checkperson},'%')
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        t1.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+       and t1.PK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktype!=null and checktype!='' ">
+        and t2.TitleType = #{checktype}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.CheckTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.CheckTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    GROUP BY t.FK_PollutionID,t1.PollutionName, convert(varchar(10),t.CheckTime,120)
+    <choose>
+      <when test="datatypeflag =='date'">
+        ORDER BY  convert(varchar(10),t.CheckTime,120) desc,t1.PollutionName
+      </when>
+      <otherwise>
+        ORDER BY  t1.PollutionName,convert(varchar(10),t.CheckTime,120) desc
+      </otherwise>
+    </choose>
+
+  </select>
+
+  <!--
+author:xsm
+description: 验证检查记录是否重复
+param:
+date: 2021/06/29 17:09
+-->
+  <select id="IsCheckEntInfoValidByParam" parameterType="map" resultType="map">
+    SELECT
+    *
+    FROM
+    T_GJ_CheckEntInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        T_GJ_CheckEntInfo.FK_CheckTypeCode = #{checktypecode}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_GJ_CheckEntInfo.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktime!=null and checktime!='' ">
+        and convert(varchar(10),T_GJ_CheckEntInfo.CheckTime,120)= #{checktime}
+      </if>
+
+    </trim>
+
+  </select>
+
+<!--获取待提交记录信息 lip 2021/8/31 14:42 -->
+  <select id="getSubmitListData" parameterType="map" resultType="map">
+    SELECT
+      t1.pk_id AS checkentinfoid,
+      t2.name checktypename,
+      CONVERT ( VARCHAR ( 10 ), t1.checktime, 120 ) checktime,
+      t1.checkpeople,
+      t1.fk_checktypecode,
+      t1.FK_PollutionID,
+      p.PollutionName,
+      COUNT ( t4.pk_id ) AS problemnum
+    FROM
+      t_gj_checkentinfo t1
+      inner JOIN t_gj_inspecttype t2 ON t2.pk_id = t1.fk_checktypecode
+      LEFT JOIN T_BAS_Pollution p ON t1.FK_PollutionID = p.PK_PollutionID
+      LEFT JOIN t_gj_checkitemdata t3 ON t3.fk_checkentid = t1.pk_id
+      LEFT JOIN t_gj_checkproblemexpound t4 ON t4.fk_checkitemdataid = t3.pk_id
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t1.Status = '0'
+      <choose>
+        <when test="titletype!=null and titletype!='' ">
+          and t2.TitleType = #{titletype}
+        </when>
+        <otherwise>
+          and   t2.TitleType = '2'
+        </otherwise>
+      </choose>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.checktime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t1.checktime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="inspecttypes!=null and inspecttypes.size>0">
+        and t2.pk_id in
+        <foreach collection="inspecttypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+
+    </trim>
+    GROUP BY
+      t1.pk_id,
+      t2.name,
+      t1.checktime,
+      t1.checkpeople,
+      t1.FK_PollutionID,
+      p.PollutionName,
+      t1.fk_checktypecode
+  </select>
+
+  <!--获取待反馈记录信息 lip 2021/8/31 14:42 -->
+  <select id="getFeedbackDataListByParam" parameterType="map" resultType="map">
+    select
+      t1.fk_pollutionid,
+      t3.pollutionname,
+      t3.shortername ,
+      convert ( varchar ( 10 ), t1.checktime, 120 ) checktime,
+     max ( convert ( varchar ( 19 ), t1.updatetime, 120 )  ) updatetime
+  from
+      t_gj_entcheckfeedbackrecord t1
+      inner join t_gj_checkentinfo t2 on t1.checktime = t2.checktime
+      and t1.fk_pollutionid = t2.fk_pollutionid
+      and t1.isupdate = '1'
+      inner join t_bas_pollution t3 on t3.pk_pollutionid = t1.fk_pollutionid
+  group by
+      t1.fk_pollutionid,
+      t3.pollutionname,
+      t3.shortername,
+      t1.checktime
+  </select>
+  
+
+
+  <!--
+     author:xsm
+     description: 根据污染源ID、检查日期、检查类型获取检查企业信息
+     param:
+     date: 2021/06/29 16:01
+ -->
+  <select id="getOneCheckEntInfoByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID checkentinfoid,
+    t1.FK_PollutionID pollutionid,
+    t1.EntAddress,
+    t1.LinkMan,
+    t1.Telephone,
+    t.CheckPeople,
+    t2.PollutionName,
+    t1.Status,
+    convert(varchar(10),t1.CheckTime,120) CheckTime
+    FROM
+    T_GJ_CheckEntInfo t1
+    LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+    LEFT JOIN T_GJ_InspectType t3 ON t1.FK_CheckTypeCode = t3.PK_ID
+    LEFT JOIN (
+      SELECT
+      info.PK_ID fk_checkentinfoid,
+      STUFF( ( SELECT '、' + fk_username FROM T_GJ_UserCheckEnt WHERE fk_checkentinfoid = info.PK_ID FOR XML PATH ( '' ) ), 1, 1, '' ) AS CheckPeople
+      FROM
+      T_GJ_CheckEntInfo info
+      GROUP BY
+      info.pk_id
+    ) t ON t.fk_checkentinfoid = t1.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        t1.FK_CheckTypeCode = #{checktypecode}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktime!=null and checktime!='' ">
+        and convert(varchar(10),t1.CheckTime,120)= #{checktime}
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 根据自定义参数获取检查报表状态
+ param:
+ date: 2021/07/07 10:36
+-->
+  <select id="getCheckEntInfoStatusByParam" parameterType="map" resultType="map">
+    SELECT  T_GJ_CheckEntInfo.FK_CheckTypeCode,T_GJ_CheckEntInfo.Status
+    FROM
+    T_GJ_CheckEntInfo
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_GJ_CheckEntInfo.FK_PollutionID  = #{pollutionid}
+      </if>
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and T_GJ_CheckEntInfo.FK_CheckTypeCode = #{checktypecode}
+      </if>
+      <if test="checktypecodes !=null and checktypecodes.size>0">
+        and T_GJ_CheckEntInfo.FK_CheckTypeCode in
+        <foreach collection="checktypecodes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="checktime != null and checktime !=''">
+        and convert(varchar(10),T_GJ_CheckEntInfo.CheckTime,120) = #{checktime}
+      </if>
+    </trim>
+    group by T_GJ_CheckEntInfo.FK_CheckTypeCode,T_GJ_CheckEntInfo.Status
+  </select>
+
+  <!--
+    author:xsm
+    description: 根据污染源ID、检查日期更新该企业该日期检查报告状态
+    param:
+    date: 2021/07/07 10:36
+-->
+  <select id="updatecheckEntInfoStatusByParam" parameterType="map">
+    update T_GJ_CheckEntInfo
+    set
+    Status = #{status}
+    where
+     T_GJ_CheckEntInfo.FK_PollutionID = #{pollutionid}
+     and T_GJ_CheckEntInfo.FK_CheckTypeCode = #{checktypecode}
+    and convert(varchar(10),T_GJ_CheckEntInfo.CheckTime,120) = #{checktime}
+  </select>
+
+
+    <!--
+  author:xsm
+  description: 根据自定义参数获取企业提醒数据（企业端）
+  param:
+  date: 2021/07/07 10:36
+  -->
+  <select id="countPollutionPatrolDataByEntID" parameterType="map" resultType="map">
+    SELECT
+    count(t.PK_ID) num,'待处理' statusname,0 Status
+    FROM
+    T_GJ_CheckEntInfo t
+    JOIN T_BAS_Pollution t3 ON t.FK_PollutionID = t3.PK_PollutionID
+    join T_GJ_InspectType t4 on t.FK_CheckTypeCode=t4.PK_ID AND t4.TitleType = 2
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t.Status = 0
+    <if test="pollutionid!=null and pollutionid!='' ">
+      and t.FK_PollutionID  = #{pollutionid}
+    </if>
+    </trim>
+    UNION ALL
+    SELECT
+    count(t.PK_ID) num,'待整改' statusname,1 Status
+    FROM
+    T_GJ_CheckProblemExpound t
+    JOIN T_GJ_CheckItemData t1 ON t.FK_CheckItemDataID = t1.PK_ID
+    JOIN T_GJ_CheckEntInfo t2 ON t1.FK_CheckEntID = t2.PK_ID
+    JOIN T_BAS_Pollution t3 ON t2.FK_PollutionID = t3.PK_PollutionID
+    join T_GJ_InspectType t4 on t2.FK_CheckTypeCode=t4.PK_ID AND t4.TitleType IN(1,2)
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t.Status = 1
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t.FK_PollutionID  = #{pollutionid}
+      </if>
+    </trim>
+    UNION ALL
+    SELECT
+    count(t.PK_ID) num,'已完成' statusname,3 Status
+    FROM
+    T_GJ_CheckProblemExpound t
+    JOIN T_GJ_CheckItemData t1 ON t.FK_CheckItemDataID = t1.PK_ID
+    JOIN T_GJ_CheckEntInfo t2 ON t1.FK_CheckEntID = t2.PK_ID
+    JOIN T_BAS_Pollution t3 ON t2.FK_PollutionID = t3.PK_PollutionID
+    join T_GJ_InspectType t4 on t2.FK_CheckTypeCode=t4.PK_ID AND t4.TitleType IN(1,2)
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t.Status = 3
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t.FK_PollutionID  = #{pollutionid}
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+   author:xsm
+   description: 获取管委会监督检查巡查任务提醒(管委会端)
+   param:
+   date: 2021/09/07 14:32
+   -->
+  <select id="countManagementCommitteePatrolDataNum"  resultType="map">
+    SELECT
+    count(t.PK_ID) num,'待处理' statusname,0 Status
+    FROM
+    T_GJ_CheckEntInfo t
+    JOIN T_BAS_Pollution t3 ON t.FK_PollutionID = t3.PK_PollutionID
+    join T_GJ_InspectType t4 on t.FK_CheckTypeCode=t4.PK_ID AND t4.TitleType = 1
+    WHERE
+      t.Status = 0
+    UNION ALL
+    SELECT
+    count(t.PK_ID) num,'待复查' statusname,1 Status
+    FROM
+    T_GJ_CheckProblemExpound t
+    JOIN T_GJ_CheckItemData t1 ON t.FK_CheckItemDataID = t1.PK_ID
+    JOIN T_GJ_CheckEntInfo t2 ON t1.FK_CheckEntID = t2.PK_ID
+    JOIN T_BAS_Pollution t3 ON t2.FK_PollutionID = t3.PK_PollutionID
+    join T_GJ_InspectType t4 on t2.FK_CheckTypeCode=t4.PK_ID
+    where
+      t.Status = 2 and t.FK_ProblemSourceCode  IN (1,3)
+    UNION ALL
+    SELECT
+    count(t.PK_ID) num,'已完成' statusname,3 Status
+    FROM
+    T_GJ_CheckProblemExpound t
+    JOIN T_GJ_CheckItemData t1 ON t.FK_CheckItemDataID = t1.PK_ID
+    JOIN T_GJ_CheckEntInfo t2 ON t1.FK_CheckEntID = t2.PK_ID
+    JOIN T_BAS_Pollution t3 ON t2.FK_PollutionID = t3.PK_PollutionID
+    join T_GJ_InspectType t4 on t2.FK_CheckTypeCode=t4.PK_ID
+    where
+      t.Status = 3 and t.FK_ProblemSourceCode  IN (1,3)
+  </select>
+
+  <!--
+  author:xsm
+  description: 根据企业ID获取企业自查次数统计(企业端)
+  param:
+  date: 2021/08/12 10:58
+  -->
+  <select id="countEntSelfCheckNumGroupByMonthByEntID" parameterType="map" resultType="map">
+    SELECT
+    count(t.PK_ID) num,convert(varchar(7),t.CheckTime,120) CheckTime
+    FROM
+    T_GJ_CheckEntInfo t
+    JOIN T_BAS_Pollution t1 ON t.FK_PollutionID = t1.PK_PollutionID
+    JOIN T_GJ_InspectType t2 ON t.FK_CheckTypeCode = t2.PK_ID AND t2.TitleType = 2
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t.Status = 1
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t.FK_PollutionID  = #{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (7),t.CheckTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (7),t.CheckTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    group by convert(varchar(7),t.CheckTime,120)
+    order by convert(varchar(7),t.CheckTime,120)
+  </select>
+
+  <!--
+    author:xsm
+    description: 获取所有检查企业数据且按企业和检查日期分组
+    param:
+    date: 2021/06/29 16:01
+-->
+  <select id="getEntCheckFeedbackTreeDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t.FK_PollutionID,
+    t1.PollutionName,
+    convert(varchar(10),t.CheckTime,120) CheckTime,
+    CASE  WHEN max(t3.PK_ID) IS NOT NULL THEN 1 ELSE 0 END  isfocuson,
+    CASE  WHEN max(t5.PK_ID) IS NOT NULL THEN 1 ELSE 0 END  isfeedback,
+    case  when max(t4.PK_ID) IS NOT NULL then 1 ELSE 0 end isread,
+    case  when max(t5.IsUpdate) IS NOT NULL then max(t5.IsUpdate) ELSE 0 end isupdate,
+    case  when max(t5.PK_ID) IS NOT NULL then max(t5.PK_ID) ELSE ''END feedbackid,
+    max(t.Status) status
+    FROM
+    T_GJ_CheckEntInfo t
+    JOIN T_BAS_Pollution t1 ON t.FK_PollutionID = t1.PK_PollutionID
+    JOIN T_GJ_InspectType t2 ON t.FK_CheckTypeCode =t2.PK_ID
+    LEFT JOIN T_GJ_FocusConcernEntSet t3 ON  t.FK_PollutionID = t3.FK_PollutionID
+    left join T_GJ_EntCheckFeedbackRecord t5 on t.FK_PollutionID =t5.FK_PollutionID
+    and CONVERT (VARCHAR (10),t.CheckTime,120) = CONVERT (VARCHAR (10),t5.CheckTime,120)
+    LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+      <trim prefix="where" prefixOverrides="AND|OR">
+        <if test="userid!=null and userid!='' ">
+          and T_BAS_MessageReadUser.UserID = #{userid}
+        </if>
+        <if test="messagetype!=null and messagetype!='' ">
+          and T_BAS_MessageReadUser.MessageType = #{messagetype}
+        </if>
+      </trim>
+      )t4 on t4.FK_RecordID = t5.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t2.TitleType = 2
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.PK_PollutionID = #{pollutionid}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.CheckTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.CheckTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    GROUP BY t.FK_PollutionID,t1.PollutionName, convert(varchar(10),t.CheckTime,120)
+    ORDER BY  t1.PollutionName,convert(varchar(10),t.CheckTime,120) desc
+  </select>
+
+
+  <!--
+author:xsm
+description: 获取所有未读的企业提交的检查问题报表
+param:
+date: 2021/09/10 11:58
+-->
+  <select id="getEntCheckSubmitDataByParam" parameterType="map" resultType="map">
+    SELECT
+    max(tt.PK_ID) pkid,
+    tt.fkpollutionid,
+    tt.PollutionName,
+    min(tt.isread) isread,
+    tt.shortername+'提交了企业检查信息。' messagestr,
+    case  when max(t5.IsUpdate) IS NOT NULL then max(t5.IsUpdate) ELSE 0 end isupdate,
+    tt.CheckTime,
+    convert(varchar(19),MAX(tt.UpdateTime),120) UpdateTime
+    FROM
+    (SELECT
+    t.PK_ID,
+    t.FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    T_BAS_Pollution.shortername,
+    case  when t4.PK_ID IS NOT NULL then '1' ELSE '0' end isread,
+    convert(varchar(10),t.CheckTime,120) CheckTime,
+    t.UpdateTime
+    FROM
+    T_GJ_CheckEntInfo t
+    JOIN T_GJ_InspectType t2 ON t.FK_CheckTypeCode =t2.PK_ID
+    LEFT JOIN T_BAS_Pollution  ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN (SELECT  T_BAS_MessageReadUser.*  FROM  T_BAS_MessageReadUser
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="userid!=null and userid!='' ">
+        and T_BAS_MessageReadUser.UserID = #{userid}
+      </if>
+      <if test="messagetype!=null and messagetype!='' ">
+        and T_BAS_MessageReadUser.MessageType = #{messagetype}
+      </if>
+    </trim>
+    )t4 on t4.FK_RecordID = t.PK_ID
+    WHERE t.Status = '1' and  t2.TitleType = 2
+    ) tt
+    LEFT JOIN T_GJ_EntCheckFeedbackRecord t5 ON tt.fkpollutionid = t5.FK_PollutionID AND tt.CheckTime = convert(varchar(10),t5.CheckTime,120)
+    WHERE  (t5.IsUpdate = '1' OR t5.PK_ID IS NULL) and tt.isread = '0'
+    GROUP BY tt.fkpollutionid,tt.PollutionName,tt.shortername,tt.CheckTime
+  </select>
+
+
+  <!--
+author:xsm
+description: 根据自定义条件获取单个检查表信息
+param:
+date: 2021/09/15 14:13
+-->
+  <select id="getOneCheckEntDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t.PK_ID pkid,
+    case  when t5.IsUpdate IS NOT NULL then t5.IsUpdate ELSE 0 end isupdate
+    FROM
+    T_GJ_CheckEntInfo t
+    LEFT JOIN T_GJ_EntCheckFeedbackRecord t5 ON t.FK_PollutionID = t5.FK_PollutionID AND convert(varchar(10),t.CheckTime,120) = convert(varchar(10),t5.CheckTime,120)
+    WHERE
+    t.Status = '1'
+    and t.FK_PollutionID = #{pollutionid}
+    and t.FK_CheckTypeCode = #{checktypecode}
+    and convert(varchar(10),t.CheckTime,120) = #{checktime}
+  </select>
+
+
+  <!--
+    author:mmt
+    description: 检查企业列表
+    param:
+    date: 2022/08/17
+  -->
+  <select id="getAllCheckEntInfoList" parameterType="map" resultType="map">
+    SELECT
+    <if test="pagesize!=null and pagesize!='' ">
+      TOP ${pagesize}
+    </if>
+      *
+    FROM
+    (
+    SELECT
+        info.PK_ID,
+        info.FK_PollutionID,
+        info.Status,
+        CONVERT ( VARCHAR ( 10 ), info.CheckTime, 120 ) CheckTime,
+        pollution.PollutionName ,
+        isnull( t.checkItemCount, 0 ) checkItemCount,
+        ROW_NUMBER ( ) OVER ( ORDER BY CONVERT ( VARCHAR ( 10 ), info.CheckTime, 120 ) DESC, pollution.PollutionName ) AS RowNumber,
+        t.checkPerson
+    FROM
+        T_GJ_CheckEntInfo info
+        LEFT JOIN T_BAS_Pollution pollution ON pollution.PK_PollutionID = info.FK_PollutionID
+        <if test="!(userid != null and userid.trim() != '') ">
+          LEFT
+        </if>
+        JOIN T_GJ_UserCheckEnt ON info.PK_ID = T_GJ_UserCheckEnt.fk_checkentinfoid
+        LEFT JOIN (
+        SELECT
+            info.PK_ID fk_checkentinfoid,
+            STUFF(
+                  (
+                  SELECT '、' + fk_username
+                   FROM T_GJ_UserCheckEnt
+                  WHERE fk_checkentinfoid = info.PK_ID FOR XML PATH ( '' ) ),
+                1,
+                1,
+                ''
+            ) AS checkPerson,
+            COUNT ( T_GJ_CheckProblemExpound.pk_id ) checkItemCount
+        FROM
+        T_GJ_CheckEntInfo info
+        LEFT JOIN T_GJ_CheckItemData itemData ON itemData.FK_CheckEntID = info.PK_ID
+        LEFT JOIN T_GJ_CheckProblemExpound ON itemData.PK_ID = T_GJ_CheckProblemExpound.FK_CheckItemDataID
+        GROUP BY
+            info.pk_id
+        ) t ON t.fk_checkentinfoid = info.PK_ID
+      <trim prefix="where" prefixOverrides="AND|OR">
+        <if test="userid != null and userid.trim() != '' ">
+          AND T_GJ_UserCheckEnt.fk_userid = #{userid}
+        </if>
+        <if test="pollutionname!=null and pollutionname!='' ">
+          AND pollution.PollutionName like concat('%',#{pollutionname},'%')
+        </if>
+        <if test="checkperson!=null and checkperson!='' ">
+          AND T_GJ_UserCheckEnt.fk_username like concat('%',#{checkperson},'%')
+        </if>
+        <if test="starttime != null and starttime !=''">
+          AND CONVERT (VARCHAR (10),info.CheckTime,120) >= #{starttime}
+        </if>
+        <if test="endtime != null and endtime !=''">
+          AND CONVERT (VARCHAR (10),info.CheckTime,120) <![CDATA[<=]]> #{endtime}
+        </if>
+      </trim>
+      )t
+      <if test="pagesize!=null and pagesize!='' ">
+        where RowNumber > ${(pagenum-1)*pagesize}
+      </if>
+  </select>
+</mapper>

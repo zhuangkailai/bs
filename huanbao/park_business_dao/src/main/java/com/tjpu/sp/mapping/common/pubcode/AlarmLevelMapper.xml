@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.common.pubcode.AlarmLevelMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.pubcode.AlarmLevelVO" >
+    <id column="PK_ID" property="pkId" jdbcType="NUMERIC" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Version" property="version" jdbcType="VARCHAR" />
+    <result column="OrderIndex" property="orderindex" jdbcType="NUMERIC" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="BeginTime" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, Code, Name, Version, OrderIndex, Remark, BeginTime, EndTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from PUB_CODE_AlarmLevel
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from PUB_CODE_AlarmLevel
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO" >
+    insert into PUB_CODE_AlarmLevel (PK_ID, Code, Name, 
+      Version, OrderIndex, Remark, 
+      BeginTime, EndTime)
+    values (#{pkId,jdbcType=NUMERIC}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC}, #{remark,jdbcType=VARCHAR}, 
+      #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO" >
+    insert into PUB_CODE_AlarmLevel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="version != null" >
+        Version,
+      </if>
+      <if test="orderindex != null" >
+        OrderIndex,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="begintime != null" >
+        BeginTime,
+      </if>
+      <if test="endtime != null" >
+        EndTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=NUMERIC},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null" >
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO" >
+    update PUB_CODE_AlarmLevel
+    <set >
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        Version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null" >
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="begintime != null" >
+        BeginTime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.pubcode.AlarmLevelVO" >
+    update PUB_CODE_AlarmLevel
+    set Code = #{code,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      Version = #{version,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      Remark = #{remark,jdbcType=VARCHAR},
+      BeginTime = #{begintime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 获取所有报警级别码表信息
+      param:
+      date: 2019/05/21 13:17
+  -->
+  <select id="getAlarmLevelPubCodeInfo" resultType="map">
+    select * from PUB_CODE_AlarmLevel order by OrderIndex
+  </select>
+</mapper>

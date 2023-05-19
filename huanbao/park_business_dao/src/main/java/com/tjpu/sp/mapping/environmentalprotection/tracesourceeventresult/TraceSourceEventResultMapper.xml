@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesourceeventresult.TraceSourceEventResultMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_PollutionId" property="fkpollutionid" jdbcType="VARCHAR" />
+    <result column="PollutionName" property="pollutionname" jdbcType="VARCHAR" />
+    <result column="ShorterName" property="shortername" jdbcType="VARCHAR" />
+    <result column="FK_TraceSourceEventId" property="fktracesourceeventid" jdbcType="VARCHAR" />
+    <result column="ContributionRatio" property="contributionratio" jdbcType="DOUBLE" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_TraceSourceEventResult.PK_ID,
+    T_BAS_TraceSourceEventResult.FK_PollutionId,
+    T_BAS_TraceSourceEventResult.FK_TraceSourceEventId,
+    T_BAS_TraceSourceEventResult.ContributionRatio,
+    T_BAS_TraceSourceEventResult.UpdateUser,
+    convert(varchar(19),T_BAS_TraceSourceEventResult.UpdateTime,120)UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_TraceSourceEventResult
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_TraceSourceEventResult
+    where PK_ID = #{pkid}
+  </delete>
+  <delete id="deleteByTraceSourceEventid" parameterType="java.lang.String" >
+    delete from T_BAS_TraceSourceEventResult
+    where FK_TraceSourceEventId = #{fktracesourceeventid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesourceeventresult.TraceSourceEventResultVO" >
+    insert into T_BAS_TraceSourceEventResult
+    (PK_ID,
+    FK_PollutionId,
+    FK_TraceSourceEventId,
+    ContributionRatio,
+    UpdateUser,
+    UpdateTime
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkpollutionid,jdbcType=VARCHAR},
+    #{fktracesourceeventid,jdbcType=VARCHAR},
+    #{contributionratio,jdbcType=DOUBLE},
+    #{updateuser,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesourceeventresult.TraceSourceEventResultVO" >
+    update T_BAS_TraceSourceEventResult
+    set
+    FK_PollutionId=#{fkpollutionid,jdbcType=VARCHAR},
+    FK_TraceSourceEventId=#{fktracesourceeventid,jdbcType=VARCHAR},
+    ContributionRatio=#{contributionratio,jdbcType=DOUBLE},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取溯源事件结果信息
+      param:
+      date: 2021/05/10 18:05
+  -->
+  <select id="getTraceSourceEventResultByParamMap" parameterType="map" resultMap="BaseResultMap">
+      select
+      PollutionName,
+      ShorterName,
+      <include refid="Base_Column_List"/>
+      from T_BAS_TraceSourceEventResult
+      left join T_BAS_Pollution on PK_PollutionID=FK_PollutionId
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_TraceSourceEventResult.PK_ID = #{pkid}
+        </if>
+        <if test="fktracesourceeventid!=null and fktracesourceeventid!='' ">
+          AND T_BAS_TraceSourceEventResult.FK_TraceSourceEventId = #{fktracesourceeventid}
+        </if>
+      </where>
+      order by ContributionRatio desc
+  </select>
+</mapper>

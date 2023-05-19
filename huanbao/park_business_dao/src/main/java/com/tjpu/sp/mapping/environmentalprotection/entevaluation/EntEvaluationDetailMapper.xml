@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entevaluation.EntEvaluationDetailMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationDetailVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_EntEvaluationID" jdbcType="VARCHAR" property="fkEntevaluationid" />
+    <result column="FK_EntEvaluationIndexID" jdbcType="VARCHAR" property="fkEntevaluationindexid" />
+    <result column="IndexEvaluationScore" jdbcType="DOUBLE" property="indexevaluationscore" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_EntEvaluationID, FK_EntEvaluationIndexID,
+    IndexEvaluationScore, UpdateUser, UpdateTime, Remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntEvaluationDetail
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntEvaluationDetail
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="deleteByEntSynthesizeEvaluationID" parameterType="java.lang.String">
+    delete from T_BAS_EntEvaluationDetail
+    where FK_EntEvaluationID = #{fkEntevaluationid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationDetailVO">
+    insert into T_BAS_EntEvaluationDetail (PK_ID, FK_EntEvaluationID, FK_EntEvaluationIndexID,
+      IndexEvaluationScore, UpdateUser, UpdateTime, 
+      Remark)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkEntevaluationid,jdbcType=VARCHAR},
+      #{fkEntevaluationindexid,jdbcType=VARCHAR},
+      #{indexevaluationscore,jdbcType=DOUBLE}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationDetailVO">
+    insert into T_BAS_EntEvaluationDetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkEntevaluationid != null">
+        FK_EntEvaluationID,
+      </if>
+      <if test="fkEntevaluationindexid != null">
+        FK_EntEvaluationIndexID,
+      </if>
+      <if test="indexevaluationscore != null">
+        IndexEvaluationScore,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEntevaluationid != null">
+        #{fkEntevaluationid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEntevaluationindexid != null">
+        #{fkEntevaluationindexid,jdbcType=VARCHAR},
+      </if>
+      <if test="indexevaluationscore != null">
+        #{indexevaluationscore,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationDetailVO">
+    update T_BAS_EntEvaluationDetail
+    <set>
+      <if test="fkEntevaluationid != null">
+        FK_EntEvaluationID = #{fkEntevaluationid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEntevaluationindexid != null">
+        FK_EntEvaluationIndexID = #{fkEntevaluationindexid,jdbcType=VARCHAR},
+      </if>
+      <if test="indexevaluationscore != null">
+        IndexEvaluationScore = #{indexevaluationscore,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationDetailVO">
+    update T_BAS_EntEvaluationDetail
+    set FK_EntEvaluationID = #{fkEntevaluationid,jdbcType=VARCHAR},
+      FK_EntEvaluationIndexID = #{fkEntevaluationindexid,jdbcType=VARCHAR},
+      IndexEvaluationScore = #{indexevaluationscore,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    * @author: xsm
+    * @date: 2022/03/07 0007 下午 17:10
+    * @Description: 批量插入企业评价指标详情记录信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_EntEvaluationDetail (PK_ID, FK_EntEvaluationID,
+    FK_EntEvaluationIndexID,
+    IndexEvaluationScore, UpdateUser, UpdateTime,
+    Remark)
+    values
+    <foreach collection="list" separator="," item="item">
+    (#{item.pkId,jdbcType=VARCHAR}, #{item.fkEntevaluationid,jdbcType=VARCHAR},
+    #{item.fkEntevaluationindexid,jdbcType=VARCHAR},
+    #{item.indexevaluationscore,jdbcType=DOUBLE}, #{item.updateuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP},
+    #{item.remark,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <!--
+   * @author: xsm
+   * @date: 2022/03/08 0008 上午 08:56
+   * @Description: 获取企业评价指标详情记录信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getEntEvaluationDetailInfoByParam" parameterType="map" resultType="map">
+    select
+    t.PK_ID pkid,
+    t.FK_EntEvaluationID fkentevaluationid,
+    t.FK_EntEvaluationIndexID fkentevaluationindexid,
+    t.IndexEvaluationScore,
+    t.Remark
+    from
+    T_BAS_EntEvaluationDetail t
+    JOIN
+    T_BAS_EntSynthesizeEvaluation t1 ON t.FK_EntEvaluationID = t1.PK_ID
+    JOIN  T_BAS_EntEvaluationIndex t2 ON  t.FK_EntEvaluationIndexID = t2.PK_ID
+    <where>
+    <if test="entevaluationid != null and entevaluationid !=''">
+      AND t.FK_EntEvaluationID =  #{entevaluationid}
+    </if>
+    </where>
+    order by t2.IndexType,t2.IndexName
+  </select>
+
+</mapper>

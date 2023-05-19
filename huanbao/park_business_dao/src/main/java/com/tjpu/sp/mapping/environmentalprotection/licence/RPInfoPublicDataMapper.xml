@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.RPInfoPublicDataMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.RPInfoPublicDataVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_ReportId" jdbcType="VARCHAR" property="fkReportid" />
+    <result column="FK_ParamId" jdbcType="VARCHAR" property="fkParamid" />
+    <result column="IsRequest" jdbcType="NUMERIC" property="isrequest" />
+    <result column="ActualStatus" jdbcType="VARCHAR" property="actualstatus" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_ReportId, FK_ParamId, IsRequest, ActualStatus, Remark, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_RP_InfoPublicData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_RP_InfoPublicData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPInfoPublicDataVO">
+    insert into T_RP_InfoPublicData (PK_ID, FK_ReportId, FK_ParamId, 
+      IsRequest, ActualStatus, Remark, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkReportid,jdbcType=VARCHAR}, #{fkParamid,jdbcType=VARCHAR}, 
+      #{isrequest,jdbcType=NUMERIC}, #{actualstatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPInfoPublicDataVO">
+    insert into T_RP_InfoPublicData
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkReportid != null">
+        FK_ReportId,
+      </if>
+      <if test="fkParamid != null">
+        FK_ParamId,
+      </if>
+      <if test="isrequest != null">
+        IsRequest,
+      </if>
+      <if test="actualstatus != null">
+        ActualStatus,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReportid != null">
+        #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkParamid != null">
+        #{fkParamid,jdbcType=VARCHAR},
+      </if>
+      <if test="isrequest != null">
+        #{isrequest,jdbcType=NUMERIC},
+      </if>
+      <if test="actualstatus != null">
+        #{actualstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPInfoPublicDataVO">
+    update T_RP_InfoPublicData
+    <set>
+      <if test="fkReportid != null">
+        FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkParamid != null">
+        FK_ParamId = #{fkParamid,jdbcType=VARCHAR},
+      </if>
+      <if test="isrequest != null">
+        IsRequest = #{isrequest,jdbcType=NUMERIC},
+      </if>
+      <if test="actualstatus != null">
+        ActualStatus = #{actualstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPInfoPublicDataVO">
+    update T_RP_InfoPublicData
+    set FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      FK_ParamId = #{fkParamid,jdbcType=VARCHAR},
+      IsRequest = #{isrequest,jdbcType=NUMERIC},
+      ActualStatus = #{actualstatus,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getDataListByParam" parameterType="map" resultType="map">
+    select
+      t1.pk_id,
+      t1.classname,
+      t1.providecontent,
+      t2.isrequest,
+      t2.remark,
+      t2.actualstatus
+    from
+    t_rp_infopublicconfig t1
+    left join t_rp_infopublicdata t2 on t1.pk_id = t2.fk_paramid
+    <if test="reportid!=null and reportid !=''">
+      and t2.FK_ReportId = #{reportid}
+    </if>
+    order by t1.orderindex
+  </select>
+
+
+  <select id="getYearTextContentByParam" parameterType="map" resultType="map">
+    select
+    *
+    from
+    T_RP_ReportTextData t1
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="texttypes !=null and texttypes.size()>0">
+
+        t1.TextType in
+        <foreach collection="texttypes" separator="," open="(" close=")" item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="reportid!=null and reportid !=''">
+        and t1.FK_ReportId = #{reportid}
+      </if>
+    </trim>
+  </select>
+
+
+</mapper>

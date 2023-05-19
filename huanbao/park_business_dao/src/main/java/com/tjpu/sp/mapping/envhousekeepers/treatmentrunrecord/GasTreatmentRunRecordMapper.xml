@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.treatmentrunrecord.GasTreatmentRunRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.GasTreatmentRunRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_Pollutionid" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="TreatmentName" jdbcType="VARCHAR" property="treatmentname" />
+    <result column="TreatmentNum" jdbcType="VARCHAR" property="treatmentnum" />
+    <result column="TreatmentModel" jdbcType="VARCHAR" property="treatmentmodel" />
+    <result column="ParameterName" jdbcType="VARCHAR" property="parametername" />
+    <result column="DesignValue" jdbcType="DOUBLE" property="designvalue" />
+    <result column="ParameterUnit" jdbcType="VARCHAR" property="parameterunit" />
+    <result column="RunStartTime" jdbcType="TIMESTAMP" property="runstarttime" />
+    <result column="RunEndTime" jdbcType="TIMESTAMP" property="runendtime" />
+    <result column="IsNormal" jdbcType="NUMERIC" property="isnormal" />
+    <result column="SmokeVolume" jdbcType="DOUBLE" property="smokevolume" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="HandleEfficiency" jdbcType="DOUBLE" property="handleefficiency" />
+    <result column="DataSources" jdbcType="VARCHAR" property="datasources" />
+    <result column="EmissionPipeHeight" jdbcType="DOUBLE" property="emissionpipeheight" />
+    <result column="OutPutTemperature" jdbcType="DOUBLE" property="outputtemperature" />
+    <result column="Pressure" jdbcType="DOUBLE" property="pressure" />
+    <result column="FlowTime" jdbcType="DOUBLE" property="flowtime" />
+    <result column="PowerConsumption" jdbcType="DOUBLE" property="powerconsumption" />
+    <result column="Afterproduct" jdbcType="VARCHAR" property="afterproduct" />
+    <result column="Production" jdbcType="VARCHAR" property="production" />
+    <result column="DrugName" jdbcType="VARCHAR" property="drugname" />
+    <result column="DrugAddTime" jdbcType="TIMESTAMP" property="drugaddtime" />
+    <result column="Dosage" jdbcType="DOUBLE" property="dosage" />
+    <result column="RecordUser" jdbcType="VARCHAR" property="recorduser" />
+    <result column="RecordTime" jdbcType="TIMESTAMP" property="recordtime" />
+    <result column="ReviewerUser" jdbcType="VARCHAR" property="revieweruser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, TreatmentName, TreatmentNum, TreatmentModel, ParameterName, 
+    DesignValue, ParameterUnit, RunStartTime, RunEndTime, IsNormal, SmokeVolume, FK_PollutantCode, 
+    HandleEfficiency, DataSources, EmissionPipeHeight, OutPutTemperature, Pressure, FlowTime, 
+    PowerConsumption, Afterproduct, Production, DrugName, DrugAddTime, Dosage, RecordUser, 
+    RecordTime, ReviewerUser, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_GasTreatmentRunRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_GasTreatmentRunRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.GasTreatmentRunRecordVO">
+    insert into T_GJ_GasTreatmentRunRecord (PK_ID, FK_Pollutionid, TreatmentName, 
+      TreatmentNum, TreatmentModel, ParameterName, 
+      DesignValue, ParameterUnit, RunStartTime, 
+      RunEndTime, IsNormal, SmokeVolume, 
+      FK_PollutantCode, HandleEfficiency, DataSources, 
+      EmissionPipeHeight, OutPutTemperature, Pressure, 
+      FlowTime, PowerConsumption, Afterproduct, 
+      Production, DrugName, DrugAddTime, 
+      Dosage, RecordUser, RecordTime, 
+      ReviewerUser, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{treatmentname,jdbcType=VARCHAR}, 
+      #{treatmentnum,jdbcType=VARCHAR}, #{treatmentmodel,jdbcType=VARCHAR}, #{parametername,jdbcType=VARCHAR}, 
+      #{designvalue,jdbcType=DOUBLE}, #{parameterunit,jdbcType=VARCHAR}, #{runstarttime,jdbcType=TIMESTAMP}, 
+      #{runendtime,jdbcType=TIMESTAMP}, #{isnormal,jdbcType=NUMERIC}, #{smokevolume,jdbcType=DOUBLE}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{handleefficiency,jdbcType=DOUBLE}, #{datasources,jdbcType=VARCHAR}, 
+      #{emissionpipeheight,jdbcType=DOUBLE}, #{outputtemperature,jdbcType=DOUBLE}, #{pressure,jdbcType=DOUBLE}, 
+      #{flowtime,jdbcType=DOUBLE}, #{powerconsumption,jdbcType=DOUBLE}, #{afterproduct,jdbcType=VARCHAR}, 
+      #{production,jdbcType=VARCHAR}, #{drugname,jdbcType=VARCHAR}, #{drugaddtime,jdbcType=TIMESTAMP}, 
+      #{dosage,jdbcType=DOUBLE}, #{recorduser,jdbcType=VARCHAR}, #{recordtime,jdbcType=TIMESTAMP}, 
+      #{revieweruser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.GasTreatmentRunRecordVO">
+    insert into T_GJ_GasTreatmentRunRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid,
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName,
+      </if>
+      <if test="treatmentnum != null">
+        TreatmentNum,
+      </if>
+      <if test="treatmentmodel != null">
+        TreatmentModel,
+      </if>
+      <if test="parametername != null">
+        ParameterName,
+      </if>
+      <if test="designvalue != null">
+        DesignValue,
+      </if>
+      <if test="parameterunit != null">
+        ParameterUnit,
+      </if>
+      <if test="runstarttime != null">
+        RunStartTime,
+      </if>
+      <if test="runendtime != null">
+        RunEndTime,
+      </if>
+      <if test="isnormal != null">
+        IsNormal,
+      </if>
+      <if test="smokevolume != null">
+        SmokeVolume,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="handleefficiency != null">
+        HandleEfficiency,
+      </if>
+      <if test="datasources != null">
+        DataSources,
+      </if>
+      <if test="emissionpipeheight != null">
+        EmissionPipeHeight,
+      </if>
+      <if test="outputtemperature != null">
+        OutPutTemperature,
+      </if>
+      <if test="pressure != null">
+        Pressure,
+      </if>
+      <if test="flowtime != null">
+        FlowTime,
+      </if>
+      <if test="powerconsumption != null">
+        PowerConsumption,
+      </if>
+      <if test="afterproduct != null">
+        Afterproduct,
+      </if>
+      <if test="production != null">
+        Production,
+      </if>
+      <if test="drugname != null">
+        DrugName,
+      </if>
+      <if test="drugaddtime != null">
+        DrugAddTime,
+      </if>
+      <if test="dosage != null">
+        Dosage,
+      </if>
+      <if test="recorduser != null">
+        RecordUser,
+      </if>
+      <if test="recordtime != null">
+        RecordTime,
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentnum != null">
+        #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentmodel != null">
+        #{treatmentmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="parametername != null">
+        #{parametername,jdbcType=VARCHAR},
+      </if>
+      <if test="designvalue != null">
+        #{designvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="parameterunit != null">
+        #{parameterunit,jdbcType=VARCHAR},
+      </if>
+      <if test="runstarttime != null">
+        #{runstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runendtime != null">
+        #{runendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isnormal != null">
+        #{isnormal,jdbcType=NUMERIC},
+      </if>
+      <if test="smokevolume != null">
+        #{smokevolume,jdbcType=DOUBLE},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleefficiency != null">
+        #{handleefficiency,jdbcType=DOUBLE},
+      </if>
+      <if test="datasources != null">
+        #{datasources,jdbcType=VARCHAR},
+      </if>
+      <if test="emissionpipeheight != null">
+        #{emissionpipeheight,jdbcType=DOUBLE},
+      </if>
+      <if test="outputtemperature != null">
+        #{outputtemperature,jdbcType=DOUBLE},
+      </if>
+      <if test="pressure != null">
+        #{pressure,jdbcType=DOUBLE},
+      </if>
+      <if test="flowtime != null">
+        #{flowtime,jdbcType=DOUBLE},
+      </if>
+      <if test="powerconsumption != null">
+        #{powerconsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="afterproduct != null">
+        #{afterproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="production != null">
+        #{production,jdbcType=VARCHAR},
+      </if>
+      <if test="drugname != null">
+        #{drugname,jdbcType=VARCHAR},
+      </if>
+      <if test="drugaddtime != null">
+        #{drugaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dosage != null">
+        #{dosage,jdbcType=DOUBLE},
+      </if>
+      <if test="recorduser != null">
+        #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.GasTreatmentRunRecordVO">
+    update T_GJ_GasTreatmentRunRecord
+    <set>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentname != null">
+        TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentnum != null">
+        TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentmodel != null">
+        TreatmentModel = #{treatmentmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="parametername != null">
+        ParameterName = #{parametername,jdbcType=VARCHAR},
+      </if>
+      <if test="designvalue != null">
+        DesignValue = #{designvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="parameterunit != null">
+        ParameterUnit = #{parameterunit,jdbcType=VARCHAR},
+      </if>
+      <if test="runstarttime != null">
+        RunStartTime = #{runstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runendtime != null">
+        RunEndTime = #{runendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isnormal != null">
+        IsNormal = #{isnormal,jdbcType=NUMERIC},
+      </if>
+      <if test="smokevolume != null">
+        SmokeVolume = #{smokevolume,jdbcType=DOUBLE},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleefficiency != null">
+        HandleEfficiency = #{handleefficiency,jdbcType=DOUBLE},
+      </if>
+      <if test="datasources != null">
+        DataSources = #{datasources,jdbcType=VARCHAR},
+      </if>
+      <if test="emissionpipeheight != null">
+        EmissionPipeHeight = #{emissionpipeheight,jdbcType=DOUBLE},
+      </if>
+      <if test="outputtemperature != null">
+        OutPutTemperature = #{outputtemperature,jdbcType=DOUBLE},
+      </if>
+      <if test="pressure != null">
+        Pressure = #{pressure,jdbcType=DOUBLE},
+      </if>
+      <if test="flowtime != null">
+        FlowTime = #{flowtime,jdbcType=DOUBLE},
+      </if>
+      <if test="powerconsumption != null">
+        PowerConsumption = #{powerconsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="afterproduct != null">
+        Afterproduct = #{afterproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="production != null">
+        Production = #{production,jdbcType=VARCHAR},
+      </if>
+      <if test="drugname != null">
+        DrugName = #{drugname,jdbcType=VARCHAR},
+      </if>
+      <if test="drugaddtime != null">
+        DrugAddTime = #{drugaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dosage != null">
+        Dosage = #{dosage,jdbcType=DOUBLE},
+      </if>
+      <if test="recorduser != null">
+        RecordUser = #{recorduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtime != null">
+        RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revieweruser != null">
+        ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.treatmentrunrecord.GasTreatmentRunRecordVO">
+    update T_GJ_GasTreatmentRunRecord
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      TreatmentName = #{treatmentname,jdbcType=VARCHAR},
+      TreatmentNum = #{treatmentnum,jdbcType=VARCHAR},
+      TreatmentModel = #{treatmentmodel,jdbcType=VARCHAR},
+      ParameterName = #{parametername,jdbcType=VARCHAR},
+      DesignValue = #{designvalue,jdbcType=DOUBLE},
+      ParameterUnit = #{parameterunit,jdbcType=VARCHAR},
+      RunStartTime = #{runstarttime,jdbcType=TIMESTAMP},
+      RunEndTime = #{runendtime,jdbcType=TIMESTAMP},
+      IsNormal = #{isnormal,jdbcType=NUMERIC},
+      SmokeVolume = #{smokevolume,jdbcType=DOUBLE},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      HandleEfficiency = #{handleefficiency,jdbcType=DOUBLE},
+      DataSources = #{datasources,jdbcType=VARCHAR},
+      EmissionPipeHeight = #{emissionpipeheight,jdbcType=DOUBLE},
+      OutPutTemperature = #{outputtemperature,jdbcType=DOUBLE},
+      Pressure = #{pressure,jdbcType=DOUBLE},
+      FlowTime = #{flowtime,jdbcType=DOUBLE},
+      PowerConsumption = #{powerconsumption,jdbcType=DOUBLE},
+      Afterproduct = #{afterproduct,jdbcType=VARCHAR},
+      Production = #{production,jdbcType=VARCHAR},
+      DrugName = #{drugname,jdbcType=VARCHAR},
+      DrugAddTime = #{drugaddtime,jdbcType=TIMESTAMP},
+      Dosage = #{dosage,jdbcType=DOUBLE},
+      RecordUser = #{recorduser,jdbcType=VARCHAR},
+      RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      ReviewerUser = #{revieweruser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数查询废气治理设施运行记录
+    param:
+    date: 2021/08/17 13:39
+-->
+  <select id="getGasTreatmentRunRecordByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    TreatmentName,
+    TreatmentNum,
+    TreatmentModel,
+    ParameterName,
+    DesignValue,
+    ParameterUnit,
+    CONVERT (VARCHAR (20),t.RunStartTime,120) RunStartTime,
+    CONVERT (VARCHAR (20),t.RunEndTime,120) RunEndTime,
+    CASE IsNormal WHEN 0 THEN '否'  WHEN 1 THEN '是' END IsNormal,
+    SmokeVolume,
+    FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    HandleEfficiency,
+    DataSources,
+    EmissionPipeHeight,
+    OutPutTemperature,
+    Pressure,
+    FlowTime,
+    PowerConsumption,
+    Afterproduct,
+    Production,
+    DrugName,
+    CONVERT (VARCHAR (20),t.DrugAddTime,120) DrugAddTime,
+    Dosage,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_GasTreatmentRunRecord t
+    LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = t.FK_PollutantCode AND PUB_CODE_PollutantFactor.PollutantType = 2
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.Fk_PollutionID = #{pollutionid}
+      </if>
+      <if test="treatmentname !=null and treatmentname !='' ">
+        and t.TreatmentName like concat('%',#{treatmentname},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by t.RunStartTime desc
+  </select>
+
+
+  <!--
+author:xsm
+description: 通过id获取废气治理设施运行记录详情
+param:
+date: 2021/08/17 13:39
+-->
+  <select id="getGasTreatmentRunRecordByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    TreatmentName,
+    TreatmentNum,
+    TreatmentModel,
+    ParameterName,
+    DesignValue,
+    ParameterUnit,
+    CONVERT (VARCHAR (20),t.RunStartTime,120) RunStartTime,
+    CONVERT (VARCHAR (20),t.RunEndTime,120) RunEndTime,
+     IsNormal ,
+    SmokeVolume,
+    FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    HandleEfficiency,
+    DataSources,
+    EmissionPipeHeight,
+    OutPutTemperature,
+    Pressure,
+   FlowTime,
+    PowerConsumption,
+    Afterproduct,
+    Production,
+    DrugName,
+    CONVERT (VARCHAR (20),t.DrugAddTime,120) DrugAddTime,
+    Dosage,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_GasTreatmentRunRecord t
+    LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = t.FK_PollutantCode AND PUB_CODE_PollutantFactor.PollutantType = 2
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where t.PK_ID = #{pkid}
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id获取废气治理设施运行记录详情
+ param:
+ date: 2021/08/17 13:39
+-->
+  <select id="getGasTreatmentRunRecordDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    TreatmentName,
+    TreatmentNum,
+    TreatmentModel,
+    ParameterName,
+    DesignValue,
+    ParameterUnit,
+    CONVERT (VARCHAR (20),t.RunStartTime,120) RunStartTime,
+    CONVERT (VARCHAR (20),t.RunEndTime,120) RunEndTime,
+    CASE IsNormal WHEN 0 THEN '否'  WHEN 1 THEN '是' END IsNormal,
+    SmokeVolume,
+    FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    HandleEfficiency,
+    DataSources,
+    EmissionPipeHeight,
+    OutPutTemperature,
+    Pressure,
+    FlowTime,
+    PowerConsumption,
+    Afterproduct,
+    Production,
+    DrugName,
+    CONVERT (VARCHAR (20),t.DrugAddTime,120) DrugAddTime,
+    Dosage,
+    RecordUser,
+    CONVERT (VARCHAR (20),t.RecordTime,120) RecordTime,
+    ReviewerUser,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_GasTreatmentRunRecord t
+    LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = t.FK_PollutantCode AND PUB_CODE_PollutantFactor.PollutantType = 2
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where t.PK_ID = #{pkid}
+  </select>
+
+</mapper>

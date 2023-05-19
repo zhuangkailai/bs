@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.pollutantsmell.PollutantSmellMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.pollutantsmell.PollutantSmellVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="FK_PollutantCode" property="fkPollutantcode" jdbcType="VARCHAR" />
+    <result column="Version" property="version" jdbcType="VARCHAR" />
+    <result column="OrderIndex" property="orderindex" jdbcType="NUMERIC" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="BeginTime" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="result" type="java.util.Map">
+    <id column="smellcode" property="smellcode" jdbcType="VARCHAR" />
+    <result column="smellname" property="smellname" jdbcType="VARCHAR" />
+    <collection property="pollutants" ofType="map" javaType="java.util.Set">
+      <result column="pollutantname" property="pollutantname" jdbcType="VARCHAR" />
+      <result column="pollutantcode" property="pollutantcode" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, Code, Name, FK_PollutantCode, Version, OrderIndex, Remark, BeginTime, EndTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from PUB_CODE_PollutantSmell
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from PUB_CODE_PollutantSmell
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.pollutantsmell.PollutantSmellVO" >
+    insert into PUB_CODE_PollutantSmell (PK_ID, Code, Name, 
+      FK_PollutantCode, Version, OrderIndex, 
+      Remark, BeginTime, EndTime
+      )
+    values (#{pkId,jdbcType=NUMERIC}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC}, 
+      #{remark,jdbcType=VARCHAR}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.pollutantsmell.PollutantSmellVO" >
+    insert into PUB_CODE_PollutantSmell
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode,
+      </if>
+      <if test="version != null" >
+        Version,
+      </if>
+      <if test="orderindex != null" >
+        OrderIndex,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="begintime != null" >
+        BeginTime,
+      </if>
+      <if test="endtime != null" >
+        EndTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null" >
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.pollutantsmell.PollutantSmellVO" >
+    update PUB_CODE_PollutantSmell
+    <set >
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        Version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null" >
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="begintime != null" >
+        BeginTime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.pollutantsmell.PollutantSmellVO" >
+    update PUB_CODE_PollutantSmell
+    set Code = #{code,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      Version = #{version,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      Remark = #{remark,jdbcType=VARCHAR},
+      BeginTime = #{begintime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByCode" parameterType="com.tjpu.sp.model.environmentalprotection.pollutantsmell.PollutantSmellVO" >
+    update PUB_CODE_PollutantSmell
+    set Code = #{code,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      Version = #{version,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      Remark = #{remark,jdbcType=VARCHAR},
+      BeginTime = #{begintime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP}
+    where Code =  #{code,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteByCode" parameterType="string">
+    delete from PUB_CODE_PollutantSmell where Code = #{code}
+  </delete>
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取污染物味道信息
+      param:
+      date: 2019/10/26 16:21
+  -->
+  <select id="getPollutantSmellByParamMap" resultMap="result" parameterType="map">
+    SELECT
+        PUB_CODE_PollutantSmell.name smellname,
+        PUB_CODE_PollutantSmell.code smellcode,
+        PUB_CODE_PollutantFactor.name pollutantname,
+        PUB_CODE_PollutantFactor.code pollutantcode
+    FROM
+        PUB_CODE_PollutantSmell
+        LEFT JOIN PUB_CODE_PollutantFactor on PUB_CODE_PollutantFactor.code=PUB_CODE_PollutantSmell.FK_PollutantCode and PUB_CODE_PollutantFactor.PollutantType in(2,9,40) and IsUsed=1
+    <where>
+        <if test="smellname!=null and smellname!='' ">
+          and  PUB_CODE_PollutantSmell.name like concat('%',#{smellname},'%')
+        </if>
+        <if test="pollutantcodes!=null and pollutantcodes.size>0 ">
+          and  PUB_CODE_PollutantSmell.code IN ( select code from PUB_CODE_PollutantSmell where FK_PollutantCode in
+          <foreach collection="pollutantcodes" close=")" open="(" separator="," item="item">
+            #{item}
+          </foreach>
+          )
+        </if>
+    </where>
+    order by PUB_CODE_PollutantSmell.code
+  </select>
+
+
+  <!--
+      author:chengzq
+      description: 通过code获取污染物味道信息
+      param:
+      date: 2019/10/26 16:34
+  -->
+  <select id="selectBySmellCode" resultMap="result" parameterType="map" >
+    SELECT
+      PUB_CODE_PollutantSmell.name smellname,
+      PUB_CODE_PollutantSmell.code smellcode,
+      PUB_CODE_PollutantFactor.code pollutantcode,
+      PUB_CODE_PollutantFactor.name pollutantname
+    FROM
+      PUB_CODE_PollutantSmell
+    LEFT JOIN PUB_CODE_PollutantFactor on PUB_CODE_PollutantFactor.code=PUB_CODE_PollutantSmell.FK_PollutantCode and PUB_CODE_PollutantFactor.PollutantType in(2,9,40) and IsUsed=1
+    <where>
+      <if test="smellcode!=null and smellcode!=''">
+        and PUB_CODE_PollutantSmell.code =#{smellcode}
+      </if>
+    </where>
+    order by PUB_CODE_PollutantSmell.code
+  </select>
+
+  <!--
+      author:chengzq
+      description: 通过污染物code获取气味信息
+      param:
+      date: 2019/10/28 11:54
+  -->
+  <select id="selectByPollutantcode" parameterType="string" resultType="map">
+    select * from PUB_CODE_PollutantSmell
+    <where>
+      <if test="fkpollutantcode!=null and fkpollutantcode!=''">
+        FK_PollutantCode=#{fkpollutantcode}
+      </if>
+    </where>
+    order by code
+  </select>
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取污染物
+      param:
+      date: 2019/10/29 10:05
+  -->
+  <select id="getPollutantByPollutantType" parameterType="map" resultType="map">
+    SELECT
+    PUB_CODE_PollutantFactor.code pollutantcode,
+    PUB_CODE_PollutantFactor.name pollutantname
+    FROM
+    PUB_CODE_PollutantSmell
+    LEFT JOIN PUB_CODE_PollutantFactor on PUB_CODE_PollutantFactor.code=PUB_CODE_PollutantSmell.FK_PollutantCode and PUB_CODE_PollutantFactor.PollutantType in(2,9,40)  and IsUsed=1
+    <where>
+      <if test="pollutanttype!=null and pollutanttype!=''">
+        and PUB_CODE_PollutantFactor.PollutantType =#{pollutanttype}
+      </if>
+      <if test="smellcode!=null and smellcode!=''">
+        and PUB_CODE_PollutantSmell.code =#{smellcode}
+      </if>
+    </where>
+    order by PUB_CODE_PollutantFactor.orderindex
+  </select>
+
+</mapper>

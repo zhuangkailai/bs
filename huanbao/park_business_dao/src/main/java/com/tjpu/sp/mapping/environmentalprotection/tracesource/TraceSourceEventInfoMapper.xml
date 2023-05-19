@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesource.TraceSourceEventInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="FK_PetitionId" property="fkPetitionid" jdbcType="VARCHAR"/>
+        <result column="EventName" property="eventname" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="StartTime" property="starttime" jdbcType="VARCHAR"/>
+        <result column="EndTime" property="endtime" jdbcType="VARCHAR"/>
+        <result column="Duration" property="duration" jdbcType="NUMERIC"/>
+        <result column="EventType" property="eventtype" jdbcType="NUMERIC"/>
+        <result column="EventStatus" property="eventstatus" jdbcType="NUMERIC"/>
+        <result column="TraceSourceExplain" property="tracesourceexplain" jdbcType="VARCHAR"/>
+        <result column="EventMark" property="eventmark" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="VoyageStartTime" property="voyagestarttime" jdbcType="VARCHAR"/>
+        <result column="VoyageEndTime" property="voyageendtime" jdbcType="VARCHAR"/>
+        <result column="ConsultationResult" property="consultationresult" jdbcType="VARCHAR"/>
+        <result column="VoyageJson" property="voyagejson" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SelectResultMap" type="map">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="FK_PetitionId" property="fkPetitionid" jdbcType="VARCHAR"/>
+        <result column="EventName" property="eventname" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="StartTime" property="starttime" jdbcType="VARCHAR"/>
+        <result column="EndTime" property="endtime" jdbcType="VARCHAR"/>
+        <result column="Duration" property="duration" jdbcType="NUMERIC"/>
+        <result column="EventType" property="eventtype" jdbcType="NUMERIC"/>
+        <result column="EventTypeName" property="eventtypename" jdbcType="VARCHAR"/>
+        <result column="Status" property="status" jdbcType="VARCHAR"/>
+        <result column="EventStatus" property="eventstatus" jdbcType="NUMERIC"/>
+        <result column="TraceSourceExplain" property="tracesourceexplain" jdbcType="VARCHAR"/>
+        <result column="EventMark" property="eventmark" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="VoyageStartTime" property="voyagestarttime" jdbcType="VARCHAR"/>
+        <result column="VoyageEndTime" property="voyageendtime" jdbcType="VARCHAR"/>
+        <result column="smell" property="smell" jdbcType="VARCHAR"/>
+        <result column="ConsultationResult" property="consultationresult" jdbcType="VARCHAR"/>
+        <result column="voyagejson" property="voyagejson" jdbcType="VARCHAR"/>
+        <collection property="eventDetail" ofType="map" javaType="java.util.Set" column="PK_ID">
+            <result column="fk_pollutantcode" jdbcType="VARCHAR" property="fkpollutantcode"/>
+            <result column="FK_MonitorPointId" jdbcType="VARCHAR" property="fkmonitorpointid"/>
+            <result column="pollutantname" jdbcType="VARCHAR" property="pollutantname"/>
+        </collection>
+    </resultMap>
+    <resultMap id="DetailResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="FK_PetitionId" property="fkPetitionid" jdbcType="VARCHAR"/>
+        <result column="EventName" property="eventname" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="StartTime" property="starttime" jdbcType="VARCHAR"/>
+        <result column="EndTime" property="endtime" jdbcType="VARCHAR"/>
+        <result column="Duration" property="duration" jdbcType="NUMERIC"/>
+        <result column="EventType" property="eventtype" jdbcType="NUMERIC"/>
+        <result column="EventTypeName" property="eventtypename" jdbcType="VARCHAR"/>
+        <result column="Status" property="status" jdbcType="VARCHAR"/>
+        <result column="EventStatus" property="eventstatus" jdbcType="NUMERIC"/>
+        <result column="TraceSourceExplain" property="tracesourceexplain" jdbcType="VARCHAR"/>
+        <result column="EventMark" property="eventmark" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="VoyageStartTime" property="voyagestarttime" jdbcType="VARCHAR"/>
+        <result column="VoyageEndTime" property="voyageendtime" jdbcType="VARCHAR"/>
+        <result column="ConsultationResult" property="consultationresult" jdbcType="VARCHAR"/>
+        <result column="voyagejson" property="voyagejson" jdbcType="VARCHAR"/>
+        <!--溯源明细信息 -->
+        <collection property="eventDetail" ofType="string" column="PK_ID">
+            <result column="pollutantname" jdbcType="VARCHAR" property="pollutantname"/>
+        </collection>
+        <!-- 监测点信息 -->
+        <collection property="monitorData" ofType="string" column="PK_ID">
+            <result column="monitorpointname" jdbcType="VARCHAR" property="monitorpointname"/>
+        </collection>
+        <!--溯源企业信息 -->
+        <collection property="consultationData" ofType="map" column="ResultType">
+            <result column="Ranking" jdbcType="VARCHAR" property="Ranking"/>
+            <result column="pollutionname" jdbcType="VARCHAR" property="pollutionname"/>
+            <result column="pollutionUpdateTime" jdbcType="VARCHAR" property="consultationUpdateTime"/>
+            <result column="pollutionUpdateUser" jdbcType="VARCHAR" property="consultationUpdateUser"/>
+            <result column="ResultType" jdbcType="VARCHAR" property="ResultType"/>
+            <result column="PK_PollutionID" jdbcType="VARCHAR" property="pollutionid"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_PetitionId, EventName, Longitude, Latitude, StartTime, EndTime, Duration,
+    EventType, EventStatus, TraceSourceExplain, EventMark, UpdateTime, UpdateUser, ConsultationResult,
+    VoyageStartTime, VoyageEndTime,voyagejson
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_TraceSourceEventInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TraceSourceEventInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+    insert into T_BAS_TraceSourceEventInfo (PK_ID, FK_PetitionId, EventName,
+      Longitude, Latitude, StartTime,
+      EndTime, Duration, EventType,
+      EventStatus, TraceSourceExplain, EventMark,
+      UpdateTime, UpdateUser, ConsultationResult,voyagejson,
+      VoyageStartTime, VoyageEndTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPetitionid,jdbcType=VARCHAR}, #{eventname,jdbcType=VARCHAR},
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{starttime,jdbcType=TIMESTAMP},
+      #{endtime,jdbcType=TIMESTAMP}, #{duration,jdbcType=NUMERIC}, #{eventtype,jdbcType=NUMERIC},
+      #{eventstatus,jdbcType=NUMERIC}, #{tracesourceexplain,jdbcType=VARCHAR}, #{eventmark,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{consultationresult,jdbcType=VARCHAR},#{voyagejson,jdbcType=VARCHAR},
+      #{voyagestarttime,jdbcType=TIMESTAMP}, #{voyageendtime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+        insert into T_BAS_TraceSourceEventInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkPetitionid != null">
+                FK_PetitionId,
+            </if>
+            <if test="eventname != null">
+                EventName,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="starttime != null">
+                StartTime,
+            </if>
+            <if test="endtime != null">
+                EndTime,
+            </if>
+            <if test="duration != null">
+                Duration,
+            </if>
+            <if test="eventtype != null">
+                EventType,
+            </if>
+            <if test="eventstatus != null">
+                EventStatus,
+            </if>
+            <if test="tracesourceexplain != null">
+                TraceSourceExplain,
+            </if>
+            <if test="eventmark != null">
+                EventMark,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="consultationresult != null">
+                ConsultationResult,
+            </if>
+            <if test="voyagejson != null">
+                voyagejson,
+            </if>
+            <if test="voyagestarttime != null">
+                VoyageStartTime,
+            </if>
+            <if test="voyageendtime != null">
+                VoyageEndTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPetitionid != null">
+                #{fkPetitionid,jdbcType=VARCHAR},
+            </if>
+            <if test="eventname != null">
+                #{eventname,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="starttime != null">
+                #{starttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=NUMERIC},
+            </if>
+            <if test="eventtype != null">
+                #{eventtype,jdbcType=NUMERIC},
+            </if>
+            <if test="eventstatus != null">
+                #{eventstatus,jdbcType=NUMERIC},
+            </if>
+            <if test="tracesourceexplain != null">
+                #{tracesourceexplain,jdbcType=VARCHAR},
+            </if>
+            <if test="eventmark != null">
+                #{eventmark,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="consultationresult != null">
+                #{consultationresult,jdbcType=VARCHAR},
+            </if>
+            <if test="voyagejson != null">
+                #{voyagejson,jdbcType=VARCHAR},
+            </if>
+            <if test="voyagestarttime != null">
+                #{voyagestarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="voyageendtime != null">
+                #{voyageendtime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+        update T_BAS_TraceSourceEventInfo
+        <set>
+            <if test="fkPetitionid != null">
+                FK_PetitionId = #{fkPetitionid,jdbcType=VARCHAR},
+            </if>
+            <if test="eventname != null">
+                EventName = #{eventname,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="starttime != null">
+                StartTime = #{starttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                EndTime = #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="duration != null">
+                Duration = #{duration,jdbcType=NUMERIC},
+            </if>
+            <if test="eventtype != null">
+                EventType = #{eventtype,jdbcType=NUMERIC},
+            </if>
+            <if test="eventstatus != null">
+                EventStatus = #{eventstatus,jdbcType=NUMERIC},
+            </if>
+            <if test="tracesourceexplain != null">
+                TraceSourceExplain = #{tracesourceexplain,jdbcType=VARCHAR},
+            </if>
+            <if test="eventmark != null">
+                EventMark = #{eventmark,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="consultationresult != null">
+                ConsultationResult = #{consultationresult,jdbcType=VARCHAR},
+            </if>
+            <if test="voyagejson != null">
+                voyagejson = #{voyagejson,jdbcType=VARCHAR},
+            </if>
+            <if test="voyagestarttime != null">
+                VoyageStartTime = #{voyagestarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="voyageendtime != null">
+                VoyageEndTime = #{voyageendtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+    update T_BAS_TraceSourceEventInfo
+    set FK_PetitionId = #{fkPetitionid,jdbcType=VARCHAR},
+      EventName = #{eventname,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      Duration = #{duration,jdbcType=NUMERIC},
+      EventType = #{eventtype,jdbcType=NUMERIC},
+      EventStatus = #{eventstatus,jdbcType=NUMERIC},
+      TraceSourceExplain = #{tracesourceexplain,jdbcType=VARCHAR},
+      EventMark = #{eventmark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      ConsultationResult = #{consultationresult,jdbcType=VARCHAR},
+      voyagejson = #{voyagejson,jdbcType=VARCHAR},
+      VoyageStartTime = #{voyagestarttime,jdbcType=TIMESTAMP},
+      VoyageEndTime = #{voyageendtime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+    <update id="updateByParamMap" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceEventInfoVO">
+    update T_BAS_TraceSourceEventInfo
+    set
+      voyagejson = #{voyagejson,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE}
+    where EventName = #{eventname,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+        author:chengzq
+        description: 通过自定义条件查询溯源事件信息
+        param:
+        date: 2019/08/28 10:28
+    -->
+    <select id="getTraceSourceEventInfoByParamMap" resultMap="SelectResultMap" parameterType="map">
+        SELECT
+        T_BAS_TraceSourceEventInfo.PK_ID,
+        EventName,
+        T_BAS_TraceSourceEventInfo.Longitude,
+        T_BAS_TraceSourceEventInfo.Latitude,
+        convert(varchar(16),T_BAS_TraceSourceEventInfo.StartTime,120)StartTime,
+        convert(varchar(16),T_BAS_TraceSourceEventInfo.EndTime,120)EndTime,
+        T_BAS_TraceSourceEventInfo.Duration,
+        EventType,
+        case EventType when 1 then '数据报警' when 2 then '污染投诉' end EventTypeName,
+        case EventStatus when 1 then '未归档' when 2 then '已归档'end Status,
+        EventStatus,
+        TraceSourceExplain,
+        T_BAS_TraceSourceEventInfo.UpdateUser,
+        convert(varchar(19),T_BAS_TraceSourceEventInfo.UpdateTime,120)UpdateTime,
+        T_BAS_PollutantEventDetailInfo.fk_pollutantcode,
+        T_BAS_PetitionInfo.smell,
+        T_BAS_PollutantEventDetailInfo.fk_monitorpointid
+        FROM
+        T_BAS_TraceSourceEventInfo
+        LEFT JOIN T_BAS_PollutantEventDetailInfo on
+        T_BAS_TraceSourceEventInfo.PK_ID=T_BAS_PollutantEventDetailInfo.FK_PolluteEventId
+        left join T_BAS_PetitionInfo on T_BAS_TraceSourceEventInfo.FK_PetitionId=T_BAS_PetitionInfo.PK_ID
+        <where>
+            <if test="eventname!=null and eventname != '' ">
+                and EventName like concat('%',#{eventname},'%')
+            </if>
+            <if test="starttime !=null and starttime != '' ">
+                and convert(varchar(16),StartTime,120) >= #{starttime}
+            </if>
+            <if test="endtime !=null and endtime != '' ">
+                and convert(varchar(16),EndTime,120) <![CDATA[<=]]> #{endtime}
+            </if>
+            <if test="pkid !=null and pkid != '' ">
+                and PK_ID=#{pkid}
+            </if>
+        </where>
+        order by T_BAS_TraceSourceEventInfo.StartTime desc
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取污染事件及污染事件详情
+        param:
+        date: 2019/08/29 14:15
+    -->
+    <select id="getTraceSourceEventAndDetailByParamMap" parameterType="map" resultMap="SelectResultMap">
+      SELECT
+        T_BAS_TraceSourceEventInfo.PK_ID,
+        FK_PetitionId,
+        EventName,
+        Longitude,
+        Latitude,
+        CONVERT ( VARCHAR ( 16 ), T_BAS_TraceSourceEventInfo.StartTime, 120 ) StartTime,
+        CONVERT ( VARCHAR ( 16 ), T_BAS_TraceSourceEventInfo.EndTime, 120 ) EndTime,
+        Duration,
+        EventType,
+        EventStatus,
+        TraceSourceExplain,
+        EventMark,
+        T_BAS_PollutantEventDetailInfo.fk_monitorpointid,
+        T_BAS_PollutantEventDetailInfo.fk_pollutantcode
+    FROM
+        T_BAS_TraceSourceEventInfo
+        LEFT JOIN T_BAS_PollutantEventDetailInfo ON T_BAS_TraceSourceEventInfo.PK_ID= T_BAS_PollutantEventDetailInfo.FK_PolluteEventId
+    where T_BAS_TraceSourceEventInfo.PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+    <!--
+        author:chengzq
+        description: 通过id获取污染事件详情
+        param:
+        date: 2019/09/20 13:21
+    -->
+    <select id="getTraceSourceEventDetailById" parameterType="map" resultMap="DetailResultMap">
+      SELECT
+        T_BAS_TraceSourceEventInfo.PK_ID,
+        FK_PetitionId,
+        EventName,
+        T_BAS_TraceSourceEventInfo.Longitude,
+        T_BAS_TraceSourceEventInfo.Latitude,
+        CONVERT ( VARCHAR ( 16 ), T_BAS_TraceSourceEventInfo.StartTime, 120 ) StartTime,
+        CONVERT ( VARCHAR ( 16 ), T_BAS_TraceSourceEventInfo.EndTime, 120 ) EndTime,
+        Duration,
+        EventType,
+        EventStatus,
+        case EventType when 1 then '数据报警' when 2 then '污染投诉' end EventTypeName,
+        case EventStatus when 1 then '未归档' when 2 then '已归档'end Status,
+        CONVERT ( VARCHAR ( 16 ), T_BAS_TraceSourceEventInfo.VoyageStartTime, 120 ) VoyageStartTime,
+        CONVERT ( VARCHAR ( 16 ), T_BAS_TraceSourceEventInfo.VoyageEndTime, 120 ) VoyageEndTime,
+        TraceSourceExplain,
+        EventMark,
+        T_BAS_TraceSourceEventInfo.UpdateUser,
+        convert(varchar(19),T_BAS_TraceSourceEventInfo.UpdateTime,120)UpdateTime,
+        ConsultationResult,
+        T_BAS_PollutantEventDetailInfo.fk_monitorpointid,
+        T_BAS_PollutantEventDetailInfo.fk_pollutantcode,
+        PUB_CODE_PollutantFactor.name pollutantname,
+        T_BAS_OtherMonitorPoint.monitorpointname,
+        T_BAS_TraceSourceEntInfo.Ranking,
+        T_BAS_Pollution.pollutionname,
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_TraceSourceEntInfo.ResultType,
+        convert(varchar(19),T_BAS_TraceSourceEntInfo.UpdateTime,120)pollutionUpdateTime,
+        T_BAS_TraceSourceEntInfo.UpdateUser   pollutionUpdateUser
+    FROM
+        T_BAS_TraceSourceEventInfo
+        LEFT JOIN T_BAS_PollutantEventDetailInfo ON T_BAS_TraceSourceEventInfo.PK_ID= T_BAS_PollutantEventDetailInfo.FK_PolluteEventId
+        LEFT JOIN PUB_CODE_PollutantFactor on PUB_CODE_PollutantFactor.Code=T_BAS_PollutantEventDetailInfo.FK_PollutantCode and PUB_CODE_PollutantFactor.IsUsed=1 and PollutantType in (9,10)
+        LEFT JOIN T_BAS_OtherMonitorPoint on T_BAS_OtherMonitorPoint.PK_MonitorPointID=T_BAS_PollutantEventDetailInfo.FK_MonitorPointId
+        LEFT JOIN T_BAS_TraceSourceEntInfo on T_BAS_TraceSourceEntInfo.FK_PolluteEventId=T_BAS_TraceSourceEventInfo.PK_ID
+        LEFT JOIN T_BAS_Pollution on T_BAS_TraceSourceEntInfo.FK_PollutionId = T_BAS_Pollution.PK_PollutionID
+    where T_BAS_TraceSourceEventInfo.PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+
+    <!--
+           author:xsm
+           description: 根据事件ID获取历史走航数据
+           param:
+           date: 2021/07/07 14:27
+       -->
+    <select id="getHistoryNavigationDataByEventID" parameterType="map" resultType="map">
+        SELECT
+        VoyageJson
+        FROM
+        T_BAS_TraceSourceEventInfo
+        where T_BAS_TraceSourceEventInfo.PK_ID = #{pkid,jdbcType=VARCHAR}
+    </select>
+
+
+<select id="countEventTypeDataByYear" parameterType="String" resultType="map">
+       select count
+            ( t.pk_id ) countnum,
+            t.eventtype
+        from
+            t_bas_tracesourceeventinfo t
+        where
+            convert ( varchar ( 4 ), t.starttime, 120 ) = #{year}
+        group by
+            t.eventtype
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取溯源事件信息
+        param:
+        date: 2019/10/29 16:48
+    -->
+   <select id="selectTraceEventInfoByParamMap" resultType="map" parameterType="map">
+       SELECT DISTINCT
+            T_BAS_TraceSourceEventInfo.PK_ID,
+            T_BAS_TraceSourceEventInfo.EventName,
+            T_BAS_TraceSourceEventInfo.Longitude,
+            T_BAS_TraceSourceEventInfo.Latitude,
+            convert(varchar(16),T_BAS_TraceSourceEventInfo.StartTime,120)StartTime,
+            convert(varchar(16),T_BAS_TraceSourceEventInfo.EndTime,120)EndTime,
+            T_BAS_TraceSourceEventInfo.Duration,
+            T_BAS_TraceSourceEventInfo.eventtype,
+            T_BAS_PetitionInfo.smell smellcode,
+            case when T_BAS_PetitionInfo.smell='non' then '未知气味' else PUB_CODE_PollutantSmell.name end smellname,
+            PUB_CODE_PollutantFactor.name pollutantname,
+            T_BAS_PollutantEventDetailInfo.FK_PollutantCode,
+            T_BAS_OtherMonitorPoint.monitorpointname
+        FROM
+            T_BAS_TraceSourceEventInfo
+            LEFT JOIN T_BAS_PetitionInfo ON T_BAS_TraceSourceEventInfo.FK_PetitionId= T_BAS_PetitionInfo.PK_ID
+            LEFT JOIN T_BAS_PollutantEventDetailInfo ON T_BAS_PollutantEventDetailInfo.FK_PolluteEventId= T_BAS_TraceSourceEventInfo.PK_ID
+            LEFT JOIN T_BAS_OtherMonitorPoint on T_BAS_PollutantEventDetailInfo.FK_MonitorPointId=T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.code= T_BAS_PollutantEventDetailInfo.FK_PollutantCode AND IsUsed = 1
+            LEFT JOIN PUB_CODE_PollutantSmell ON PUB_CODE_PollutantSmell.code= T_BAS_PetitionInfo.smell
+         <where>
+             <if test="pkid!=null and pkid!='' ">
+                 and T_BAS_TraceSourceEventInfo.PK_ID=#{pkid}
+             </if>
+         </where>
+   </select>
+
+</mapper>

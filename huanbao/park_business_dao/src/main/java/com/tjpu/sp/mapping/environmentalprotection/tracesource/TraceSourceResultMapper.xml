@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesource.TraceSourceResultMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceResultVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_MonitorPointId" jdbcType="VARCHAR" property="fkMonitorpointid" />
+    <result column="FK_MonitorpointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="SuspectedEnt" jdbcType="VARCHAR" property="suspectedent" />
+    <result column="WindDirectionName" jdbcType="VARCHAR" property="winddirectionname" />
+    <result column="Describe" jdbcType="VARCHAR" property="describe" />
+    <result column="FK_FileId" jdbcType="CHAR" property="fkFileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_MonitorPointId, FK_MonitorpointTypeCode, SuspectedEnt, WindDirectionName, 
+    Describe, FK_FileId, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_Bas_TraceSourceResult
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_Bas_TraceSourceResult
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceResultVO">
+    insert into T_Bas_TraceSourceResult (PK_ID, FK_MonitorPointId, FK_MonitorpointTypeCode, 
+      SuspectedEnt, WindDirectionName, Describe, 
+      FK_FileId, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{suspectedent,jdbcType=VARCHAR}, #{winddirectionname,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=CHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceResultVO">
+    insert into T_Bas_TraceSourceResult
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointId,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorpointTypeCode,
+      </if>
+      <if test="suspectedent != null">
+        SuspectedEnt,
+      </if>
+      <if test="winddirectionname != null">
+        WindDirectionName,
+      </if>
+      <if test="describe != null">
+        Describe,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileId,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="suspectedent != null">
+        #{suspectedent,jdbcType=VARCHAR},
+      </if>
+      <if test="winddirectionname != null">
+        #{winddirectionname,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceResultVO">
+    update T_Bas_TraceSourceResult
+    <set>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorpointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="suspectedent != null">
+        SuspectedEnt = #{suspectedent,jdbcType=VARCHAR},
+      </if>
+      <if test="winddirectionname != null">
+        WindDirectionName = #{winddirectionname,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        Describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileId = #{fkFileid,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesource.TraceSourceResultVO">
+    update T_Bas_TraceSourceResult
+    set FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_MonitorpointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      SuspectedEnt = #{suspectedent,jdbcType=VARCHAR},
+      WindDirectionName = #{winddirectionname,jdbcType=VARCHAR},
+      Describe = #{describe,jdbcType=VARCHAR},
+      FK_FileId = #{fkFileid,jdbcType=CHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--获取列表信息 lip 2021/8/31 17:06 -->
+  <select id="getDataListByParam" parameterType="map" resultType="map">
+    select
+      t1.pk_id,
+      t1.fk_fileid,
+      t1.fk_monitorpointid,
+      t1.fk_monitorpointtypecode,
+      t2.monitorpointname,
+      t1.suspectedent,
+      t1.winddirectionname,
+      t1.describe
+    from
+      t_bas_tracesourceresult t1
+      inner join (
+      select
+      t1.pk_monitorpointid as monitorpointid,
+      t1.monitorpointname,
+      '9' monitorpointtypecode
+      from
+      t_bas_othermonitorpoint t1
+      where
+      t1.fk_monitorpointtypecode = '9' union
+      select
+      t1.pk_id as monitorpointid,
+      t1.monitorpointname,
+      '40' monitorpointtypecode
+      from
+      t_bas_unorganizedmonitorpointinfo t1
+      where
+      t1.fk_monitorpointtypecode = '40'
+      ) t2 on t1.fk_monitorpointtypecode = t2.monitorpointtypecode
+      and t2.monitorpointid = t1.fk_monitorpointid
+    <where>
+      <if test="winddirectionnames !=null and winddirectionnames.size>0">
+        and t1.winddirectionname in
+        <foreach collection="winddirectionnames" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="monitorpointid !=null and monitorpointid!=''">
+        and t1.fk_monitorpointid  = #{monitorpointid}
+      </if>
+      <if test="monitorpointtypecode !=null and monitorpointtypecode!=''">
+        and t1.fk_monitorpointtypecode  = #{monitorpointtypecode}
+      </if>
+      <if test="suspectedent!=null and suspectedent!='' ">
+        and t1.suspectedent like concat('%', #{suspectedent},'%')
+      </if>
+    </where>
+    order by t1.UpdateTime DESC
+  </select>
+
+
+
+
+
+</mapper>

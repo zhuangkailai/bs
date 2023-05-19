@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.devopsinfo.DevOpsUnitInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsUnitInfoVO">
+    <id column="PK_DevOpsUnitID" jdbcType="VARCHAR" property="pkDevopsunitid" />
+    <result column="UnitName" jdbcType="VARCHAR" property="unitname" />
+    <result column="ShorterName" jdbcType="VARCHAR" property="shortername" />
+    <result column="CorporationName" jdbcType="VARCHAR" property="corporationname" />
+    <result column="EntSocialcreditCode" jdbcType="VARCHAR" property="entsocialcreditcode" />
+    <result column="UnitContactsPeople" jdbcType="VARCHAR" property="unitcontactspeople" />
+    <result column="UnitContactsPhone" jdbcType="VARCHAR" property="unitcontactsphone" />
+    <result column="FK_DevOpsUnitType" jdbcType="VARCHAR" property="fkDevopsunittype" />
+    <result column="FK_QualificationType" jdbcType="VARCHAR" property="fkQualificationtype" />
+    <result column="QualificationCode" jdbcType="VARCHAR" property="qualificationcode" />
+    <result column="UnitAddress" jdbcType="VARCHAR" property="unitaddress" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_DevOpsUnitID, UnitName, ShorterName, CorporationName, EntSocialcreditCode, UnitContactsPeople, 
+    UnitContactsPhone, FK_DevOpsUnitType, FK_QualificationType, QualificationCode,UnitAddress, UpdateTime,
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_DevOpsUnitInfo
+    where PK_DevOpsUnitID = #{pkDevopsunitid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_DevOpsUnitInfo
+    where PK_DevOpsUnitID = #{pkDevopsunitid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsUnitInfoVO">
+    insert into T_BAS_DevOpsUnitInfo (PK_DevOpsUnitID, UnitName, ShorterName, 
+      CorporationName, EntSocialcreditCode, UnitContactsPeople, 
+      UnitContactsPhone, FK_DevOpsUnitType, FK_QualificationType,
+      QualificationCode,UnitAddress, UpdateTime, UpdateUser
+      )
+    values (#{pkDevopsunitid,jdbcType=VARCHAR}, #{unitname,jdbcType=VARCHAR}, #{shortername,jdbcType=VARCHAR}, 
+      #{corporationname,jdbcType=VARCHAR}, #{entsocialcreditcode,jdbcType=VARCHAR}, #{unitcontactspeople,jdbcType=VARCHAR}, 
+      #{unitcontactsphone,jdbcType=VARCHAR}, #{fkDevopsunittype,jdbcType=VARCHAR}, #{fkQualificationtype,jdbcType=VARCHAR}, 
+      #{qualificationcode,jdbcType=VARCHAR}, #{unitaddress,jdbcType=VARCHAR},
+       #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsUnitInfoVO">
+    insert into T_BAS_DevOpsUnitInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkDevopsunitid != null">
+        PK_DevOpsUnitID,
+      </if>
+      <if test="unitname != null">
+        UnitName,
+      </if>
+      <if test="shortername != null">
+        ShorterName,
+      </if>
+      <if test="corporationname != null">
+        CorporationName,
+      </if>
+      <if test="entsocialcreditcode != null">
+        EntSocialcreditCode,
+      </if>
+      <if test="unitcontactspeople != null">
+        UnitContactsPeople,
+      </if>
+      <if test="unitcontactsphone != null">
+        UnitContactsPhone,
+      </if>
+      <if test="fkDevopsunittype != null">
+        FK_DevOpsUnitType,
+      </if>
+      <if test="fkQualificationtype != null">
+        FK_QualificationType,
+      </if>
+      <if test="qualificationcode != null">
+        QualificationCode,
+      </if>
+      <if test="unitaddress != null">
+        UnitAddress,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkDevopsunitid != null">
+        #{pkDevopsunitid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null">
+        #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="shortername != null">
+        #{shortername,jdbcType=VARCHAR},
+      </if>
+      <if test="corporationname != null">
+        #{corporationname,jdbcType=VARCHAR},
+      </if>
+      <if test="entsocialcreditcode != null">
+        #{entsocialcreditcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcontactspeople != null">
+        #{unitcontactspeople,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcontactsphone != null">
+        #{unitcontactsphone,jdbcType=VARCHAR},
+      </if>
+      <if test="fkDevopsunittype != null">
+        #{fkDevopsunittype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkQualificationtype != null">
+        #{fkQualificationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="qualificationcode != null">
+        #{qualificationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitaddress != null">
+        #{unitaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsUnitInfoVO">
+    update T_BAS_DevOpsUnitInfo
+    <set>
+      <if test="unitname != null">
+        UnitName = #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="shortername != null">
+        ShorterName = #{shortername,jdbcType=VARCHAR},
+      </if>
+      <if test="corporationname != null">
+        CorporationName = #{corporationname,jdbcType=VARCHAR},
+      </if>
+      <if test="entsocialcreditcode != null">
+        EntSocialcreditCode = #{entsocialcreditcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcontactspeople != null">
+        UnitContactsPeople = #{unitcontactspeople,jdbcType=VARCHAR},
+      </if>
+      <if test="unitcontactsphone != null">
+        UnitContactsPhone = #{unitcontactsphone,jdbcType=VARCHAR},
+      </if>
+      <if test="fkDevopsunittype != null">
+        FK_DevOpsUnitType = #{fkDevopsunittype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkQualificationtype != null">
+        FK_QualificationType = #{fkQualificationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="qualificationcode != null">
+        QualificationCode = #{qualificationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitaddress != null">
+        UnitAddress = #{unitaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_DevOpsUnitID = #{pkDevopsunitid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsUnitInfoVO">
+    update T_BAS_DevOpsUnitInfo
+    set UnitName = #{unitname,jdbcType=VARCHAR},
+      ShorterName = #{shortername,jdbcType=VARCHAR},
+      CorporationName = #{corporationname,jdbcType=VARCHAR},
+      EntSocialcreditCode = #{entsocialcreditcode,jdbcType=VARCHAR},
+      UnitContactsPeople = #{unitcontactspeople,jdbcType=VARCHAR},
+      UnitContactsPhone = #{unitcontactsphone,jdbcType=VARCHAR},
+      FK_DevOpsUnitType = #{fkDevopsunittype,jdbcType=VARCHAR},
+      FK_QualificationType = #{fkQualificationtype,jdbcType=VARCHAR},
+      QualificationCode = #{qualificationcode,jdbcType=VARCHAR},
+      UnitAddress = #{unitaddress,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_DevOpsUnitID = #{pkDevopsunitid,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 获取运维单位列表信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getDevOpsUnitInfoListDataByParamMap" parameterType="map" resultType="map">
+    SELECT
+    PK_DevOpsUnitID pkdevopsunitid,
+    unitname,
+    shortername,
+    corporationname,
+    entsocialcreditcode,
+    unitcontactspeople,
+    unitcontactsphone,
+    FK_DevOpsUnitType fkdevopsunittype,
+    t1.Name devopsunittypename,
+    FK_QualificationType fkqualificationtype,
+    t2.Name qualificationtypename,
+    QualificationCode qualificationcode,
+    UnitAddress unitaddress
+    FROM
+    T_BAS_DevOpsUnitInfo t
+    LEFT JOIN  PUB_CODE_DevOpsUnitType t1 ON t.FK_DevOpsUnitType = t1.Code
+    LEFT JOIN  PUB_CODE_QualificationType t2 ON  t.FK_QualificationType = t2.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="hasunitname!=null and hasunitname!='' ">
+        and t.unitname =  #{hasunitname}
+      </if>
+      <if test="unitname!=null and unitname!='' ">
+        and t.unitname like concat('%', #{unitname},'%')
+      </if>
+      <if test="fkdevopsunittypes != null and fkdevopsunittypes.size>0 ">
+        and t.FK_DevOpsUnitType in
+        <foreach item="item" index="index" collection="fkdevopsunittypes"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="fkqualificationtypes != null and fkqualificationtypes.size>0 ">
+        and t.FK_QualificationType in
+        <foreach item="item" index="index" collection="fkqualificationtypes"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by t.unitname
+  </select>
+
+  <!-- 获取运维单位详情信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getDevOpsUnitInfoDetailById" resultType="map" parameterType="string">
+    SELECT
+    PK_DevOpsUnitID pkdevopsunitid,
+    unitname,
+    shortername,
+    corporationname,
+    entsocialcreditcode,
+    unitcontactspeople,
+    unitcontactsphone,
+    FK_DevOpsUnitType fkdevopsunittype,
+    t1.Name devopsunittypename,
+    FK_QualificationType fkqualificationtype,
+    t2.Name qualificationtypename,
+    QualificationCode qualificationcode,
+    UnitAddress unitaddress,
+    convert(varchar(20),t.UpdateTime,120) updatetime,
+    t.updateuser
+    FROM
+    T_BAS_DevOpsUnitInfo t
+    LEFT JOIN  PUB_CODE_DevOpsUnitType t1 ON t.FK_DevOpsUnitType = t1.Code
+    LEFT JOIN  PUB_CODE_QualificationType t2 ON  t.FK_QualificationType = t2.Code
+    where t.PK_DevOpsUnitID = #{pkid}
+  </select>
+
+</mapper>

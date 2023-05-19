@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.RPBlowdownUnitBaseMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.RPBlowdownUnitBaseVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_ReportId" jdbcType="VARCHAR" property="fkReportid" />
+    <result column="RecordType" jdbcType="NUMERIC" property="recordtype" />
+    <result column="RecordSubType" jdbcType="VARCHAR" property="recordsubtype" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_ReportId, RecordType, RecordSubType, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_RP_BlowdownUnitBaseInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_RP_BlowdownUnitBaseInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPBlowdownUnitBaseVO">
+    insert into T_RP_BlowdownUnitBaseInfo (PK_ID, FK_ReportId, RecordType, 
+      RecordSubType, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkReportid,jdbcType=VARCHAR}, #{recordtype,jdbcType=NUMERIC}, 
+      #{recordsubtype,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPBlowdownUnitBaseVO">
+    insert into T_RP_BlowdownUnitBaseInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkReportid != null">
+        FK_ReportId,
+      </if>
+      <if test="recordtype != null">
+        RecordType,
+      </if>
+      <if test="recordsubtype != null">
+        RecordSubType,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkReportid != null">
+        #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtype != null">
+        #{recordtype,jdbcType=NUMERIC},
+      </if>
+      <if test="recordsubtype != null">
+        #{recordsubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPBlowdownUnitBaseVO">
+    update T_RP_BlowdownUnitBaseInfo
+    <set>
+      <if test="fkReportid != null">
+        FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtype != null">
+        RecordType = #{recordtype,jdbcType=NUMERIC},
+      </if>
+      <if test="recordsubtype != null">
+        RecordSubType = #{recordsubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.RPBlowdownUnitBaseVO">
+    update T_RP_BlowdownUnitBaseInfo
+    set FK_ReportId = #{fkReportid,jdbcType=VARCHAR},
+      RecordType = #{recordtype,jdbcType=NUMERIC},
+      RecordSubType = #{recordsubtype,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--原料辅料用量 lip 2022/4/12 10:43 -->
+  <select id="getBlowdownUnitYLDataListByParam" parameterType="map" resultType="map">
+
+    select
+    t1.unitname,
+    t2.*
+    from
+    t_bas_productionunitinfo t1
+    left join (
+    select
+    t1.fk_unitid,
+    t2.materialname,
+    t2.meaunit,
+    t1.paramvalue,
+    t1.remark,
+    t1.fk_baseid
+    from
+    t_rp_blowdownunitbasedata t1
+    inner join t_scwl_rawmaterial t2 on t1.fk_paramid = t2.pk_rawmaterialid
+    ) t2 on t1.pk_id = t2.fk_unitid
+    left join t_rp_blowdownunitbaseinfo t3 on t3.pk_id = t2.fk_baseid
+    and t3.fk_reportid = #{reportid}
+    where t1.FK_PollutionId = #{pollutionid}
+    and t3.RecordType = #{recordtype}
+
+    ORDER BY
+    t1.unitname,t2.materialname
+  </select>
+
+  <!--获取主要产品产量 lip 2022/4/12 10:43 -->
+  <select id="getBlowdownUnitCPDataListByParam" parameterType="map" resultType="map">
+
+   select
+	t1.unitname,
+	t2.*
+from
+	t_bas_productionunitinfo t1
+	left join (
+	select
+		t1.fk_unitid,
+		t2.productname,
+		t2.meaunit,
+		t1.paramvalue,
+		t1.remark,
+		t1.fk_baseid
+	from
+		t_rp_blowdownunitbasedata t1
+		inner join t_scwl_productinfo t2 on t1.fk_paramid = t2.pk_fuelinfoid
+	) t2 on t1.pk_id = t2.fk_unitid
+	left join t_rp_blowdownunitbaseinfo t3 on t3.pk_id = t2.fk_baseid
+	and t3.fk_reportid = #{reportid}
+    where t1.FK_PollutionId = #{pollutionid}
+    and t3.RecordType = #{recordtype}
+    ORDER BY
+    t1.unitname,t2.productname
+  </select>
+
+  <!--获取能源消耗信息 lip 2022/4/12 10:43 -->
+  <select id="getBlowdownUnitNYDataListByParam" parameterType="map" resultType="map">
+
+   select
+	t1.unitname,
+	t2.*
+from
+	t_bas_productionunitinfo t1
+	join (
+	select
+		t1.fk_reportid,
+		t3.fk_unitid,
+		t1.recordtype,
+		t1.recordsubtype,
+		t2.paramname,
+		t3.paramvalue,
+		t2.paramunit,
+		t3.remark,
+		t2.orderindex
+	from
+		t_rp_blowdownunitbaseinfo t1
+		inner join t_rp_blowdownunitbaseconfig t2 on t1.recordtype= t2.recordtype
+		and t1.recordsubtype = t2.recordsubtype
+		left join t_rp_blowdownunitbasedata t3 on t3.fk_baseid = t1.pk_id
+		and t3.fk_paramid = t2.pk_id
+	) t2 on t2.fk_unitid = t1.pk_id
+  where
+	t2.recordtype = #{recordtype}
+	and t2.fk_reportid = #{reportid}
+	and t1.fk_pollutionid = #{pollutionid}
+order by
+	t1.unitname,
+	t2.recordsubtype,
+	t2.orderindex
+  </select>
+
+  <!--获取投资信息 lip 2022/4/12 10:43 -->
+  <select id="getBlowdownUnitTZDataListByParam" parameterType="map" resultType="map">
+
+   select
+	t1.fk_reportid,
+	t1.recordtype,
+	t1.recordsubtype,
+	t2.paramname,
+	t3.paramvalue,
+	t2.paramunit,
+	t3.remark,
+	t2.orderindex
+from
+	t_rp_blowdownunitbaseinfo t1
+	inner join t_rp_blowdownunitbaseconfig t2 on t1.recordtype= t2.recordtype
+	and t1.recordsubtype = t2.recordsubtype
+	left join t_rp_blowdownunitbasedata t3 on t3.fk_baseid = t1.pk_id
+	and t3.fk_paramid = t2.pk_id
+where
+	t1.fk_reportid = #{reportid}
+	and t1.recordtype = #{recordtype}
+order by
+	t2.orderindex
+  </select>
+
+</mapper>

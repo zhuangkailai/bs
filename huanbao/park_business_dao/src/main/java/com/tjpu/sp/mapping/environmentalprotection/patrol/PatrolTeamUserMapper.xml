@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.patrol.PatrolTeamUserMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamUserVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_UserId" jdbcType="VARCHAR" property="fkUserid" />
+    <result column="FK_TeamId" jdbcType="VARCHAR" property="fkTeamid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_UserId, FK_TeamId,UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_PatrolTeamUser
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_PatrolTeamUser
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="deleteByFkId" parameterType="java.lang.String">
+    delete from T_BAS_PatrolTeamUser
+    where FK_TeamId = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamUserVO">
+    insert into T_BAS_PatrolTeamUser (PK_ID, FK_UserId,FK_TeamId, UpdateTime,
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR},
+    #{fkUserid,jdbcType=VARCHAR},
+    #{fkTeamid,jdbcType=VARCHAR},
+     #{updatetime,jdbcType=TIMESTAMP},
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamUserVO">
+    insert into T_BAS_PatrolTeamUser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkUserid != null">
+        FK_UserId,
+      </if>
+        <if test="fkTeamid != null">
+          FK_TeamId,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+
+       <if test="fkUserid != null">
+        #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTeamid != null">
+        #{fkTeamid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamUserVO">
+    update T_BAS_PatrolTeamUser
+    <set>
+      <if test="fkUserid != null">
+        FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+      </if>
+
+       <if test="fkTeamid != null">
+         FK_TeamId = #{fkTeamid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.patrol.PatrolTeamUserVO">
+    update T_BAS_PatrolTeamUser
+    set
+    FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+    FK_TeamId = #{fkTeamid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getUserIdsById" resultType="String" parameterType="string">
+    SELECT
+      FK_UserId
+    from
+      T_BAS_PatrolTeamUser
+    where FK_TeamId = #{pkid}
+  </select>
+
+
+  <select id="getUserDataListById" resultType="map" parameterType="string">
+    SELECT
+      t1.FK_UserId,t2.user_name
+    from
+      T_BAS_PatrolTeamUser t1
+      inner join  base_userinfo t2 on t1.fk_userid = t2.user_id
+    where FK_TeamId = #{pkid}
+    order by t2.user_name
+  </select>
+
+
+  <select id="getUserDataList" resultType="map" >
+     select
+      t1.fk_teamid,
+      t2.user_name,
+      t1.fk_userid
+      from
+      t_bas_patrolteamuser t1
+      inner join  base_userinfo t2 on t1.fk_userid = t2.user_id
+      inner join  T_BAS_PatrolTeam t3 on t1.fk_teamID = t3.PK_ID
+  </select>
+
+
+</mapper>

@@ -1,0 +1,1810 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.common.pubcode.PollutantFactorMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+        <id column="PK_ID" property="pkId" jdbcType="INTEGER"/>
+        <result column="Code" property="code" jdbcType="NVARCHAR"/>
+        <result column="Name" property="name" jdbcType="NVARCHAR"/>
+        <result column="EnglishName" property="englishname" jdbcType="NVARCHAR"/>
+        <result column="ChemicalSymol" property="chemicalsymol" jdbcType="NVARCHAR"/>
+        <result column="PollutantType" property="pollutanttype" jdbcType="NUMERIC"/>
+        <result column="IsOnlineItem" property="isonlineitem" jdbcType="NUMERIC"/>
+        <result column="IsSuperviseItem" property="issuperviseitem" jdbcType="NUMERIC"/>
+        <result column="IsUsed" property="isused" jdbcType="NUMERIC"/>
+        <result column="PollutantUnit" property="pollutantunit" jdbcType="NVARCHAR"/>
+        <result column="IsShowFlow" property="isshowflow" jdbcType="NUMERIC"/>
+        <result column="Version" property="version" jdbcType="NVARCHAR"/>
+        <result column="OrderIndex" property="orderindex" jdbcType="NUMERIC"/>
+        <result column="Remark" property="remark" jdbcType="NVARCHAR"/>
+        <result column="BeginTime" property="begintime" jdbcType="TIMESTAMP"/>
+        <result column="EndTime" property="endtime" jdbcType="TIMESTAMP"/>
+        <result column="CharColor" property="charcolor" jdbcType="NVARCHAR"/>
+        <result column="Accuracy" property="accuracy" jdbcType="NUMERIC"/>
+    </resultMap>
+
+
+    <resultMap id="MonitorPollutantResultMap" type="map">
+        <id column="DGIMN" property="dgimn" jdbcType="NVARCHAR"/>
+        <collection property="pollutants" ofType="string" javaType="java.util.Set">
+            <result column="Code" property="code" jdbcType="NVARCHAR"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, Code, Name, EnglishName, ChemicalSymol, PollutantType, IsOnlineItem, IsSuperviseItem,
+    IsUsed, PollutantUnit, IsShowFlow, Version, OrderIndex, Remark, BeginTime,
+    EndTime, CharColor,Accuracy
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from PUB_CODE_PollutantFactor
+        where PK_ID = #{pkId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from PUB_CODE_PollutantFactor
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+    insert into PUB_CODE_PollutantFactor (PK_ID, Code, Name,
+      EnglishName, ChemicalSymol, PollutantType,
+      IsOnlineItem, IsSuperviseItem, IsUsed,
+      PollutantUnit, IsShowFlow, Version,
+      OrderIndex, Remark, BeginTime,
+      EndTime, CharColor,Accuracy)
+    values (#{pkId,jdbcType=INTEGER}, #{code,jdbcType=NVARCHAR}, #{name,jdbcType=NVARCHAR},
+      #{englishname,jdbcType=NVARCHAR}, #{chemicalsymol,jdbcType=NVARCHAR}, #{pollutanttype,jdbcType=NUMERIC},
+      #{isonlineitem,jdbcType=NUMERIC}, #{issuperviseitem,jdbcType=NUMERIC}, #{isused,jdbcType=NUMERIC},
+      #{pollutantunit,jdbcType=NVARCHAR}, #{IsShowFlow,jdbcType=NUMERIC}, #{version,jdbcType=NVARCHAR},
+      #{orderindex,jdbcType=NUMERIC}, #{remark,jdbcType=NVARCHAR}, #{begintime,jdbcType=TIMESTAMP},
+      #{endtime,jdbcType=TIMESTAMP}, #{charcolor,jdbcType=NVARCHAR},#{accuracy,jdbcType=NUMERIC})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+        insert into PUB_CODE_PollutantFactor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="code != null">
+                Code,
+            </if>
+            <if test="name != null">
+                Name,
+            </if>
+            <if test="englishname != null">
+                EnglishName,
+            </if>
+            <if test="chemicalsymol != null">
+                ChemicalSymol,
+            </if>
+            <if test="pollutanttype != null">
+                PollutantType,
+            </if>
+            <if test="isonlineitem != null">
+                IsOnlineItem,
+            </if>
+            <if test="issuperviseitem != null">
+                IsSuperviseItem,
+            </if>
+            <if test="isused != null">
+                IsUsed,
+            </if>
+            <if test="pollutantunit != null">
+                PollutantUnit,
+            </if>
+            <if test="isshowflow != null">
+                IsShowFlow,
+            </if>
+            <if test="version != null">
+                Version,
+            </if>
+            <if test="orderindex != null">
+                OrderIndex,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="begintime != null">
+                BeginTime,
+            </if>
+            <if test="endtime != null">
+                EndTime,
+            </if>
+            <if test="charcolor != null">
+                CharColor,
+            </if>
+            <if test="accuracy != null">
+                Accuracy,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=NVARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=NVARCHAR},
+            </if>
+            <if test="englishname != null">
+                #{englishname,jdbcType=NVARCHAR},
+            </if>
+            <if test="chemicalsymol != null">
+                #{chemicalsymol,jdbcType=NVARCHAR},
+            </if>
+            <if test="pollutanttype != null">
+                #{pollutanttype,jdbcType=NUMERIC},
+            </if>
+            <if test="isonlineitem != null">
+                #{isonlineitem,jdbcType=NUMERIC},
+            </if>
+            <if test="issuperviseitem != null">
+                #{issuperviseitem,jdbcType=NUMERIC},
+            </if>
+            <if test="isused != null">
+                #{isused,jdbcType=NUMERIC},
+            </if>
+            <if test="pollutantunit != null">
+                #{pollutantunit,jdbcType=NVARCHAR},
+            </if>
+            <if test="isshowflow != null">
+                #{isshowflow,jdbcType=NUMERIC},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=NVARCHAR},
+            </if>
+            <if test="orderindex != null">
+                #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="begintime != null">
+                #{begintime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="charcolor != null">
+                #{charcolor,jdbcType=NVARCHAR},
+            </if>
+            <if test="accuracy != null">
+                #{accuracy,jdbcType=NUMERIC},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+        update PUB_CODE_PollutantFactor
+        <set>
+            <if test="code != null">
+                Code = #{code,jdbcType=NVARCHAR},
+            </if>
+            <if test="name != null">
+                Name = #{name,jdbcType=NVARCHAR},
+            </if>
+            <if test="englishname != null">
+                EnglishName = #{englishname,jdbcType=NVARCHAR},
+            </if>
+            <if test="chemicalsymol != null">
+                ChemicalSymol = #{chemicalsymol,jdbcType=NVARCHAR},
+            </if>
+            <if test="pollutanttype != null">
+                PollutantType = #{pollutanttype,jdbcType=NUMERIC},
+            </if>
+            <if test="isonlineitem != null">
+                IsOnlineItem = #{isonlineitem,jdbcType=NUMERIC},
+            </if>
+            <if test="issuperviseitem != null">
+                IsSuperviseItem = #{issuperviseitem,jdbcType=NUMERIC},
+            </if>
+            <if test="isused != null">
+                IsUsed = #{isused,jdbcType=NUMERIC},
+            </if>
+            <if test="pollutantunit != null">
+                PollutantUnit = #{pollutantunit,jdbcType=NVARCHAR},
+            </if>
+            <if test="isshowflow != null">
+                IsShowFlow = #{isshowflow,jdbcType=NUMERIC},
+            </if>
+            <if test="version != null">
+                Version = #{version,jdbcType=NVARCHAR},
+            </if>
+            <if test="orderindex != null">
+                OrderIndex = #{orderindex,jdbcType=NUMERIC},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="begintime != null">
+                BeginTime = #{begintime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                EndTime = #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="charcolor != null">
+                CharColor = #{charcolor,jdbcType=NVARCHAR},
+            </if>
+            <if test="accuracy != null">
+                Accuracy = #{accuracy,jdbcType=NUMERIC},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.pubcode.PollutantFactorVO">
+    update PUB_CODE_PollutantFactor
+    set Code = #{code,jdbcType=NVARCHAR},
+      Name = #{name,jdbcType=NVARCHAR},
+      EnglishName = #{englishname,jdbcType=NVARCHAR},
+      ChemicalSymol = #{chemicalsymol,jdbcType=NVARCHAR},
+      PollutantType = #{pollutanttype,jdbcType=NUMERIC},
+      IsOnlineItem = #{isonlineitem,jdbcType=NUMERIC},
+      IsSuperviseItem = #{issuperviseitem,jdbcType=NUMERIC},
+      IsUsed = #{isused,jdbcType=NUMERIC},
+      PollutantUnit = #{pollutantunit,jdbcType=NVARCHAR},
+      IsShowFlow = #{isshowflow,jdbcType=NUMERIC},
+      Version = #{version,jdbcType=NVARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      BeginTime = #{begintime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      CharColor = #{charcolor,jdbcType=NVARCHAR},
+      Accuracy = #{accuracy,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+    <!--
+        author:chengzq
+        description: 通过污染物code集合和类型查询污染物信息
+        param:
+        date: 2019/05/20 14:27
+    -->
+    <select id="getPollutantsByCodesAndType" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        name,
+        code,
+        pollutantunit AS unit,
+        PUB_CODE_PollutantFactor.orderindex,
+        pollutanttype,
+        pollutantcategory,
+        ishasconvertdata,
+        isshowflow,
+        mir,
+        fac,
+        isdefaultselect,
+        accuracy
+        FROM
+        PUB_CODE_PollutantFactor
+        <if test="outputid!=null and outputid!='' ">
+            JOIN T_BAS_OtherMonitorPoint ON PUB_CODE_PollutantFactor.pollutanttype =
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+            JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPoint.PK_MonitorPointID =
+            T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID
+            AND T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+            AND T_BAS_OtherMonitorPoint.PK_MonitorPointID = #{outputid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                and code =#{pollutantcode}
+            </if>
+            <if test="codes!=null and codes.size>0">
+                and code in
+                <foreach collection="codes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutanttypes!=null and pollutanttypes.size>0">
+                and PollutantType in
+                <foreach collection="pollutanttypes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutantcategorys!=null and pollutantcategorys.size>0">
+                and pollutantcategory in
+                <foreach collection="pollutantcategorys" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="ispartakecount != null and ispartakecount!=''">
+                AND IsPartakeCount = #{ispartakecount}
+            </if>
+            <if test="pollutanttype!=null and pollutanttype!='' ">
+                and PollutantType =#{pollutanttype}
+            </if>
+            <if test="wherestr!=null and wherestr!='' ">
+                and ${wherestr}
+            </if>
+            AND isused = 1
+        </trim>
+        ORDER BY PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+    <select id="getOutPutPropertyByParam" parameterType="map" resultType="map">
+        SELECT
+        code as value,
+        name as labelname
+        FROM
+        PUB_CODE_OutPutAttribute
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutanttype!=null and pollutanttype!='' ">
+                and PollutionType =#{pollutanttype}
+            </if>
+        </trim>
+        ORDER BY code
+    </select>
+
+    <!--获取mongodb flag的配置 lip 2022/10/8 9:22 -->
+    <select id="getFlagListByParam" parameterType="map" resultType="map">
+        SELECT
+            t.code,
+            t.name
+        FROM
+        PUB_CODE_MongoDBFlag t  INNER JOIN PUB_CODE_MonitorPointType t1 ON t.Applytype = t1.FlagType
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtypes !=null and monitorpointtypes.size()>0">
+                and t1.Code in
+                <foreach collection="monitorpointtypes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+    </select>
+
+    <select id="getVocPollutantFactorGroupCountData" resultType="map" parameterType="map">
+        SELECT
+            PUB_CODE_PollutantFactor.PollutantCategory code,
+            COUNT ( * ) totalcount
+        FROM
+            PUB_CODE_PollutantFactor
+        WHERE
+            1 = 1
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantCategory IS NOT NULL
+            AND PUB_CODE_PollutantFactor.PollutantType= 10
+            <if test="pollutantcdes !=null and pollutantcdes.size()>0">
+                and PUB_CODE_PollutantFactor.code in
+                <foreach collection="pollutantcdes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        GROUP BY
+            PUB_CODE_PollutantFactor.PollutantCategory
+    </select>
+
+    <select id="getPollutantAccuracyByParamMap" resultType="integer" parameterType="map" useCache="true">
+        SELECT top 1
+        Accuracy
+        FROM
+        pub_code_pollutantfactor
+        WHERE
+        1 = 1
+        <if test="monitorpointtypes !=null and monitorpointtypes.size()>0">
+            and PollutantType in
+            <foreach collection="monitorpointtypes" separator="," open="(" close=")" item="item">
+                #{item}
+            </foreach>
+        </if>
+        <if test="code != null">AND Code = #{code} </if>
+        ORDER BY
+        Accuracy DESC
+    </select>
+
+    <select id="getAirControlLevelByParam" parameterType="map" resultType="map">
+        SELECT
+        code as value,
+        name as labelname
+        FROM
+        PUB_CODE_AirControlLevel
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+        </trim>
+        ORDER BY code
+    </select>
+
+
+    <!--
+           author:xsm
+           description: 通过MN号获取该MN号监测类型的污染物信息
+           param:
+           date: 2019/05/20 14:27
+       -->
+    <select id="getPollutantsByDgimn" parameterType="java.lang.String" resultType="map">
+        SELECT DISTINCT
+        name,
+        code,
+        pollutantunit AS unit,
+        orderindex,
+        pollutanttype
+        FROM
+        PUB_CODE_PollutantFactor JOIN
+        (SELECT DISTINCT FK_MonitorPointTypeCode FROM T_BAS_DeviceStatus WHERE T_BAS_DeviceStatus.DGIMN = #{dgimn}) t1
+        ON PUB_CODE_PollutantFactor.pollutanttype = t1.FK_MonitorPointTypeCode
+        ORDER BY PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2020/5/7 0007 上午 10:02
+     * @Description: 自定义参数获取污染物预警值
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getEarlyValueByParams" parameterType="map" resultType="map">
+        select
+        DISTINCT
+        t1.FK_OutPutID as outputid,
+        t1.fk_pollutantcode as pollutantcode,
+        t1.concenalarmmaxvalue,
+        t1.concenalarmminvalue
+        from
+        t_bas_earlywarningset t1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.fk_alarmlevelcode = '0'
+
+            <if test="pollutantcodes!=null and pollutantcodes.size>0">
+                and t1.fk_pollutantcode in
+                <foreach collection="pollutantcodes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="outputids!=null and outputids.size>0">
+                and t1.FK_OutPutID in
+                <foreach collection="outputids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2020/5/7 0007 上午 10:02
+     * @Description: 获取全部监测点类型集合
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getAllMonitorPointTypeList" resultType="map">
+        select
+          code monitorpointtypecode,
+          name monitorpointtypename
+        from
+          pub_code_monitorpointtype
+        where isused = '1'
+          order by orderindex
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/6/21 0021 上午 11:37
+     * @Description: 自定义查询条件获取污染物set信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getPollutantSetInfoByParamMap" parameterType="map" resultType="map">
+        SELECT
+        t.Code,t.Name pollutantname,
+        t.PollutantUnit
+        FROM
+        PUB_CODE_PollutantFactor t
+
+        <if test="monitorpointtype!=null and monitorpointtype==1">
+            JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_WaterOutPutID = #{outputid}
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==37">
+            JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_WaterOutPutID = #{outputid}
+        </if>
+        <if test="monitorpointtype!=null and (monitorpointtype==2 or monitorpointtype==22 ) ">
+            JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_GasOutPutID = #{outputid}
+        </if>
+        <if test="monitorpointtype==40 or monitorpointtype==41">
+            JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_GasOutPutID = #{outputid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.isused = '1'
+            <if test="pollutionid!=null and pollutionid!='' ">
+                and t1.FK_PollutionID =#{pollutionid}
+            </if>
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t.PollutantType = #{monitorpointtype}
+            </if>
+        </trim>
+        ORDER BY t.OrderIndex
+    </select>
+
+
+    <!--
+         * @author: xsm
+         * @date: 2021/01/13 0013 上午 10:06
+         * @Description: 通过监测点ID、监测点类型获取该点位监测的污染物信息（安全点位）
+         * @updateUser:
+         * @updateDate:
+         * @updateDescription:
+        -->
+    <select id="getSecurityPointPollutantDataByParams" parameterType="map" resultType="map">
+        SELECT
+        t.Code,t.Name pollutantname,
+        t.PollutantUnit
+        FROM
+        PUB_CODE_PollutantFactor t
+        <if test="monitorpointtype!=null and monitorpointtype==30">
+            JOIN T_AQ_StorageTankSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_StorageTankID = #{monitorpointid}
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==57">
+            JOIN T_AQ_ProductDevicePollutantSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_ProductDeviceID = #{monitorpointid}
+        </if>
+        <if test="monitorpointtype==40 or monitorpointtype==41 or monitorpointtype==41">
+            JOIN T_AQ_RiskAreaMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+            and t1.FK_RiskAreaMonintID = #{monitorpointid}
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.isused = '1'
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t.PollutantType = #{monitorpointtype}
+            </if>
+        </trim>
+        ORDER BY t.OrderIndex
+    </select>
+
+    <!--
+        author:zhangzc
+        description: 根据水质监测点ID获取监测点set表中监测污染物
+        param:
+        date: 2019/5/29 15:04
+      -->
+    <select id="getWaterQualityPollutantsByParamMap" parameterType="map" resultType="java.util.Map">
+        SELECT DISTINCT
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.PollutantUnit AS Unit,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_WaterStationPollutantSet.StandardMaxValue,
+        T_BAS_WaterStationPollutantSet.StandardMinValue
+        FROM
+        T_BAS_WaterStationPollutantSet
+        JOIN T_BAS_WaterStationInfo ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+        T_BAS_WaterStationInfo.PK_WaterStationID
+        JOIN PUB_CODE_PollutantFactor ON T_BAS_WaterStationPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+        WHERE
+        PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+        AND PUB_CODE_PollutantFactor.IsUsed = 1
+        AND T_BAS_WaterStationInfo.PK_WaterStationID IN
+        <foreach collection="outputids" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+        <if test="isshowflow != null and isshowflow =='show'">
+            and (PUB_CODE_PollutantFactor.IsShowFlow = '1' or PUB_CODE_PollutantFactor.IsShowFlow is null)
+        </if>
+        <if test="pollutantcodes !=null and pollutantcodes.size>0">
+            and T_BAS_WaterStationPollutantSet.FK_PollutantCode in
+            <foreach collection="pollutantcodes" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY
+        PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+
+    <!--
+        author:zhangzc
+        description: 根据空气监测点ID获取监测点set表中监测污染物
+        param:
+        date: 2019/5/29 15:04
+      -->
+    <select id="getAirPollutantsByParamMap" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.PollutantUnit AS Unit,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_AirStationPollutantSet.StandardMaxValue,
+        T_BAS_AirStationPollutantSet.StandardMinValue
+        FROM
+        T_BAS_AirStationPollutantSet
+        JOIN T_BAS_AirMonitorStation ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+        T_BAS_AirMonitorStation.PK_AirID
+        JOIN PUB_CODE_PollutantFactor ON T_BAS_AirStationPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+        WHERE
+        PUB_CODE_PollutantFactor.PollutantType = 5
+        AND PUB_CODE_PollutantFactor.IsUsed = 1
+        AND T_BAS_AirMonitorStation.PK_AirID IN
+        <foreach collection="outputids" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+        <if test="isshowflow != null and isshowflow =='show'">
+            and (PUB_CODE_PollutantFactor.IsShowFlow = '1' or PUB_CODE_PollutantFactor.IsShowFlow is null)
+        </if>
+        <if test="pollutantcodes !=null and pollutantcodes.size>0">
+            and T_BAS_AirStationPollutantSet.FK_PollutantCode in
+            <foreach collection="pollutantcodes" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+
+        ORDER BY
+        PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+    <!--
+        author:zhangzc
+        description: 根据监测点ID获取监测点set表中监测污染物
+        param: monitorPointType 监测点类型 outputids 监测点IDs
+        date: 2019/5/29 15:03
+      -->
+    <select id="getOtherPollutantsByParamMap" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.PollutantUnit AS Unit,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_OtherMonitorPointPollutantSet.StandardMaxValue,
+        T_BAS_OtherMonitorPointPollutantSet.StandardMinValue
+        FROM
+        T_BAS_OtherMonitorPointPollutantSet
+        JOIN T_BAS_OtherMonitorPoint ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        JOIN PUB_CODE_PollutantFactor ON T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode =
+        PUB_CODE_PollutantFactor.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND PUB_CODE_PollutantFactor.PollutantType = #{pollutantType}
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            <if test="outputids !=null and outputids.size>0">
+                and T_BAS_OtherMonitorPoint.PK_MonitorPointID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutantcodes !=null and pollutantcodes.size>0">
+                and T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode in
+                <foreach collection="pollutantcodes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isshowflow != null and isshowflow =='show'">
+                and (PUB_CODE_PollutantFactor.IsShowFlow = '1' or PUB_CODE_PollutantFactor.IsShowFlow is null)
+            </if>
+
+        </trim>
+        ORDER BY
+        PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 根据监测点ID获取水质监测点set表中监测污染物
+        param:
+        date: 2019/09/19 09:46
+    -->
+    <select id="getWaterStationPollutantsByParamMap" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.PollutantUnit AS Unit,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_WaterStationPollutantSet.StandardMaxValue,
+        T_BAS_WaterStationPollutantSet.StandardMinValue
+        FROM
+        T_BAS_WaterStationPollutantSet
+        JOIN T_BAS_WaterStationInfo ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+        T_BAS_WaterStationInfo.PK_WaterStationID
+        JOIN PUB_CODE_PollutantFactor ON T_BAS_WaterStationPollutantSet.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND PUB_CODE_PollutantFactor.PollutantType = #{pollutantType}
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            <if test="outputids !=null and outputids.size>0">
+                and T_BAS_WaterStationInfo.PK_WaterStationID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutantcodes !=null and pollutantcodes.size>0">
+                and T_BAS_WaterStationPollutantSet.FK_PollutantCode in
+                <foreach collection="pollutantcodes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isshowflow != null and isshowflow =='show'">
+                and (PUB_CODE_PollutantFactor.IsShowFlow = '1' or PUB_CODE_PollutantFactor.IsShowFlow is null)
+            </if>
+
+        </trim>
+        ORDER BY
+        PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+
+    <!--
+        author:zhangzc
+        description: 根据监测点类型获取重点监测污染物信息
+        param:
+        date: 2019/5/30 14:14
+      -->
+    <select id="getKeyPollutantsByMonitorPointType" resultType="map">
+        SELECT
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            PUB_CODE_PollutantFactor.PollutantUnit,
+            PUB_CODE_PollutantFactor.IsShowFlow,
+            PUB_CODE_PollutantFactor.IsDefaultSelect,
+            PUB_CODE_PollutantFactor.OrderIndex
+        FROM
+            T_BAS_KeyMonitorPollutant
+        JOIN PUB_CODE_PollutantFactor ON T_BAS_KeyMonitorPollutant.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+        AND T_BAS_KeyMonitorPollutant.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+          PUB_CODE_PollutantFactor.PollutantType = #{pollutantType}
+          AND PUB_CODE_PollutantFactor.IsUsed = 1
+        ORDER BY
+            T_BAS_KeyMonitorPollutant.OrderIndex
+    </select>
+
+
+    <!--author:xsm description: 根据污染物类型获取该类型下所有污染物信息  param: date: 2019/6/22 3:58 -->
+    <select id="getPollutantsByPollutantType" parameterType="map" resultType="map">
+        SELECT DISTINCT
+        PUB_CODE_PollutantFactor.Code code,
+        PUB_CODE_PollutantFactor.Name name,
+        PUB_CODE_PollutantFactor.PollutantUnit,
+        PUB_CODE_PollutantFactor.IsHasConvertData,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        PUB_CODE_PollutantFactor.PollutantType
+        FROM
+        PUB_CODE_PollutantFactor
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype != null and monitorpointtype !=''">
+                and PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            </if>
+            <if test="pollutanttype != null and pollutanttype !=''">
+                and PUB_CODE_PollutantFactor.PollutantType = #{pollutanttype}
+            </if>
+            <if test="pollutantname!=null and pollutantname!='' ">
+                and PUB_CODE_PollutantFactor.Name like concat('%',#{pollutantname},'%')
+            </if>
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+            </if>
+            <if test="isshowflow!=null and isshowflow=='yes' ">
+                and PUB_CODE_PollutantFactor.IsShowFlow = 1
+            </if>
+            <if test="isuser!=null and isuser=='yes' ">
+                and PUB_CODE_PollutantFactor.IsUsed = 1
+            </if>
+            <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+                and PUB_CODE_PollutantFactor.PollutantType in
+                <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="codes!=null and codes.size>0">
+                and PUB_CODE_PollutantFactor.Code in
+                <foreach collection="codes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY OrderIndex
+    </select>
+
+
+    <!--
+   * @author: xsm
+   * @date: 2019/7/11 0011 下午 2:52
+   * @Description: 根据排口ID和污染物编码获取废气污染物标准值和预警值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getGasEarlyAndStandardValueById" parameterType="map" resultType="map">
+        SELECT
+        t1.FK_PollutantCode,
+        t1.StandardMaxValue,
+        t1.StandardMinValue,
+        t2.ConcenAlarmMaxValue,
+        t1.AlarmType,
+        t5.IsHasConvertData,
+        t2.FK_AlarmLevelCode,
+        t2.ConcenAlarmMinValue
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        LEFT JOIN T_BAS_EarlyWarningSet t2 ON t1.FK_GasOutPutID =t2.FK_OutPutID AND t1.FK_PollutantCode =
+        t2.FK_PollutantCode
+        JOIN T_BAS_Pollution t3 ON t1.FK_PollutionID =t3.PK_PollutionID
+        JOIN T_BAS_GASOutPutInfo t4 ON t1.FK_GasOutPutID = t4.PK_ID
+        JOIN PUB_CODE_PollutantFactor t5 ON t1.FK_PollutantCode = t5.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t5.PollutantType =#{monitorpointtype}
+            <if test="alarmlevel!=null and alarmlevel!='' ">
+                AND t2.FK_AlarmLevelCode =#{alarmlevel}
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_GasOutPutID = #{monitorpointid}
+            </if>
+            <if test="pollutants !=null and pollutants.size>0">
+                and T1.FK_PollutantCode in
+                <foreach collection="pollutants" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="getWaterStationEarlyAndStandardValueById" parameterType="map" resultType="map">
+        SELECT
+        t1.FK_PollutantCode,t1.StandardMaxValue,t2.ConcenAlarmMaxValue,t2.FK_AlarmLevelCode,t2.ConcenAlarmMinValue,t1.AlarmType
+        FROM
+        T_BAS_WaterStationPollutantSet t1
+        LEFT JOIN T_BAS_EarlyWarningSet t2 ON t1.FK_WaterPointID =t2.FK_OutPutID AND t1.FK_PollutantCode =
+        t2.FK_PollutantCode
+        JOIN PUB_CODE_PollutantFactor t5 ON t1.FK_PollutantCode = t5.Code AND t5.PollutantType ='6'
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="alarmlevel!=null and alarmlevel!='' ">
+                AND t2.FK_AlarmLevelCode =#{alarmlevel}
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_WaterPointID = #{monitorpointid}
+            </if>
+            <if test="pollutants !=null and pollutants.size>0">
+                and T1.FK_PollutantCode in
+                <foreach collection="pollutants" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+   * @author: xsm
+   * @date: 2019/7/11 0011 下午 2:52
+   * @Description: 根据监测点ID和污染物编码获取废水污染物标准值和预警值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getWaterEarlyAndStandardValueById" parameterType="map" resultType="map">
+        SELECT
+        t4.DGIMN,t1.FK_PollutantCode,t5.Name PollutantName
+        ,t5.PollutantUnit,t1.AlarmType,t1.StandardMaxValue,t1.StandardMinValue,
+        t2.FK_AlarmLevelCode,t2.ConcenAlarmMaxValue,t2.ConcenAlarmMinValue
+        FROM
+        T_BAS_WaterOutPutPollutantSet t1
+        LEFT JOIN T_BAS_EarlyWarningSet t2 ON t1.FK_WaterOutPutID =t2.FK_OutPutID AND t1.FK_PollutantCode =
+        t2.FK_PollutantCode
+        JOIN T_BAS_Pollution t3 ON t1.FK_PollutionID =t3.PK_PollutionID
+        JOIN T_BAS_WaterOutputInfo t4 ON t1.FK_WaterOutPutID = t4.PK_ID
+        JOIN PUB_CODE_PollutantFactor t5 ON t1.FK_PollutantCode = t5.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t5.IsUsed =1
+            AND t5.PollutantType =#{monitorpointtype}
+            AND t4.OutPutType =#{outputtype}
+            <if test="alarmlevel!=null and alarmlevel!='' ">
+                AND t2.FK_AlarmLevelCode =#{alarmlevel}
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_WaterOutPutID = #{monitorpointid}
+            </if>
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                and t1.FK_PollutantCode = #{pollutantcode}
+            </if>
+            <if test="pollutants !=null and pollutants.size>0">
+                and T1.FK_PollutantCode in
+                <foreach collection="pollutants" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and t4.DGIMN in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY t5.OrderIndex
+    </select>
+
+    <!--
+   * @author: xsm
+   * @date: 2019/7/11 0011 下午 2:52
+   * @Description: 根据监测点ID和污染物编码获取厂界污染物标准值和预警值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getUnorganizedEarlyAndStandardValueByOutPutId" parameterType="map" resultType="map">
+        SELECT
+        t1.FK_PollutantCode,t1.StandardMaxValue,t1.StandardMinValue,t2.ConcenAlarmMaxValue,t1.AlarmType,t2.FK_AlarmLevelCode,t2.ConcenAlarmMinValue
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        LEFT JOIN T_BAS_EarlyWarningSet t2 ON t1.FK_GasOutPutID =t2.FK_OutPutID AND t1.FK_PollutantCode =
+        t2.FK_PollutantCode
+        JOIN T_BAS_Pollution t3 ON t1.FK_PollutionID =t3.PK_PollutionID
+        JOIN T_BAS_UnorganizedMonitorPointInfo t4 ON t1.FK_GasOutPutID = t4.PK_ID
+        JOIN PUB_CODE_PollutantFactor t5 ON t1.FK_PollutantCode = t5.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND t5.PollutantType =#{monitorpointtype}
+            AND t4.FK_MonitorPointTypeCode =#{monitorpointtype}
+            <if test="alarmlevel!=null and alarmlevel!='' ">
+                AND t2.FK_AlarmLevelCode =#{alarmlevel}
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_GasOutPutID = #{monitorpointid}
+            </if>
+            <if test="pollutants !=null and pollutants.size>0">
+                and T1.FK_PollutantCode in
+                <foreach collection="pollutants" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+   * @author: xsm
+   * @date: 2019/7/11 0011 下午 2:52
+   * @Description: 根据监测点ID和污染物编码获取其它监测点污染物标准值和预警值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getOtherEarlyAndStandardValueByOutPutId" parameterType="map" resultType="map">
+        SELECT
+        t1.FK_PollutantCode,t1.StandardMaxValue,t2.ConcenAlarmMaxValue,t2.FK_AlarmLevelCode,t2.ConcenAlarmMinValue,t1.AlarmType
+        FROM
+        T_BAS_OtherMonitorPointPollutantSet t1
+        LEFT JOIN T_BAS_EarlyWarningSet t2 ON t1.FK_OtherMonintPointID =t2.FK_OutPutID AND t1.FK_PollutantCode =
+        t2.FK_PollutantCode
+        JOIN T_BAS_OtherMonitorPoint t4 ON t1.FK_OtherMonintPointID = t4.PK_MonitorPointID
+        JOIN PUB_CODE_PollutantFactor t5 ON t1.FK_PollutantCode = t5.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND t5.PollutantType =#{monitorpointtype}
+            AND t4.FK_MonitorPointTypeCode =#{monitorpointtype}
+            <if test="alarmlevel!=null and alarmlevel!='' ">
+                AND t2.FK_AlarmLevelCode =#{alarmlevel}
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_OtherMonintPointID = #{monitorpointid}
+            </if>
+            <if test="pollutants !=null and pollutants.size>0">
+                and T1.FK_PollutantCode in
+                <foreach collection="pollutants" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+   * @author: xsm
+   * @date: 2019/7/11 0011 下午 2:52
+   * @Description: 根据监测点ID和污染物编码获取空气污染物标准值和预警值
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getAirEarlyAndStandardValueByOutPutId" parameterType="map" resultType="map">
+        SELECT
+        t1.FK_PollutantCode,t1.StandardMaxValue,t2.ConcenAlarmMaxValue,t2.FK_AlarmLevelCode,t1.AlarmType
+        FROM
+        T_BAS_AirStationPollutantSet t1
+        LEFT JOIN T_BAS_EarlyWarningSet t2 ON t1.FK_AirMonintPointID =t2.FK_OutPutID AND t1.FK_PollutantCode =
+        t2.FK_PollutantCode
+        JOIN T_BAS_AirMonitorStation t4 ON t1.FK_AirMonintPointID = t4.PK_AirID
+        JOIN PUB_CODE_PollutantFactor t5 ON t1.FK_PollutantCode = t5.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND t5.PollutantType =#{monitorpointtype}
+            <if test="alarmlevel!=null and alarmlevel!='' ">
+                AND t2.FK_AlarmLevelCode =#{alarmlevel}
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t1.FK_AirMonintPointID = #{monitorpointid}
+            </if>
+            <if test="pollutants !=null and pollutants.size>0">
+                and T1.FK_PollutantCode in
+                <foreach collection="pollutants" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--author:xsm description: 根据单个或多个监测点类型获取重点监测污染物信息 date: 2019/7/22 8:52-->
+    <select id="getAllKeyPollutantsByMonitorPointTypes" resultType="map">
+        SELECT
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_KeyMonitorPollutant.FK_MonitorPointTypeCode,
+        PUB_CODE_PollutantFactor.PollutantUnit,
+        PUB_CODE_PollutantFactor.IsHasConvertData,
+        T_BAS_KeyMonitorPollutant.OrderIndex
+        FROM
+        T_BAS_KeyMonitorPollutant
+        JOIN PUB_CODE_PollutantFactor ON T_BAS_KeyMonitorPollutant.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+        AND T_BAS_KeyMonitorPollutant.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        <if test="pollutanttypes !=null and pollutanttypes.size>0">
+            and PUB_CODE_PollutantFactor.PollutantType in
+            <foreach collection="pollutanttypes" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype!='' ">
+            and PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        ORDER BY
+        PUB_CODE_PollutantFactor.PollutantType,T_BAS_KeyMonitorPollutant.OrderIndex
+    </select>
+
+    <!--
+       author:xsm
+       description: 根据监测点类型获取该类型除重点污染物外的所有污染物
+       date: 2019/5/30 14:14
+       updateUser:xsm
+       updateDescription:根据类型查询污染物（不剔除重点污染物）
+       updateDate:2019/11/05 10:50
+       param:
+     -->
+    <select id="getNotKeyPollutantsByMonitorPointType" parameterType="map" resultType="map">
+       SELECT DISTINCT
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.PollutantUnit,
+        PUB_CODE_PollutantFactor.OrderIndex
+        FROM
+        PUB_CODE_PollutantFactor
+        WHERE
+        PUB_CODE_PollutantFactor.PollutantType = #{pointtype}
+        ORDER BY
+        PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取污染物
+        param:
+        date: 2019/08/29 16:37
+    -->
+    <select id="getPollutantinfoByParamMap" parameterType="map" resultType="map">
+        select distinct name,code from PUB_CODE_PollutantFactor
+        join T_BAS_OtherMonitorPointPollutantSet on
+        T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode=PUB_CODE_PollutantFactor.code
+        <where>
+            <if test="pollutanttype!=null and pollutanttype!='' ">
+                and PUB_CODE_PollutantFactor.PollutantType = #{pollutanttype}
+            </if>
+            <if test="pollutantcodes!=null and pollutantcodes.length>0">
+                and PUB_CODE_PollutantFactor.code in
+                <foreach collection="pollutantcodes" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--
+        author:xsm
+        description: 通过污染类型和污染物编码获取相关排放量污染物
+        param:
+        date: 2019/9/3 0003 下午 1:47
+    -->
+    <select id="getPollutantInfoByPollutanTypeAndCodes" parameterType="map" resultType="map">
+        select distinct name,code from PUB_CODE_PollutantFactor
+        WHERE PUB_CODE_PollutantFactor.IsShowFlow =1
+        <if test="pollutanttype!=null and pollutanttype!='' ">
+            and PUB_CODE_PollutantFactor.PollutantType = #{pollutanttype}
+        </if>
+        <if test="pollutantcodes!=null and pollutantcodes.size()>0">
+            and PUB_CODE_PollutantFactor.code in
+            <foreach collection="pollutantcodes" item="item" close=")" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <!--
+        author:xsm
+        description: 通过污染类型获取相关排放量污染物
+        param:
+        date: 2019/11/7 0007 上午 10:58
+    -->
+    <select id="getKeyFlowPollutantsByParam" parameterType="map" resultType="map">
+        select distinct name,code from T_BAS_KeyMonitorPollutant,PUB_CODE_PollutantFactor
+        WHERE T_BAS_KeyMonitorPollutant.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+        AND T_BAS_KeyMonitorPollutant.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        AND PUB_CODE_PollutantFactor.IsShowFlow =1
+        <if test="pollutanttypes!=null and pollutanttypes.size()>0">
+            and PUB_CODE_PollutantFactor.PollutantType in
+            <foreach collection="pollutanttypes" item="item" close=")" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <!--
+    * @author: xsm
+    * @date: 2019/12/09 0009 下午 14:18
+    * @Description: 自定义查询条件获取污染物set信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+    <select id="getPollutantStandarddataByParam" parameterType="map" resultType="map">
+        SELECT distinct
+        t.Code,
+        t.Name pollutantname,
+        t.PollutantUnit,
+        <if test="monitorpointtype!=null">
+            <if test="monitorpointtype==30||monitorpointtype==57">
+                '' StandardMinValue,
+                '' StandardMaxValue,
+            </if>
+            <if test="monitorpointtype!=30 and monitorpointtype!=57">
+                t1.StandardMinValue,
+                t1.StandardMaxValue,
+            </if>
+        </if>
+        t1.AlarmType,
+        t.IsHasConvertData,
+        t.IsShowFlow,
+        t2.DGIMN,
+        s.StandardName
+        FROM
+        PUB_CODE_PollutantFactor t
+        <choose>
+            <when test="monitorpointtype!=null and monitorpointtype==1">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==37">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==2 or monitorpointtype==22">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+            </when>
+            <when test="monitorpointtype==40 or monitorpointtype==41 ">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==5">
+                JOIN T_BAS_AirStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID =t2.PK_AirID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==6">
+                JOIN T_BAS_WaterStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID =t2.PK_WaterStationID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==30">
+                JOIN T_AQ_StorageTankSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_StorageTankInfo t2 ON t1.FK_StorageTankID =t2.PK_ID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype == 54 or monitorpointtype == 55 or monitorpointtype == 56 ">
+                JOIN T_AQ_RiskAreaMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_RiskAreaMonitorPoint t2 ON t1.FK_RiskAreaMonintID =t2.PK_MonitorPointID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==57">
+                JOIN T_AQ_ProductDevicePollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_HazardSourceProductDevice t2 ON t1.FK_ProductDeviceID =t2.PK_ID
+            </when>
+            <otherwise>
+                JOIN T_BAS_OtherMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_OtherMonintPointID =t2.PK_MonitorPointID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+            </otherwise>
+        </choose>
+        left join T_BAS_Standard s on s.PK_StandardID = t1.FK_StandardID
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.isused = '1'
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t.PollutantType = #{monitorpointtype}
+            </if>
+            <if test="pollutantlist!=null and pollutantlist.size()>0">
+                and t.Code in
+                <foreach collection="pollutantlist" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and t2.DGIMN = #{dgimn}
+            </if>
+            <if test="mnlist!=null and mnlist.size()>0">
+                and t2.DGIMN in
+                <foreach collection="mnlist" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getMonitorPollutantSetDataByParam" parameterType="map" resultMap="MonitorPollutantResultMap">
+        SELECT
+        t.Code,
+        t2.DGIMN
+        FROM
+        PUB_CODE_PollutantFactor t
+
+        <choose>
+            <when test="monitorpointtype!=null and monitorpointtype==1">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==37">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==2 or monitorpointtype==22">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+            </when>
+            <when test="monitorpointtype==40 or monitorpointtype==41 ">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==5">
+                JOIN T_BAS_AirStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID =t2.PK_AirID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==6">
+                JOIN T_BAS_WaterStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID =t2.PK_WaterStationID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==30">
+                JOIN T_AQ_StorageTankSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_StorageTankInfo t2 ON t1.FK_StorageTankID =t2.PK_ID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype == 54 or monitorpointtype == 55 or monitorpointtype == 56 ">
+                JOIN T_AQ_RiskAreaMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_RiskAreaMonitorPoint t2 ON t1.FK_RiskAreaMonintID =t2.PK_MonitorPointID
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==57">
+                JOIN T_AQ_ProductDevicePollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_HazardSourceProductDevice t2 ON t1.FK_ProductDeviceID =t2.PK_ID
+            </when>
+            <otherwise>
+                JOIN T_BAS_OtherMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_OtherMonintPointID =t2.PK_MonitorPointID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+            </otherwise>
+        </choose>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.isused = '1'
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t.PollutantType = #{monitorpointtype}
+            </if>
+            <if test="pollutantlist!=null and pollutantlist.size()>0">
+                and t.Code in
+                <foreach collection="pollutantlist" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="mnlist!=null and mnlist.size()>0">
+                and t2.DGIMN in
+                <foreach collection="mnlist" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+       * @author: xsm
+       * @date: 2021/01/29 0029 下午 17:49
+       * @Description: 自定义查询条件获取污染物set信息(包含预警超限值)
+       * @updateUser:
+       * @updateDate:
+       * @updateDescription:
+      -->
+    <select id="getPollutantStandardsByParam" parameterType="map" resultType="map">
+        SELECT distinct
+        t.Code,t.Name pollutantname,
+        t.PollutantUnit,
+        <if test="monitorpointtype!=null">
+            <if test="monitorpointtype==30||monitorpointtype==57">
+                '' StandardMinValue,
+                '' StandardMaxValue,
+                '' FK_AlarmLevelCode,
+                '' ConcenAlarmMinValue,
+                '' ConcenAlarmMaxValue,
+            </if>
+            <if test="monitorpointtype!=30 and monitorpointtype!=57">
+                t1.StandardMinValue,
+                t1.StandardMaxValue,
+                t3.FK_AlarmLevelCode,
+                t3.ConcenAlarmMinValue,
+                t3.ConcenAlarmMaxValue,
+            </if>
+        </if>
+        t1.AlarmType,
+        t2.DGIMN
+        FROM
+        PUB_CODE_PollutantFactor t
+
+        <choose>
+            <when test="monitorpointtype!=null and monitorpointtype==1 or monitorpointtype==37">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_WaterOutPutID and t1.fk_pollutantcode =
+                t3.fk_pollutantcode
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==2 or monitorpointtype==22 or monitortype=='gas'">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_GasOutPutID and t1.fk_pollutantcode =
+                t3.fk_pollutantcode
+            </when>
+
+            <when test="monitorpointtype!=null and monitorpointtype==40 or monitorpointtype==41">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_GasOutPutID and t1.fk_pollutantcode =
+                t3.fk_pollutantcode
+            </when>
+
+            <when test="monitorpointtype!=null and monitorpointtype==5">
+                JOIN T_BAS_AirStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID =t2.PK_AirID
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_AirMonintPointID and t1.fk_pollutantcode =
+                t3.fk_pollutantcode
+            </when>
+
+            <when test="monitorpointtype!=null and monitorpointtype==6">
+                JOIN T_BAS_WaterStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID =t2.PK_WaterStationID
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_WaterPointID and t1.fk_pollutantcode =
+                t3.fk_pollutantcode
+            </when>
+
+            <when test="monitorpointtype!=null and monitorpointtype==30">
+                JOIN T_AQ_StorageTankSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_StorageTankInfo t2 ON t1.FK_StorageTankID =t2.PK_ID
+            </when>
+
+            <when test="monitorpointtype!=null and monitorpointtype == 54 or monitorpointtype == 55 or monitorpointtype == 56 ">
+                JOIN T_AQ_RiskAreaMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_RiskAreaMonitorPoint t2 ON t1.FK_RiskAreaMonintID =t2.PK_MonitorPointID
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_RiskAreaMonintID and t1.fk_pollutantcode =
+                t3.fk_pollutantcode
+            </when>
+
+            <when test="monitorpointtype!=null and monitorpointtype==57">
+                JOIN T_AQ_ProductDevicePollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_AQ_HazardSourceProductDevice t2 ON t1.FK_ProductDeviceID =t2.PK_ID
+            </when>
+
+            <otherwise>
+                JOIN T_BAS_OtherMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_OtherMonintPointID =t2.PK_MonitorPointID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+                LEFT JOIN T_BAS_EarlyWarningSet t3 ON t3.FK_OutPutID = t1.FK_OtherMonintPointID and t1.fk_pollutantcode
+                = t3.fk_pollutantcode
+            </otherwise>
+        </choose>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.isused = '1'
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t.PollutantType = #{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes!=null and monitorpointtypes.size()>0">
+                and t.PollutantType in
+                <foreach collection="monitorpointtypes" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutantlist!=null and pollutantlist.size()>0">
+                and t.Code in
+                <foreach collection="pollutantlist" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="mnlist!=null and mnlist.size()>0">
+                and t2.DGIMN in
+                <foreach collection="mnlist" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取所有企业下的废水，废气，雨水，厂界恶臭，厂界小型站因子
+        param:
+        date: 2019/12/11 16:29
+    -->
+    <select id="getAllPollutionPollutantInfoByParamMap" resultType="map" parameterType="map">
+        select DISTINCT name,code,orderindex from (
+        SELECT
+        t2.name,
+        t2.code,
+        orderindex
+        FROM
+        T_BAS_WaterOutPutPollutantSet t1,
+        PUB_CODE_PollutantFactor t2
+        WHERE
+        t1.FK_PollutantCode= t2.code
+        AND t2.IsUsed= 1
+        AND t2.PollutantType IN ( 1, 37 )
+        <if test="pollutanttype!=null and pollutanttype!=''">
+            and t2.PollutantType=#{pollutanttype}
+        </if>
+        union
+        SELECT
+        t2.name,
+        t2.code,
+        orderindex
+        FROM
+        T_BAS_GasOutPutPollutantSet t1,
+        PUB_CODE_PollutantFactor t2
+        WHERE
+        t1.FK_PollutantCode= t2.code
+        AND t2.IsUsed= 1
+        AND t2.PollutantType in (2,40,41)
+        <if test="pollutanttype!=null and pollutanttype!=''">
+            and t2.PollutantType=#{pollutanttype}
+        </if>
+        )t
+        order by orderindex
+    </select>
+
+    <!--
+  * @author: xsm
+  * @date: 2020/09/07 0007 下午 17:08
+  * @Description: 自定义查询条件获取污染物标准值和预警限值
+  * @updateUser:
+  * @updateDate:
+  * @updateDescription:
+ -->
+    <select id="getPollutantStandardValueDataByParam" parameterType="map" resultType="map">
+        SELECT distinct
+        t.Code,t.Name pollutantname,
+        t.PollutantUnit,
+        t1.StandardMinValue,
+        t1.alarmtype,
+        t1.StandardMaxValue,
+        t2.DGIMN,
+        T_BAS_EarlyWarningSet.ConcenAlarmMaxValue
+        FROM
+        PUB_CODE_PollutantFactor t
+        <choose>
+            <when test="monitorpointtype!=null and monitorpointtype==1">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==37">
+                JOIN T_BAS_WaterOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==2 or monitorpointtype==22">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </when>
+            <when test="monitorpointtype==40 or monitorpointtype==41">
+                JOIN T_BAS_GasOutPutPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==5">
+                JOIN T_BAS_AirStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID =t2.PK_AirID
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_AirID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </when>
+            <when test="monitorpointtype!=null and monitorpointtype==6">
+                JOIN T_BAS_WaterStationPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID =t2.PK_WaterStationID
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_WaterStationID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </when>
+            <otherwise>
+                JOIN T_BAS_OtherMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = t.Code
+                JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_OtherMonintPointID =t2.PK_MonitorPointID AND t.PollutantType =
+                t2.FK_MonitorPointTypeCode
+                left join
+                T_BAS_EarlyWarningSet on
+                t2.PK_MonitorPointID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+                t1.FK_PollutantCode AND T_BAS_EarlyWarningSet.FK_AlarmLevelCode = 0
+            </otherwise>
+        </choose>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.isused = '1'
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t.PollutantType = #{monitorpointtype}
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and t2.DGIMN = #{dgimn}
+            </if>
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                and t.Code = #{pollutantcode}
+            </if>
+            <if test="dgimns!=null and dgimns.size>0 ">
+                and t2.DGIMN in
+                <foreach collection="dgimns" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getPollutantStandardByParams" parameterType="map" resultType="map">
+        SELECT
+        <if test="monitorpointtype!=null and monitorpointtype==1">
+            t1.FK_WaterOutPutID monitorpointid,
+            t1.StandardMinValue,
+            t1.AlarmType,
+            t1.StandardMaxValue,
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==37">
+            t1.FK_WaterOutPutID monitorpointid,
+            t1.StandardMinValue,
+            t1.AlarmType,
+            t1.StandardMaxValue,
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==2 or monitorpointtype==22 or monitorpointtype==40 or monitorpointtype==41">
+            t1.FK_GasOutPutID monitorpointid,
+            t1.StandardMinValue,
+            t1.AlarmType,
+            t1.StandardMaxValue,
+        </if>
+        <if test="monitorpointtype==9 or monitorpointtype==10 or monitorpointtype==33 or monitorpointtype==12">
+            t1.FK_OtherMonintPointID monitorpointid,
+            t1.StandardMinValue,
+            t1.AlarmType,
+            t1.StandardMaxValue,
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==5">
+            t1.FK_AirMonintPointID monitorpointid,
+            t1.StandardMinValue,
+            t1.AlarmType,
+            t1.StandardMaxValue,
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==6">
+            t1.FK_WaterPointID monitorpointid,
+            t1.StandardMinValue,
+            t1.AlarmType,
+            t1.StandardMaxValue,
+        </if>
+        t.Code FK_PollutantCode
+        FROM
+        PUB_CODE_PollutantFactor t
+        <if test="monitorpointtype!=null and monitorpointtype==1">
+            JOIN T_BAS_WaterOutPutPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==37">
+            JOIN T_BAS_WaterOutPutPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==2 or monitorpointtype==22">
+            JOIN T_BAS_GasOutPutPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID
+        </if>
+        <if test="monitorpointtype==9 or monitorpointtype==10 or monitorpointtype==33 or monitorpointtype==12 ">
+            JOIN T_BAS_OtherMonitorPointPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_OtherMonintPointID =t2.PK_MonitorPointID
+        </if>
+        <if test="monitorpointtype==40 or monitorpointtype==41">
+            JOIN T_BAS_GasOutPutPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==5">
+            JOIN T_BAS_AirStationPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID =t2.PK_AirID
+        </if>
+        <if test="monitorpointtype!=null and monitorpointtype==6">
+            JOIN T_BAS_WaterStationPollutantSet t1 ON t.Code = t1.FK_PollutantCode AND t.PollutantType =
+            #{monitorpointtype}
+            JOIN T_BAS_WaterStationInfo t2 ON t1.FK_WaterPointID =t2.PK_WaterStationID
+        </if>
+        <if test="monitorpointtype!=null">
+            where t.PollutantType = #{monitorpointtype}
+        </if>
+    </select>
+
+    <!--
+ * @author: xsm
+ * @date: 2021/01/26 0026 下午 17:50
+ * @Description: 自定义查询条件获取环保监测类型点位污染物标准值（合并所有环保监测类型）
+ * @updateUser:
+ * @updateDate:
+ * @updateDescription:
+-->
+    <select id="getEnvPollutantStandardDataByParam" parameterType="map" resultType="map">
+        SELECT distinct
+        tt.Code,
+        tt.pollutantname,
+        tt.PollutantUnit,
+        tt.StandardMinValue,
+        tt.StandardMaxValue,
+        tt.DGIMN+'_'+cast(tt.PollutantType as varchar)+'_'+tt.Code mnandcode,
+        tt.DGIMN,
+        tt.AlarmType,
+        tt.PollutantType,
+        tt.FK_AlarmLevelCode,
+        tt.ConcenAlarmMaxValue
+        FROM
+        (
+        SELECT t.Code,t.Name
+        pollutantname,t.PollutantUnit,t.PollutantType,t1.AlarmType,t1.StandardMinValue,t1.StandardMaxValue,t2.DGIMN,T_BAS_EarlyWarningSet.ConcenAlarmMaxValue,T_BAS_EarlyWarningSet.FK_AlarmLevelCode
+        FROM
+        T_BAS_WaterOutPutPollutantSet t1
+        JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+        JOIN PUB_CODE_PollutantFactor t ON t1.FK_PollutantCode = t.Code AND t.isused = '1' AND t.PollutantType = 1
+        left join
+        T_BAS_EarlyWarningSet on
+        t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode = t1.FK_PollutantCode
+        UNION
+        SELECT t.Code,t.Name
+        pollutantname,t.PollutantUnit,t.PollutantType,t1.AlarmType,t1.StandardMinValue,t1.StandardMaxValue,t2.DGIMN,T_BAS_EarlyWarningSet.ConcenAlarmMaxValue,T_BAS_EarlyWarningSet.FK_AlarmLevelCode
+        FROM
+        T_BAS_WaterOutPutPollutantSet t1
+        JOIN T_BAS_WaterOutputInfo t2 ON t1.FK_WaterOutPutID =t2.PK_ID
+        JOIN PUB_CODE_PollutantFactor t ON t1.FK_PollutantCode = t.Code AND t.isused = '1' AND t.PollutantType = 37
+        left join
+        T_BAS_EarlyWarningSet on
+        t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode = t1.FK_PollutantCode
+        UNION
+        SELECT t.Code,t.Name
+        pollutantname,t.PollutantUnit,t.PollutantType,t1.AlarmType,t1.StandardMinValue,t1.StandardMaxValue,t2.DGIMN,T_BAS_EarlyWarningSet.ConcenAlarmMaxValue,T_BAS_EarlyWarningSet.FK_AlarmLevelCode
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        JOIN T_BAS_GASOutPutInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID
+        JOIN PUB_CODE_PollutantFactor t ON t1.FK_PollutantCode = t.Code AND t.PollutantType = t2.FK_MonitorPointTypeCode
+        AND t.isused = '1'
+        left join
+        T_BAS_EarlyWarningSet on
+        t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode = t1.FK_PollutantCode
+        UNION
+        SELECT t.Code,t.Name
+        pollutantname,t.PollutantUnit,t.PollutantType,t1.AlarmType,t1.StandardMinValue,t1.StandardMaxValue,t2.DGIMN,T_BAS_EarlyWarningSet.ConcenAlarmMaxValue,T_BAS_EarlyWarningSet.FK_AlarmLevelCode
+        FROM
+        T_BAS_OtherMonitorPointPollutantSet t1
+        JOIN T_BAS_OtherMonitorPoint t2 ON t1.FK_OtherMonintPointID =t2.PK_MonitorPointID
+        JOIN PUB_CODE_PollutantFactor t ON t1.FK_PollutantCode = t.Code AND t.PollutantType = t2.FK_MonitorPointTypeCode
+        AND t2.FK_MonitorPointTypeCode!=52 AND t.isused = '1'
+        left join
+        T_BAS_EarlyWarningSet on
+        t2.PK_MonitorPointID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode =
+        t1.FK_PollutantCode
+        UNION
+        SELECT t.Code,t.Name
+        pollutantname,t.PollutantUnit,t.PollutantType,t1.AlarmType,t1.StandardMinValue,t1.StandardMaxValue,t2.DGIMN,T_BAS_EarlyWarningSet.ConcenAlarmMaxValue,T_BAS_EarlyWarningSet.FK_AlarmLevelCode
+        FROM
+        T_BAS_GasOutPutPollutantSet t1
+        JOIN T_BAS_UnorganizedMonitorPointInfo t2 ON t1.FK_GasOutPutID =t2.PK_ID
+        JOIN PUB_CODE_PollutantFactor t ON t1.FK_PollutantCode = t.Code AND t.PollutantType =
+        t2.FK_MonitorPointTypeCode AND t.isused = '1'
+        left join
+        T_BAS_EarlyWarningSet on
+        t2.PK_ID =T_BAS_EarlyWarningSet.FK_OutPutID AND T_BAS_EarlyWarningSet.FK_PollutantCode = t1.FK_PollutantCode
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            (tt.StandardMaxValue is NOT null OR tt.ConcenAlarmMaxValue is not null)
+            <if test="monitorpointtypes!=null and monitorpointtypes.size>0 ">
+                and tt.PollutantType in
+                <foreach collection="monitorpointtypes" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="dgimns!=null and dgimns.size>0 ">
+                and tt.DGIMN in
+                <foreach collection="dgimns" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!-- author:xsm description: 获取企业下所有安全类型监测的污染物标准值  date: 2019/07/16 13:20-->
+    <select id="getSecurityPollutantStandardDataByParam" parameterType="map" resultType="map">
+        SELECT DISTINCT tt.*
+        FROM
+        (SELECT pf.Code,pf.Name,'' StandardMaxValue,t1.FK_AlarmLevelCode alarmlevel,t1.AlarmMaxValue,t2.DGIMN,30
+        monitorpointtype FROM
+        PUB_CODE_PollutantFactor pf
+        JOIN T_AQ_StorageTankSet t1 ON t1.FK_PollutantCode = pf.Code AND pf.IsUsed = '1' AND pf.PollutantType = 30
+        JOIN T_AQ_StorageTankInfo t2 ON t1.FK_StorageTankID =t2.PK_ID
+        UNION
+        SELECT pf.Code,pf.Name,t1.StandardMaxValue,t1.FK_AlarmLevelCode
+        alarmlevel,t1.AlarmMaxValue,t2.DGIMN,t2.FK_MonitorPointTypeCode FROM
+        PUB_CODE_PollutantFactor pf
+        JOIN T_AQ_RiskAreaMonitorPointPollutantSet t1 ON t1.FK_PollutantCode = pf.Code AND pf.IsUsed = '1'
+        JOIN T_AQ_RiskAreaMonitorPoint t2 ON t1.FK_RiskAreaMonintID =t2.PK_MonitorPointID AND pf.PollutantType =
+        t2.FK_MonitorPointTypeCode
+        UNION
+        SELECT pf.Code,pf.Name,'' StandardMaxValue,t1.FK_AlarmLevelCode alarmlevel,t1.AlarmMaxValue,t2.DGIMN,57
+        monitorpointtype FROM
+        PUB_CODE_PollutantFactor pf
+        JOIN T_AQ_ProductDevicePollutantSet t1 ON t1.FK_PollutantCode = pf.Code AND pf.IsUsed = '1' AND pf.PollutantType
+        = 57
+        JOIN T_AQ_HazardSourceProductDevice t2 ON t1.FK_ProductDeviceID =t2.PK_ID
+        ) tt
+        <where>
+            tt.DGIMN IS not NULL
+            AND tt.alarmlevel IS not NULL
+            AND tt.AlarmMaxValue IS not NULL
+            <if test="monitorpointtypes!=null and monitorpointtypes.size>0 ">
+                and tt.monitorpointtype in
+                <foreach collection="monitorpointtypes" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="dgimns!=null and dgimns.size>0 ">
+                and tt.DGIMN in
+                <foreach collection="dgimns" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY tt.Code
+    </select>
+
+    <!-- author:xsm description: 获取企业下所有安全类型监测的污染物  date: 2019/07/16 13:20-->
+    <select id="getAllPollutionSecurityPollutants" resultType="map">
+        SELECT DISTINCT PUB_CODE_PollutantFactor.Code,PUB_CODE_PollutantFactor.Name
+        FROM
+        PUB_CODE_PollutantFactor
+        <where>
+            <if test="pollutanttypes!=null and pollutanttypes.size>0 ">
+                and PUB_CODE_PollutantFactor.PollutantType in
+                <foreach collection="pollutanttypes" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            AND PUB_CODE_PollutantFactor.IsUsed = '1'
+        </where>
+        ORDER BY PUB_CODE_PollutantFactor.Code
+    </select>
+</mapper>

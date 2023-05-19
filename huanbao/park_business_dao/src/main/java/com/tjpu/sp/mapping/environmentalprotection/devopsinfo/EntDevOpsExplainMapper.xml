@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.devopsinfo.EntDevOpsExplainMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsExplainVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_MonitorPointID, FK_MonitorPointTypeCode, StartTime, EndTime, UpdateTime,
+    UpdateUser, Remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntDevOpsExplain
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntDevOpsExplain
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsExplainVO">
+    insert into T_BAS_EntDevOpsExplain (PK_ID, FK_MonitorPointID, FK_MonitorPointTypeCode,
+      StartTime, EndTime, UpdateTime, 
+      UpdateUser, Remark)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsExplainVO">
+    insert into T_BAS_EntDevOpsExplain
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointID,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="starttime != null">
+        StartTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsExplainVO">
+    update T_BAS_EntDevOpsExplain
+    <set>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        StartTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsExplainVO">
+    update T_BAS_EntDevOpsExplain
+    set FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--author:xsm description: 根据自定义参数获取设备运维列表信息  param: date: 2019/12/05 10:48 -->
+  <select id="getEntDevOpsExplainsByParamMap" parameterType="map" resultType="map">
+  SELECT
+  T_BAS_EntDevOpsExplain.pk_id,
+  fk_monitorpointid,
+  allpoint.pollutionid,
+  allpoint.pollutionname,
+  allpoint.monitorpointname,
+  T_BAS_EntDevOpsExplain.fk_monitorpointtypecode,
+  convert(varchar(19),T_BAS_EntDevOpsExplain.starttime,120) starttime,
+  convert(varchar(19),T_BAS_EntDevOpsExplain.endtime,120) endtime,
+  remark
+  FROM
+  T_BAS_EntDevOpsExplain
+   JOIN(
+    SELECT entpoint.pollutionid,entpoint.pollutionname,entpoint.monitorpointid,entpoint.monitorpointname,T_BAS_DeviceStatus.dgimn,T_BAS_DeviceStatus.fk_monitorpointtypecode
+    FROM
+    (SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_GASOutPutInfo.OutPutName monitorpointname,
+    T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.DGIMN
+    FROM
+    T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_WaterOutputInfo.OutputName monitorpointname,
+    T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.DGIMN
+    FROM
+    T_BAS_WaterOutputInfo
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_WaterOutputInfo.OutputName outputname,
+    T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.DGIMN
+    FROM
+    T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE T_BAS_WaterOutputInfo.OutPutType =3
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName monitorpointname,
+    T_BAS_UnorganizedMonitorPointInfo.PK_ID monitorpointid,T_BAS_UnorganizedMonitorPointInfo.DGIMN
+    FROM
+    T_BAS_UnorganizedMonitorPointInfo
+    JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+     ) entpoint JOIN T_BAS_DeviceStatus ON entpoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+      ) allpoint ON T_BAS_EntDevOpsExplain.FK_MonitorPointID = allpoint.monitorpointid
+      AND T_BAS_EntDevOpsExplain.FK_MonitorPointTypeCode = allpoint.fk_monitorpointtypecode
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype !=null and monitorpointtype!='' ">
+        and T_BAS_EntDevOpsExplain.fk_monitorpointtypecode = #{monitorpointtype}
+      </if>
+      <if test="monitorpointname != null and monitorpointname!=''">
+        and allpoint.monitorpointname LIKE CONCAT('%',#{monitorpointname},'%')
+      </if>
+      <if test="pollutionid !=null and pollutionid!='' ">
+        and allpoint.pollutionid = #{pollutionid}
+      </if>
+      <if test="starttime!=null and starttime!=''and endtime != null or endtime != '' ">
+      AND T_BAS_EntDevOpsExplain.pk_id NOT in
+      (
+      SELECT T_BAS_EntDevOpsExplain.pk_id
+      FROM
+      T_BAS_EntDevOpsExplain
+      <trim prefix="where" prefixOverrides="AND|OR">
+        and
+        (CONVERT (VARCHAR(20), T_BAS_EntDevOpsExplain.endtime, 120) <![CDATA[<]]> #{starttime}
+        OR
+        CONVERT (VARCHAR(20), T_BAS_EntDevOpsExplain.starttime, 120) > #{endtime}
+        <if test="monitorpointtype !=null and monitorpointtype!='' ">
+          and T_BAS_EntDevOpsExplain.fk_monitorpointtypecode = #{monitorpointtype}
+        </if>
+        )
+      </trim>
+      )
+      </if>
+    </trim>
+    ORDER  BY T_BAS_EntDevOpsExplain.starttime DESC
+  </select>
+
+
+  <!--author:xsm description: 根据自定义参数获取企业运维说明详情信息  param: date: 2021/05/26 13:44 -->
+  <select id="getEntDevOpsExplainDetailByID" parameterType="map" resultType="map">
+    SELECT
+    T_BAS_EntDevOpsExplain.pk_id,
+    fk_monitorpointid,
+    allpoint.pollutionid,
+    allpoint.pollutionname,
+    allpoint.monitorpointname,
+    T_BAS_EntDevOpsExplain.fk_monitorpointtypecode,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.starttime,120) starttime,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.endtime,120) endtime,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.UpdateTime,120) UpdateTime,
+    T_BAS_EntDevOpsExplain.UpdateUser,
+    remark
+    FROM
+    T_BAS_EntDevOpsExplain
+    JOIN(
+    SELECT entpoint.pollutionid,entpoint.pollutionname,entpoint.monitorpointid,entpoint.monitorpointname,T_BAS_DeviceStatus.dgimn,T_BAS_DeviceStatus.fk_monitorpointtypecode
+    FROM
+    (SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_GASOutPutInfo.OutPutName monitorpointname,
+    T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.DGIMN
+    FROM
+    T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_WaterOutputInfo.OutputName monitorpointname,
+    T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.DGIMN
+    FROM
+    T_BAS_WaterOutputInfo
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_WaterOutputInfo.OutputName outputname,
+    T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.DGIMN
+    FROM
+    T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE T_BAS_WaterOutputInfo.OutPutType =3
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName monitorpointname,
+    T_BAS_UnorganizedMonitorPointInfo.PK_ID monitorpointid,T_BAS_UnorganizedMonitorPointInfo.DGIMN
+    FROM
+    T_BAS_UnorganizedMonitorPointInfo
+    JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    ) entpoint JOIN T_BAS_DeviceStatus ON entpoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+    ) allpoint ON T_BAS_EntDevOpsExplain.FK_MonitorPointID = allpoint.monitorpointid
+    AND T_BAS_EntDevOpsExplain.FK_MonitorPointTypeCode = allpoint.fk_monitorpointtypecode
+    where PK_ID = #{pkid}
+  </select>
+
+
+  <!--author:xsm description: 根据自定义参数获取设备运维列表信息  param: date: 2019/12/05 10:48 -->
+  <select id="getEntDevOpsExplainsByTimesAndType" parameterType="map" resultType="map">
+    SELECT
+    fk_monitorpointid monitorpointid,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.starttime,120) starttime,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.endtime,120) endtime,
+    remark
+    FROM
+    T_BAS_EntDevOpsExplain
+    <trim prefix="where" prefixOverrides="AND|OR">
+    <if test="monitorpointtype !=null and monitorpointtype!='' ">
+      and T_BAS_EntDevOpsExplain.fk_monitorpointtypecode = #{monitorpointtype}
+    </if>
+    AND T_BAS_EntDevOpsExplain.pk_id NOT in
+    (
+    SELECT T_BAS_EntDevOpsExplain.pk_id
+    FROM
+    T_BAS_EntDevOpsExplain
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype !=null and monitorpointtype!='' ">
+        and T_BAS_EntDevOpsExplain.fk_monitorpointtypecode = #{monitorpointtype}
+      </if>
+    <if test="starttime!=null and starttime!=''and endtime != null or endtime != '' ">
+    and
+      (CONVERT (VARCHAR(20), T_BAS_EntDevOpsExplain.endtime, 120) <![CDATA[<]]> #{starttime}
+    OR
+    CONVERT (VARCHAR(20), T_BAS_EntDevOpsExplain.starttime, 120) > #{endtime}
+    </if>
+    )
+    </trim>
+    )
+    </trim>
+    ORDER  BY T_BAS_EntDevOpsExplain.starttime
+  </select>
+
+  <!--author:xsm description: 根据自定义参数获取单个点位的企业运维说明信息  param: date: 2019/12/05 10:48 -->
+  <select id="getOnePointEntDevOpsExplainsByParamMap" parameterType="map" resultType="map">
+    SELECT
+    T_BAS_EntDevOpsExplain.pk_id,
+    fk_monitorpointid,
+    allpoint.pollutionid,
+    allpoint.pollutionname,
+    allpoint.monitorpointname,
+    T_BAS_EntDevOpsExplain.fk_monitorpointtypecode,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.starttime,120) starttime,
+    convert(varchar(19),T_BAS_EntDevOpsExplain.endtime,120) endtime,
+    remark
+    FROM
+    T_BAS_EntDevOpsExplain
+    JOIN(
+    SELECT entpoint.pollutionid,entpoint.pollutionname,entpoint.monitorpointid,entpoint.monitorpointname,T_BAS_DeviceStatus.dgimn,T_BAS_DeviceStatus.fk_monitorpointtypecode
+    FROM
+    (SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_GASOutPutInfo.OutPutName monitorpointname,
+    T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.DGIMN
+    FROM
+    T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_WaterOutputInfo.OutputName monitorpointname,
+    T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.DGIMN
+    FROM
+    T_BAS_WaterOutputInfo
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_WaterOutputInfo.OutputName outputname,
+    T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.DGIMN
+    FROM
+    T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE T_BAS_WaterOutputInfo.OutPutType =3
+    UNION ALL
+    SELECT T_BAS_Pollution.PK_PollutionID pollutionid,T_BAS_Pollution.pollutionname,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName monitorpointname,
+    T_BAS_UnorganizedMonitorPointInfo.PK_ID monitorpointid,T_BAS_UnorganizedMonitorPointInfo.DGIMN
+    FROM
+    T_BAS_UnorganizedMonitorPointInfo
+    JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    ) entpoint JOIN T_BAS_DeviceStatus ON entpoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+    ) allpoint ON T_BAS_EntDevOpsExplain.FK_MonitorPointID = allpoint.monitorpointid
+    AND T_BAS_EntDevOpsExplain.FK_MonitorPointTypeCode = allpoint.fk_monitorpointtypecode
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype !=null and monitorpointtype!='' ">
+        and T_BAS_EntDevOpsExplain.fk_monitorpointtypecode = #{monitorpointtype}
+      </if>
+      <if test="monitorpointid !=null and monitorpointid!='' ">
+        and T_BAS_EntDevOpsExplain.fk_monitorpointid = #{monitorpointid}
+      </if>
+      AND T_BAS_EntDevOpsExplain.pk_id NOT in
+      (
+      SELECT T_BAS_EntDevOpsExplain.pk_id
+      FROM
+      T_BAS_EntDevOpsExplain
+      <trim prefix="where" prefixOverrides="AND|OR">
+        <if test="monitorpointtype !=null and monitorpointtype!='' ">
+          and T_BAS_EntDevOpsExplain.fk_monitorpointtypecode = #{monitorpointtype}
+        </if>
+        <if test="monitorpointid !=null and monitorpointid!='' ">
+          and T_BAS_EntDevOpsExplain.fk_monitorpointid = #{monitorpointid}
+        </if>
+        <if test="starttime!=null and starttime!=''and endtime != null or endtime != '' ">
+          and
+          (CONVERT (VARCHAR(20), T_BAS_EntDevOpsExplain.endtime, 120) <![CDATA[<]]> #{starttime}
+          OR
+          CONVERT (VARCHAR(20), T_BAS_EntDevOpsExplain.starttime, 120) > #{endtime}
+        </if>
+        )
+      </trim>
+      )
+    </trim>
+    ORDER  BY T_BAS_EntDevOpsExplain.starttime
+  </select>
+</mapper>

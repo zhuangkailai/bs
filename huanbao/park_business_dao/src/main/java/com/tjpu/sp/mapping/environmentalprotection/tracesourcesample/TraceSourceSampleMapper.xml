@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesourcesample.TraceSourceSampleMapper">
+    <resultMap id="BaseResultMap" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="SampleName" property="samplename" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorpointId" property="fkmonitorpointid" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorPointTypeCode" property="fkmonitorpointtypecode" jdbcType="VARCHAR"/>
+        <result column="SampleTime" property="sampletime" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="FK_PollutionId" property="fkpollutionid" jdbcType="VARCHAR"/>
+        <result column="IsFingerDatabase" property="isfingerdatabase" jdbcType="NUMERIC"/>
+        <result column="CharacterPollutants" property="CharacterPollutantcodes" jdbcType="VARCHAR"/>
+        <association property="CharacterPollutants" javaType="string" column="CharacterPollutants"
+                     select="getCharacterPollutants"/>
+    </resultMap>
+    <resultMap id="ResultListMap" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="SampleName" property="samplename" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorpointId" property="fkmonitorpointid" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorPointTypeCode" property="fkmonitorpointtypecode" jdbcType="VARCHAR"/>
+        <result column="outputname" property="outputname" jdbcType="VARCHAR"/>
+        <result column="PollutionName" property="PollutionName" jdbcType="VARCHAR"/>
+        <result column="ShorterName" property="ShorterName" jdbcType="VARCHAR"/>
+        <result column="SampleTime" property="sampletime" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+        <result column="IsFingerDatabase" property="isfingerdatabase" jdbcType="NUMERIC"/>
+        <result column="FK_PollutionId" property="fkpollutionid" jdbcType="VARCHAR"/>
+        <result column="CharacterPollutants" property="CharacterPollutantcodes" jdbcType="VARCHAR"/>
+        <association property="CharacterPollutants" javaType="string" column="CharacterPollutants"
+                     select="getCharacterPollutants"/>
+        <collection property="Similaritys" ofType="string" javaType="java.util.List">
+            <id column="Similarityid" property="similarityid" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    T_BAS_TraceSourceSample.PK_ID,
+    T_BAS_TraceSourceSample.SampleName,
+    T_BAS_TraceSourceSample.FK_MonitorpointId,
+    convert(varchar(16),T_BAS_TraceSourceSample.SampleTime,120)SampleTime,
+    T_BAS_TraceSourceSample.Longitude,
+    T_BAS_TraceSourceSample.Latitude,
+    T_BAS_TraceSourceSample.Remark,
+    T_BAS_TraceSourceSample.FK_MonitorPointTypeCode,
+    T_BAS_TraceSourceSample.UpdateUser,
+    T_BAS_TraceSourceSample.IsFingerDatabase,
+    T_BAS_TraceSourceSample.FK_PollutionId,
+    T_BAS_TraceSourceSample.CharacterPollutants,
+    convert(varchar(19),T_BAS_TraceSourceSample.UpdateTime,120)UpdateTime
+  </sql>
+    <select id="getCharacterPollutants" parameterType="string" resultType="string">
+        <if test="_parameter!=null and _parameter!=''">
+            SELECT
+            pollutants = stuff((
+            SELECT
+            ',' + name
+            FROM
+            PUB_CODE_PollutantFactor
+            WHERE
+            pollutanttype = 58
+            and code in
+            <foreach collection="_parameter.split(',')" separator="," open="(" close=")" item="item">
+                #{item}
+            </foreach>
+            order by name
+            FOR xml path ( '' )),
+            1,
+            1,
+            '')
+        </if>
+
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from (
+        select
+        case when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode = 9 then T_BAS_OtherMonitorPoint.MonitorPointName
+        when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode = 40 then
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.OutputName
+        when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (2,22) then T_BAS_GASOutPutInfo.OutputName
+        when T_BAS_TraceSourceSample.FK_MonitorpointId is null then SampleName
+        else '' end outputname,
+        PUB_CODE_MonitorPointType.name fkmonitorpointtypename,
+        T_BAS_Pollution.PollutionName,
+        T_BAS_Pollution.ShorterName,
+        <include refid="Base_Column_List"/>
+        from T_BAS_TraceSourceSample
+        left join T_BAS_OtherMonitorPoint on
+        T_BAS_TraceSourceSample.FK_MonitorpointId=T_BAS_OtherMonitorPoint.PK_MonitorPointID and
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode=T_BAS_TraceSourceSample.FK_MonitorPointTypeCode
+        left join T_BAS_UnorganizedMonitorPointInfo on
+        T_BAS_TraceSourceSample.FK_MonitorpointId=T_BAS_UnorganizedMonitorPointInfo.PK_ID and
+        T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode=T_BAS_TraceSourceSample.FK_MonitorPointTypeCode
+        left join T_BAS_WaterOutputInfo on T_BAS_WaterOutputInfo.PK_ID=T_BAS_TraceSourceSample.FK_MonitorpointId and
+        T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (1,37)
+        left join T_BAS_GASOutPutInfo on T_BAS_GASOutPutInfo.PK_ID=T_BAS_TraceSourceSample.FK_MonitorpointId and
+        T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode in (2,22)
+        left join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_TraceSourceSample.FK_PollutionId
+        left join PUB_CODE_MonitorPointType on
+        T_BAS_TraceSourceSample.FK_MonitorPointTypeCode=PUB_CODE_MonitorPointType.code
+        )t
+        where PK_ID = #{pkid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TraceSourceSample
+    where PK_ID = #{pkid}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesourcesample.TraceSourceSampleVO">
+    insert into T_BAS_TraceSourceSample
+    (PK_ID,
+    SampleName,
+    FK_MonitorpointId,
+    FK_MonitorPointTypeCode,
+    SampleTime,
+    Longitude,
+    Latitude,
+    Remark,
+    UpdateUser,
+    FK_PollutionId,
+    IsFingerDatabase,
+    CharacterPollutants,
+    UpdateTime
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{samplename,jdbcType=VARCHAR},
+    #{fkmonitorpointid,jdbcType=VARCHAR},
+    #{fkmonitorpointtypecode,jdbcType=VARCHAR},
+    #{sampletime,jdbcType=VARCHAR},
+    #{longitude,jdbcType=DOUBLE},
+    #{latitude,jdbcType=DOUBLE},
+    #{remark,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR},
+    #{fkpollutionid,jdbcType=VARCHAR},
+    #{isfingerdatabase,jdbcType=NUMERIC},
+    #{characterpollutants,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.tracesourcesample.TraceSourceSampleVO">
+    update T_BAS_TraceSourceSample
+    set
+    SampleName=#{samplename,jdbcType=VARCHAR},
+    FK_MonitorpointId=#{fkmonitorpointid,jdbcType=VARCHAR},
+    FK_MonitorPointTypeCode=#{fkmonitorpointtypecode,jdbcType=VARCHAR},
+    SampleTime=#{sampletime,jdbcType=VARCHAR},
+    Longitude=#{longitude,jdbcType=DOUBLE},
+    Latitude=#{latitude,jdbcType=DOUBLE},
+    Remark=#{remark,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    FK_PollutionId=#{fkpollutionid,jdbcType=VARCHAR},
+    CharacterPollutants=#{characterpollutants,jdbcType=VARCHAR},
+    IsFingerDatabase=#{isfingerdatabase,jdbcType=NUMERIC},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+    <!--
+       author:chengzq
+       description: 通过自定义参数获取溯源样品信息
+       param:
+       date: 2020/10/21 18:05
+   -->
+    <select id="getTraceSourceSampleByParamMap" parameterType="map" resultMap="ResultListMap">
+        select * from (
+        select
+        case when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode = 9 then T_BAS_OtherMonitorPoint.MonitorPointName
+        when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (38,40) then
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.OutputName
+        when T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (2,22) then T_BAS_GASOutPutInfo.OutputName
+        when T_BAS_TraceSourceSample.FK_MonitorpointId is null then SampleName
+        else '' end outputname,
+        T_BAS_Pollution.PollutionName,
+        PUB_CODE_MonitorPointType.name fkmonitorpointtypename,
+        T_BAS_Pollution.ShorterName,
+        T_BAS_TraceSampleSimilarity.PK_ID Similarityid,
+        <include refid="Base_Column_List"/>
+        from T_BAS_TraceSourceSample
+        left join T_BAS_OtherMonitorPoint on
+        T_BAS_TraceSourceSample.FK_MonitorpointId=T_BAS_OtherMonitorPoint.PK_MonitorPointID and
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode=T_BAS_TraceSourceSample.FK_MonitorPointTypeCode
+        left join T_BAS_UnorganizedMonitorPointInfo on
+        T_BAS_TraceSourceSample.FK_MonitorpointId=T_BAS_UnorganizedMonitorPointInfo.PK_ID and
+        T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode=T_BAS_TraceSourceSample.FK_MonitorPointTypeCode
+        left join T_BAS_WaterOutputInfo on T_BAS_WaterOutputInfo.PK_ID=T_BAS_TraceSourceSample.FK_MonitorpointId and
+        T_BAS_TraceSourceSample.FK_MonitorPointTypeCode in (1,37)
+        left join T_BAS_GASOutPutInfo on T_BAS_GASOutPutInfo.PK_ID=T_BAS_TraceSourceSample.FK_MonitorpointId and
+        T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode in (2,22)
+        left join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_TraceSourceSample.FK_PollutionId
+        left join PUB_CODE_MonitorPointType on
+        T_BAS_TraceSourceSample.FK_MonitorPointTypeCode=PUB_CODE_MonitorPointType.code
+        left join T_BAS_TraceSampleSimilarity on
+        T_BAS_TraceSampleSimilarity.FK_TraceSampleId=T_BAS_TraceSourceSample.PK_ID and
+        (T_BAS_TraceSourceSample.IsFingerDatabase !=1 or T_BAS_TraceSourceSample.IsFingerDatabase is null)
+        )t
+        <where>
+            <if test="pkid!=null and pkid!='' ">
+                AND t.PK_ID = #{pkid}
+            </if>
+            <choose>
+                <when test="isfingerdatabase!=null and isfingerdatabase!='' ">
+                    AND t.isfingerdatabase = #{isfingerdatabase}
+                </when>
+                <otherwise>
+                    AND (t.isfingerdatabase != 1 or t.isfingerdatabase is null)
+                </otherwise>
+            </choose>
+            <if test="pollutionname!=null and pollutionname != ''">
+                AND pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="samplename!=null and samplename != ''">
+                AND SampleName like concat('%',#{samplename},'%')
+            </if>
+            <if test="monitorpointname!=null and monitorpointname != ''">
+                AND (outputname like concat('%',#{monitorpointname},'%') or SampleName like
+                concat('%',#{monitorpointname},'%'))
+            </if>
+            <if test="starttime != null and starttime !=''">
+                AND CONVERT (VARCHAR (16),SampleTime,120) >= CONVERT (VARCHAR (16),#{starttime},120)
+            </if>
+            <if test="endtime != null and endtime !=''">
+                AND CONVERT (VARCHAR (16),SampleTime,120) <![CDATA[<=]]> CONVERT (VARCHAR (16),#{endtime},120)
+            </if>
+            <if test="ishistory!=null and ishistory">
+                and t.pk_id in(
+                SELECT
+                T_BAS_TraceSourceSample.pk_id
+                FROM
+                T_BAS_TraceSourceSample
+                JOIN ( SELECT FK_MonitorpointId, FK_MonitorPointTypeCode, MAX ( SampleTime ) SampleTime FROM
+                T_BAS_TraceSourceSample GROUP BY FK_MonitorpointId, FK_MonitorPointTypeCode ) t ON
+                T_BAS_TraceSourceSample.FK_MonitorpointId= t.FK_MonitorpointId
+                AND T_BAS_TraceSourceSample.FK_MonitorPointTypeCode= t.FK_MonitorPointTypeCode
+                AND T_BAS_TraceSourceSample.SampleTime= t.SampleTime
+                )
+            </if>
+        </where>
+        order by SampleTime desc,PollutionName,concat(outputname,SampleName)
+    </select>
+
+
+</mapper>

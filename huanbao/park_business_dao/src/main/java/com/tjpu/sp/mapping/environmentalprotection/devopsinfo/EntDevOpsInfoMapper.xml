@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.devopsinfo.EntDevOpsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_MonitorPointId" jdbcType="VARCHAR" property="fkMonitorpointid" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+    <result column="DevOpsUnit" jdbcType="VARCHAR" property="devopsunit" />
+    <result column="DevOpsPeople" jdbcType="VARCHAR" property="devopspeople" />
+    <result column="Telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="DevOpsStartDate" jdbcType="TIMESTAMP" property="devopsstartdate" />
+    <result column="DevOpsEndDate" jdbcType="TIMESTAMP" property="devopsenddate" />
+    <result column="WeekPatrol" jdbcType="NUMERIC" property="weekpatrol" />
+    <result column="MonthPatrol" jdbcType="NUMERIC" property="monthpatrol" />
+    <result column="TwoMonthPatrol" jdbcType="NUMERIC" property="twomonthpatrol" />
+    <result column="QuarterPatrol" jdbcType="NUMERIC" property="quarterpatrol" />
+    <result column="HalfYearPatrol" jdbcType="NUMERIC" property="halfyearpatrol" />
+    <result column="YearPatrol" jdbcType="NUMERIC" property="yearpatrol" />
+  </resultMap>
+  <resultMap id="PollutionAndOutputMap" type="map">
+    <id column="PK_PollutionID" jdbcType="VARCHAR" property="PK_PollutionID" />
+    <result column="pollutionname" jdbcType="VARCHAR" property="pollutionname" />
+    <result column="shortername" jdbcType="VARCHAR" property="shortername" />
+    <collection property="monitorpointtypes" javaType="java.util.Set" ofType="map">
+      <id column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode" />
+      <result column="DevOpsUnit" jdbcType="VARCHAR" property="devopsunit" />
+      <result column="DevOpsPeople" jdbcType="VARCHAR" property="devopspeople" />
+      <result column="Telephone" jdbcType="VARCHAR" property="telephone" />
+      <collection property="outputinfos" ofType="map" javaType="java.util.Set">
+        <id column="outputid" jdbcType="VARCHAR" property="outputid" />
+        <result column="outputname" jdbcType="VARCHAR" property="outputname" />
+        <result column="DGIMN" jdbcType="VARCHAR" property="DGIMN" />
+      </collection>
+    </collection>
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FK_MonitorPointId, FK_MonitorPointTypeCode, DevOpsUnit, DevOpsPeople, 
+    Telephone, UpdateTime, UpdateUser,DevOpsStartDate,DevOpsEndDate,WeekPatrol,MonthPatrol,TwoMonthPatrol,
+    QuarterPatrol,HalfYearPatrol,YearPatrol
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntDevOpsInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getEntDevOpsInfoVOByParam" parameterType="map" resultMap="BaseResultMap">
+    select
+    PK_ID, FK_PollutionID, FK_MonitorPointId, FK_MonitorPointTypeCode, DevOpsUnit, DevOpsPeople,
+    Telephone, UpdateTime, UpdateUser
+    from T_BAS_EntDevOpsInfo
+    where FK_MonitorPointTypeCode = #{monitorpointtype}
+    <if test="monitorpointtype=='1'.toString()
+                or monitorpointtype=='2'.toString()
+                or monitorpointtype=='22'.toString()
+                or monitorpointtype=='37'.toString()
+                or monitorpointtype=='40'.toString()">
+      AND FK_PollutionID = #{id}
+    </if>
+    <if test="monitorpointtype=='5'.toString()
+                or monitorpointtype=='6'.toString()
+                or monitorpointtype=='9'.toString()
+                or monitorpointtype=='10'.toString()">
+      AND FK_MonitorPointId = #{id}
+    </if>
+  </select>
+
+  <delete id="deleteEntDevOpsInfoByTypeAndPollutionids" parameterType="map">
+    delete from T_BAS_EntDevOpsInfo
+    where FK_MonitorPointTypeCode = #{monitorpointtype,jdbcType=VARCHAR}
+    <if test="pollutions!=null and pollutions.size>0">
+      and T_BAS_EntDevOpsInfo.FK_PollutionID in
+      <foreach collection="pollutions" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+
+
+  <delete id="deleteEntDevOpsInfoByUnitID" parameterType="java.lang.String">
+    delete from T_BAS_DevicePersonnelRecord
+    where T_BAS_DevicePersonnelRecord.FK_EntDevOpsID IN
+    (SELECT
+    T_BAS_EntDevOpsInfo.PK_ID
+    FROM
+    T_BAS_EntDevOpsInfo
+    WHERE  T_BAS_EntDevOpsInfo.DevOpsUnit = #{devopsunit,jdbcType=VARCHAR}
+    )
+    delete from T_BAS_EntDevOpsInfo
+    where DevOpsUnit = #{devopsunit,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntDevOpsInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsInfoVO">
+    insert into T_BAS_EntDevOpsInfo (PK_ID, FK_PollutionID, FK_MonitorPointId, 
+      FK_MonitorPointTypeCode, DevOpsUnit, DevOpsPeople,
+      Telephone, UpdateTime, UpdateUser,DevOpsStartDate,DevOpsEndDate,
+      WeekPatrol,MonthPatrol,TwoMonthPatrol,QuarterPatrol,HalfYearPatrol,YearPatrol
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, 
+      #{fkMonitorpointtypecode,jdbcType=VARCHAR}, #{devopsunit,jdbcType=VARCHAR}, #{devopspeople,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+       #{devopsstartdate,jdbcType=TIMESTAMP}, #{devopsenddate,jdbcType=TIMESTAMP},#{weekpatrol,jdbcType=NUMERIC},
+       #{monthpatrol,jdbcType=NUMERIC},#{twomonthpatrol,jdbcType=NUMERIC},#{quarterpatrol,jdbcType=NUMERIC},
+       #{halfyearpatrol,jdbcType=NUMERIC},#{yearpatrol,jdbcType=NUMERIC}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsInfoVO">
+    insert into T_BAS_EntDevOpsInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointId,
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="devopsunit != null">
+        DevOpsUnit,
+      </if>
+      <if test="devopspeople != null">
+        DevOpsPeople,
+      </if>
+      <if test="telephone != null">
+        Telephone,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="devopsstartdate != null">
+        DevOpsStartDate,
+      </if>
+      <if test="devopsenddate != null">
+        DevOpsEndDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="devopsunit != null">
+        #{devopsunit,jdbcType=VARCHAR},
+      </if>
+      <if test="devopspeople != null">
+        #{devopspeople,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="devopsstartdate != null">
+        #{devopsstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devopsenddate != null">
+        #{devopsenddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsInfoVO">
+    update T_BAS_EntDevOpsInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="devopsunit != null">
+        DevOpsUnit = #{devopsunit,jdbcType=VARCHAR},
+      </if>
+      <if test="devopspeople != null">
+        DevOpsPeople = #{devopspeople,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        Telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="devopsstartdate != null">
+        DevOpsStartDate = #{devopsstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devopsenddate != null">
+        DevOpsEndDate = #{devopsenddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.EntDevOpsInfoVO">
+    update T_BAS_EntDevOpsInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointId = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      DevOpsUnit = #{devopsunit,jdbcType=VARCHAR},
+      DevOpsPeople = #{devopspeople,jdbcType=VARCHAR},
+      Telephone = #{telephone,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      DevOpsStartDate = #{devopsstartdate,jdbcType=TIMESTAMP},
+      DevOpsEndDate = #{devopsenddate,jdbcType=TIMESTAMP},
+      WeekPatrol = #{weekpatrol,jdbcType=NUMERIC},
+      MonthPatrol = #{monthpatrol,jdbcType=NUMERIC},
+      TwoMonthPatrol = #{twomonthpatrol,jdbcType=NUMERIC},
+      QuarterPatrol = #{quarterpatrol,jdbcType=NUMERIC},
+      HalfYearPatrol = #{halfyearpatrol,jdbcType=NUMERIC},
+      YearPatrol = #{yearpatrol,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+    * @author: xsm
+    * @date: 2019/12/03 0003 下午 2:16
+    * @Description: 根据自定义参数获取企业运维列表信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <select id="getEntDevOpsInfosByParamMap" parameterType="map" resultType="java.util.Map">
+    SELECT
+    t.PK_ID pkid,
+    allpoint.pollutionid fkpollutionid,
+    p.pollutionname,
+    p.shortername,
+    allpoint.monitorpointid fkmonitorpointid,
+    allpoint.monitorpointname,
+    allpoint.DGIMN,
+    allpoint.FK_MonitorPointTypeCode fkmonitorpointtypecode,
+    t2.Name monitorpointtypename,
+    t.devopsunit,
+    t1.unitname,
+    t.WeekPatrol,
+    t.MonthPatrol,
+    t.TwoMonthPatrol,
+    t.QuarterPatrol,
+    t.HalfYearPatrol,
+    t.YearPatrol,
+    CASE  WHEN  t.WeekPatrol =1 THEN '启用' ELSE '关闭' END weekpatrolname,
+    CASE  WHEN  t.MonthPatrol =1 THEN '启用' ELSE '关闭' END monthpatrolname,
+    CASE  WHEN  t.TwoMonthPatrol =1 THEN '启用' ELSE '关闭' END twomonthpatrolname,
+    CASE  WHEN  t.QuarterPatrol =1 THEN '启用' ELSE '关闭' END quarterpatrolname,
+    CASE  WHEN  t.HalfYearPatrol =1 THEN '启用' ELSE '关闭' END halfyearpatrolname,
+    CASE  WHEN  t.YearPatrol =1 THEN '启用' ELSE '关闭' END yearpatrolname,
+    CONVERT (VARCHAR(10), t.DevOpsStartDate, 120) devopsstartdate,
+    CONVERT (VARCHAR(10), t.DevOpsEndDate, 120) devopsenddate,
+    CASE  WHEN  t.DevOpsEndDate IS NOT NULL THEN  (CASE  WHEN (CONVERT (VARCHAR(10), getdate(), 120)<![CDATA[<=]]> CONVERT(VARCHAR(10), t.DevOpsEndDate, 120))
+    THEN datediff(d,CONVERT (VARCHAR(10), getdate(), 120),CONVERT (VARCHAR(10), t.DevOpsEndDate, 120)) ELSE -1 END)  ELSE null END dueday
+    FROM
+   (
+    SELECT
+    *
+    FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_MonitorPointId ORDER BY DevOpsEndDate DESC) rn FROM
+    T_BAS_EntDevOpsInfo) tt
+    WHERE
+    tt.rn = 1 and tt.DevOpsEndDate IS not null
+    ) t
+    LEFT JOIN T_BAS_DevOpsUnitInfo t1 ON  t.devopsunit = t1.PK_DevOpsUnitID
+    RIGHT JOIN (
+    SELECT
+    T_BAS_GASOutPutInfo.FK_PollutionID pollutionid,T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.Status
+    FROM T_BAS_GASOutPutInfo
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.FK_PollutionID pollutionid,T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.FK_PollutionID pollutionid,T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE T_BAS_WaterOutputInfo.OutPutType = 3
+    UNION
+    SELECT '' pollutionid,T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.monitorpointname,T_BAS_AirMonitorStation.Status
+    FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT '' pollutionid,T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,T_BAS_WaterStationInfo.monitorpointname,
+    T_BAS_WaterStationInfo.Status
+    FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT '' pollutionid,T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+    T_BAS_OtherMonitorPoint.Status
+    FROM T_BAS_OtherMonitorPoint
+    ) allpoint ON t.FK_MonitorPointTypeCode = allpoint.FK_MonitorPointTypeCode AND t.FK_MonitorPointId = allpoint.monitorpointid
+    LEFT JOIN T_BAS_Pollution p ON allpoint.pollutionid = p.PK_PollutionID
+    LEFT JOIN PUB_CODE_MonitorPointType t2 ON allpoint.FK_MonitorPointTypeCode = t2.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="devopsunit != null and devopsunit != '' ">
+        and t.devopsunit=#{devopsunit}
+      </if>
+      <if test="monitorpointid != null and monitorpointid != '' ">
+        and allpoint.monitorpointid=#{monitorpointid}
+      </if>
+      <if test="monitorpointtypecode != null and monitorpointtypecode != '' ">
+        and allpoint.FK_MonitorPointTypeCode=#{monitorpointtypecode}
+      </if>
+      <if test="pollutionid != null and pollutionid != '' ">
+        and allpoint.pollutionid = #{pollutionid}
+      </if>
+      <if test="pollutionname != null and pollutionname != '' ">
+        and p.pollutionname like concat('%', #{pollutionname},'%')
+      </if>
+      <if test="monitorpointname != null and monitorpointname != '' ">
+        and   (p.shortername +'-'+allpoint.monitorpointname)  like concat('%', #{monitorpointname},'%')
+      </if>
+      <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+        and allpoint.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by t.DevOpsStartDate desc,p.pollutionname,allpoint.monitorpointname
+
+  </select>
+
+
+
+  <select id="getEntDevOpsDataByParamMap" parameterType="map" resultType="java.util.Map">
+    SELECT
+      t1.DevOpsUnit,
+      t1.Telephone,
+      stuff(
+      (
+      SELECT
+      '、' + Base_UserInfo.User_Name
+      FROM
+      Base_UserInfo
+      WHERE
+      charindex(
+      ',' + Base_UserInfo.User_ID + ',',
+      ',' + t1.DevOpsPeople + ','
+      ) > 0
+      ORDER BY
+      Base_UserInfo.User_Name FOR xml path ('')
+      ),
+      1,
+      1,
+      ''
+      ) AS usernames,
+    t1.FK_PollutionID as pollutionid,
+    t1.FK_MonitorPointId as monitorpointid,
+    t1.FK_MonitorPointTypeCode as monitorpointtypecode
+    FROM
+      T_BAS_EntDevOpsInfo t1
+    <trim prefix="where" prefixOverrides="AND|OR">
+
+      <if test="pollutionIds!=null and pollutionIds.size>0">
+        or t1.FK_PollutionID in
+        <foreach collection="pollutionIds" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+      <if test="monitorpointIds!=null and monitorpointIds.size>0">
+        or t1.FK_MonitorPointId in
+        <foreach collection="monitorpointIds" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+
+      <if test="monitorpointtypecodes!=null and monitorpointtypecodes.size>0">
+        and t1.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypecodes" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+
+
+    </trim>
+  </select>
+
+  <!--
+    * @author: xsm
+    * @date: 2019/12/03 0003 下午 4:27
+    * @Description: 批量插入企业运维信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_EntDevOpsInfo (PK_ID, FK_PollutionID, FK_MonitorPointId,
+    FK_MonitorPointTypeCode, DevOpsUnit, DevOpsPeople,
+    Telephone, UpdateTime, UpdateUser,DevOpsStartDate,DevOpsEndDate,
+    WeekPatrol,MonthPatrol,TwoMonthPatrol,QuarterPatrol,HalfYearPatrol,YearPatrol
+    )
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR}, #{item.fkMonitorpointid,jdbcType=VARCHAR},
+      #{item.fkMonitorpointtypecode,jdbcType=VARCHAR}, #{item.devopsunit,jdbcType=VARCHAR}, #{item.devopspeople,jdbcType=VARCHAR},
+      #{item.telephone,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP}, #{item.updateuser,jdbcType=VARCHAR},
+      #{item.devopsstartdate,jdbcType=TIMESTAMP}, #{item.devopsenddate,jdbcType=TIMESTAMP},#{item.weekpatrol,jdbcType=NUMERIC},
+      #{item.monthpatrol,jdbcType=NUMERIC},#{item.twomonthpatrol,jdbcType=NUMERIC},#{item.quarterpatrol,jdbcType=NUMERIC},
+      #{item.halfyearpatrol,jdbcType=NUMERIC},#{item.yearpatrol,jdbcType=NUMERIC}
+      )
+    </foreach>
+  </insert>
+
+
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取企业运维信息和排口信息
+      param:
+      date: 2019/12/11 11:39
+  -->
+  <select id="getPollutionAndOutputInfoByParamMap" parameterType="map" resultMap="PollutionAndOutputMap">
+    SELECT
+    *
+    FROM
+    (
+    SELECT
+    T_BAS_EntDevOpsInfo.PK_ID,
+    DevOpsUnit,
+    DevOpsPeople,
+    Telephone,
+    pollutionname,
+    shortername,
+    PK_PollutionID,
+    outputname,
+    T_BAS_WaterOutputInfo.PK_ID outputid,
+    DGIMN,
+    1 FK_MonitorPointTypeCode
+    FROM
+    T_BAS_Pollution
+    JOIN T_BAS_WaterOutputInfo ON T_BAS_Pollution.PK_PollutionID= T_BAS_WaterOutputInfo.FK_Pollutionid
+    AND ( T_BAS_WaterOutputInfo.OutPutType= 1 OR T_BAS_WaterOutputInfo.outputtype IS NULL )
+    LEFT JOIN T_BAS_EntDevOpsInfo ON T_BAS_EntDevOpsInfo.FK_Pollutionid= T_BAS_Pollution.PK_PollutionID
+    AND T_BAS_EntDevOpsInfo.FK_MonitorPointTypeCode= 1
+    UNION
+    SELECT
+    T_BAS_EntDevOpsInfo.PK_ID,
+    DevOpsUnit,
+    DevOpsPeople,
+    Telephone,
+    pollutionname,
+    shortername,
+    PK_PollutionID,
+    outputname,
+    T_BAS_WaterOutputInfo.PK_ID outputid,
+    DGIMN,
+    37 FK_MonitorPointTypeCode
+    FROM
+    T_BAS_Pollution
+    JOIN T_BAS_WaterOutputInfo ON T_BAS_Pollution.PK_PollutionID= T_BAS_WaterOutputInfo.FK_Pollutionid
+    AND T_BAS_WaterOutputInfo.OutPutType= 3
+    LEFT JOIN T_BAS_EntDevOpsInfo ON T_BAS_EntDevOpsInfo.FK_Pollutionid= T_BAS_Pollution.PK_PollutionID
+    AND T_BAS_EntDevOpsInfo.FK_MonitorPointTypeCode= 37 UNION
+    SELECT
+    T_BAS_EntDevOpsInfo.PK_ID,
+    DevOpsUnit,
+    DevOpsPeople,
+    Telephone,
+    pollutionname,
+    shortername,
+    PK_PollutionID,
+    outputname,
+    T_BAS_GASOutPutInfo.PK_ID outputid,
+    DGIMN,
+    2 FK_MonitorPointTypeCode
+    FROM
+    T_BAS_Pollution
+    JOIN T_BAS_GASOutPutInfo ON T_BAS_Pollution.PK_PollutionID= T_BAS_GASOutPutInfo.FK_Pollutionid
+    LEFT JOIN T_BAS_EntDevOpsInfo ON T_BAS_EntDevOpsInfo.FK_Pollutionid= T_BAS_Pollution.PK_PollutionID
+    AND T_BAS_EntDevOpsInfo.FK_MonitorPointTypeCode= 2
+    UNION
+    SELECT
+    T_BAS_EntDevOpsInfo.PK_ID,
+    DevOpsUnit,
+    DevOpsPeople,
+    Telephone,
+    pollutionname,
+    shortername,
+    PK_PollutionID,
+    T_BAS_UnorganizedMonitorPointInfo.MonitorPointName outputname,
+    T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,
+    DGIMN,
+    T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode
+    FROM
+    T_BAS_Pollution
+    JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_Pollution.PK_PollutionID= T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+    LEFT JOIN T_BAS_EntDevOpsInfo ON T_BAS_EntDevOpsInfo.FK_PollutionID= T_BAS_Pollution.PK_PollutionID
+    AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = T_BAS_EntDevOpsInfo.FK_MonitorPointTypeCode
+    AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode IN ( 40, 41 )
+    )t
+    <where>
+      <if test="monitorpointtypes!=null and monitorpointtypes.size>0">
+        and t.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+      <if test="pollutionid != null and pollutionid != '' ">
+        and t.PK_PollutionID=#{pollutionid}
+      </if>
+    </where>
+  </select>
+
+
+  <!-- 统计运维单位正在运维的运维点个数数量    author:xsm   date:2022-04-01 09:11  -->
+  <select id="countDevOpsPointNumGropuByUnitByParam" parameterType="map" resultType="map">
+    SELECT
+    count(t.FK_MonitorPointId) num,t.DevOpsUnit fkdevopsunitid
+    FROM
+    T_BAS_EntDevOpsInfo t
+    JOIN  T_BAS_DevOpsUnitInfo t1 ON t.DevOpsUnit = t1.PK_DevOpsUnitID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      (CONVERT (VARCHAR(10), getdate(), 120) >= CONVERT (VARCHAR (10),t.DevOpsStartDate,120)
+      AND CONVERT (VARCHAR(10), getdate(), 120) <![CDATA[<=]]> CONVERT (VARCHAR (10),t.DevOpsEndDate,120))
+      <if test="unitids != null and unitids.size>0 ">
+        and t.DevOpsUnit in
+        <foreach item="item" index="index" collection="unitids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    group by t.DevOpsUnit
+  </select>
+
+
+  <!-- 统计运维人员正在运维的运维点个数数量    author:xsm   date:2022-04-01 09:11  -->
+  <select id="countDevOpsPointNumGropuByPersonnelByParam" parameterType="map" resultType="map">
+    SELECT
+    count(t.FK_MonitorPointId) num,t1.FK_PersonnelID fkpersonnelid
+    FROM
+    T_BAS_EntDevOpsInfo t
+    JOIN  T_BAS_DevicePersonnelRecord t1 ON t.PK_ID = t1.FK_EntDevOpsID
+    JOIN  T_BAS_DevOpsPersonnel t2 ON  t1.FK_PersonnelID = t2.PK_PersonnelID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      (CONVERT (VARCHAR(10), getdate(), 120) >= CONVERT (VARCHAR (10),t.DevOpsStartDate,120)
+      AND CONVERT (VARCHAR(10), getdate(), 120) <![CDATA[<=]]> CONVERT (VARCHAR (10),t.DevOpsEndDate,120))
+      <if test="personnelids != null and personnelids.size>0 ">
+        and t1.FK_PersonnelID in
+        <foreach item="item" index="index" collection="personnelids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    group by t1.FK_PersonnelID
+  </select>
+
+
+  <!--
+    * @author: xsm
+    * @date: 2022/04/01 0001 上午 9:25
+    * @Description: 根据自定义参数获取最新的运维点位信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <select id="getEntDevOpsInfoListDataByParamMap" parameterType="map" resultType="java.util.Map">
+    SELECT
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    p.pollutionname,
+    t.FK_MonitorPointId fkmonitorpointid,
+    allpoint.monitorpointname,
+    allpoint.DGIMN,
+    CASE  allpoint.Status WHEN 0 THEN '停用' WHEN  1 THEN '启用' END status,
+    t.FK_MonitorPointTypeCode fkmonitorpointtypecode,
+    t2.Name monitorpointtypename,
+    t.devopsunit,
+    t1.unitname,
+    CONVERT (VARCHAR(10), t.DevOpsStartDate, 120) devopsstartdate,
+    CONVERT (VARCHAR(10), t.DevOpsEndDate, 120) devopsenddate,
+    t.WeekPatrol,
+    t.MonthPatrol,
+    t.TwoMonthPatrol,
+    t.QuarterPatrol,
+    t.HalfYearPatrol,
+    t.YearPatrol,
+    CASE  WHEN  t.WeekPatrol =1 THEN '启用' ELSE '关闭' END weekpatrolname,
+    CASE  WHEN  t.MonthPatrol =1 THEN '启用' ELSE '关闭' END monthpatrolname,
+    CASE  WHEN  t.TwoMonthPatrol =1 THEN '启用' ELSE '关闭' END twomonthpatrolname,
+    CASE  WHEN  t.QuarterPatrol =1 THEN '启用' ELSE '关闭' END quarterpatrolname,
+    CASE  WHEN  t.HalfYearPatrol =1 THEN '启用' ELSE '关闭' END halfyearpatrolname,
+    CASE  WHEN  t.YearPatrol =1 THEN '启用' ELSE '关闭' END yearpatrolname,
+    CASE  WHEN (CONVERT (VARCHAR(10), getdate(), 120)<![CDATA[<=]]> CONVERT(VARCHAR(10), t.DevOpsEndDate, 120))
+    THEN datediff(d,CONVERT (VARCHAR(10), getdate(), 120),CONVERT (VARCHAR(10), t.DevOpsEndDate, 120)) ELSE -1 END dueday
+
+    FROM
+    (
+    SELECT
+    *
+    FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_MonitorPointId ORDER BY DevOpsEndDate DESC) rn FROM
+    T_BAS_EntDevOpsInfo) tt
+    WHERE
+    tt.rn = 1 and tt.DevOpsEndDate IS not null
+    ) t
+    JOIN T_BAS_DevOpsUnitInfo t1 ON  t.devopsunit = t1.PK_DevOpsUnitID
+    LEFT JOIN T_BAS_Pollution p ON t.FK_PollutionID = p.PK_PollutionID
+    JOIN (
+    SELECT
+    T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.Status
+    FROM T_BAS_GASOutPutInfo
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE T_BAS_WaterOutputInfo.OutPutType = 3
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.monitorpointname,T_BAS_AirMonitorStation.Status
+    FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,T_BAS_WaterStationInfo.monitorpointname,
+    T_BAS_WaterStationInfo.Status
+    FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+    T_BAS_OtherMonitorPoint.Status
+    FROM T_BAS_OtherMonitorPoint
+    ) allpoint ON t.FK_MonitorPointTypeCode = allpoint.FK_MonitorPointTypeCode AND t.FK_MonitorPointId = allpoint.monitorpointid
+    LEFT JOIN PUB_CODE_MonitorPointType t2 ON t.FK_MonitorPointTypeCode = t2.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="devopsunit != null and devopsunit != '' ">
+        and t.devopsunit=#{devopsunit}
+      </if>
+      <if test="monitorpointid != null and monitorpointid != '' ">
+        and t.FK_MonitorPointId=#{monitorpointid}
+      </if>
+      <if test="monitorpointtypecode != null and monitorpointtypecode != '' ">
+        and t.FK_MonitorPointTypeCode=#{monitorpointtypecode}
+      </if>
+      <if test="pollutionname != null and pollutionname != '' ">
+        and p.pollutionname like concat('%', #{pollutionname},'%')
+      </if>
+      <if test="monitorpointname != null and monitorpointname != '' ">
+        and allpoint.monitorpointname  like concat('%', #{monitorpointname},'%')
+      </if>
+      <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+        and t.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by p.pollutionname,allpoint.monitorpointname
+</select>
+
+
+  <!-- 统计运维点关联的人员数量    author:xsm   date:2022-04-01 09:50  -->
+  <select id="countDevOpsPersonnelNumDataByParam" parameterType="map" resultType="map">
+    SELECT
+    count(t2.PK_PersonnelID) num,t.PK_ID pkid
+    FROM
+    T_BAS_EntDevOpsInfo t
+    JOIN  T_BAS_DevicePersonnelRecord t1 ON t.PK_ID = t1.FK_EntDevOpsID
+    JOIN  T_BAS_DevOpsPersonnel t2 ON  t1.FK_PersonnelID = t2.PK_PersonnelID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      (CONVERT (VARCHAR(10), getdate(), 120) >= CONVERT (VARCHAR (10),t.DevOpsStartDate,120)
+      AND CONVERT (VARCHAR(10), getdate(), 120) <![CDATA[<=]]> CONVERT (VARCHAR (10),t.DevOpsEndDate,120))
+      <if test="entdevopsids != null and entdevopsids.size>0 ">
+        and t.PK_ID in
+        <foreach item="item" index="index" collection="entdevopsids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    group by t.PK_ID
+  </select>
+
+
+  <!--
+   * @author: xsm
+   * @date: 2022/04/02 0002 上午 9:25
+   * @Description: 根据自定义参数获取正在运维中的运维点位详情信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getDevOpsMonitorPointDetailByParam" parameterType="map" resultType="java.util.Map">
+    SELECT
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    p.pollutionname,
+    t.FK_MonitorPointId fkmonitorpointid,
+    allpoint.monitorpointname,
+    allpoint.DGIMN,
+    CASE  allpoint.Status WHEN 0 THEN '停用' WHEN  1 THEN '启用' END status,
+    t.FK_MonitorPointTypeCode fkmonitorpointtypecode,
+    t2.Name monitorpointtypename,
+    t.devopsunit,
+    t1.unitname,
+    t.WeekPatrol,
+    t.MonthPatrol,
+    t.TwoMonthPatrol,
+    t.QuarterPatrol,
+    t.HalfYearPatrol,
+    t.YearPatrol,
+    CASE  WHEN  t.WeekPatrol =1 THEN '启用' ELSE '关闭' END weekpatrolname,
+    CASE  WHEN  t.MonthPatrol =1 THEN '启用' ELSE '关闭' END monthpatrolname,
+    CASE  WHEN  t.TwoMonthPatrol =1 THEN '启用' ELSE '关闭' END twomonthpatrolname,
+    CASE  WHEN  t.QuarterPatrol =1 THEN '启用' ELSE '关闭' END quarterpatrolname,
+    CASE  WHEN  t.HalfYearPatrol =1 THEN '启用' ELSE '关闭' END halfyearpatrolname,
+    CASE  WHEN  t.YearPatrol =1 THEN '启用' ELSE '关闭' END yearpatrolname,
+    CONVERT (VARCHAR(10), t.DevOpsStartDate, 120) devopsstartdate,
+    CONVERT (VARCHAR(10), t.DevOpsEndDate, 120) devopsenddate,
+    CASE  WHEN (CONVERT (VARCHAR(10), getdate(), 120)<![CDATA[<=]]> CONVERT(VARCHAR(10), t.DevOpsEndDate, 120))
+    THEN datediff(d,CONVERT (VARCHAR(10), getdate(), 120),CONVERT (VARCHAR(10), t.DevOpsEndDate, 120)) ELSE null END dueday,
+    CONVERT (VARCHAR(10), t.UpdateTime, 120) updatetime,
+    t.updateuser
+    FROM
+    T_BAS_EntDevOpsInfo t
+    JOIN T_BAS_DevOpsUnitInfo t1 ON  t.devopsunit = t1.PK_DevOpsUnitID
+    LEFT JOIN T_BAS_Pollution p ON t.FK_PollutionID = p.PK_PollutionID
+    JOIN (
+    SELECT
+    T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.Status
+    FROM T_BAS_GASOutPutInfo
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE T_BAS_WaterOutputInfo.OutPutType = 3
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.monitorpointname,T_BAS_AirMonitorStation.Status
+    FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,T_BAS_WaterStationInfo.monitorpointname,
+    T_BAS_WaterStationInfo.Status
+    FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+    T_BAS_OtherMonitorPoint.Status
+    FROM T_BAS_OtherMonitorPoint
+    ) allpoint ON t.FK_MonitorPointTypeCode = allpoint.FK_MonitorPointTypeCode AND t.FK_MonitorPointId = allpoint.monitorpointid
+    LEFT JOIN PUB_CODE_MonitorPointType t2 ON t.FK_MonitorPointTypeCode = t2.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="devopsunitid != null and devopsunitid != '' ">
+        and t.devopsunit=#{devopsunitid}
+      </if>
+      <if test="entdevopsid != null and entdevopsid != '' ">
+        and t.PK_ID=#{entdevopsid}
+      </if>
+    </trim>
+
+  </select>
+
+
+  <!-- 统计运维点关联的人员信息    author:xsm   date:2022-04-01 09:50  -->
+  <select id="getDevOpsPersonnelDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t2.PersonnelName,t2.PersonnelPhone,t.PK_ID pkid
+    FROM
+    T_BAS_EntDevOpsInfo t
+    JOIN  T_BAS_DevicePersonnelRecord t1 ON t.PK_ID = t1.FK_EntDevOpsID
+    JOIN  T_BAS_DevOpsPersonnel t2 ON  t1.FK_PersonnelID = t2.PK_PersonnelID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="entdevopsids != null and entdevopsids.size>0 ">
+        and t.PK_ID in
+        <foreach item="item" index="index" collection="entdevopsids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by t2.PersonnelName
+  </select>
+
+
+  <!--
+    * @author: xsm
+    * @date: 2022/04/02 0002 下午 15:38
+    * @Description: 根据监测类型和监测点ID获取该监测点的历史运维记录信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <select id="getEntDevOpsHistoryDataByParamMap" parameterType="map" resultType="java.util.Map">
+    SELECT
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    p.pollutionname,
+    t.FK_MonitorPointId fkmonitorpointid,
+    allpoint.monitorpointname,
+    allpoint.DGIMN,
+    t.devopsunit,
+    t1.unitname,
+    CONVERT (VARCHAR(10), t.DevOpsStartDate, 120) devopsstartdate,
+    CONVERT (VARCHAR(10), t.DevOpsEndDate, 120) devopsenddate,
+    CASE  WHEN (CONVERT (VARCHAR(10), getdate(), 120)<![CDATA[<=]]> CONVERT(VARCHAR(10), t.DevOpsEndDate, 120))
+    THEN datediff(d,CONVERT (VARCHAR(10), getdate(), 120),CONVERT (VARCHAR(10), t.DevOpsEndDate, 120)) ELSE -1 END dueday
+    FROM
+    T_BAS_EntDevOpsInfo t
+    JOIN T_BAS_DevOpsUnitInfo t1 ON  t.devopsunit = t1.PK_DevOpsUnitID
+    LEFT JOIN T_BAS_Pollution p ON t.FK_PollutionID = p.PK_PollutionID
+    JOIN (
+    SELECT
+    T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.Status
+    FROM T_BAS_GASOutPutInfo
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE T_BAS_WaterOutputInfo.OutPutType = 3
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.monitorpointname,T_BAS_AirMonitorStation.Status
+    FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,T_BAS_WaterStationInfo.monitorpointname,
+    T_BAS_WaterStationInfo.Status
+    FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+    T_BAS_OtherMonitorPoint.Status
+    FROM T_BAS_OtherMonitorPoint
+    ) allpoint ON t.FK_MonitorPointTypeCode = allpoint.FK_MonitorPointTypeCode AND t.FK_MonitorPointId = allpoint.monitorpointid
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointid != null and monitorpointid != '' ">
+        and t.FK_MonitorPointId=#{monitorpointid}
+      </if>
+      <if test="monitorpointtypecode != null and monitorpointtypecode != '' ">
+        and t.FK_MonitorPointTypeCode=#{monitorpointtypecode}
+      </if>
+    </trim>
+    order by CONVERT (VARCHAR(10), t.DevOpsStartDate, 120)
+  </select>
+
+
+  <!--
+author:xsm
+description: 运维点位运维完成率
+param:
+date: 2022/03/10 10:10
+-->
+  <select id="countDevOpsPatrolNumData" resultType="map" parameterType="map">
+    SELECT COUNT(t2.PK_ID) total,
+    sum(case when t2.DevOpsStatus=2 then 1 else 0 end) completednum,
+    t2.FK_EntDevOpsID fkentdevopsid,
+    t2.devopspatroltype,
+    CASE t2.devopspatroltype WHEN 1 THEN '周巡检' WHEN 2 THEN '月巡检' WHEN 3 THEN '两月巡检' WHEN 4 THEN '季巡检'
+    WHEN 5 THEN '半年巡检' WHEN 6 THEN '年巡检' END  devopspatroltypename
+    FROM
+    T_BAS_EntDevOpsInfo t1
+    JOIN T_BAS_DeviceDevOpsInfo t2 ON  t1.PK_ID = t2.FK_EntDevOpsID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      t2.DevOpsType =1
+      <if test="entdevopsids != null and entdevopsids.size>0 ">
+        and t1.PK_ID in
+        <foreach item="item" index="index" collection="entdevopsids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="starttime!=null and starttime!=''">
+        AND convert(varchar(10),t2.CreateTime,120) >= #{starttime}
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        AND convert(varchar(10),t2.CreateTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    group by t2.FK_EntDevOpsID,t2.DevOpsPatrolType
+  </select>
+
+  <!--
+    * @author: xsm
+    * @date: 2022/04/01 0001 上午 9:25
+    * @Description: 根据自定义参数获取运维记录统计点位信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <select id="getDevOpsRecordStatisticsDataByParamMap" parameterType="map" resultType="java.util.Map">
+    SELECT
+    t.PK_ID pkid,
+    t.FK_PollutionID fkpollutionid,
+    p.pollutionname,
+    t.FK_MonitorPointId fkmonitorpointid,
+    (p.shortername+'_'+allpoint.monitorpointname) monitorpointname,
+    allpoint.DGIMN,
+    CASE  allpoint.Status WHEN 0 THEN '停用' WHEN  1 THEN '启用' END status,
+    t.FK_MonitorPointTypeCode fkmonitorpointtypecode,
+    t2.Name monitorpointtypename,
+    t.devopsunit,
+    t1.unitname,
+    CONVERT (VARCHAR(10), t.DevOpsStartDate, 120) devopsstartdate,
+    CONVERT (VARCHAR(10), t.DevOpsEndDate, 120) devopsenddate,
+    t.WeekPatrol,
+    t.MonthPatrol,
+    t.TwoMonthPatrol,
+    t.QuarterPatrol,
+    t.HalfYearPatrol,
+    t.YearPatrol,
+    CASE  WHEN  t.WeekPatrol =1 THEN '启用' ELSE '关闭' END weekpatrolname,
+    CASE  WHEN  t.MonthPatrol =1 THEN '启用' ELSE '关闭' END monthpatrolname,
+    CASE  WHEN  t.TwoMonthPatrol =1 THEN '启用' ELSE '关闭' END twomonthpatrolname,
+    CASE  WHEN  t.QuarterPatrol =1 THEN '启用' ELSE '关闭' END quarterpatrolname,
+    CASE  WHEN  t.HalfYearPatrol =1 THEN '启用' ELSE '关闭' END halfyearpatrolname,
+    CASE  WHEN  t.YearPatrol =1 THEN '启用' ELSE '关闭' END yearpatrolname,
+    CASE  WHEN (CONVERT (VARCHAR(10), getdate(), 120)<![CDATA[<=]]> CONVERT(VARCHAR(10), t.DevOpsEndDate, 120))
+    THEN datediff(d,CONVERT (VARCHAR(10), getdate(), 120),CONVERT (VARCHAR(10), t.DevOpsEndDate, 120)) ELSE -1 END dueday
+
+    FROM
+    (
+    SELECT
+    *
+    FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_MonitorPointId ORDER BY DevOpsEndDate DESC) rn FROM
+    T_BAS_EntDevOpsInfo) tt
+    WHERE
+    tt.rn = 1 and tt.DevOpsEndDate IS not null
+    ) t
+    JOIN T_BAS_DevOpsUnitInfo t1 ON  t.devopsunit = t1.PK_DevOpsUnitID
+    LEFT JOIN T_BAS_Pollution p ON t.FK_PollutionID = p.PK_PollutionID
+    JOIN (
+    SELECT
+    T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.Status
+    FROM T_BAS_GASOutPutInfo
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    UNION
+    SELECT
+    T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.Status
+    FROM T_BAS_WaterOutputInfo
+    WHERE T_BAS_WaterOutputInfo.OutPutType = 3
+    UNION
+    SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.monitorpointname,T_BAS_AirMonitorStation.Status
+    FROM T_BAS_AirMonitorStation
+    UNION
+    SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,T_BAS_WaterStationInfo.monitorpointname,
+    T_BAS_WaterStationInfo.Status
+    FROM T_BAS_WaterStationInfo
+    UNION
+    SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+    T_BAS_OtherMonitorPoint.Status
+    FROM T_BAS_OtherMonitorPoint
+    ) allpoint ON t.FK_MonitorPointTypeCode = allpoint.FK_MonitorPointTypeCode AND t.FK_MonitorPointId = allpoint.monitorpointid
+    LEFT JOIN PUB_CODE_MonitorPointType t2 ON t.FK_MonitorPointTypeCode = t2.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="devopsunit != null and devopsunit != '' ">
+        and t.devopsunit=#{devopsunit}
+      </if>
+      <if test="monitorpointid != null and monitorpointid != '' ">
+        and t.FK_MonitorPointId=#{monitorpointid}
+      </if>
+      <if test="pollutionid != null and pollutionid != '' ">
+        and t.FK_PollutionID=#{pollutionid}
+      </if>
+      <if test="monitorpointtypecode != null and monitorpointtypecode != '' ">
+        and t.FK_MonitorPointTypeCode=#{monitorpointtypecode}
+      </if>
+      <if test="pollutionname != null and pollutionname != '' ">
+        and p.pollutionname like concat('%', #{pollutionname},'%')
+      </if>
+      <if test="monitorpointname != null and monitorpointname != '' ">
+        and (p.shortername + '_'+allpoint.monitorpointname)  like concat('%', #{monitorpointname},'%')
+      </if>
+      <if test="monitorpointtypes !=null and monitorpointtypes.size>0">
+        and t.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    order by p.pollutionname,allpoint.monitorpointname
+  </select>
+
+</mapper>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.alarm.AlarmHasReadUserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.alarm.AlarmHasReadUserInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid"/>
+        <result column="FK_MonitorPointType" jdbcType="VARCHAR" property="fkMonitorpointtype"/>
+        <result column="RemindType" jdbcType="NUMERIC" property="remindtype"/>
+        <result column="MonitorTime" jdbcType="TIMESTAMP" property="monitortime"/>
+        <result column="DataType" jdbcType="VARCHAR" property="datatype"/>
+        <result column="FK_UserID" jdbcType="VARCHAR" property="fkUserid"/>
+        <result column="UserReadTime" jdbcType="TIMESTAMP" property="userreadtime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FK_MonitorPointID, FK_MonitorPointType, RemindType, MonitorTime, 
+    DataType, FK_UserID, UserReadTime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_AlarmHasReadUserInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/7/16 0016 下午 2:56
+     * @Description: 自定义查询条件获取报警已读信息表
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getHasReadAlarmInfoByParams" parameterType="map" resultType="java.util.Map">
+        SELECT
+        CONVERT (
+        VARCHAR (100),
+        MonitorTime,
+        120
+        )as monitortime
+        FROM
+        T_BAS_AlarmHasReadUserInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutionid != null and pollutionid!=''">
+                and FK_PollutionID = #{pollutionid}
+            </if>
+            <if test="userid != null and userid!=''">
+                and FK_UserID = #{userid}
+            </if>
+            <if test="monitorpointtype != null">
+                and FK_MonitorPointType = #{monitorpointtype}
+            </if>
+            <if test="monitorpointid != null">
+                and FK_MonitorPointID = #{monitorpointid}
+            </if>
+            <if test="monitorpointids != null and monitorpointids.size>0">
+                and FK_MonitorPointID in
+                <foreach collection="monitorpointids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="datatype != null">
+                and DataType = #{datatype}
+            </if>
+
+            <if test="remindtype != null">
+                and RemindType = #{remindtype}
+            </if>
+            <if test="starttime != null and starttime!=''">
+                and CONVERT (
+                VARCHAR (100),
+                MonitorTime,
+                120
+                ) &gt;= #{starttime}
+            </if>
+            <if test="endtime != null and endtime!=''">
+                and CONVERT (
+                VARCHAR (100),
+                MonitorTime,
+                120
+                ) &lt;= #{endtime}
+            </if>
+
+            <if test="monitortimes !=null and monitortimes.size>0">
+                AND CONVERT (
+                VARCHAR (100),
+                MonitorTime,
+                120
+                ) in
+                <foreach collection="monitortimes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+        </trim>
+    </select>
+
+
+    <!--
+    * @author: lip
+    * @date: 2019/7/12 0012 下午 5:00
+    * @Description: 批量插入报警关联关系
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into T_BAS_AlarmHasReadUserInfo (PK_ID, FK_PollutionID, FK_MonitorPointID,
+        FK_MonitorPointType, RemindType, MonitorTime,
+        DataType, FK_UserID, UserReadTime
+        )
+        values
+        <foreach collection="list" separator="," item="item">
+            (#{item.pkId}, #{item.fkPollutionid},#{item.fkMonitorpointid},
+            #{item.fkMonitorpointtype},#{item.remindtype}, #{item.monitortime},
+            #{item.datatype},#{item.fkUserid},#{item.userreadtime})
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_AlarmHasReadUserInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.alarm.AlarmHasReadUserInfoVO">
+    insert into T_BAS_AlarmHasReadUserInfo (PK_ID, FK_PollutionID, FK_MonitorPointID, 
+      FK_MonitorPointType, RemindType, MonitorTime, 
+      DataType, FK_UserID, UserReadTime
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, 
+      #{fkMonitorpointtype,jdbcType=VARCHAR}, #{remindtype,jdbcType=NUMERIC}, #{monitortime,jdbcType=TIMESTAMP}, 
+      #{datatype,jdbcType=VARCHAR}, #{fkUserid,jdbcType=VARCHAR}, #{userreadtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.alarm.AlarmHasReadUserInfoVO">
+        insert into T_BAS_AlarmHasReadUserInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointID,
+            </if>
+            <if test="fkMonitorpointtype != null">
+                FK_MonitorPointType,
+            </if>
+            <if test="remindtype != null">
+                RemindType,
+            </if>
+            <if test="monitortime != null">
+                MonitorTime,
+            </if>
+            <if test="datatype != null">
+                DataType,
+            </if>
+            <if test="fkUserid != null">
+                FK_UserID,
+            </if>
+            <if test="userreadtime != null">
+                UserReadTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtype != null">
+                #{fkMonitorpointtype,jdbcType=VARCHAR},
+            </if>
+            <if test="remindtype != null">
+                #{remindtype,jdbcType=NUMERIC},
+            </if>
+            <if test="monitortime != null">
+                #{monitortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="datatype != null">
+                #{datatype,jdbcType=VARCHAR},
+            </if>
+            <if test="fkUserid != null">
+                #{fkUserid,jdbcType=VARCHAR},
+            </if>
+            <if test="userreadtime != null">
+                #{userreadtime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.alarm.AlarmHasReadUserInfoVO">
+        update T_BAS_AlarmHasReadUserInfo
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointid != null">
+                FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtype != null">
+                FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+            </if>
+            <if test="remindtype != null">
+                RemindType = #{remindtype,jdbcType=NUMERIC},
+            </if>
+            <if test="monitortime != null">
+                MonitorTime = #{monitortime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="datatype != null">
+                DataType = #{datatype,jdbcType=VARCHAR},
+            </if>
+            <if test="fkUserid != null">
+                FK_UserID = #{fkUserid,jdbcType=VARCHAR},
+            </if>
+            <if test="userreadtime != null">
+                UserReadTime = #{userreadtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.alarm.AlarmHasReadUserInfoVO">
+    update T_BAS_AlarmHasReadUserInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      RemindType = #{remindtype,jdbcType=NUMERIC},
+      MonitorTime = #{monitortime,jdbcType=TIMESTAMP},
+      DataType = #{datatype,jdbcType=VARCHAR},
+      FK_UserID = #{fkUserid,jdbcType=VARCHAR},
+      UserReadTime = #{userreadtime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--
+        author:zhangzc
+        description: 自定义条件查询已读数据返回所有字段根据不同的数据类型返回不同的时间格式
+        param:
+        date: 2019/7/18 14:53
+      -->
+    <select id="getHasReadAlarmInfosByParams" parameterType="map" resultType="java.util.Map">
+        SELECT
+        T_BAS_AlarmHasReadUserInfo.PK_ID,
+        T_BAS_AlarmHasReadUserInfo.DataType,
+        T_BAS_AlarmHasReadUserInfo.FK_MonitorPointID AS MonitorPointID,
+        T_BAS_AlarmHasReadUserInfo.FK_MonitorPointType AS MonitorPointType,
+        T_BAS_AlarmHasReadUserInfo.FK_PollutionID AS PollutionID,
+        T_BAS_AlarmHasReadUserInfo.FK_UserID AS UserID,
+        T_BAS_AlarmHasReadUserInfo.RemindType,
+        CASE T_BAS_AlarmHasReadUserInfo.DataType
+        WHEN 'HourData' THEN
+        CONVERT (
+        VARCHAR (13),
+        MonitorTime,
+        120
+        )
+        WHEN 'DayData' THEN
+        CONVERT (
+        VARCHAR (10),
+        MonitorTime,
+        120
+        )
+        WHEN 'MinuteData' THEN
+        CONVERT (
+        VARCHAR (16),
+        MonitorTime,
+        120
+        )
+        WHEN 'RealTimeData' THEN
+        CONVERT (
+        VARCHAR (100),
+        MonitorTime,
+        120
+        )
+        ELSE
+        '其他'
+        END AS MonitorTime,
+        CONVERT (
+        VARCHAR (10),
+        MonitorTime,
+        120
+        ) AS MonitorDate
+        FROM
+        T_BAS_AlarmHasReadUserInfo
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+            <if test="userid != null and userid!=''">
+                and FK_UserID = #{userid}
+            </if>
+            <if test="monitorpointtype != null">
+                and FK_MonitorPointType = #{monitorpointtype}
+            </if>
+            <if test="pollutionid != null and pollutionid!=''">
+                and FK_PollutionID = #{pollutionid}
+            </if>
+            <if test="pollutionids != null and pollutionids.size>0">
+                and FK_PollutionID in
+                <foreach collection="pollutionids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointids != null and monitorpointids.size>0">
+                and FK_MonitorPointID in
+                <foreach collection="monitorpointids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="datatype != null">
+                and DataType = #{datatype}
+            </if>
+            <if test="datatypes != null and datatypes.size>0">
+                and DataType in
+                <foreach collection="datatypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="remindtype != null">
+                and RemindType = #{remindtype}
+            </if>
+            <if test="starttime != null and starttime!=''">
+                and CONVERT (
+                VARCHAR (100),
+                MonitorTime,
+                120
+                ) &gt;= #{starttime}
+            </if>
+            <if test="endtime != null and endtime!=''">
+                and CONVERT (
+                VARCHAR (100),
+                MonitorTime,
+                120
+                ) &lt;= #{endtime}
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>

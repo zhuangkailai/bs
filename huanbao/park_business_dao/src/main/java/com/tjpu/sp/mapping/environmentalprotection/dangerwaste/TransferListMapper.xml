@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.dangerwaste.TransferListMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.dangerwaste.TransferListVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkid" />
+    <result column="TransferListNum" jdbcType="VARCHAR" property="transferlistnum" />
+    <result column="FK_ProductentID" jdbcType="VARCHAR" property="fkProductentid" />
+    <result column="TransferentName" jdbcType="VARCHAR" property="transferentname" />
+    <result column="ReceiveEntName" jdbcType="VARCHAR" property="receiveentname" />
+    <result column="FK_WasteMaterialCode" jdbcType="VARCHAR" property="fkWastematerialcode" />
+    <result column="MaterialDetailName" jdbcType="VARCHAR" property="materialdetailname" />
+    <result column="TransferQuantity" jdbcType="DOUBLE" property="transferquantity" />
+    <result column="ReceiveVolume" jdbcType="DOUBLE" property="receivevolume" />
+    <result column="QuantityUnit" jdbcType="VARCHAR" property="quantityunit" />
+    <result column="MaterialProperty" jdbcType="VARCHAR" property="materialproperty" />
+    <result column="MaterialState" jdbcType="VARCHAR" property="materialstate" />
+    <result column="PackingWay" jdbcType="VARCHAR" property="packingway" />
+    <result column="DangerousComponent" jdbcType="VARCHAR" property="dangerouscomponent" />
+    <result column="EmergencyMeasure" jdbcType="VARCHAR" property="emergencymeasure" />
+    <result column="OutTransPortpurpose" jdbcType="VARCHAR" property="outtransportpurpose" />
+    <result column="Shipper" jdbcType="VARCHAR" property="shipper" />
+    <result column="TransPortAddress" jdbcType="VARCHAR" property="transportaddress" />
+    <result column="TransferTime" jdbcType="VARCHAR" property="transfertime" />
+    <result column="FirstTransPorter" jdbcType="VARCHAR" property="firsttransporter" />
+    <result column="FirstTransPortDate" jdbcType="VARCHAR" property="firsttransportdate" />
+    <result column="FirstTransPortToolModel" jdbcType="VARCHAR" property="firsttransporttoolmodel" />
+    <result column="FirstTransPortToolNum" jdbcType="VARCHAR" property="firsttransporttoolnum" />
+    <result column="FirstTransPortLicenseNum" jdbcType="VARCHAR" property="firsttransportlicensenum" />
+    <result column="FirstTransPortStartAddr" jdbcType="VARCHAR" property="firsttransportstartaddr" />
+    <result column="FirstTransPortMidAddr" jdbcType="VARCHAR" property="firsttransportmidaddr" />
+    <result column="FirstTransPortEndAddr" jdbcType="VARCHAR" property="firsttransportendaddr" />
+    <result column="SecondTransPorter" jdbcType="VARCHAR" property="secondtransporter" />
+    <result column="SecondTransPortDate" jdbcType="VARCHAR" property="secondtransportdate" />
+    <result column="SecondTransPortToolModel" jdbcType="VARCHAR" property="secondtransporttoolmodel" />
+    <result column="SecondTransPortToolNum" jdbcType="VARCHAR" property="secondtransporttoolnum" />
+    <result column="SecondTransPortLicenseNum" jdbcType="VARCHAR" property="secondtransportlicensenum" />
+    <result column="SecondTransPortStartAddr" jdbcType="VARCHAR" property="secondtransportstartaddr" />
+    <result column="SecondTransPortMidAddr" jdbcType="VARCHAR" property="secondtransportmidaddr" />
+    <result column="SecondTransPortEndAddr" jdbcType="VARCHAR" property="secondtransportendaddr" />
+    <result column="TransPortStartDate" jdbcType="VARCHAR" property="transportstartdate" />
+    <result column="TransPortEndDate" jdbcType="VARCHAR" property="transportenddate" />
+    <result column="ReceiveQuantity" jdbcType="DOUBLE" property="receivequantity" />
+    <result column="Receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="ReceiveDate" jdbcType="VARCHAR" property="receivedate" />
+    <result column="FK_DisposalMethod" jdbcType="VARCHAR" property="fkDisposalmethod" />
+    <result column="ReceiveUnitLicenseNum" jdbcType="VARCHAR" property="receiveunitlicensenum" />
+    <result column="BarCode" jdbcType="VARCHAR" property="barcode" />
+    <result column="FK_TransferAreaTypeCode" jdbcType="VARCHAR" property="fkTransferareatypecode" />
+    <result column="MoveYear" jdbcType="VARCHAR" property="moveyear" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="State" jdbcType="VARCHAR" property="state" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    T_WXFW_TransferList.PK_ID,
+    T_WXFW_TransferList.TransferListNum,
+    T_WXFW_TransferList.FK_ProductentID FKProductentID,
+    T_WXFW_TransferList.FK_ProductentID,
+    T_WXFW_TransferList.TransferentName,
+    T_WXFW_TransferList.ReceiveEntName,
+    T_WXFW_TransferList.FK_WasteMaterialCode,
+    T_WXFW_TransferList.MaterialDetailName,
+    T_WXFW_TransferList.TransferQuantity,
+    T_WXFW_TransferList.QuantityUnit,
+    T_WXFW_TransferList.MaterialProperty,
+    T_WXFW_TransferList.MaterialState,
+    T_WXFW_TransferList.PackingWay,
+    T_WXFW_TransferList.DangerousComponent,
+    T_WXFW_TransferList.EmergencyMeasure,
+    T_WXFW_TransferList.OutTransPortpurpose,
+    T_WXFW_TransferList.Shipper,
+    T_WXFW_TransferList.TransPortAddress,
+    T_WXFW_TransferList.ReceiveVolume,
+    T_WXFW_TransferList.FirstTransPortToolModel,
+    T_WXFW_TransferList.FirstTransPortToolNum,
+    T_WXFW_TransferList.FirstTransPortLicenseNum,
+    T_WXFW_TransferList.FirstTransPortStartAddr,
+    T_WXFW_TransferList.FirstTransPortMidAddr,
+    T_WXFW_TransferList.FirstTransPortEndAddr,
+    T_WXFW_TransferList.SecondTransPorter,
+    T_WXFW_TransferList.SecondTransPortToolModel,
+    T_WXFW_TransferList.SecondTransPortToolNum,
+    T_WXFW_TransferList.SecondTransPortLicenseNum,
+    T_WXFW_TransferList.SecondTransPortStartAddr,
+    T_WXFW_TransferList.SecondTransPortMidAddr,
+    T_WXFW_TransferList.SecondTransPortEndAddr,
+    T_WXFW_TransferList.State,
+    T_WXFW_TransferList.ReceiveQuantity,
+    T_WXFW_TransferList.Receiver,
+    T_WXFW_TransferList.FK_DisposalMethod,
+    T_WXFW_TransferList.ReceiveUnitLicenseNum,
+    T_WXFW_TransferList.BarCode,
+    T_WXFW_TransferList.FK_TransferAreaTypeCode,
+    T_WXFW_TransferList.MoveYear,
+    T_WXFW_TransferList.Remark,
+    T_WXFW_TransferList.UpdateUser,
+    convert(varchar(10),T_WXFW_TransferList.FirstTransPortDate,120) FirstTransPortDate,
+    convert(varchar(10),T_WXFW_TransferList.TransferTime,120) TransferTime,
+    convert(varchar(10),T_WXFW_TransferList.SecondTransPortDate,120) SecondTransPortDate,
+    convert(varchar(10),T_WXFW_TransferList.TransPortStartDate,120) TransPortStartDate,
+    convert(varchar(10),T_WXFW_TransferList.TransPortEndDate,120) TransPortEndDate,
+    convert(varchar(10),T_WXFW_TransferList.ReceiveDate,120) ReceiveDate, FirstTransPorter,
+    convert(varchar(20),T_WXFW_TransferList.UpdateTime,120) UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_WXFW_TransferList
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_WXFW_TransferList
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.dangerwaste.TransferListVO">
+    insert into T_WXFW_TransferList (PK_ID, TransferListNum, FK_ProductentID,
+      TransferentName, ReceiveEntName, FK_WasteMaterialCode,
+      MaterialDetailName, TransferQuantity, QuantityUnit, 
+      MaterialProperty, MaterialState, PackingWay, 
+      DangerousComponent, EmergencyMeasure, OutTransPortpurpose, 
+      Shipper, TransPortAddress, TransferTime, 
+      FirstTransPorter, FirstTransPortDate, 
+      FirstTransPortToolModel, FirstTransPortToolNum, 
+      FirstTransPortLicenseNum, FirstTransPortStartAddr, 
+      FirstTransPortMidAddr, FirstTransPortEndAddr, 
+      SecondTransPorter, SecondTransPortDate, 
+      SecondTransPortToolModel, SecondTransPortToolNum, 
+      SecondTransPortLicenseNum, SecondTransPortStartAddr, 
+      SecondTransPortMidAddr, SecondTransPortEndAddr, 
+      TransPortStartDate, TransPortEndDate, 
+      ReceiveQuantity, Receiver, ReceiveDate, 
+      FK_DisposalMethod, ReceiveUnitLicenseNum, 
+      BarCode, FK_TransferAreaTypeCode, MoveYear, 
+      Remark, UpdateUser, UpdateTime,ReceiveVolume,State
+      )
+    values (#{pkid,jdbcType=VARCHAR}, #{transferlistnum,jdbcType=VARCHAR}, #{fkProductentid,jdbcType=VARCHAR},
+     #{transferentname,jdbcType=VARCHAR}, #{receiveentname,jdbcType=VARCHAR}, #{fkWastematerialcode,jdbcType=VARCHAR},
+      #{materialdetailname,jdbcType=VARCHAR}, #{transferquantity,jdbcType=DOUBLE}, #{quantityunit,jdbcType=VARCHAR}, 
+      #{materialproperty,jdbcType=VARCHAR}, #{materialstate,jdbcType=VARCHAR}, #{packingway,jdbcType=VARCHAR}, 
+      #{dangerouscomponent,jdbcType=VARCHAR}, #{emergencymeasure,jdbcType=VARCHAR}, #{outtransportpurpose,jdbcType=VARCHAR}, 
+      #{shipper,jdbcType=VARCHAR}, #{transportaddress,jdbcType=VARCHAR}, #{transfertime,jdbcType=VARCHAR}, 
+      #{firsttransporter,jdbcType=VARCHAR}, #{firsttransportdate,jdbcType=VARCHAR}, 
+      #{firsttransporttoolmodel,jdbcType=VARCHAR}, #{firsttransporttoolnum,jdbcType=VARCHAR}, 
+      #{firsttransportlicensenum,jdbcType=VARCHAR}, #{firsttransportstartaddr,jdbcType=VARCHAR}, 
+      #{firsttransportmidaddr,jdbcType=VARCHAR}, #{firsttransportendaddr,jdbcType=VARCHAR}, 
+      #{secondtransporter,jdbcType=VARCHAR}, #{secondtransportdate,jdbcType=VARCHAR}, 
+      #{secondtransporttoolmodel,jdbcType=VARCHAR}, #{secondtransporttoolnum,jdbcType=VARCHAR}, 
+      #{secondtransportlicensenum,jdbcType=VARCHAR}, #{secondtransportstartaddr,jdbcType=VARCHAR}, 
+      #{secondtransportmidaddr,jdbcType=VARCHAR}, #{secondtransportendaddr,jdbcType=VARCHAR}, 
+      #{transportstartdate,jdbcType=VARCHAR}, #{transportenddate,jdbcType=VARCHAR}, 
+      #{receivequantity,jdbcType=DOUBLE}, #{receiver,jdbcType=VARCHAR}, #{receivedate,jdbcType=VARCHAR}, 
+      #{fkDisposalmethod,jdbcType=VARCHAR}, #{receiveunitlicensenum,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{fkTransferareatypecode,jdbcType=VARCHAR}, #{moveyear,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, #{receivevolume,jdbcType=DOUBLE}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.dangerwaste.TransferListVO">
+    insert into T_WXFW_TransferList
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PK_ID,
+      </if>
+      <if test="transferlistnum != null">
+        TransferListNum,
+      </if>
+      <if test="fkProductentid != null">
+        FK_ProductentID,
+      </if>
+      <if test="transferentname != null">
+        TransferentName,
+      </if>
+      <if test="receiveentname != null">
+        ReceiveEntName,
+      </if>
+      <if test="fkWastematerialcode != null">
+        FK_WasteMaterialCode,
+      </if>
+      <if test="materialdetailname != null">
+        MaterialDetailName,
+      </if>
+      <if test="transferquantity != null">
+        TransferQuantity,
+      </if>
+      <if test="quantityunit != null">
+        QuantityUnit,
+      </if>
+      <if test="materialproperty != null">
+        MaterialProperty,
+      </if>
+      <if test="materialstate != null">
+        MaterialState,
+      </if>
+      <if test="packingway != null">
+        PackingWay,
+      </if>
+      <if test="dangerouscomponent != null">
+        DangerousComponent,
+      </if>
+      <if test="emergencymeasure != null">
+        EmergencyMeasure,
+      </if>
+      <if test="outtransportpurpose != null">
+        OutTransPortpurpose,
+      </if>
+      <if test="shipper != null">
+        Shipper,
+      </if>
+      <if test="transportaddress != null">
+        TransPortAddress,
+      </if>
+      <if test="transfertime != null">
+        TransferTime,
+      </if>
+      <if test="firsttransporter != null">
+        FirstTransPorter,
+      </if>
+      <if test="firsttransportdate != null">
+        FirstTransPortDate,
+      </if>
+      <if test="firsttransporttoolmodel != null">
+        FirstTransPortToolModel,
+      </if>
+      <if test="firsttransporttoolnum != null">
+        FirstTransPortToolNum,
+      </if>
+      <if test="firsttransportlicensenum != null">
+        FirstTransPortLicenseNum,
+      </if>
+      <if test="firsttransportstartaddr != null">
+        FirstTransPortStartAddr,
+      </if>
+      <if test="firsttransportmidaddr != null">
+        FirstTransPortMidAddr,
+      </if>
+      <if test="firsttransportendaddr != null">
+        FirstTransPortEndAddr,
+      </if>
+      <if test="secondtransporter != null">
+        SecondTransPorter,
+      </if>
+      <if test="secondtransportdate != null">
+        SecondTransPortDate,
+      </if>
+      <if test="secondtransporttoolmodel != null">
+        SecondTransPortToolModel,
+      </if>
+      <if test="secondtransporttoolnum != null">
+        SecondTransPortToolNum,
+      </if>
+      <if test="secondtransportlicensenum != null">
+        SecondTransPortLicenseNum,
+      </if>
+      <if test="secondtransportstartaddr != null">
+        SecondTransPortStartAddr,
+      </if>
+      <if test="secondtransportmidaddr != null">
+        SecondTransPortMidAddr,
+      </if>
+      <if test="secondtransportendaddr != null">
+        SecondTransPortEndAddr,
+      </if>
+      <if test="transportstartdate != null">
+        TransPortStartDate,
+      </if>
+      <if test="transportenddate != null">
+        TransPortEndDate,
+      </if>
+      <if test="receivequantity != null">
+        ReceiveQuantity,
+      </if>
+      <if test="receiver != null">
+        Receiver,
+      </if>
+      <if test="receivedate != null">
+        ReceiveDate,
+      </if>
+      <if test="fkDisposalmethod != null">
+        FK_DisposalMethod,
+      </if>
+      <if test="receiveunitlicensenum != null">
+        ReceiveUnitLicenseNum,
+      </if>
+      <if test="barcode != null">
+        BarCode,
+      </if>
+      <if test="fkTransferareatypecode != null">
+        FK_TransferAreaTypeCode,
+      </if>
+      <if test="moveyear != null">
+        MoveYear,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="receivevolume != null">
+        ReceiveVolume,
+      </if>
+      <if test="state != null">
+        State,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{PK_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="transferlistnum != null">
+        #{transferlistnum,jdbcType=VARCHAR},
+      </if>
+      <if test="fkProductentid != null">
+        #{fkProductentid,jdbcType=VARCHAR},
+      </if>
+      <if test="transferentname != null">
+        #{transferentname,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveentname != null">
+        #{receiveentname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWastematerialcode != null">
+        #{fkWastematerialcode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialdetailname != null">
+        #{materialdetailname,jdbcType=VARCHAR},
+      </if>
+      <if test="transferquantity != null">
+        #{transferquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="quantityunit != null">
+        #{quantityunit,jdbcType=VARCHAR},
+      </if>
+      <if test="materialproperty != null">
+        #{materialproperty,jdbcType=VARCHAR},
+      </if>
+      <if test="materialstate != null">
+        #{materialstate,jdbcType=VARCHAR},
+      </if>
+      <if test="packingway != null">
+        #{packingway,jdbcType=VARCHAR},
+      </if>
+      <if test="dangerouscomponent != null">
+        #{dangerouscomponent,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencymeasure != null">
+        #{emergencymeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="outtransportpurpose != null">
+        #{outtransportpurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="shipper != null">
+        #{shipper,jdbcType=VARCHAR},
+      </if>
+      <if test="transportaddress != null">
+        #{transportaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="transfertime != null">
+        #{transfertime,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransporter != null">
+        #{firsttransporter,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportdate != null">
+        #{firsttransportdate,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransporttoolmodel != null">
+        #{firsttransporttoolmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransporttoolnum != null">
+        #{firsttransporttoolnum,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportlicensenum != null">
+        #{firsttransportlicensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportstartaddr != null">
+        #{firsttransportstartaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportmidaddr != null">
+        #{firsttransportmidaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportendaddr != null">
+        #{firsttransportendaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransporter != null">
+        #{secondtransporter,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportdate != null">
+        #{secondtransportdate,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransporttoolmodel != null">
+        #{secondtransporttoolmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransporttoolnum != null">
+        #{secondtransporttoolnum,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportlicensenum != null">
+        #{secondtransportlicensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportstartaddr != null">
+        #{secondtransportstartaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportmidaddr != null">
+        #{secondtransportmidaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportendaddr != null">
+        #{secondtransportendaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="transportstartdate != null">
+        #{transportstartdate,jdbcType=VARCHAR},
+      </if>
+      <if test="transportenddate != null">
+        #{transportenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="receivequantity != null">
+        #{receivequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedate != null">
+        #{receivedate,jdbcType=VARCHAR},
+      </if>
+      <if test="fkDisposalmethod != null">
+        #{fkDisposalmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveunitlicensenum != null">
+        #{receiveunitlicensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTransferareatypecode != null">
+        #{fkTransferareatypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="moveyear != null">
+        #{moveyear,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="receivevolume != null">
+        #{receivevolume,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.dangerwaste.TransferListVO">
+    update T_WXFW_TransferList
+    <set>
+      <if test="transferlistnum != null">
+        TransferListNum = #{transferlistnum,jdbcType=VARCHAR},
+      </if>
+      <if test="fkProductentid != null">
+        FK_ProductentID = #{fkProductentid,jdbcType=VARCHAR},
+      </if>
+      <if test="transferentname != null">
+        TransferentName = #{transferentname,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveentname != null">
+        ReceiveEntName = #{receiveentname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWastematerialcode != null">
+        FK_WasteMaterialCode = #{fkWastematerialcode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialdetailname != null">
+        MaterialDetailName = #{materialdetailname,jdbcType=VARCHAR},
+      </if>
+      <if test="transferquantity != null">
+        TransferQuantity = #{transferquantity,jdbcType=DOUBLE},
+      </if>
+      <if test="receivevolume != null">
+        ReceiveVolume = #{receivevolume,jdbcType=DOUBLE},
+      </if>
+      <if test="quantityunit != null">
+        QuantityUnit = #{quantityunit,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        State = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="materialproperty != null">
+        MaterialProperty = #{materialproperty,jdbcType=VARCHAR},
+      </if>
+      <if test="materialstate != null">
+        MaterialState = #{materialstate,jdbcType=VARCHAR},
+      </if>
+      <if test="packingway != null">
+        PackingWay = #{packingway,jdbcType=VARCHAR},
+      </if>
+      <if test="dangerouscomponent != null">
+        DangerousComponent = #{dangerouscomponent,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencymeasure != null">
+        EmergencyMeasure = #{emergencymeasure,jdbcType=VARCHAR},
+      </if>
+      <if test="outtransportpurpose != null">
+        OutTransPortpurpose = #{outtransportpurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="shipper != null">
+        Shipper = #{shipper,jdbcType=VARCHAR},
+      </if>
+      <if test="transportaddress != null">
+        TransPortAddress = #{transportaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="transfertime != null">
+        TransferTime = #{transfertime,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransporter != null">
+        FirstTransPorter = #{firsttransporter,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportdate != null">
+        FirstTransPortDate = #{firsttransportdate,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransporttoolmodel != null">
+        FirstTransPortToolModel = #{firsttransporttoolmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransporttoolnum != null">
+        FirstTransPortToolNum = #{firsttransporttoolnum,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportlicensenum != null">
+        FirstTransPortLicenseNum = #{firsttransportlicensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportstartaddr != null">
+        FirstTransPortStartAddr = #{firsttransportstartaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportmidaddr != null">
+        FirstTransPortMidAddr = #{firsttransportmidaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttransportendaddr != null">
+        FirstTransPortEndAddr = #{firsttransportendaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransporter != null">
+        SecondTransPorter = #{secondtransporter,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportdate != null">
+        SecondTransPortDate = #{secondtransportdate,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransporttoolmodel != null">
+        SecondTransPortToolModel = #{secondtransporttoolmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransporttoolnum != null">
+        SecondTransPortToolNum = #{secondtransporttoolnum,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportlicensenum != null">
+        SecondTransPortLicenseNum = #{secondtransportlicensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportstartaddr != null">
+        SecondTransPortStartAddr = #{secondtransportstartaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportmidaddr != null">
+        SecondTransPortMidAddr = #{secondtransportmidaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="secondtransportendaddr != null">
+        SecondTransPortEndAddr = #{secondtransportendaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="transportstartdate != null">
+        TransPortStartDate = #{transportstartdate,jdbcType=VARCHAR},
+      </if>
+      <if test="transportenddate != null">
+        TransPortEndDate = #{transportenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="receivequantity != null">
+        ReceiveQuantity = #{receivequantity,jdbcType=DOUBLE},
+      </if>
+      <if test="receiver != null">
+        Receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedate != null">
+        ReceiveDate = #{receivedate,jdbcType=VARCHAR},
+      </if>
+      <if test="fkDisposalmethod != null">
+        FK_DisposalMethod = #{fkDisposalmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveunitlicensenum != null">
+        ReceiveUnitLicenseNum = #{receiveunitlicensenum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        BarCode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTransferareatypecode != null">
+        FK_TransferAreaTypeCode = #{fkTransferareatypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="moveyear != null">
+        MoveYear = #{moveyear,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.dangerwaste.TransferListVO">
+    update T_WXFW_TransferList
+    set TransferListNum = #{transferlistnum,jdbcType=VARCHAR},
+      FK_ProductentID = #{fkProductentid,jdbcType=VARCHAR},
+      TransferentName = #{transferentname,jdbcType=VARCHAR},
+      ReceiveEntName = #{receiveentname,jdbcType=VARCHAR},
+      FK_WasteMaterialCode = #{fkWastematerialcode,jdbcType=VARCHAR},
+      MaterialDetailName = #{materialdetailname,jdbcType=VARCHAR},
+      TransferQuantity = #{transferquantity,jdbcType=DOUBLE},
+      ReceiveVolume = #{receivevolume,jdbcType=DOUBLE},
+      QuantityUnit = #{quantityunit,jdbcType=VARCHAR},
+      State = #{state,jdbcType=VARCHAR},
+      MaterialProperty = #{materialproperty,jdbcType=VARCHAR},
+      MaterialState = #{materialstate,jdbcType=VARCHAR},
+      PackingWay = #{packingway,jdbcType=VARCHAR},
+      DangerousComponent = #{dangerouscomponent,jdbcType=VARCHAR},
+      EmergencyMeasure = #{emergencymeasure,jdbcType=VARCHAR},
+      OutTransPortpurpose = #{outtransportpurpose,jdbcType=VARCHAR},
+      Shipper = #{shipper,jdbcType=VARCHAR},
+      TransPortAddress = #{transportaddress,jdbcType=VARCHAR},
+      TransferTime = #{transfertime,jdbcType=VARCHAR},
+      FirstTransPorter = #{firsttransporter,jdbcType=VARCHAR},
+      FirstTransPortDate = #{firsttransportdate,jdbcType=VARCHAR},
+      FirstTransPortToolModel = #{firsttransporttoolmodel,jdbcType=VARCHAR},
+      FirstTransPortToolNum = #{firsttransporttoolnum,jdbcType=VARCHAR},
+      FirstTransPortLicenseNum = #{firsttransportlicensenum,jdbcType=VARCHAR},
+      FirstTransPortStartAddr = #{firsttransportstartaddr,jdbcType=VARCHAR},
+      FirstTransPortMidAddr = #{firsttransportmidaddr,jdbcType=VARCHAR},
+      FirstTransPortEndAddr = #{firsttransportendaddr,jdbcType=VARCHAR},
+      SecondTransPorter = #{secondtransporter,jdbcType=VARCHAR},
+      SecondTransPortDate = #{secondtransportdate,jdbcType=VARCHAR},
+      SecondTransPortToolModel = #{secondtransporttoolmodel,jdbcType=VARCHAR},
+      SecondTransPortToolNum = #{secondtransporttoolnum,jdbcType=VARCHAR},
+      SecondTransPortLicenseNum = #{secondtransportlicensenum,jdbcType=VARCHAR},
+      SecondTransPortStartAddr = #{secondtransportstartaddr,jdbcType=VARCHAR},
+      SecondTransPortMidAddr = #{secondtransportmidaddr,jdbcType=VARCHAR},
+      SecondTransPortEndAddr = #{secondtransportendaddr,jdbcType=VARCHAR},
+      TransPortStartDate = #{transportstartdate,jdbcType=VARCHAR},
+      TransPortEndDate = #{transportenddate,jdbcType=VARCHAR},
+      ReceiveQuantity = #{receivequantity,jdbcType=DOUBLE},
+      Receiver = #{receiver,jdbcType=VARCHAR},
+      ReceiveDate = #{receivedate,jdbcType=VARCHAR},
+      FK_DisposalMethod = #{fkDisposalmethod,jdbcType=VARCHAR},
+      ReceiveUnitLicenseNum = #{receiveunitlicensenum,jdbcType=VARCHAR},
+      BarCode = #{barcode,jdbcType=VARCHAR},
+      FK_TransferAreaTypeCode = #{fkTransferareatypecode,jdbcType=VARCHAR},
+      MoveYear = #{moveyear,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByTransferListNum" parameterType="com.tjpu.sp.model.environmentalprotection.dangerwaste.TransferListVO">
+    update T_WXFW_TransferList
+    set
+      FK_ProductentID = #{fkProductentid,jdbcType=VARCHAR},
+      TransferentName = #{transferentname,jdbcType=VARCHAR},
+      ReceiveEntName = #{receiveentname,jdbcType=VARCHAR},
+      FK_WasteMaterialCode = #{fkWastematerialcode,jdbcType=VARCHAR},
+      MaterialDetailName = #{materialdetailname,jdbcType=VARCHAR},
+      TransferQuantity = #{transferquantity,jdbcType=DOUBLE},
+      ReceiveVolume = #{receivevolume,jdbcType=DOUBLE},
+      QuantityUnit = #{quantityunit,jdbcType=VARCHAR},
+      State = #{state,jdbcType=VARCHAR},
+      MaterialProperty = #{materialproperty,jdbcType=VARCHAR},
+      MaterialState = #{materialstate,jdbcType=VARCHAR},
+      PackingWay = #{packingway,jdbcType=VARCHAR},
+      DangerousComponent = #{dangerouscomponent,jdbcType=VARCHAR},
+      EmergencyMeasure = #{emergencymeasure,jdbcType=VARCHAR},
+      OutTransPortpurpose = #{outtransportpurpose,jdbcType=VARCHAR},
+      Shipper = #{shipper,jdbcType=VARCHAR},
+      TransPortAddress = #{transportaddress,jdbcType=VARCHAR},
+      TransferTime = #{transfertime,jdbcType=VARCHAR},
+      FirstTransPorter = #{firsttransporter,jdbcType=VARCHAR},
+      FirstTransPortDate = #{firsttransportdate,jdbcType=VARCHAR},
+      FirstTransPortToolModel = #{firsttransporttoolmodel,jdbcType=VARCHAR},
+      FirstTransPortToolNum = #{firsttransporttoolnum,jdbcType=VARCHAR},
+      FirstTransPortLicenseNum = #{firsttransportlicensenum,jdbcType=VARCHAR},
+      FirstTransPortStartAddr = #{firsttransportstartaddr,jdbcType=VARCHAR},
+      FirstTransPortMidAddr = #{firsttransportmidaddr,jdbcType=VARCHAR},
+      FirstTransPortEndAddr = #{firsttransportendaddr,jdbcType=VARCHAR},
+      SecondTransPorter = #{secondtransporter,jdbcType=VARCHAR},
+      SecondTransPortDate = #{secondtransportdate,jdbcType=VARCHAR},
+      SecondTransPortToolModel = #{secondtransporttoolmodel,jdbcType=VARCHAR},
+      SecondTransPortToolNum = #{secondtransporttoolnum,jdbcType=VARCHAR},
+      SecondTransPortLicenseNum = #{secondtransportlicensenum,jdbcType=VARCHAR},
+      SecondTransPortStartAddr = #{secondtransportstartaddr,jdbcType=VARCHAR},
+      SecondTransPortMidAddr = #{secondtransportmidaddr,jdbcType=VARCHAR},
+      SecondTransPortEndAddr = #{secondtransportendaddr,jdbcType=VARCHAR},
+      TransPortStartDate = #{transportstartdate,jdbcType=VARCHAR},
+      TransPortEndDate = #{transportenddate,jdbcType=VARCHAR},
+      ReceiveQuantity = #{receivequantity,jdbcType=DOUBLE},
+      Receiver = #{receiver,jdbcType=VARCHAR},
+      ReceiveDate = #{receivedate,jdbcType=VARCHAR},
+      FK_DisposalMethod = #{fkDisposalmethod,jdbcType=VARCHAR},
+      ReceiveUnitLicenseNum = #{receiveunitlicensenum,jdbcType=VARCHAR},
+      BarCode = #{barcode,jdbcType=VARCHAR},
+      FK_TransferAreaTypeCode = #{fkTransferareatypecode,jdbcType=VARCHAR},
+      MoveYear = #{moveyear,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where TransferListNum = #{transferlistnum,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+      author:xsm
+      description: 通过自定义参数获取转移联单信息
+      param:
+      date: 2019/10/21 19:38
+   -->
+  <select id="getTransferListsByParamMap" resultType="map" parameterType="map">
+      SELECT
+      T_WXFW_TransferList.PK_ID pkid,
+      TransferListNum transferlistnum,
+      T_BAS_Pollution.PollutionName productentname,
+      T_WXFW_TransferList.TransferentName,
+      ReceiveEntName receiveentname,
+      T_WXFW_TransferList.FK_WasteMaterialCode FKWasteMaterialCode,
+      PUB_CODE_WasteMaterial.name FKWasteMaterialName,
+      convert(varchar(10),T_WXFW_TransferList.TransPortEndDate,120) TransPortEndDate,
+      convert(varchar(10),T_WXFW_TransferList.TransPortStartDate,120) TransPortStartDate,
+      convert(varchar(10),T_WXFW_TransferList.TransferTime,120) transfertime,
+      convert(varchar(10),T_WXFW_TransferList.ReceiveDate,120) receivedate,
+      ReceiveQuantity,
+      stuff((
+    select ','+PUB_CODE_DisposalMethod.name from PUB_CODE_DisposalMethod
+    where charindex(','+PUB_CODE_DisposalMethod.code+',',','+T_WXFW_TransferList.FK_DisposalMethod+',')>0
+    order by PUB_CODE_DisposalMethod.code
+    for xml path('')
+    ),1,1,'') as disposalmethodname
+      FROM
+      T_WXFW_TransferList
+      JOIN T_BAS_Pollution ON T_WXFW_TransferList.FK_ProductentID=	T_BAS_Pollution.PK_PollutionID
+      LEFT JOIN PUB_CODE_DisposalMethod ON T_WXFW_TransferList.FK_DisposalMethod = PUB_CODE_DisposalMethod.code
+      LEFT JOIN PUB_CODE_WasteMaterial ON T_WXFW_TransferList.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fkpollutionid !=null and fkpollutionid !='' ">
+        and T_WXFW_TransferList.FK_ProductentID = #{fkpollutionid}
+      </if>
+      <if test="fkwastematerialcode !=null and fkwastematerialcode !='' ">
+        and T_WXFW_TransferList.FK_WasteMaterialCode = #{fkwastematerialcode}
+      </if>
+      <if test="transportstartdate !=null and transportstartdate !='' ">
+        and convert(varchar(10),T_WXFW_TransferList.TransPortStartDate,120) = #{transportstartdate}
+      </if>
+      <if test="transferlistnum !=null and transferlistnum !='' ">
+        and T_WXFW_TransferList.transferlistnum = #{transferlistnum}
+      </if>
+      <if test="transferentname!=null and transferentname!='' ">
+        and T_WXFW_TransferList.TransferentName like concat('%',#{transferentname},'%')
+      </if>
+      <if test="productentname!=null and productentname!='' ">
+        and T_WXFW_TransferList.productentname like concat('%',#{productentname},'%')
+      </if>
+      <if test="receiveentname!=null and receiveentname!='' ">
+        and T_WXFW_TransferList.ReceiveEntName like concat('%',#{receiveentname},'%')
+      </if>
+    </trim>
+    order by T_WXFW_TransferList.ReceiveDate DESC
+  </select>
+
+    <!--
+     author:xsm
+     description: 通过id查询转移联单详情
+     param:
+     date: 2019/10/21 19:15
+ -->
+    <select id="getTransferListDetailByID" resultType="map" parameterType="string">
+        SELECT
+            T_WXFW_TransferList.PK_ID pkid,
+            TransferListNum transferlistnum,
+            T_BAS_Pollution.PollutionName productentname,
+            TransferentName,
+            ReceiveEntName,
+            PUB_CODE_WasteMaterial.Name WasteMaterialName,
+            TransferQuantity,
+            QuantityUnit,
+            MaterialProperty,
+            case MaterialState when '1' then '固态' when '2' then '液态' when '3' then '气态' when '4' then '半固态' when '5' then '其它'  end MaterialState,
+             case PackingWay when '1' then '瓶' when '2' then '桶' when '3' then '袋' when '4' then '槽罐' when '5' then '其它'  end PackingWay,
+            DangerousComponent,
+            EmergencyMeasure,
+             case OutTransPortpurpose when '1' then '中转贮存' when '2' then '利用' when '3' then '处理' when '4' then '处置' when '5' then '其它'  end OutTransPortpurpose,
+            Shipper,
+            TransPortAddress,
+            FirstTransPorter,
+            FirstTransPortToolModel,
+            FirstTransPortToolNum,
+            FirstTransPortLicenseNum,
+            FirstTransPortStartAddr,
+            FirstTransPortMidAddr,
+            FirstTransPortEndAddr,
+            SecondTransPorter,
+            SecondTransPortToolModel,
+            SecondTransPortToolNum,
+            SecondTransPortLicenseNum,
+            SecondTransPortStartAddr,
+            SecondTransPortMidAddr,
+            SecondTransPortEndAddr,
+            convert(varchar(10),T_WXFW_TransferList.FirstTransPortDate,120) FirstTransPortDate,
+            convert(varchar(10),T_WXFW_TransferList.TransferTime,120) TransferTime,
+            convert(varchar(10),T_WXFW_TransferList.SecondTransPortDate,120) SecondTransPortDate,
+            convert(varchar(10),T_WXFW_TransferList.TransPortStartDate,120) TransPortStartDate,
+            convert(varchar(10),T_WXFW_TransferList.TransPortEndDate,120) TransPortEndDate,
+            convert(varchar(10),T_WXFW_TransferList.ReceiveDate,120) ReceiveDate,
+            ReceiveQuantity,
+            Receiver,
+            stuff((
+            select ','+PUB_CODE_DisposalMethod.name from PUB_CODE_DisposalMethod
+            where charindex(','+PUB_CODE_DisposalMethod.code+',',','+T_WXFW_TransferList.FK_DisposalMethod+',')>0
+            order by PUB_CODE_DisposalMethod.code
+            for xml path('')
+            ),1,1,'') as disposalmethodname,
+            ReceiveUnitLicenseNum,
+            PUB_CODE_TransferAreaType.Name TransferAreaTypeName,
+            MoveYear,
+            T_WXFW_TransferList.Remark,
+            T_WXFW_TransferList.UpdateUser,
+            convert(varchar(20),T_WXFW_TransferList.UpdateTime,120) UpdateTime
+            FROM T_WXFW_TransferList
+            JOIN T_BAS_Pollution ON T_WXFW_TransferList.FK_ProductentID=T_BAS_Pollution.PK_PollutionID
+            LEFT JOIN PUB_CODE_DisposalMethod ON T_WXFW_TransferList.FK_DisposalMethod = PUB_CODE_DisposalMethod.code
+            LEFT JOIN PUB_CODE_WasteMaterial ON T_WXFW_TransferList.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.code
+            LEFT JOIN PUB_CODE_TransferAreaType ON T_WXFW_TransferList.FK_TransferAreaTypeCode = PUB_CODE_TransferAreaType.Code
+        where T_WXFW_TransferList.PK_ID = #{pkid}
+    </select>
+
+
+  <select id="getTransferlistnumByParams" parameterType="map" resultType="string">
+    <if test="transferlistnums!=null and transferlistnums.size>0">
+      select
+      transferlistnum
+      from
+      T_WXFW_TransferList
+      where
+      transferlistnum in
+      <foreach collection="transferlistnums" item="item" separator="," close=")" open="(">
+          #{item}
+      </foreach>
+    </if>
+  </select>
+
+
+  <select id="getTransferListInfoByParamMap" parameterType="map" resultType="map">
+    select
+    PUB_CODE_WasteMaterial.code+PUB_CODE_WasteMaterial.name FKWasteMaterialName,
+    PUB_CODE_WasteMaterial.code FKWasteMaterialCode,
+    T_BAS_Pollution.PollutionName,
+    <include refid="Base_Column_List"/>
+    from T_WXFW_TransferList
+    left join PUB_CODE_WasteMaterial on PUB_CODE_WasteMaterial.code=T_WXFW_TransferList.FK_WasteMaterialCode
+    left join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_WXFW_TransferList.FK_ProductentID
+    <where>
+      <if test="pkid!=null and pkid!='' ">
+        AND T_WXFW_TransferList.PK_ID = #{pkid}
+      </if>
+      <if test="transferlistnum!=null and transferlistnum!='' ">
+        AND transferlistnum like concat('%',#{transferlistnum},'%')
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        AND T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="fkwastematerialcode!=null and fkwastematerialcode!='' ">
+        AND PUB_CODE_WasteMaterial.code =  #{fkwastematerialcode}
+      </if>
+      <if test="starttime!=null and starttime!=''">
+        and convert(varchar(10),TransferTime,120) >=  convert(varchar(7),#{starttime},120)
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and convert(varchar(10),TransferTime,120) <![CDATA[<=]]>  convert(varchar(7),#{endtime},120)
+      </if>
+      <if test="startyear!=null and startyear!=''">
+        and convert(varchar(4),TransferTime,120) >= #{startyear}
+      </if>
+      <if test="endyear!=null and endyear!=''">
+        and convert(varchar(4),TransferTime,120) <![CDATA[<=]]> #{endyear}
+      </if>
+    </where>
+  </select>
+
+  <!--
+       author:xsm
+       description: 统计按月份或年份分组的危废转移情况
+       param:
+       date: 2022/05/19 13:53
+   -->
+  <select id="countTransferNumDataGroupByYear" parameterType="map" resultType="map">
+    select
+    <choose>
+      <when test="monthstarttime != null">
+        convert(varchar(7),TransferTime,120) monthtime,
+      </when>
+      <otherwise>
+        convert(varchar(4),TransferTime,120) yeartime,
+      </otherwise>
+    </choose>
+    T_WXFW_TransferList.FK_TransferAreaTypeCode transferareatypecode,
+    PUB_CODE_TransferAreaType.Name transferareatypename,
+    Convert(FLOAT,round(sum(T_WXFW_TransferList.TransferQuantity),2)) num
+    from T_WXFW_TransferList
+    left join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_WXFW_TransferList.FK_ProductentID
+    LEFT JOIN PUB_CODE_TransferAreaType ON T_WXFW_TransferList.FK_TransferAreaTypeCode = PUB_CODE_TransferAreaType.Code
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and convert(varchar(4),TransferTime,120) >= #{starttime}
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and convert(varchar(4),TransferTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="monthstarttime!=null and monthstarttime!=''">
+        and convert(varchar(7),TransferTime,120) >= #{monthstarttime}
+      </if>
+      <if test="monthendtime!=null and monthendtime!=''">
+        and convert(varchar(7),TransferTime,120) <![CDATA[<=]]> #{monthendtime}
+      </if>
+    </where>
+    <choose>
+      <when test="monthstarttime != null">
+        group by  convert(varchar(7),TransferTime,120),T_WXFW_TransferList.FK_TransferAreaTypeCode,PUB_CODE_TransferAreaType.Name
+        ORDER BY   convert(varchar(7),TransferTime,120),T_WXFW_TransferList.FK_TransferAreaTypeCode,PUB_CODE_TransferAreaType.Name
+      </when>
+      <otherwise>
+        group by  convert(varchar(4),TransferTime,120),T_WXFW_TransferList.FK_TransferAreaTypeCode,PUB_CODE_TransferAreaType.Name
+        ORDER BY   convert(varchar(4),TransferTime,120),T_WXFW_TransferList.FK_TransferAreaTypeCode,PUB_CODE_TransferAreaType.Name
+      </otherwise>
+    </choose>
+  </select>
+
+  <!--
+       author:xsm
+       description: 统计按危废父级种类分组的危废转移情况
+       param:
+       date: 2022/05/19 13:53
+   -->
+  <select id="countTransferNumDataGroupByParentCode" parameterType="map" resultType="map">
+    SELECT
+    tt.Parentcode,
+    t1.Name,
+    Convert(FLOAT,round(sum(tt.TransferQuantity),2)) num FROM
+    (select
+    CASE  WHEN PUB_CODE_WasteMaterial.parentcode is not null THEN PUB_CODE_WasteMaterial.parentcode ELSE PUB_CODE_WasteMaterial.code end parentcode,
+    T_WXFW_TransferList.*
+    from T_WXFW_TransferList
+    left join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_WXFW_TransferList.FK_ProductentID
+    LEFT JOIN PUB_CODE_WasteMaterial ON T_WXFW_TransferList.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.code
+    <where>
+      <if test="starttime!=null and starttime!=''">
+        and convert(varchar(4),TransferTime,120) >= #{starttime}
+      </if>
+      <if test="endtime!=null and endtime!=''">
+        and convert(varchar(4),TransferTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="transferareatypecode!=null and transferareatypecode!=''">
+        and T_WXFW_TransferList.FK_TransferAreaTypeCode = #{transferareatypecode}
+      </if>
+    </where>
+    )tt  join pub_code_wastematerial t1 on tt.parentcode = t1.Code
+    group by tt.Parentcode,t1.Name
+  </select>
+</mapper>

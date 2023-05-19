@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.entproblemrectifyreport.EntProblemRectifyReportMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.entproblemrectifyreport.EntProblemRectifyReportVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="CheckTime" jdbcType="TIMESTAMP" property="checktime" />
+    <result column="PreparationUserID" jdbcType="VARCHAR" property="preparationuserid" />
+    <result column="PreparationTime" jdbcType="TIMESTAMP" property="preparationtime" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateDate" jdbcType="TIMESTAMP" property="updatedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, CheckTime, PreparationUserID, PreparationTime, FK_FileID, 
+    UpdateUser, UpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_EntProblemRectifyReport
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_EntProblemRectifyReport
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.entproblemrectifyreport.EntProblemRectifyReportVO">
+    insert into T_GJ_EntProblemRectifyReport (PK_ID, FK_PollutionID, CheckTime, 
+      PreparationUserID, PreparationTime, FK_FileID, 
+      UpdateUser, UpdateDate)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{checktime,jdbcType=TIMESTAMP}, 
+      #{preparationuserid,jdbcType=VARCHAR}, #{preparationtime,jdbcType=TIMESTAMP}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.entproblemrectifyreport.EntProblemRectifyReportVO">
+    insert into T_GJ_EntProblemRectifyReport
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="checktime != null">
+        CheckTime,
+      </if>
+      <if test="preparationuserid != null">
+        PreparationUserID,
+      </if>
+      <if test="preparationtime != null">
+        PreparationTime,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatedate != null">
+        UpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preparationuserid != null">
+        #{preparationuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="preparationtime != null">
+        #{preparationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.entproblemrectifyreport.EntProblemRectifyReportVO">
+    update T_GJ_EntProblemRectifyReport
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null">
+        CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preparationuserid != null">
+        PreparationUserID = #{preparationuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="preparationtime != null">
+        PreparationTime = #{preparationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.entproblemrectifyreport.EntProblemRectifyReportVO">
+    update T_GJ_EntProblemRectifyReport
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      CheckTime = #{checktime,jdbcType=TIMESTAMP},
+      PreparationUserID = #{preparationuserid,jdbcType=VARCHAR},
+      PreparationTime = #{preparationtime,jdbcType=TIMESTAMP},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+  author:xsm
+  description: 通过自定义参数获取企业问题整改报告信息
+  param:
+  date: 2021/07/09 13:42
+  -->
+  <select id="getEntProblemRectifyReportByParamMap" parameterType="map" resultType="map">
+    SELECT
+    PK_ID pkid,
+    FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    convert(varchar(10),T_GJ_EntProblemRectifyReport.CheckTime,120)CheckTime,
+    PreparationUserID,
+    Base_UserInfo.User_Name PreparationUserName,
+    convert(varchar(10),T_GJ_EntProblemRectifyReport.PreparationTime,120)PreparationTime,
+    T_GJ_EntProblemRectifyReport.FK_FileID fkfileid
+    FROM
+    T_GJ_EntProblemRectifyReport
+    JOIN T_BAS_Pollution ON T_GJ_EntProblemRectifyReport.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN Base_UserInfo ON T_GJ_EntProblemRectifyReport.PreparationUserID = Base_UserInfo.User_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and T_BAS_Pollution.PollutionName  like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND convert(varchar(10),T_GJ_EntProblemRectifyReport.CheckTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND convert(varchar(10),T_GJ_EntProblemRectifyReport.CheckTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+  </select>
+
+
+  <!--
+  author:xsm
+  description: 通过id获取企业问题整改报告信息
+  param:
+  date: 2021/07/09 13:42
+  -->
+  <select id="getEntProblemRectifyReportByID" parameterType="String" resultType="map">
+    SELECT
+    PK_ID pkid,
+    FK_PollutionID fkpollutionid,
+    convert(varchar(10),T_GJ_EntProblemRectifyReport.CheckTime,120)CheckTime,
+    PreparationUserID,
+    convert(varchar(10),T_GJ_EntProblemRectifyReport.PreparationTime,120)PreparationTime,
+    T_GJ_EntProblemRectifyReport.FK_FileID fkfileid
+    FROM
+    T_GJ_EntProblemRectifyReport
+    JOIN T_BAS_Pollution ON T_GJ_EntProblemRectifyReport.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN Base_UserInfo ON T_GJ_EntProblemRectifyReport.PreparationUserID = Base_UserInfo.User_ID
+   WHERE T_GJ_EntProblemRectifyReport.PK_ID = #{pkid}
+  </select>
+
+
+  <!--
+author:xsm
+description: 通过id获取企业问题整改报告详情信息
+param:
+date: 2021/07/09 13:41
+-->
+  <select id="getEntProblemRectifyReportDetailByID" parameterType="String" resultType="map">
+    SELECT
+   PK_ID pkid,
+    FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    convert(varchar(10),T_GJ_EntProblemRectifyReport.CheckTime,120)CheckTime,
+    PreparationUserID,
+    Base_UserInfo.User_Name PreparationUserName,
+    convert(varchar(10),T_GJ_EntProblemRectifyReport.PreparationTime,120)PreparationTime,
+     T_GJ_EntProblemRectifyReport.UpdateUser,
+    convert(varchar(19),T_GJ_EntProblemRectifyReport.UpdateDate,120)UpdateDate,
+    T_GJ_EntProblemRectifyReport.FK_FileID fkfileid
+    FROM
+    T_GJ_EntProblemRectifyReport
+    JOIN T_BAS_Pollution ON T_GJ_EntProblemRectifyReport.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN Base_UserInfo ON T_GJ_EntProblemRectifyReport.PreparationUserID = Base_UserInfo.User_ID
+    WHERE T_GJ_EntProblemRectifyReport.PK_ID = #{pkid}
+  </select>
+
+
+
+  <!--
+author:xsm
+description: 验证企业检查报告是否重复
+param:
+date: 2021/06/29 17:09
+-->
+  <select id="IsEntCheckReportValidByParam" parameterType="map" resultType="map">
+    SELECT
+    *
+    FROM
+    T_GJ_EntProblemRectifyReport
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_GJ_EntProblemRectifyReport.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktime!=null and checktime!='' ">
+        and convert(varchar(10),T_GJ_EntProblemRectifyReport.CheckTime,120)= #{checktime}
+      </if>
+
+    </trim>
+
+  </select>
+</mapper>

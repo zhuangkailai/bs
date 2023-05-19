@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.SelfMonitorInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.SelfMonitorInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_MonitorPointID" jdbcType="VARCHAR" property="fkMonitorpointid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="PollutionType" jdbcType="NUMERIC" property="pollutiontype" />
+    <result column="MonitorContent" jdbcType="VARCHAR" property="monitorcontent" />
+    <result column="MonitorFacility" jdbcType="VARCHAR" property="monitorfacility" />
+    <result column="AutomaticMonitorIsNet" jdbcType="VARCHAR" property="automaticmonitorisnet" />
+    <result column="AutoInstrumentName" jdbcType="VARCHAR" property="autoinstrumentname" />
+    <result column="AutoInstrumentPostion" jdbcType="VARCHAR" property="autoinstrumentpostion" />
+    <result column="FacilityIsRequirement" jdbcType="VARCHAR" property="facilityisrequirement" />
+    <result column="MethodAndNum" jdbcType="VARCHAR" property="methodandnum" />
+    <result column="ManualFrequency" jdbcType="VARCHAR" property="manualfrequency" />
+    <result column="ManualMethod" jdbcType="VARCHAR" property="manualmethod" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateDate" jdbcType="TIMESTAMP" property="updatedate" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FK_MonitorPointID, FK_PollutantCode, PollutionType, MonitorContent, 
+    MonitorFacility, AutomaticMonitorIsNet, AutoInstrumentName, AutoInstrumentPostion, 
+    FacilityIsRequirement, MethodAndNum, ManualFrequency, ManualMethod, Remark, UpdateDate, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_SelfMonitorInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_SelfMonitorInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorInfoVO">
+    insert into T_GJ_SelfMonitorInfo (PK_ID, FK_PollutionID, FK_MonitorPointID, 
+      FK_PollutantCode, PollutionType, MonitorContent, 
+      MonitorFacility, AutomaticMonitorIsNet, 
+      AutoInstrumentName, AutoInstrumentPostion, 
+      FacilityIsRequirement, MethodAndNum, ManualFrequency, 
+      ManualMethod, Remark, UpdateDate, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointid,jdbcType=VARCHAR}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{pollutiontype,jdbcType=NUMERIC}, #{monitorcontent,jdbcType=VARCHAR}, 
+      #{monitorfacility,jdbcType=VARCHAR}, #{automaticmonitorisnet,jdbcType=VARCHAR},
+      #{autoinstrumentname,jdbcType=VARCHAR}, #{autoinstrumentpostion,jdbcType=VARCHAR}, 
+      #{facilityisrequirement,jdbcType=VARCHAR}, #{methodandnum,jdbcType=VARCHAR}, #{manualfrequency,jdbcType=VARCHAR},
+      #{manualmethod,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorInfoVO">
+    insert into T_GJ_SelfMonitorInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointID,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="pollutiontype != null">
+        PollutionType,
+      </if>
+      <if test="monitorcontent != null">
+        MonitorContent,
+      </if>
+      <if test="monitorfacility != null">
+        MonitorFacility,
+      </if>
+      <if test="automaticmonitorisnet != null">
+        AutomaticMonitorIsNet,
+      </if>
+      <if test="autoinstrumentname != null">
+        AutoInstrumentName,
+      </if>
+      <if test="autoinstrumentpostion != null">
+        AutoInstrumentPostion,
+      </if>
+      <if test="facilityisrequirement != null">
+        FacilityIsRequirement,
+      </if>
+      <if test="methodandnum != null">
+        MethodAndNum,
+      </if>
+      <if test="manualfrequency != null">
+        ManualFrequency,
+      </if>
+      <if test="manualmethod != null">
+        ManualMethod,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatedate != null">
+        UpdateDate,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutiontype != null">
+        #{pollutiontype,jdbcType=NUMERIC},
+      </if>
+      <if test="monitorcontent != null">
+        #{monitorcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorfacility != null">
+        #{monitorfacility,jdbcType=VARCHAR},
+      </if>
+      <if test="automaticmonitorisnet != null">
+        #{automaticmonitorisnet,jdbcType=VARCHAR},
+      </if>
+      <if test="autoinstrumentname != null">
+        #{autoinstrumentname,jdbcType=VARCHAR},
+      </if>
+      <if test="autoinstrumentpostion != null">
+        #{autoinstrumentpostion,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityisrequirement != null">
+        #{facilityisrequirement,jdbcType=VARCHAR},
+      </if>
+      <if test="methodandnum != null">
+        #{methodandnum,jdbcType=VARCHAR},
+      </if>
+      <if test="manualfrequency != null">
+        #{manualfrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="manualmethod != null">
+        #{manualmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorInfoVO">
+    update T_GJ_SelfMonitorInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointid != null">
+        FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutiontype != null">
+        PollutionType = #{pollutiontype,jdbcType=NUMERIC},
+      </if>
+      <if test="monitorcontent != null">
+        MonitorContent = #{monitorcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorfacility != null">
+        MonitorFacility = #{monitorfacility,jdbcType=VARCHAR},
+      </if>
+      <if test="automaticmonitorisnet != null">
+        AutomaticMonitorIsNet = #{automaticmonitorisnet,jdbcType=VARCHAR},
+      </if>
+      <if test="autoinstrumentname != null">
+        AutoInstrumentName = #{autoinstrumentname,jdbcType=VARCHAR},
+      </if>
+      <if test="autoinstrumentpostion != null">
+        AutoInstrumentPostion = #{autoinstrumentpostion,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityisrequirement != null">
+        FacilityIsRequirement = #{facilityisrequirement,jdbcType=VARCHAR},
+      </if>
+      <if test="methodandnum != null">
+        MethodAndNum = #{methodandnum,jdbcType=VARCHAR},
+      </if>
+      <if test="manualfrequency != null">
+        ManualFrequency = #{manualfrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="manualmethod != null">
+        ManualMethod = #{manualmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.SelfMonitorInfoVO">
+    update T_GJ_SelfMonitorInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointID = #{fkMonitorpointid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      PollutionType = #{pollutiontype,jdbcType=NUMERIC},
+      MonitorContent = #{monitorcontent,jdbcType=VARCHAR},
+      MonitorFacility = #{monitorfacility,jdbcType=VARCHAR},
+      AutomaticMonitorIsNet = #{automaticmonitorisnet,jdbcType=VARCHAR},
+      AutoInstrumentName = #{autoinstrumentname,jdbcType=VARCHAR},
+      AutoInstrumentPostion = #{autoinstrumentpostion,jdbcType=VARCHAR},
+      FacilityIsRequirement = #{facilityisrequirement,jdbcType=VARCHAR},
+      MethodAndNum = #{methodandnum,jdbcType=VARCHAR},
+      ManualFrequency = #{manualfrequency,jdbcType=VARCHAR},
+      ManualMethod = #{manualmethod,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getOutPutByParam" parameterType="map" resultType="map">
+    SELECT
+      t1.pk_id,
+      t1.outputname,
+      t1.outputcode
+    FROM
+    <if test="pollutiontype !=null and pollutiontype ==1 ">
+      t_bas_wateroutputinfo t1
+      where
+      (t1.outputtype = '1' or t1.outputtype is null)
+      and t1.fk_pollutionid = #{pollutionid}
+    </if>
+
+    <if test="pollutiontype !=null and pollutiontype ==3 ">
+      t_bas_wateroutputinfo t1
+      where
+       t1.outputtype = '3'
+      and t1.fk_pollutionid = #{pollutionid}
+    </if>
+    <if test="pollutiontype !=null and pollutiontype ==2 ">
+      t_bas_gasoutputinfo t1
+      where
+       t1.fk_monitorpointtypecode = '2'
+      and t1.fk_pollutionid = #{pollutionid}
+    </if>
+    order by t1.outputcode,t1.outputname
+  </select>
+
+  <select id="getMonitorContentByPollutionId" parameterType="map" resultType="String">
+    SELECT distinct
+      monitorcontent
+    FROM
+     t_gj_selfmonitorinfo where fk_pollutionid = #{pollutionid}
+  </select>
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    SELECT
+      t1.pollutiontype,
+      t1.manualmethod,
+      t1.autoinstrumentname,
+      t1.autoinstrumentpostion,
+      t1.automaticmonitorisnet,
+      t1.facilityisrequirement,
+      t1.manualfrequency,
+      t1.methodandnum,
+      t1.monitorcontent,
+      t1.monitorfacility,
+      t1.remark,
+      t2.pk_id AS fkmonitorpointid,
+      t1.fk_pollutionid AS fkpollutionid,
+      t1.fk_pollutantcode AS fkpollutantcode,
+      t3.Name pollutantname,
+      T2.monitorpointtype,
+      t2.outputcode,
+      t2.outputname,
+      t1.pk_id pkId
+    FROM
+      t_gj_selfmonitorinfo t1
+      LEFT JOIN (
+      SELECT
+      t2.pk_id,
+      t2.outputcode,
+      t2.outputname,
+      t2.outputtype,
+      CASE
+      t2.outputtype
+      WHEN '3' THEN
+      '37' ELSE '1'
+      END monitorpointtype
+      FROM
+      t_bas_wateroutputinfo t2 UNION
+      SELECT
+      t2.pk_id,
+      t2.outputcode,
+      t2.outputname,
+      t2.fk_monitorpointtypecode AS outputtype,
+      t2.fk_monitorpointtypecode monitorpointtype
+      FROM
+      t_bas_gasoutputinfo t2
+      ) t2 ON t2.outputtype = t1.pollutiontype
+      AND t2.pk_id = t1.fk_monitorpointid
+      LEFT JOIN pub_code_pollutantfactor t3 ON t3.code = t1.fk_pollutantcode
+      AND t2.monitorpointtype = t3.pollutanttype
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="pollutiontypes!=null and pollutiontypes.size>0">
+        and t1.PollutionType in
+        <foreach collection="pollutiontypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by  t1.pollutiontype,  t2.outputcode, t2.outputname,t1.monitorcontent
+  </select>
+
+</mapper>

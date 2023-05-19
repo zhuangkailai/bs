@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.checkitemdata.CheckItemDataMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.checkitemdata.CheckItemDataVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CheckEntID" jdbcType="VARCHAR" property="fkCheckentid" />
+    <result column="FK_CheckTemplateConfigID" jdbcType="VARCHAR" property="fkchecktemplateconfigid" />
+    <result column="CheckSituation" jdbcType="VARCHAR" property="checksituation" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CheckEntID, FK_CheckTemplateConfigID, CheckSituation,Remark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_CheckItemData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByCheckEntInfoID" parameterType="java.lang.String">
+    delete from T_GJ_CheckItemData
+    where FK_CheckEntID = #{fkcheckentid}
+  </delete>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_CheckItemData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.checkitemdata.CheckItemDataVO">
+    insert into T_GJ_CheckItemData (PK_ID, FK_CheckEntID,FK_CheckTemplateConfigID, CheckSituation,
+      Remark, UpdateUser,
+      UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkCheckentid,jdbcType=VARCHAR},
+      #{fkchecktemplateconfigid,jdbcType=VARCHAR}, #{checksituation,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkitemdata.CheckItemDataVO">
+    insert into T_GJ_CheckItemData
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkCheckentid != null">
+        FK_CheckEntID,
+      </if>
+      <if test="fkchecktemplateconfigid != null">
+        FK_CheckTemplateConfigID,
+      </if>
+      <if test="checksituation != null">
+        CheckSituation,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkCheckentid != null">
+        #{fkCheckentid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkchecktemplateconfigid != null">
+        #{fkchecktemplateconfigid,jdbcType=VARCHAR},
+      </if>
+      <if test="checksituation != null">
+        #{checksituation,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkitemdata.CheckItemDataVO">
+    update T_GJ_CheckItemData
+    <set>
+      <if test="fkCheckentid != null">
+        FK_CheckEntID = #{fkCheckentid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkchecktemplateconfigid != null">
+        FK_CheckTemplateConfigID = #{fkchecktemplateconfigid,jdbcType=VARCHAR},
+      </if>
+      <if test="checksituation != null">
+        CheckSituation = #{checksituation,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.checkitemdata.CheckItemDataVO">
+    update T_GJ_CheckItemData
+    set FK_CheckEntID = #{fkCheckentid,jdbcType=VARCHAR},
+      FK_CheckTemplateConfigID = #{fkchecktemplateconfigid,jdbcType=VARCHAR},
+      CheckSituation = #{checksituation,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+    * @author: xsm
+    * @date: 2021/01/12 0012 下午 15:33
+    * @Description: 批量插入点位地址设置信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_GJ_CheckItemData (PK_ID, FK_CheckEntID,FK_CheckTemplateConfigID, CheckSituation,
+    Remark, UpdateUser,
+    UpdateTime)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkCheckentid,jdbcType=VARCHAR},  #{item.fkchecktemplateconfigid,jdbcType=VARCHAR}, #{item.checksituation,jdbcType=VARCHAR},
+       #{item.remark,jdbcType=VARCHAR}, #{item.updateuser,jdbcType=VARCHAR},
+      #{item.updatetime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+
+  <!--
+    author:xsm
+    description: 根据污染源ID、检查日期、检查类型获取检查项目数据
+    param:
+    date: 2021/06/29 17:09
+-->
+  <select id="getAllCheckItemDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t4.PK_ID,
+    tt.PK_ID checkitemid,
+    tt.FK_CheckEntID,
+    t4.OrderIndex,
+    t5.CheckCategoryName,
+    t4.CheckCategory,
+    t4.CheckContent,
+    t4.CheckSituation CheckSituationOption,
+    t4.CheckSituationType,
+    tt.CheckSituation,
+    t4.FK_FileID fkfileid,
+    t4.TextContent,
+    t4.BasisItem,
+    t4.QuestionsCommon,
+    t4.ExplainCommon
+    FROM
+    T_GJ_CheckTemplateConfig t4
+    LEFT JOIN T_GJ_CheckCategoryData t5 ON t4.CheckCategory = t5.PK_ID
+    LEFT  JOIN
+    (SELECT
+    t.PK_ID,
+    t.FK_CheckTemplateConfigID,
+    t1.FK_PollutionID pollutionid,
+    t1.EntAddress,
+    t1.LinkMan,
+    t1.Telephone,
+    t1.CheckPeople,
+    t2.PollutionName,
+    t.FK_CheckEntID,
+    t.CheckSituation,
+    convert(varchar(10),t1.CheckTime,120) CheckTime,t.Remark FROM
+    T_GJ_CheckEntInfo t1
+    LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+    LEFT JOIN T_GJ_InspectType t3 ON t1.FK_CheckTypeCode = t3.PK_ID
+    LEFT JOIN T_GJ_CheckItemData t ON  t.FK_CheckEntID = t1.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktime!=null and checktime!='' ">
+        AND convert(varchar(10),t1.CheckTime,120) = #{checktime}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and t1.FK_CheckTypeCode = #{checktypecode}
+      </if>
+
+    </trim>
+    ) tt ON tt.FK_CheckTemplateConfigID = t4.PK_ID
+    <if test="dataflag!=null and dataflag=='pollution' ">
+    join T_GJ_EntCheckItemConfig config on t4.PK_ID = config.FK_CheckTemplateConfigID
+      and t4.FK_CheckTypeCode  = config.FK_CheckTypeCode
+      and config.FK_PollutionID = #{pollutionid}
+    </if>
+    <if test="checktypecode!=null and checktypecode!='' ">
+      where t4.FK_CheckTypeCode = #{checktypecode}
+    </if>
+    order by t4.OrderIndex
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 根据污染源ID、检查日期、检查类型获取检查项目记录的备注说明和附件
+    param:
+    date: 2021/07/2 11:09
+-->
+  <select id="getRemarkAndFileDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID checkitemdataid,
+    t3.PK_ID remarkinfoid,
+    t3.Remark,
+    t3.FK_FileID,
+    t4.FilePath,
+    t3.Status,
+    t4.OriginalFileName filename
+     FROM
+    T_GJ_CheckItemData  t1
+    JOIN  T_GJ_CheckEntInfo t2  ON  t1.FK_CheckEntID = t2.PK_ID
+    JOIN  T_GJ_CheckProblemExpound t3 ON t1.PK_ID = t3.FK_CheckItemDataID
+    LEFT JOIN  T_BAS_FileInfo t4 ON t3.FK_FileID = t4.FileFlag AND (t4.FileFlag  is not null and t4.FileFlag !='')
+    <trim prefix="where" prefixOverrides="AND|OR">
+
+      <if test="problemids !=null and problemids.size>0">
+        and t3.PK_ID in
+        <foreach collection="problemids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="checktime!=null and checktime!='' ">
+        AND convert(varchar(10),t2.CheckTime,120) = #{checktime}
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t2.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and t2.FK_CheckTypeCode = #{checktypecode}
+      </if>
+    </trim>
+   order by t1.PK_ID,t3.OrderIndex
+  </select>
+
+
+  <select id="getManyCheckProblemExpoundDataByParamMap" resultType="map" parameterType="map">
+    SELECT
+        t4.PK_ID,
+        tt.PK_ID checkitemid,
+        tt.FK_CheckEntID,
+        t4.OrderIndex,
+        t5.CheckCategoryName,
+        t4.CheckCategory,
+        t4.CheckContent,
+        t4.CheckSituation CheckSituationOption,
+        t4.CheckSituationType,
+        tt.CheckSituation,
+        t4.FK_FileID fkfileid,
+        t4.TextContent,
+        t4.BasisItem,
+        t4.QuestionsCommon,
+        t4.ExplainCommon
+    FROM
+        T_GJ_CheckTemplateConfig t4
+        LEFT JOIN T_GJ_CheckCategoryData t5 ON t4.CheckCategory = t5.PK_ID
+        RIGHT JOIN (
+        SELECT
+            t.PK_ID,
+            t.FK_CheckEntID,
+            t4.PK_ID ProblemExpoundId,
+            CheckSituation,
+            FK_CheckTemplateConfigID
+        FROM
+            T_GJ_CheckEntInfo t1
+            LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+            LEFT JOIN T_GJ_InspectType t3 ON t1.FK_CheckTypeCode = t3.PK_ID
+            LEFT JOIN T_GJ_CheckItemData t ON t.FK_CheckEntID = t1.PK_ID
+            RIGHT JOIN T_GJ_CheckProblemExpound t4 ON t4.FK_CheckItemDataID = t.PK_ID
+        ) tt ON tt.FK_CheckTemplateConfigID = t4.PK_ID
+    WHERE
+    <if test="problemids !=null and problemids.size>0">
+       tt.ProblemExpoundId in
+      <foreach collection="problemids" open="(" close=")" separator="," item="item">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY
+        t4.OrderIndex
+  </select>
+</mapper>

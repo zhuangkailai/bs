@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.GeneralMethodMapper">
+    <resultMap id="CouponMap" type="Map">
+        <collection property="roleList" ofType="map" javaType="ArrayList" column="Roles_Name"/>
+    </resultMap>
+
+
+    <select id="getQueryFieldData" parameterType="map" resultType="hashMap">
+        SELECT
+        ${fkFieldName},
+        ${FkKeyField}
+        FROM
+        ${tableName}
+        <if test="customsql!=null and customsql!=''">
+            ${customsql}
+        </if>
+        <if test="SortCode != null">
+            order by ${SortCode}
+        </if>
+    </select>
+
+
+    <delete id="batchDelete" parameterType="map">
+        delete from ${tableName}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND ${menuFieldName} = #{menuValue}
+            AND ${buttonFieldName} IN
+            <foreach collection="buttonValues" item="value" separator="," open="(" close=")">
+                #{value}
+            </foreach>
+        </trim>
+    </delete>
+
+    <delete id="deleteMiddleTableData">
+        ${sql}
+    </delete>
+
+    <select id="getTreeData" parameterType="map" resultType="java.util.HashMap">
+        <trim prefix="select" suffixOverrides=",">
+            <foreach collection="queryField" item="item">
+                ${item},
+            </foreach>
+        </trim>
+        from
+        ${tableName}
+        <if test="sql !=null">
+            ${sql}
+        </if>
+    </select>
+
+    <select id="getListData" parameterType="map" resultType="java.util.HashMap">
+        ${sqlInfo}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="whereSqlMap != null and whereSqlMap.size > 0">
+                <if test="whereSqlMap.whereMap != null and whereSqlMap.whereMap.size > 0">
+                    <foreach collection="whereSqlMap.whereMap" item="fieldValue" index="fieldName">
+                        and ${fieldName} like CONCAT('%',#{fieldValue},'%')
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.whereCharIndex != null and whereSqlMap.whereCharIndex.size > 0">
+                    <foreach collection="whereSqlMap.whereCharIndex" item="fieldValue" index="fieldName">
+                        and ${fieldValue}
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.whereEqual != null and whereSqlMap.whereEqual.size > 0">
+                    <foreach collection="whereSqlMap.whereEqual" item="fieldValue" index="fieldName">
+                        and ${fieldName} = #{fieldValue}
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.whereNoEqual != null and whereSqlMap.whereNoEqual.size > 0">
+                    <foreach collection="whereSqlMap.whereNoEqual" item="fieldValue" index="fieldName">
+                        and ${fieldName} != #{fieldValue}
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.customsql != null and whereSqlMap.customsql !='' ">
+                    and (${whereSqlMap.customsql})
+                </if>
+                <if test="whereSqlMap.customMap != null and whereSqlMap.customMap.size > 0">
+                    <foreach collection="whereSqlMap.customMap" item="fieldValue" index="fieldName">
+                        <if test="fieldValue == 'null'">
+                            and ${fieldName} is NULL
+                        </if>
+                        <if test="fieldValue == 'notnull'">
+                            and ${fieldName} is NOT NULL
+                        </if>
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.whereIn != null and whereSqlMap.whereIn.size > 0">
+                    <foreach collection="whereSqlMap.whereIn" item="fieldValue" index="fieldName">
+                        and ${fieldName} in
+                        <foreach collection="fieldValue" index="index" item="item" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.whereRange != null and whereSqlMap.whereRange.size > 0">
+                    <foreach collection="whereSqlMap.whereRange" item="fieldValue" index="fieldName">
+                        and ${fieldName}
+                        <if test="fieldValue.start != null and fieldValue.end != null ">
+                            BETWEEN #{fieldValue.start} AND #{fieldValue.end}
+                        </if>
+                        <if test="fieldValue.start != null and fieldValue.end == null ">
+                            >= #{fieldValue.start}
+                        </if>
+                        <if test="fieldValue.start == null and fieldValue.end != null ">
+                            <![CDATA[ <= ]]> #{fieldValue.end}
+                        </if>
+                    </foreach>
+                </if>
+                <if test="whereSqlMap.whereMonth != null and whereSqlMap.whereMonth.size > 0">
+                    <foreach collection="whereSqlMap.whereMonth" item="fieldValue" index="fieldName">
+                        and convert(varchar(7),${fieldName},120)
+                        <if test="fieldValue.start != null and fieldValue.end != null ">
+                            BETWEEN #{fieldValue.start} AND #{fieldValue.end}
+                        </if>
+                    </foreach>
+                </if>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getRelationTableForList" resultType="java.util.HashMap">
+        ${sql}
+        <if test="values!=null and values.size>0">
+            <foreach collection="values" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="getUpdateDataById" parameterType="map" resultType="java.util.HashMap">
+        <trim prefix="select" suffixOverrides=",">
+            <foreach collection="queryField" item="item">
+                ${item},
+            </foreach>
+        </trim>
+        from
+        ${tableName}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            and ${key} = #{value}
+        </trim>
+    </select>
+
+    <select id="getRelationTableData" parameterType="map" resultType="java.util.HashMap">
+        <trim prefix="select" suffixOverrides=",">
+            DISTINCT
+            <foreach collection="queryField" item="item">
+                ${item},
+            </foreach>
+        </trim>
+        from
+        ${tableName}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            and ${key} = #{value}
+        </trim>
+    </select>
+
+
+    <select id="getManyRelationTableData" resultType="java.util.HashMap">
+      ${sql}
+    </select>
+
+
+    <select id="getDetailRelationFieldData" parameterType="map" resultType="java.util.HashMap">
+        SELECT
+        ${filedName}
+        FROM
+        ${tableName}
+        WHERE
+        <trim prefixOverrides="AND|OR">
+            <if test="queryFieldValue!=null and queryFieldValue !=''">
+                and ${queryField} = #{queryFieldValue}
+            </if>
+            <if test="queryFieldValues!=null">
+                ${queryField} IN
+                <foreach collection="queryFieldValues" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="queryFieldSql!=null and queryFieldSql !=''">
+                and ${queryFieldSql}
+            </if>
+        </trim>
+    </select>
+
+
+
+    <insert id="doAddMethod" parameterType="map">
+        insert into ${tableName}
+        <if test="fieldList != null and fieldList.size > 0">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="fieldList" item="item">
+                    ${item},
+                </foreach>
+            </trim>
+            <trim prefix="values(" suffix=")" suffixOverrides=",">
+                <foreach collection="values" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </if>
+    </insert>
+
+
+    <update id="doEditMethod" parameterType="map">
+        update ${tableName}
+        <if test="editMap != null and editMap.size > 0">
+            <trim prefix="set">
+                <foreach collection="editMap" item="fieldValue" index="fieldName" separator=",">
+                    <choose>
+                        <when test="fieldValue != null  and fieldValue != ''">
+                            ${fieldName} = #{fieldValue}
+                        </when>
+                        <otherwise>
+                            ${fieldName} = NULL
+                        </otherwise>
+                    </choose>
+                </foreach>
+            </trim>
+            <trim prefix="where" prefixOverrides="AND|OR">
+                and ${key} = #{value}
+            </trim>
+        </if>
+    </update>
+
+    <insert id="batchAddData" parameterType="map">
+        insert into ${tableName}
+        <if test="fieldList != null and fieldList.size > 0">
+            <foreach collection="fieldList" item="item" open="(" separator="," close=")">
+                ${item}
+            </foreach>
+            <trim prefix="values">
+                <foreach collection="values" item="item" separator=",">
+                    <foreach collection="item" item="item1" open="(" separator="," close=")">
+                        #{item1}
+                    </foreach>
+                </foreach>
+            </trim>
+        </if>
+    </insert>
+
+
+    <delete id="deleteMethod" parameterType="map">
+        delete from ${tableName}
+        <trim prefix="where">
+            ${fieldName} in
+            <foreach collection="fieldValues" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </trim>
+    </delete>
+
+    <select id="isTableDataHaveInfo" parameterType="map" resultType="map">
+      select ${key} from ${tableName} where ${key} = #{value}
+    </select>
+
+    <select id="getPKFieldNameByTableName" resultType="String">
+        SELECT syscolumns.name
+        FROM syscolumns,sysobjects,sysindexes,sysindexkeys
+        WHERE syscolumns.id = object_id(#{tablename}) AND sysobjects.xtype = 'PK'
+        AND sysobjects.parent_obj = syscolumns.id
+        AND sysindexes.id = syscolumns.id
+        AND sysobjects.name = sysindexes.name AND sysindexkeys.id = syscolumns.id
+        AND sysindexkeys.indid = sysindexes.indid
+        AND syscolumns.colid = sysindexkeys.colid
+    </select>
+
+
+    <select id="getDeleteIDs" parameterType="map" resultType="map">
+        <if test="codeFieldName!=null and codeFieldName!=''">
+            WITH temp_menu (${pkFieldName}, ${parentFieldName},${codeFieldName}) AS (
+            SELECT
+            ${pkFieldName},
+            ${parentFieldName},
+            ${codeFieldName}
+            FROM
+            ${tableName}
+            WHERE
+            ${pkFieldName} = #{pkValue}
+            UNION ALL
+            SELECT
+            a.${pkFieldName},
+            a.${parentFieldName},
+            a.${codeFieldName}
+            FROM
+            ${tableName} a
+            INNER JOIN temp_menu b ON a.${parentFieldName} = b.${codeFieldName}
+            ) SELECT
+            *
+            FROM
+            temp_menu
+        </if>
+        <if test="codeFieldName == null">
+            WITH temp_menu (${pkFieldName}, ${parentFieldName}) AS (
+            SELECT
+            ${pkFieldName},
+            ${parentFieldName}
+            FROM
+            ${tableName}
+            WHERE
+            ${pkFieldName} = #{pkValue}
+            UNION ALL
+            SELECT
+            a.${pkFieldName},
+            a.${parentFieldName}
+            FROM
+            ${tableName} a
+            INNER JOIN temp_menu b ON a.${parentFieldName} = b.${pkFieldName}
+            ) SELECT
+            *
+            FROM
+            temp_menu
+        </if>
+    </select>
+
+
+    <select id="getDeleteData" parameterType="java.lang.String" resultType="java.lang.String">
+    WITH cte_parent (Menu_Id, ParentId) AS (
+        SELECT
+            Menu_Id,
+            ParentId
+        FROM
+            Base_SysMenu
+        WHERE
+            Menu_Id = #{menuid}
+        UNION ALL
+            SELECT
+                a.Menu_Id,
+                a.ParentId
+            FROM
+                Base_SysMenu a
+            INNER JOIN cte_parent b ON a.Menu_Id = b.ParentId
+    ) SELECT
+        *
+    FROM
+        cte_parent;
+    </select>
+</mapper>
+
+
+
+

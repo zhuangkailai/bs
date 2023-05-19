@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.WaterDischargeLimitMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.WaterDischargeLimitVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_LicenceID" jdbcType="VARCHAR" property="fkLicenceid" />
+    <result column="OutletType" jdbcType="VARCHAR" property="outlettype" />
+    <result column="FK_OutPutID" jdbcType="VARCHAR" property="fkOutputid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="PermitUpperConcentration" jdbcType="DOUBLE" property="permitupperconcentration" />
+    <result column="PermitLowerConcentration" jdbcType="DOUBLE" property="permitlowerconcentration" />
+    <result column="DischargeLimitValue1" jdbcType="DOUBLE" property="dischargelimitvalue1" />
+    <result column="DischargeLimitValue2" jdbcType="DOUBLE" property="dischargelimitvalue2" />
+    <result column="DischargeLimitValue3" jdbcType="DOUBLE" property="dischargelimitvalue3" />
+    <result column="DischargeLimitValue4" jdbcType="DOUBLE" property="dischargelimitvalue4" />
+    <result column="DischargeLimitValue5" jdbcType="DOUBLE" property="dischargelimitvalue5" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_LicenceID, OutletType, FK_OutPutID, FK_PollutantCode, PermitUpperConcentration, 
+    PermitLowerConcentration, DischargeLimitValue1, DischargeLimitValue2, DischargeLimitValue3, 
+    DischargeLimitValue4, DischargeLimitValue5, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PWXKZ_WaterDischargeLimit
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_PWXKZ_WaterDischargeLimit
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.WaterDischargeLimitVO">
+    insert into T_PWXKZ_WaterDischargeLimit (PK_ID, FK_LicenceID, OutletType, 
+      FK_OutPutID, FK_PollutantCode, PermitUpperConcentration, 
+      PermitLowerConcentration, DischargeLimitValue1, 
+      DischargeLimitValue2, DischargeLimitValue3, 
+      DischargeLimitValue4, DischargeLimitValue5, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkLicenceid,jdbcType=VARCHAR}, #{outlettype,jdbcType=VARCHAR}, 
+      #{fkOutputid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, #{permitupperconcentration,jdbcType=DOUBLE}, 
+      #{permitlowerconcentration,jdbcType=DOUBLE}, #{dischargelimitvalue1,jdbcType=DOUBLE}, 
+      #{dischargelimitvalue2,jdbcType=DOUBLE}, #{dischargelimitvalue3,jdbcType=DOUBLE}, 
+      #{dischargelimitvalue4,jdbcType=DOUBLE}, #{dischargelimitvalue5,jdbcType=DOUBLE}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.WaterDischargeLimitVO">
+    insert into T_PWXKZ_WaterDischargeLimit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkLicenceid != null">
+        FK_LicenceID,
+      </if>
+      <if test="outlettype != null">
+        OutletType,
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutID,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="permitupperconcentration != null">
+        PermitUpperConcentration,
+      </if>
+      <if test="permitlowerconcentration != null">
+        PermitLowerConcentration,
+      </if>
+      <if test="dischargelimitvalue1 != null">
+        DischargeLimitValue1,
+      </if>
+      <if test="dischargelimitvalue2 != null">
+        DischargeLimitValue2,
+      </if>
+      <if test="dischargelimitvalue3 != null">
+        DischargeLimitValue3,
+      </if>
+      <if test="dischargelimitvalue4 != null">
+        DischargeLimitValue4,
+      </if>
+      <if test="dischargelimitvalue5 != null">
+        DischargeLimitValue5,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceid != null">
+        #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="outlettype != null">
+        #{outlettype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="permitupperconcentration != null">
+        #{permitupperconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="permitlowerconcentration != null">
+        #{permitlowerconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue1 != null">
+        #{dischargelimitvalue1,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue2 != null">
+        #{dischargelimitvalue2,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue3 != null">
+        #{dischargelimitvalue3,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue4 != null">
+        #{dischargelimitvalue4,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue5 != null">
+        #{dischargelimitvalue5,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.WaterDischargeLimitVO">
+    update T_PWXKZ_WaterDischargeLimit
+    <set>
+      <if test="fkLicenceid != null">
+        FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="outlettype != null">
+        OutletType = #{outlettype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkOutputid != null">
+        FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="permitupperconcentration != null">
+        PermitUpperConcentration = #{permitupperconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="permitlowerconcentration != null">
+        PermitLowerConcentration = #{permitlowerconcentration,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue1 != null">
+        DischargeLimitValue1 = #{dischargelimitvalue1,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue2 != null">
+        DischargeLimitValue2 = #{dischargelimitvalue2,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue3 != null">
+        DischargeLimitValue3 = #{dischargelimitvalue3,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue4 != null">
+        DischargeLimitValue4 = #{dischargelimitvalue4,jdbcType=DOUBLE},
+      </if>
+      <if test="dischargelimitvalue5 != null">
+        DischargeLimitValue5 = #{dischargelimitvalue5,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.WaterDischargeLimitVO">
+    update T_PWXKZ_WaterDischargeLimit
+    set FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      OutletType = #{outlettype,jdbcType=VARCHAR},
+      FK_OutPutID = #{fkOutputid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      PermitUpperConcentration = #{permitupperconcentration,jdbcType=DOUBLE},
+      PermitLowerConcentration = #{permitlowerconcentration,jdbcType=DOUBLE},
+      DischargeLimitValue1 = #{dischargelimitvalue1,jdbcType=DOUBLE},
+      DischargeLimitValue2 = #{dischargelimitvalue2,jdbcType=DOUBLE},
+      DischargeLimitValue3 = #{dischargelimitvalue3,jdbcType=DOUBLE},
+      DischargeLimitValue4 = #{dischargelimitvalue4,jdbcType=DOUBLE},
+      DischargeLimitValue5 = #{dischargelimitvalue5,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--获取列表信息数据 lip 2022/8/8 17:20 -->
+  <select id="getDataListByParam" parameterType="map" resultType="map">
+    select
+    t.pk_id,
+    t1.outputcode,
+    t1.outputname,
+    t2.name as pollutantname,
+    t.permitupperconcentration,
+    t.permitlowerconcentration,
+    t.dischargelimitvalue1,
+    t.dischargelimitvalue2,
+    t.dischargelimitvalue3,
+    t.dischargelimitvalue4,
+    t.dischargelimitvalue5
+    from
+    t_pwxkz_waterdischargelimit t
+    inner join t_bas_wateroutputinfo t1 on t.fk_outputid = t1.pk_id
+    inner join pub_code_pollutantfactor t2 on t2.code = t.fk_pollutantcode
+    and t2.pollutanttype = '1'
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="licenceid!=null and licenceid!=''">
+        and t.FK_LicenceID  = #{licenceid}
+      </if>
+      <if test="outlettype!=null and outlettype!=''">
+        and t.OutletType  = #{outlettype}
+      </if>
+      order  by t2.orderindex
+    </trim>
+  </select>
+
+
+
+  <select id="getSpecialDataListByParam" parameterType="map" resultType="map">
+    select
+
+    t1.outputcode,
+    t1.outputname,
+    t.*
+    from
+    T_PWXKZ_SpecialWaterPollutantOutputLimit t
+    inner join t_bas_wateroutputinfo t1 on t.fk_outputid = t1.pk_id
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="licenceid!=null and licenceid!=''">
+        and t.FK_LicenceID  = #{licenceid}
+      </if>
+      <if test="outlettype!=null and outlettype!=''">
+        and t.OutletType  = #{outlettype}
+      </if>
+      order  by t1.outputcode,t1.outputname
+    </trim>
+  </select>
+
+</mapper>

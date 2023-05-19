@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.MonitorEquipmentMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.MonitorEquipmentVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="MonitorCode" jdbcType="VARCHAR" property="monitorcode"/>
+        <result column="MonitorName" jdbcType="VARCHAR" property="monitorname"/>
+        <result column="MontiorType" jdbcType="VARCHAR" property="montiortype"/>
+        <result column="MonitorFrequency" jdbcType="VARCHAR" property="monitorfrequency"/>
+        <result column="FK_MonitorPointOrOutPutID" jdbcType="VARCHAR" property="fkMonitorpointoroutputid"/>
+        <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkMonitorpointtypecode"/>
+        <result column="MonitorPollutant" jdbcType="VARCHAR" property="monitorpollutant"/>
+        <result column="FirstRunDate" jdbcType="TIMESTAMP" property="firstrundate"/>
+        <result column="Manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="Contact" jdbcType="VARCHAR" property="contact"/>
+        <result column="ContactPhone" jdbcType="VARCHAR" property="contactphone"/>
+        <result column="OperateMaintenanceUnit" jdbcType="VARCHAR" property="operatemaintenanceunit"/>
+        <result column="Status" jdbcType="NUMERIC" property="status"/>
+        <result column="OperateMaintenanceContact" jdbcType="VARCHAR" property="operatemaintenancecontact"/>
+        <result column="OperateMaintenanceContactPhone" jdbcType="VARCHAR" property="operatemaintenancecontactphone"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, MonitorCode, MonitorName, MontiorType, MonitorFrequency, FK_MonitorPointOrOutPutID,FK_MonitorPointTypeCode, MonitorPollutant,
+    FirstRunDate, Manufacturer, Contact, ContactPhone, OperateMaintenanceUnit, Status, 
+    OperateMaintenanceContact, OperateMaintenanceContactPhone, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_MonitorEquipment
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_MonitorEquipment
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.MonitorEquipmentVO">
+    insert into T_BAS_MonitorEquipment (PK_ID, MonitorCode, MonitorName, 
+      MontiorType, MonitorFrequency, FK_MonitorPointOrOutPutID,FK_MonitorPointTypeCode,
+      MonitorPollutant, FirstRunDate, Manufacturer, 
+      Contact, ContactPhone, OperateMaintenanceUnit, 
+      Status, OperateMaintenanceContact, OperateMaintenanceContactPhone, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{monitorcode,jdbcType=VARCHAR}, #{monitorname,jdbcType=VARCHAR}, 
+      #{montiortype,jdbcType=VARCHAR}, #{monitorfrequency,jdbcType=VARCHAR}, #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+      #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      #{monitorpollutant,jdbcType=VARCHAR}, #{firstrundate,jdbcType=TIMESTAMP}, #{manufacturer,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{contactphone,jdbcType=VARCHAR}, #{operatemaintenanceunit,jdbcType=VARCHAR}, 
+      #{status,jdbcType=NUMERIC}, #{operatemaintenancecontact,jdbcType=VARCHAR}, #{operatemaintenancecontactphone,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.MonitorEquipmentVO">
+        insert into T_BAS_MonitorEquipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="monitorcode != null">
+                MonitorCode,
+            </if>
+            <if test="monitorname != null">
+                MonitorName,
+            </if>
+            <if test="montiortype != null">
+                MontiorType,
+            </if>
+            <if test="monitorfrequency != null">
+                MonitorFrequency,
+            </if>
+            <if test="fkMonitorpointoroutputid != null">
+                FK_MonitorPointOrOutPutID,
+            </if>
+
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="monitorpollutant != null">
+                MonitorPollutant,
+            </if>
+            <if test="firstrundate != null">
+                FirstRunDate,
+            </if>
+            <if test="manufacturer != null">
+                Manufacturer,
+            </if>
+            <if test="contact != null">
+                Contact,
+            </if>
+            <if test="contactphone != null">
+                ContactPhone,
+            </if>
+            <if test="operatemaintenanceunit != null">
+                OperateMaintenanceUnit,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="operatemaintenancecontact != null">
+                OperateMaintenanceContact,
+            </if>
+            <if test="operatemaintenancecontactphone != null">
+                OperateMaintenanceContactPhone,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorcode != null">
+                #{monitorcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorname != null">
+                #{monitorname,jdbcType=VARCHAR},
+            </if>
+            <if test="montiortype != null">
+                #{montiortype,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorfrequency != null">
+                #{monitorfrequency,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointoroutputid != null">
+                #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpollutant != null">
+                #{monitorpollutant,jdbcType=VARCHAR},
+            </if>
+            <if test="firstrundate != null">
+                #{firstrundate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="manufacturer != null">
+                #{manufacturer,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="contactphone != null">
+                #{contactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="operatemaintenanceunit != null">
+                #{operatemaintenanceunit,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="operatemaintenancecontact != null">
+                #{operatemaintenancecontact,jdbcType=VARCHAR},
+            </if>
+            <if test="operatemaintenancecontactphone != null">
+                #{operatemaintenancecontactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.MonitorEquipmentVO">
+        update T_BAS_MonitorEquipment
+        <set>
+            <if test="monitorcode != null">
+                MonitorCode = #{monitorcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorname != null">
+                MonitorName = #{monitorname,jdbcType=VARCHAR},
+            </if>
+            <if test="montiortype != null">
+                MontiorType = #{montiortype,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorfrequency != null">
+                MonitorFrequency = #{monitorfrequency,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointoroutputid != null">
+                FK_MonitorPointOrOutPutID = #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpollutant != null">
+                MonitorPollutant = #{monitorpollutant,jdbcType=VARCHAR},
+            </if>
+            <if test="firstrundate != null">
+                FirstRunDate = #{firstrundate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="manufacturer != null">
+                Manufacturer = #{manufacturer,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                Contact = #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="contactphone != null">
+                ContactPhone = #{contactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="operatemaintenanceunit != null">
+                OperateMaintenanceUnit = #{operatemaintenanceunit,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="operatemaintenancecontact != null">
+                OperateMaintenanceContact = #{operatemaintenancecontact,jdbcType=VARCHAR},
+            </if>
+            <if test="operatemaintenancecontactphone != null">
+                OperateMaintenanceContactPhone = #{operatemaintenancecontactphone,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.MonitorEquipmentVO">
+    update T_BAS_MonitorEquipment
+    set MonitorCode = #{monitorcode,jdbcType=VARCHAR},
+      MonitorName = #{monitorname,jdbcType=VARCHAR},
+      MontiorType = #{montiortype,jdbcType=VARCHAR},
+      MonitorFrequency = #{monitorfrequency,jdbcType=VARCHAR},
+      FK_MonitorPointOrOutPutID = #{fkMonitorpointoroutputid,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      MonitorPollutant = #{monitorpollutant,jdbcType=VARCHAR},
+      FirstRunDate = #{firstrundate,jdbcType=TIMESTAMP},
+      Manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      Contact = #{contact,jdbcType=VARCHAR},
+      ContactPhone = #{contactphone,jdbcType=VARCHAR},
+      OperateMaintenanceUnit = #{operatemaintenanceunit,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=NUMERIC},
+      OperateMaintenanceContact = #{operatemaintenancecontact,jdbcType=VARCHAR},
+      OperateMaintenanceContactPhone = #{operatemaintenancecontactphone,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <!--20190527 xsm 根据自定义参数获取在线监测设备列表数据-->
+    <select id="getMonitorEquipmentByParams" parameterType="map" resultType="map">
+        select
+        t1.PK_ID,
+        MonitorName,
+        MontiorType,
+        MonitorFrequency,
+        t2.name MonitorPollutant,
+        Manufacturer
+        from
+        T_BAS_MonitorEquipment t1 LEFT join PUB_CODE_PollutantFactor t2
+        ON t1.MonitorPollutant = t2.Code AND t1.FK_MonitorPointTypeCode = t2.PollutantType
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.FK_MonitorPointOrOutPutID = #{fk_monitorpointoroutputid}
+            <if test="fk_monitorpointtypecode !=null and pointtype !='' ">
+                and t1.FK_MonitorPointTypeCode = #{fk_monitorpointtypecode}
+            </if>
+            <if test="monitorname!=null and monitorname !='' ">
+                AND t1.MonitorName LIKE '%'+'${monitorname}'+'%'
+            </if>
+        </trim>
+    </select>
+
+    <!--20190529 xsm 验证监测设备是否有重复数据-->
+    <select id="isTableDataHaveInfoByMonitorNameAndMonitorPointID" parameterType="map" resultType="map">
+        select
+        *
+        from T_BAS_MonitorEquipment
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fkMonitorpointoroutputid !=null and fkMonitorpointoroutputid !='' ">
+                and T_BAS_MonitorEquipment.FK_MonitorPointOrOutPutID = #{fkMonitorpointoroutputid}
+            </if>
+            <if test="monitorname!=null and monitorname !='' ">
+                AND T_BAS_MonitorEquipment.MonitorName=#{monitorname}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--20200805 xsm 获取监测设备详情-->
+    <select id="getMonitorEquipmentDetailByID" parameterType="map" resultType="map">
+        select
+        MonitorName,
+        MonitorFrequency,
+        PUB_CODE_PollutantFactor.Name MonitorPollutant,
+        OperateMaintenanceUnit,
+        OperateMaintenanceContact,
+        OperateMaintenanceContactPhone,
+        MontiorType,
+        Manufacturer,
+        T_BAS_MonitorEquipment.UpdateUser,
+        CONVERT (VARCHAR (20),T_BAS_MonitorEquipment.UpdateTime,120) UpdateTime
+        from T_BAS_MonitorEquipment LEFT JOIN  PUB_CODE_PollutantFactor ON  T_BAS_MonitorEquipment.MonitorPollutant = PUB_CODE_PollutantFactor.Code
+        AND FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE T_BAS_MonitorEquipment.PK_ID = #{pk_id}
+    </select>
+</mapper>

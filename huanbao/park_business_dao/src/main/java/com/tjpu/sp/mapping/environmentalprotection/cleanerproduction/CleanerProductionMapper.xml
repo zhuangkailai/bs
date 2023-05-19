@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.cleanerproduction.CleanerProductionMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.cleanerproduction.CleanerProductionVO">
+    <id column="PK_CleanerProductID" jdbcType="VARCHAR" property="pkCleanerproductid" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="ConsultOrganizition" jdbcType="VARCHAR" property="consultorganizition" />
+    <result column="AssessDate" jdbcType="VARCHAR" property="assessdate" />
+    <result column="AssessOrganizition" jdbcType="VARCHAR" property="assessorganizition" />
+    <result column="AssessRsult" jdbcType="NUMERIC" property="assessrsult" />
+    <result column="CheckDate" jdbcType="VARCHAR" property="checkdate" />
+    <result column="CheckOrganizition" jdbcType="VARCHAR" property="checkorganizition" />
+    <result column="CheckRsult" jdbcType="NUMERIC" property="checkrsult" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_CleanerProductID, FK_PollutionID, ConsultOrganizition, AssessDate, AssessOrganizition, 
+    AssessRsult, CheckDate, CheckOrganizition, CheckRsult, FK_FileID, UpdateUser, UpdateTime
+  </sql>
+  <!--回显-->
+  <sql id="Base_Column_List_Echo">
+    PK_CleanerProductID, FK_PollutionID, ConsultOrganizition, convert(varchar(10),AssessDate,120) AssessDate, AssessOrganizition,
+    AssessRsult, convert(varchar(10),CheckDate,120) CheckDate, CheckOrganizition, CheckRsult, FK_FileID, UpdateUser, convert(varchar(10),UpdateTime,120) UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List_Echo" />
+    from T_QJSC_CleanerProductionInfo
+    where PK_CleanerProductID = #{pkCleanerproductid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_QJSC_CleanerProductionInfo
+    where PK_CleanerProductID = #{pkCleanerproductid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.cleanerproduction.CleanerProductionVO">
+    insert into T_QJSC_CleanerProductionInfo (PK_CleanerProductID, FK_PollutionID, 
+      ConsultOrganizition, AssessDate, AssessOrganizition, 
+      AssessRsult, CheckDate, CheckOrganizition, 
+      CheckRsult, FK_FileID, UpdateUser, 
+      UpdateTime)
+    values (#{pkCleanerproductid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, 
+      #{consultorganizition,jdbcType=VARCHAR}, #{assessdate,jdbcType=VARCHAR}, #{assessorganizition,jdbcType=VARCHAR},
+      #{assessrsult,jdbcType=NUMERIC}, #{checkdate,jdbcType=VARCHAR}, #{checkorganizition,jdbcType=VARCHAR},
+      #{checkrsult,jdbcType=NUMERIC}, #{fkFileid,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.cleanerproduction.CleanerProductionVO">
+    insert into T_QJSC_CleanerProductionInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkCleanerproductid != null">
+        PK_CleanerProductID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="consultorganizition != null">
+        ConsultOrganizition,
+      </if>
+      <if test="assessdate != null">
+        AssessDate,
+      </if>
+      <if test="assessorganizition != null">
+        AssessOrganizition,
+      </if>
+      <if test="assessrsult != null">
+        AssessRsult,
+      </if>
+      <if test="checkdate != null">
+        CheckDate,
+      </if>
+      <if test="checkorganizition != null">
+        CheckOrganizition,
+      </if>
+      <if test="checkrsult != null">
+        CheckRsult,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkCleanerproductid != null">
+        #{pkCleanerproductid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="consultorganizition != null">
+        #{consultorganizition,jdbcType=VARCHAR},
+      </if>
+      <if test="assessdate != null">
+        #{assessdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessorganizition != null">
+        #{assessorganizition,jdbcType=VARCHAR},
+      </if>
+      <if test="assessrsult != null">
+        #{assessrsult,jdbcType=NUMERIC},
+      </if>
+      <if test="checkdate != null">
+        #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkorganizition != null">
+        #{checkorganizition,jdbcType=VARCHAR},
+      </if>
+      <if test="checkrsult != null">
+        #{checkrsult,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.cleanerproduction.CleanerProductionVO">
+    update T_QJSC_CleanerProductionInfo
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="consultorganizition != null">
+        ConsultOrganizition = #{consultorganizition,jdbcType=VARCHAR},
+      </if>
+      <if test="assessdate != null">
+        AssessDate = #{assessdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assessorganizition != null">
+        AssessOrganizition = #{assessorganizition,jdbcType=VARCHAR},
+      </if>
+      <if test="assessrsult != null">
+        AssessRsult = #{assessrsult,jdbcType=NUMERIC},
+      </if>
+      <if test="checkdate != null">
+        CheckDate = #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkorganizition != null">
+        CheckOrganizition = #{checkorganizition,jdbcType=VARCHAR},
+      </if>
+      <if test="checkrsult != null">
+        CheckRsult = #{checkrsult,jdbcType=NUMERIC},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_CleanerProductID = #{pkCleanerproductid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.cleanerproduction.CleanerProductionVO">
+    update T_QJSC_CleanerProductionInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      ConsultOrganizition = #{consultorganizition,jdbcType=VARCHAR},
+      AssessDate = #{assessdate,jdbcType=VARCHAR},
+      AssessOrganizition = #{assessorganizition,jdbcType=VARCHAR},
+      AssessRsult = #{assessrsult,jdbcType=NUMERIC},
+      CheckDate = #{checkdate,jdbcType=VARCHAR},
+      CheckOrganizition = #{checkorganizition,jdbcType=VARCHAR},
+      CheckRsult = #{checkrsult,jdbcType=NUMERIC},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_CleanerProductID = #{pkCleanerproductid,jdbcType=VARCHAR}
+  </update>
+  <!--
+      author:liyc
+      description: 通过自定义参数获取清洁生产信息列表
+      param:
+      date: 2019/10/18 16:18
+  -->
+  <select id="getCleanerInfoByParamMap" parameterType="map" resultType="map">
+       SELECT
+          t1.PK_CleanerProductID,
+          t1.ConsultOrganizition,
+          convert(varchar(10),t1.AssessDate,120) AssessDate,
+          t1.AssessOrganizition,
+          CASE t1.AssessRsult WHEN 0 THEN '不合格' WHEN 1 THEN '合格'END AssessRsult,
+          convert(varchar(10),t1.CheckDate,120) CheckDate,
+          t1.CheckOrganizition,
+          CASE t1.CheckRsult WHEN 0 THEN '不合格' WHEN 1 THEN '合格' END CheckRsult
+          FROM
+	      T_QJSC_CleanerProductionInfo t1
+          LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID=t2.PK_PollutionID
+	      <where>
+            <if test="pkpollutionid!=null and pkpollutionid!='' ">
+              and t2.PK_PollutionID =#{pkpollutionid}
+            </if>
+            <if test="assessmentstarttime != null and assessmentstarttime != ''">
+              and t1.AssessDate >= #{assessmentstarttime}
+            </if>
+            <if test="assessmentendtime != null and assessmentendtime != ''">
+              and t1.AssessDate <![CDATA[<=]]> #{assessmentendtime}
+            </if>
+            <if test="acceptancestarttime != null and acceptancestarttime != ''">
+              and t1.CheckDate >= #{acceptancestarttime}
+            </if>
+            <if test="acceptanceendtime != null and acceptanceendtime != ''">
+              and t1.CheckDate <![CDATA[<=]]> #{acceptanceendtime}
+            </if>
+          </where>
+  </select>
+  <!--
+      author:liyc
+      description: 通过主键id获取清洁生产详情信息
+      param:
+      date: 2019/10/21 09:58
+  -->
+  <select id="getCleanerDetailById" parameterType="java.lang.String" resultType="map">
+      SELECT
+        t2.PollutionName,
+        t1.ConsultOrganizition,
+        convert(varchar(10),t1.AssessDate,120) AssessDate,
+        t1.AssessOrganizition,
+        CASE t1.AssessRsult WHEN 0 THEN '不合格' WHEN 1 THEN '合格' END AssessRsult,
+        CONVERT(VARCHAR(10),t1.CheckDate,120) CheckDate,
+        t1.CheckOrganizition,
+        CASE t1.CheckRsult WHEN 0 THEN '不合格' WHEN 1 THEN '合格' END CheckRsult,
+        t1.FK_FileID
+        FROM
+        T_QJSC_CleanerProductionInfo t1
+        LEFT JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID= t2.PK_PollutionID
+        WHERE t1.PK_CleanerProductID=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

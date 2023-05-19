@@ -1,0 +1,2981 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.DeviceStatusMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.DeviceStatusVO">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="DGIMN" property="dgimn" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorPointTypeCode" property="fkMonitorpointtypecode" jdbcType="VARCHAR"/>
+        <result column="Status" property="status" jdbcType="NUMERIC"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="typemap" type="map">
+        <id column="monitorpointtypename" jdbcType="VARCHAR" property="monitorpointtypename"/>
+        <collection property="typelist" ofType="integer" javaType="java.util.List">
+            <result column="monitorpointtypecode" jdbcType="NUMERIC" property="monitorpointtypecodes"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    PK_ID, DGIMN, FK_MonitorPointTypeCode, Status, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_DeviceStatus
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByMnKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_DeviceStatus
+        where DGIMN = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_DeviceStatus
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+    <delete id="deleteDeviceStatusByMN" parameterType="java.lang.String">
+        delete from T_BAS_DeviceStatus
+        where DGIMN = #{dgimn,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteDeviceStatusByMNs" parameterType="java.util.ArrayList">
+        <if test="list!=null and list.size>0">
+            delete from T_BAS_DeviceStatus
+            where DGIMN in
+            <foreach collection="list" item="item" separator="," close=")" open="(">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+    <delete id="deleteDeviceStatusByParamMap" parameterType="map">
+        delete from T_BAS_DeviceStatus
+        where DGIMN = #{dgimn,jdbcType=VARCHAR}
+        <if test="monitorpointtype!=null and monitorpointtype!=''">
+            and FK_MonitorPointTypeCode=#{monitorpointtype}
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.DeviceStatusVO">
+    insert into T_BAS_DeviceStatus (PK_ID, DGIMN, FK_MonitorPointTypeCode, 
+      Status, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{dgimn,jdbcType=VARCHAR}, #{fkMonitorpointtypecode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=NUMERIC}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.DeviceStatusVO">
+        insert into T_BAS_DeviceStatus
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.DeviceStatusVO">
+        update T_BAS_DeviceStatus
+        <set>
+            <if test="dgimn != null">
+                DGIMN = #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+
+
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.DeviceStatusVO">
+    update T_BAS_DeviceStatus
+    set DGIMN = #{dgimn,jdbcType=VARCHAR},
+    FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+    Status = #{status,jdbcType=NUMERIC},
+    UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+    UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+</update>
+
+
+    <update id="updateStatusByParam" parameterType="map">
+        update T_BAS_DeviceStatus
+        set
+        Status = #{status,jdbcType=NUMERIC},
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+        UpdateUser = #{updateuser,jdbcType=VARCHAR}
+        where
+          DGIMN = #{dgimn,jdbcType=VARCHAR}
+          and  FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR}
+    </update>
+
+    <!--
+        author:chengzq
+        description: 通过mn号查询
+        param:
+        date: 2019/06/12 13:21
+    -->
+    <select id="selectByDgimn" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from T_BAS_DeviceStatus
+    where DGIMN = #{dgimn,jdbcType=VARCHAR}
+  </select>
+
+    <!--
+        author:zhangzhenchao
+        description: 根据监测点类型获取mn号
+        param:
+        time: 2019/11/2 14:38
+      -->
+    <select id="getMnsByMonitorPointTypes" parameterType="list" resultMap="BaseResultMap">
+        select FK_MonitorPointTypeCode,DGIMN from T_BAS_DeviceStatus
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorPointTypes != null and monitorPointTypes.size>0 ">
+                AND Status is NOT NULL
+                AND FK_MonitorPointTypeCode in
+                <foreach collection="monitorPointTypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+     * @author: xsm
+     * @date: 2019/11/18 0018 下午 3:40
+     * @Description: 根据贮罐区ID删除储罐下污染物信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <delete id="deleteDeviceStatusByStorageTankAreaID" parameterType="map">
+        delete from T_BAS_DeviceStatus
+        where T_BAS_DeviceStatus.DGIMN IN  (select
+        DGIMN FROM t_aq_storagetankinfo WHERE t_aq_storagetankinfo.fk_storagetankareaid =  #{fk_storagetankareaid,jdbcType=VARCHAR})
+    </delete>
+
+
+    <!--
+      author:xsm
+      description: 统计各类型监测点的在线离线状态
+      param:
+      date: 2020/02/17 16:40
+  -->
+    <select id="countMonitorPointStatusNumByMonitorPointTypes" resultType="map" parameterType="map">
+        select
+        tt.FK_MonitorPointTypeCode,tt.Status,COUNT(tt.DGIMN) num
+        FROM (
+        SELECT T_BAS_DeviceStatus.FK_MonitorPointTypeCode,T_BAS_DeviceStatus.Status,T_BAS_DeviceStatus.DGIMN
+        from T_BAS_DeviceStatus
+        JOIN (
+        SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON
+        T_BAS_WaterOutputInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID WHERE
+        (
+        T_BAS_WaterOutputInfo.outputtype != '3'
+        OR T_BAS_WaterOutputInfo.outputtype IS NULL
+        )
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON
+        T_BAS_WaterOutputInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '3'
+        UNION ALL
+        SELECT T_BAS_GASOutPutInfo.DGIMN,FK_MonitorPointTypeCode FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON
+        T_BAS_GASOutPutInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_OtherMonitorPoint.DGIMN,FK_MonitorPointTypeCode FROM T_BAS_OtherMonitorPoint WHERE
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode !=52
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.DGIMN,FK_MonitorPointTypeCode FROM T_BAS_UnorganizedMonitorPointInfo
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_AirMonitorStation .DGIMN,5 FK_MonitorPointTypeCode FROM T_BAS_AirMonitorStation
+        UNION ALL
+        SELECT T_BAS_WaterStationInfo .DGIMN,6 FK_MonitorPointTypeCode FROM T_BAS_WaterStationInfo
+        ) alltable on alltable.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+        alltable.FK_MonitorPointTypeCode
+        <where>
+            <if test="dgimns != null and dgimns.size>0 ">
+                AND alltable.DGIMN in
+                <foreach collection="dgimns" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        UNION ALL
+        select
+        52 FK_MonitorPointTypeCode,
+        T_BAS_DeviceStatus.Status ,
+        T_BAS_DeviceStatus.DGIMN
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND tt.Status is NOT NULL
+                AND tt.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        GROUP BY
+        tt.FK_MonitorPointTypeCode,tt.Status
+        ORDER BY tt.FK_MonitorPointTypeCode,tt.Status
+    </select>
+
+
+    <!--
+     author:xsm
+     description: 统计气象监测点的在线离线状态
+     param:
+     date: 2020/02/17 16:40
+ -->
+    <select id="countMeteoMonitorPointStatusNumByMonitorPointTypes" resultType="map" parameterType="map">
+        select
+        52 FK_MonitorPointTypeCode,T_BAS_DeviceStatus.Status,COUNT(T_BAS_DeviceStatus.DGIMN) num
+        from T_BAS_DeviceStatus
+        JOIN ( SELECT  * FROM  T_BAS_OtherMonitorPoint WHERE  T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52) meteo on meteo.DGIMN=T_BAS_DeviceStatus.DGIMN
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+        AND T_BAS_DeviceStatus.Status is NOT NULL
+        GROUP BY
+        T_BAS_DeviceStatus.Status
+        ORDER BY  T_BAS_DeviceStatus.Status
+
+    </select>
+
+    <!--
+    author:xsm
+    description: 根据监测类型统计监测点的在线离线状态
+    param:
+    date: 2020/03/03 10:23
+-->
+    <select id="countMonitorPointNumGroupByStatusByTypes" resultType="map" parameterType="map">
+        SELECT Status,COUNT(allt.DGIMN) num
+        from
+        ( select
+        CASE WHEN alltable.isstop ='0' THEN '4' WHEN alltable.isstop='1' THEN T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN
+        from T_BAS_DeviceStatus
+        LEFT JOIN (
+        SELECT T_BAS_WaterOutputInfo.DGIMN,CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN 1 WHEN OutPutType = 3
+        THEN 37 END FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR stop.endtime IS
+        NULL )) THEN '0' else '1' end isstop
+        FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN ( SELECT
+        sp.PK_ID,
+        sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+        WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+        CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+        FROM
+        T_BAS_StopProductionInfo sp
+        WHERE
+        (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) AND
+        CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+        AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+        WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+        )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+        and sp.FK_MonitorPointType in(1,37)
+        ) stop on T_BAS_WaterOutputInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_WaterOutputInfo.PK_ID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fkpollutionid !=null and fkpollutionid!=''">
+                and T_BAS_WaterOutputInfo.FK_Pollutionid= #{fkpollutionid}
+            </if>
+        </trim>
+        union
+        SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+        monitorpointid,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR stop.endtime IS
+        NULL )) THEN '0' else '1' end isstop
+        FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN ( SELECT
+        sp.PK_ID,
+        sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+        WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+        CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+        FROM
+        T_BAS_StopProductionInfo sp
+        WHERE
+        (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) and
+        CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+        AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+        WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+        )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+        and sp.FK_MonitorPointType in(2,22)
+        ) stop on T_BAS_GASOutPutInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_GASOutPutInfo.PK_ID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fkpollutionid !=null and fkpollutionid!=''">
+                and T_BAS_GASOutPutInfo.FK_Pollutionid= #{fkpollutionid}
+            </if>
+        </trim>
+        UNION
+        SELECT
+        T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        monitorpointid,'1' isstop FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+        !=52
+        UNION
+        SELECT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        monitorpointid,'1' isstop FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+        T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        <where>
+            <if test="fkpollutionid !=null and fkpollutionid!=''">
+                and FK_Pollutionid= #{fkpollutionid}
+            </if>
+        </where>
+        UNION
+        SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+        monitorpointid,'1' isstop FROM T_BAS_AirMonitorStation
+        UNION
+        SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+        monitorpointid,'1' isstop FROM T_BAS_WaterStationInfo
+        ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+        alltable.FK_MonitorPointTypeCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltable.monitorpointid = relation. FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode !=52
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND T_BAS_DeviceStatus.Status is NOT NULL
+                AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            UNION
+            select
+            CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+            Status,'qx_'+T_BAS_DeviceStatus.DGIMN DGIMN
+            from T_BAS_DeviceStatus left JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN =
+            T_BAS_OtherMonitorPoint.DGIMN
+            WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND T_BAS_DeviceStatus.Status is NOT NULL
+                AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode IN
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </if>
+        ) allt
+        GROUP BY
+        allt.Status
+        ORDER BY allt.Status
+    </select>
+
+    <!--
+     author:xsm
+     description: 获取在线空气监测点
+     param:
+     date: 2020/02/17 16:40
+ -->
+    <select id="getNormalStatusAirMonitorPoints" resultType="map" parameterType="map">
+        select
+        T_BAS_AirMonitorStation.DGIMN
+        from T_BAS_DeviceStatus
+        JOIN T_BAS_AirMonitorStation on T_BAS_AirMonitorStation.DGIMN=T_BAS_DeviceStatus.DGIMN AND
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode = 5
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="status!=null and status!='' ">
+                AND T_BAS_DeviceStatus.Status = #{status}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+  author:xsm
+  description: 根据监测类型和点位状态获取点位信息(包含经纬度)
+  param:
+  date: 2020/03/04 9:05
+-->
+    <select id="getMonitorPointInfoByMonitorTypeAndPointStatus" resultType="map" parameterType="map">
+        select
+        Status,DGIMN,PollutionName,ShorterName,
+        <choose>
+            <when test="ishavepropertys !=null">
+                CASE FK_MonitorPointTypeCode WHEN 'yqygoutput' THEN '1' ELSE FK_MonitorPointTypeCode END
+                FK_MonitorPointTypeCode,
+            </when>
+            <otherwise>
+                FK_MonitorPointTypeCode,
+            </otherwise>
+        </choose>
+        pollutionid,monitorpointid,monitorpointname,Longitude,Latitude,AlarmLevel
+        FROM
+        (select
+        CASE WHEN alltable.isstop ='0' THEN '4' WHEN alltable.isstop='1' THEN T_BAS_DeviceStatus.Status END Status,
+        T_BAS_DeviceStatus.DGIMN,alltable.PollutionName,alltable.ShorterName,alltable.FK_MonitorPointTypeCode,alltable.pollutionid,alltable.monitorpointid,alltable.monitorpointname,alltable.Longitude,alltable.Latitude,AlarmLevel
+        from T_BAS_DeviceStatus
+        LEFT JOIN (
+        SELECT T_BAS_WaterOutputInfo.DGIMN,
+        <choose>
+            <when test="ishavepropertys !=null">
+                CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN (CASE WHEN
+                (T_BAS_WaterOutputInfo.FK_OutputProperty is NOT NULL AND T_BAS_WaterOutputInfo.FK_OutputProperty = 2)
+                THEN 'yqygoutput' ELSE '1' END )
+                WHEN
+                OutPutType = 3 THEN '37' END FK_MonitorPointTypeCode,
+            </when>
+            <otherwise>
+                CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN '1' WHEN
+                OutPutType = 3 THEN 37 END FK_MonitorPointTypeCode,
+            </otherwise>
+        </choose>
+        T_BAS_WaterOutputInfo.FK_Pollutionid
+        pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_WaterOutputInfo.PK_ID
+        monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.OutputLongitude
+        Longitude,T_BAS_WaterOutputInfo.OutputLatitude Latitude,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR stop.endtime IS
+        NULL )) THEN '0' else '1' end isstop
+        FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT
+        sp.PK_ID,
+        sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+        WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+        CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+        FROM
+        T_BAS_StopProductionInfo sp
+        WHERE
+        (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) AND
+        CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+        AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+        WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+        )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+        and sp.FK_MonitorPointType in(1,37)
+        ) stop on T_BAS_WaterOutputInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_WaterOutputInfo.PK_ID
+        UNION all
+        SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.FK_Pollutionid
+        pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_GASOutPutInfo.PK_ID
+        monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.OutputLongitude
+        Longitude,T_BAS_GASOutPutInfo.OutputLatitude Latitude,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR stop.endtime IS
+        NULL )) THEN '0' else '1' end isstop
+        FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN ( SELECT
+        sp.PK_ID,
+        sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+        WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+        CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+        FROM
+        T_BAS_StopProductionInfo sp
+        WHERE
+        (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) AND
+        CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+        AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+        WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+        )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+        and sp.FK_MonitorPointType in(2,22)
+        ) stop on T_BAS_GASOutPutInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_GASOutPutInfo.PK_ID
+        UNION all
+        SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,'' pollutionid,''
+        PollutionName,'' ShorterName,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName
+        monitorpointname,T_BAS_OtherMonitorPoint.Longitude,T_BAS_OtherMonitorPoint.Latitude,'1' isstop
+        FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode !=52
+        UNION all
+        SELECT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        monitorpointid,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        monitorpointname,T_BAS_UnorganizedMonitorPointInfo.Longitude,T_BAS_UnorganizedMonitorPointInfo.Latitude,'1'
+        isstop
+        FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        = T_BAS_Pollution.PK_PollutionID
+        UNION all
+        SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,'' pollutionid,'' PollutionName,''
+        ShorterName,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.MonitorPointName
+        monitorpointname,T_BAS_AirMonitorStation.Longitude,T_BAS_AirMonitorStation.Latitude,'1' isstop
+        FROM T_BAS_AirMonitorStation
+        UNION all
+        SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,'' pollutionid,'' PollutionName,''
+        ShorterName,T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,T_BAS_WaterStationInfo.MonitorPointName
+        monitorpointname,T_BAS_WaterStationInfo.Longitude,T_BAS_WaterStationInfo.Latitude,'1' isstop
+        FROM T_BAS_WaterStationInfo
+        ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltable.monitorpointid = relation.FK_MonitorPointID
+        </if>
+        WHERE
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode!=52
+        AND T_BAS_DeviceStatus.Status is NOT NULL
+        <if test="hasmeteo == 1 ">
+            UNION all
+            select
+            CASE
+            WHEN T_BAS_DeviceStatus.Status IN ( 2, 3 ) THEN
+            1 ELSE T_BAS_DeviceStatus.Status
+            END Status,
+            T_BAS_DeviceStatus.DGIMN,
+            '' PollutionName,
+            '' ShorterName,
+            '52' FK_MonitorPointTypeCode,
+            '' pollutionid,
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName
+            monitorpointname,
+            T_BAS_OtherMonitorPoint.Longitude,
+            T_BAS_OtherMonitorPoint.Latitude,
+            AlarmLevel
+            from T_BAS_DeviceStatus left JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN =
+            T_BAS_OtherMonitorPoint.DGIMN
+            WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        </if>
+        ) pointtable
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype != null and monitorpointtype !=''">
+                AND pointtable.FK_MonitorPointTypeCode= #{monitorpointtype}
+            </if>
+            <if test="monitorpointid != null and monitorpointid !=''">
+                AND pointtable.monitorpointid= #{monitorpointid}
+            </if>
+            <if test="dgimn != null and dgimn !=''">
+                AND pointtable.DGIMN= #{dgimn}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND pointtable.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="statuslist != null and statuslist.size>0 ">
+                AND pointtable.Status in
+                <foreach collection="statuslist" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="fkpollutionid!=null and fkpollutionid!=''">
+                and pollutionid=#{fkpollutionid}
+            </if>
+        </trim>
+        ORDER BY pointtable.FK_MonitorPointTypeCode,pointtable.monitorpointname
+    </select>
+
+
+    <!--
+      author:xsm
+      description: 根据监测类型获取相关监测类型信息
+      param:
+      date: 2020/03/31 11:15
+  -->
+    <select id="getALLMonitorPointTypeInfoByTypes" resultType="map" parameterType="map">
+        SELECT tt.Code,tt.Name FROM (
+        SELECT PUB_CODE_MonitorPointType.Code,PUB_CODE_MonitorPointType.Name,PUB_CODE_MonitorPointType.OrderIndex
+        FROM PUB_CODE_MonitorPointType
+        JOIN (select FK_MonitorPointType FROM
+        T_BAS_UserMonitorPointRelationData
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="userid != null and userid !=''">
+                AND T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            </if>
+        </trim>
+        GROUP BY FK_MonitorPointType)t2
+        ON PUB_CODE_MonitorPointType.Code = t2.FK_MonitorPointType
+        UNION
+        SELECT PUB_CODE_MonitorPointType.Code,PUB_CODE_MonitorPointType.Name,PUB_CODE_MonitorPointType.OrderIndex
+        FROM PUB_CODE_MonitorPointType
+        WHERE
+        PUB_CODE_MonitorPointType.Code IN (52,50)
+        AND PUB_CODE_MonitorPointType.IsUsed = 1
+        ) tt
+        ORDER BY tt.OrderIndex,tt.Code
+    </select>
+
+
+    <!--
+     author:xsm
+     description: 根据用户数据权限获取在线监控首页的所有监测类型
+     param:
+     date: 2020/03/31 11:15
+ -->
+    <select id="getAllMonitorPointTypeDataForOnlineMonitorHomeMap" resultType="map" parameterType="map">
+        SELECT tt.Code,tt.Name FROM (
+        SELECT
+        PUB_CODE_MonitorPointType.Code,PUB_CODE_MonitorPointType.Name,PUB_CODE_MonitorPointType.OrderIndex,PUB_CODE_MonitorPointType.Category
+        FROM PUB_CODE_MonitorPointType
+        JOIN (select FK_MonitorPointType FROM
+        T_BAS_UserMonitorPointRelationData
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="userid != null and userid !=''">
+                AND T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            </if>
+        </trim>
+        GROUP BY FK_MonitorPointType)t2
+        ON PUB_CODE_MonitorPointType.Code = t2.FK_MonitorPointType
+        UNION
+        SELECT
+        PUB_CODE_MonitorPointType.Code,PUB_CODE_MonitorPointType.Name,PUB_CODE_MonitorPointType.OrderIndex,PUB_CODE_MonitorPointType.Category
+        FROM PUB_CODE_MonitorPointType
+        WHERE
+        PUB_CODE_MonitorPointType.Code = 52 AND PUB_CODE_MonitorPointType.IsUsed = 1
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="category != null and category !=''">
+                AND tt.Category = #{category}
+            </if>
+        </trim>
+        ORDER BY tt.OrderIndex,tt.Code
+    </select>
+
+    <!--
+    author:xsm
+    description: 根据用户数据权限获取环境监管首页的所有监测类型
+    param:
+    date: 2020/05/08 13:24
+-->
+    <select id="getAllMonitorPointTypeDataForEnvSupervisionHomeMap" resultType="map" parameterType="map">
+        SELECT tt.Code code,tt.Name name,tt.mainname,tt.OrderIndex FROM (
+        <if test="ishavepropertys != null and ishavepropertys !=''">
+            SELECT 'yqygoutput' Code,'废水（一企一管）' Name,1 themetype,'废水（一企一管）'mainname,1 monitoringclass, 1 OrderIndex
+            UNION
+        </if>
+        SELECT PUB_CODE_MonitorPointType.Code,
+        PUB_CODE_MonitorPointType.Name,
+        PUB_CODE_MonitorPointType.themetype,
+        case when (PUB_CODE_MonitorPointType.mainname IS NOT NULL and PUB_CODE_MonitorPointType.mainname!='') THEN
+        PUB_CODE_MonitorPointType.mainname ELSE PUB_CODE_MonitorPointType.Name END mainname,
+        PUB_CODE_MonitorPointType.monitoringclass,
+        PUB_CODE_MonitorPointType.OrderIndex
+        FROM PUB_CODE_MonitorPointType
+        JOIN (select FK_MonitorPointType FROM
+        T_BAS_UserMonitorPointRelationData
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="userid != null and userid !=''">
+                AND T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            </if>
+        </trim>
+        GROUP BY FK_MonitorPointType
+        )t2
+        ON PUB_CODE_MonitorPointType.Code = t2.FK_MonitorPointType
+        AND PUB_CODE_MonitorPointType.IsUsed = 1
+        UNION
+        SELECT PUB_CODE_MonitorPointType.Code,
+        PUB_CODE_MonitorPointType.Name,
+        PUB_CODE_MonitorPointType.themetype,
+        case when (PUB_CODE_MonitorPointType.mainname IS NOT NULL and PUB_CODE_MonitorPointType.mainname!='') THEN
+        PUB_CODE_MonitorPointType.mainname ELSE PUB_CODE_MonitorPointType.Name END mainname,
+        PUB_CODE_MonitorPointType.monitoringclass,
+        PUB_CODE_MonitorPointType.OrderIndex
+        FROM PUB_CODE_MonitorPointType
+        where PUB_CODE_MonitorPointType.Code in(52,16)
+        AND PUB_CODE_MonitorPointType.IsUsed = 1
+        ) tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="themetype != null and themetype !=''">
+                and (tt.monitoringclass is not null or tt.Code = '16')
+                and tt.themetype = #{themetype}
+            </if>
+        </trim>
+        ORDER BY tt.OrderIndex,tt.Code
+    </select>
+
+    <!--
+    author:xsm
+    description: 统计各类型点位在线、超标、异常数量(含有传输、敏感点类型)
+    param:
+    date: 2020/05/08 13:24
+-->
+    <select id="countAllMonitorPointTypeDataOnlineNum" resultType="map" parameterType="map">
+        SELECT COUNT (allt.DGIMN) totalnum,
+        sum(case when allt.Status=1 then 1 else 0 end) onlinenum,
+        sum(case when allt.overstatus=1 then 1 else 0 end) overnum,
+        sum(case when allt.exceptionstatus=1 then 1 else 0 end) exceptionnum,
+        allt.FK_MonitorPointTypeCode
+        from
+        (
+        select
+        CASE WHEN T_BAS_DeviceStatus.Status =2 THEN 1 ELSE 0 END overstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status =3 THEN 1 ELSE 0 END exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN
+        (
+        SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+        monitorpointid,
+        '1' isstop FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        UNION
+        SELECT T_BAS_WaterOutputInfo.DGIMN,1 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,'1'
+        isstop FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '1'
+        UNION
+        SELECT T_BAS_WaterOutputInfo.DGIMN,37 FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,'1'
+        isstop FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '3'
+        UNION
+        SELECT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        monitorpointid,'1' isstop FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+        T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        UNION
+        SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+        monitorpointid,'1' isstop FROM T_BAS_AirMonitorStation
+        UNION
+        SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+        monitorpointid,'1' isstop FROM T_BAS_WaterStationInfo
+        UNION
+        SELECT
+        T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        monitorpointid,'1' isstop FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode NOT
+        IN (9,10,52)
+        ) alltype
+        ON T_BAS_DeviceStatus.DGIMN = alltype.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+        alltype.FK_MonitorPointTypeCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltype.monitorpointid = relation. FK_MonitorPointID
+        </if>
+        WHERE T_BAS_DeviceStatus.FK_MonitorPointTypeCode IS NOT NULL AND T_BAS_DeviceStatus.DGIMN IS NOT NULL
+        <if test="monitortypes != null and monitortypes.size>0 ">
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+            <foreach collection="monitortypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        UNION ALL
+        select
+        CASE
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN
+        1
+        ELSE
+        0
+        END overstatus,
+        CASE
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN
+        1
+        ELSE
+        0
+        END exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,'cstdd' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+        </if>
+        WHERE T_BAS_OtherMonitorPoint.MonitorPointCategory =2
+        <if test="envtypes != null and envtypes.size>0 ">
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+            <foreach collection="envtypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        UNION ALL
+        select
+        CASE
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN
+        1
+        ELSE
+        0
+        END overstatus,
+        CASE
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN
+        1
+        ELSE
+        0
+        END exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,'mgd' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+        </if>
+        WHERE T_BAS_OtherMonitorPoint.MonitorPointCategory =1
+        <if test="envtypes != null and envtypes.size>0 ">
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+            <foreach collection="envtypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        UNION ALL
+        select
+        0 overstatus,
+        0 exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,'52' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        ) allt
+        GROUP BY
+        allt.FK_MonitorPointTypeCode
+        ORDER BY FK_MonitorPointTypeCode
+    </select>
+
+
+    <!--
+    author:xsm
+    description: 统计各类型点位在线、超标、异常数量
+    param:
+    date: 2020/05/08 13:24
+    -->
+    <select id="countAllMonitorTypePointOnlineStatusNum" resultType="map" parameterType="map">
+        SELECT COUNT (allt.DGIMN) totalnum,
+        sum(case when allt.Status=1 then 1 else 0 end) onlinenum,
+        sum(case when allt.overstatus=1 then 1 else 0 end) overnum,
+        sum(case when allt.exceptionstatus=1 then 1 else 0 end) exceptionnum,
+        allt.FK_MonitorPointTypeCode
+        from
+        (
+        select
+        CASE WHEN T_BAS_DeviceStatus.Status =2 THEN 1 ELSE 0 END overstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status =3 THEN 1 ELSE 0 END exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,alltype.FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN
+        (
+        SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+        monitorpointid,
+        '1' isstop FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        UNION
+        SELECT T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,'1'
+        isstop FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '1'
+        <if test="ishavepropertys !=null and ishavepropertys!=''">
+            AND T_BAS_WaterOutputInfo.FK_OutputProperty != 2
+            UNION
+            SELECT T_BAS_WaterOutputInfo.DGIMN,'yqygoutput' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID
+            monitorpointid,'1'
+            isstop FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+            T_BAS_Pollution.PK_PollutionID WHERE
+            T_BAS_WaterOutputInfo.outputtype = '1'
+            AND T_BAS_WaterOutputInfo.FK_OutputProperty = 2
+        </if>
+        UNION
+        SELECT T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid,'1'
+        isstop FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '3'
+        UNION
+        SELECT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        monitorpointid,'1' isstop FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+        T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        UNION
+        SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+        monitorpointid,'1' isstop FROM T_BAS_AirMonitorStation
+        UNION
+        SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+        monitorpointid,'1' isstop FROM T_BAS_WaterStationInfo
+        UNION
+        SELECT
+        T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        monitorpointid,'1' isstop FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode NOT
+        IN (52)
+        ) alltype
+        ON T_BAS_DeviceStatus.DGIMN = alltype.DGIMN
+        --去掉关联AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = alltype.FK_MonitorPointTypeCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltype.monitorpointid = relation.FK_MonitorPointID
+        </if>
+        WHERE T_BAS_DeviceStatus.FK_MonitorPointTypeCode IS NOT NULL AND T_BAS_DeviceStatus.DGIMN IS NOT NULL
+        <if test="monitortypes != null and monitortypes.size>0 ">
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+            <foreach collection="monitortypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        UNION ALL
+        select
+        0 overstatus,
+        0 exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,'52' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        UNION ALL
+        select
+        0 overstatus,
+        0 exceptionstatus,
+        1 Status,
+        RiverCode DGIMN,
+        '16' FK_MonitorPointTypeCode
+        from T_BAS_RiverSection
+        ) allt
+        GROUP BY
+        allt.FK_MonitorPointTypeCode
+        ORDER BY FK_MonitorPointTypeCode
+    </select>
+
+    <!--
+     author:xsm
+     description: 根据监测类型统计监测点的在线离线状态（环境监管）
+     param:
+     date: 2020/03/03 10:23
+ -->
+    <select id="countMonitorPointStatusNumForEnvSupervisionHomeMap" resultType="map" parameterType="map">
+        SELECT Status,COUNT(allt.DGIMN) num
+        from
+        (
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            select
+            CASE WHEN alltable.isstop ='0' THEN '4' WHEN alltable.isstop='1' THEN T_BAS_DeviceStatus.Status END
+            Status,T_BAS_DeviceStatus.DGIMN
+            from T_BAS_DeviceStatus
+            LEFT JOIN (
+            SELECT
+            T_BAS_WaterOutputInfo.DGIMN,
+            <choose>
+                <when test="ishavepropertys !=null">
+                    CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN (CASE WHEN
+                    (T_BAS_WaterOutputInfo.FK_OutputProperty is NOT NULL AND T_BAS_WaterOutputInfo.FK_OutputProperty =
+                    2) THEN 'yqygoutput' ELSE '1' END )
+                    WHEN
+                    OutPutType = 3 THEN '37' END FK_MonitorPointTypeCode,
+                </when>
+                <otherwise>
+                    CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN '1' WHEN
+                    OutPutType = 3 THEN 37 END FK_MonitorPointTypeCode,
+                </otherwise>
+            </choose>
+            T_BAS_WaterOutputInfo.PK_ID monitorpointid,
+            case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+            and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR
+            stop.endtime IS NULL )) THEN '0' else '1' end isstop
+            FROM
+            T_BAS_WaterOutputInfo
+            JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+            LEFT JOIN
+            ( SELECT
+            sp.PK_ID,
+            sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+            WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+            CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+            FROM
+            T_BAS_StopProductionInfo sp
+            WHERE
+            (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) AND
+            CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+            AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL
+            THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+            WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+            )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+            and sp.FK_MonitorPointType in(1,37)
+            ) stop on T_BAS_WaterOutputInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+            T_BAS_WaterOutputInfo.PK_ID
+            union
+            SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+            monitorpointid,
+            case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+            and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR
+            stop.endtime IS NULL )) THEN '0' else '1' end isstop
+            FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+            T_BAS_Pollution.PK_PollutionID
+            LEFT JOIN ( SELECT
+            sp.PK_ID,
+            sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+            WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+            CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+            FROM
+            T_BAS_StopProductionInfo sp
+            WHERE
+            (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) AND
+            CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+            AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL
+            THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+            WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+            )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+            and sp.FK_MonitorPointType in(2,22)
+            ) stop on T_BAS_GASOutPutInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+            T_BAS_GASOutPutInfo.PK_ID
+            UNION
+            SELECT
+            T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+            monitorpointid,'1' isstop FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+            T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+            UNION
+            SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+            monitorpointid,'1' isstop FROM T_BAS_AirMonitorStation
+            UNION
+            SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+            monitorpointid,'1' isstop FROM T_BAS_WaterStationInfo
+            UNION
+            SELECT
+            T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            monitorpointid,'1' isstop FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+            NOT IN (9,10,52)
+            ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON alltable.monitorpointid = relation. FK_MonitorPointID
+            </if>
+            <trim prefix="where" prefixOverrides="AND|OR">
+                AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+                AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode not IN (9,10,52)
+                <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                    AND T_BAS_DeviceStatus.Status is NOT NULL
+                    AND alltable.FK_MonitorPointTypeCode in
+                    <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                </if>
+            </trim>
+        </if>
+        <if test="iscategory == '0'.toString() ">
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                UNION
+            </if>
+            select
+            T_BAS_DeviceStatus.Status ,T_BAS_DeviceStatus.DGIMN
+            from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN =
+            T_BAS_OtherMonitorPoint.DGIMN
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                    AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in
+                    <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                </if>
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+            </if>
+            WHERE T_BAS_OtherMonitorPoint.MonitorPointCategory IN (1,2)
+        </if>
+        <if test="iscategory == '2'.toString() ">
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                UNION
+            </if>
+            select
+            T_BAS_DeviceStatus.Status ,T_BAS_DeviceStatus.DGIMN
+            from T_BAS_DeviceStatus left JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN =
+            T_BAS_OtherMonitorPoint.DGIMN
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10)
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+            </if>
+            WHERE T_BAS_OtherMonitorPoint.MonitorPointCategory =2
+        </if>
+        <if test="iscategory == '1'.toString() ">
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                UNION
+            </if>
+            select
+            T_BAS_DeviceStatus.Status,T_BAS_DeviceStatus.DGIMN
+            from T_BAS_DeviceStatus left JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN =
+            T_BAS_OtherMonitorPoint.DGIMN
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10)
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+            </if>
+            WHERE T_BAS_OtherMonitorPoint.MonitorPointCategory =1
+        </if>
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            UNION
+            select
+            CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+            Status,'qx_'+T_BAS_DeviceStatus.DGIMN DGIMN
+            from T_BAS_DeviceStatus left JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN =
+            T_BAS_OtherMonitorPoint.DGIMN
+            LEFT JOIN PUB_CODE_MonitorPointType ON T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =
+            PUB_CODE_MonitorPointType.code
+            WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52 AND PUB_CODE_MonitorPointType.IsUsed =1
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND T_BAS_DeviceStatus.Status is NOT NULL
+                AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode IN
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </if>
+        ) allt
+        GROUP BY
+        allt.Status
+        ORDER BY allt.Status
+    </select>
+
+
+    <!--
+    author:xsm
+    description: 根据监测类型和点位状态获取点位信息(根据数据权限筛选)
+    param:
+    date: 2020/05/11 20:48
+    -->
+    <select id="getMonitorPointInfoForEnvSupervisionHomeMap" resultType="map" parameterType="map">
+        select
+        Status,DGIMN,PollutionName,cast(FK_MonitorPointTypeCode AS VARCHAR )
+        FK_MonitorPointTypeCode,pollutionid,monitorpointid,monitorpointname,Longitude,Latitude,AlarmLevel
+        FROM
+        (
+        <if test="isshow == '1'.toString() ">
+            select
+            CASE WHEN alltable.isstop ='0' THEN '4' WHEN alltable.isstop='1' THEN T_BAS_DeviceStatus.Status END Status,
+            T_BAS_DeviceStatus.DGIMN,alltable.PollutionName,alltable.FK_MonitorPointTypeCode,alltable.pollutionid,alltable.monitorpointid,alltable.monitorpointname,alltable.Longitude,alltable.Latitude,AlarmLevel
+            from T_BAS_DeviceStatus
+            LEFT JOIN (
+            SELECT
+            T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.FK_Pollutionid
+            pollutionid,T_BAS_Pollution.PollutionName,T_BAS_GASOutPutInfo.PK_ID
+            monitorpointid,T_BAS_GASOutPutInfo.OutputName monitorpointname,T_BAS_GASOutPutInfo.OutputLongitude
+            Longitude,T_BAS_GASOutPutInfo.OutputLatitude Latitude,
+            case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+            and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR
+            stop.endtime IS NULL )) THEN '0' else '1' end isstop
+            FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+            T_BAS_Pollution.PK_PollutionID
+            LEFT JOIN ( SELECT
+            sp.PK_ID,
+            sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+            WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+            CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+            FROM
+            T_BAS_StopProductionInfo sp
+            WHERE
+            (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) AND
+            CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+            AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL
+            THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+            WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+            )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+            and sp.FK_MonitorPointType in(2,22)
+            ) stop on T_BAS_GASOutPutInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+            T_BAS_GASOutPutInfo.PK_ID
+            UNION
+            SELECT
+            T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+            pollutionid,T_BAS_Pollution.PollutionName,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+            monitorpointid,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+            monitorpointname,T_BAS_UnorganizedMonitorPointInfo.Longitude,T_BAS_UnorganizedMonitorPointInfo.Latitude,'1'
+            isstop
+            FROM T_BAS_UnorganizedMonitorPointInfo LEFT JOIN T_BAS_Pollution ON
+            T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+            UNION
+            SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,'' pollutionid,''
+            PollutionName,T_BAS_AirMonitorStation.PK_AirID monitorpointid,T_BAS_AirMonitorStation.MonitorPointName
+            monitorpointname,T_BAS_AirMonitorStation.Longitude,T_BAS_AirMonitorStation.Latitude,'1' isstop
+            FROM T_BAS_AirMonitorStation
+            UNION
+            SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,'' pollutionid,''
+            PollutionName,T_BAS_WaterStationInfo.PK_WaterStationID
+            monitorpointid,T_BAS_WaterStationInfo.MonitorPointName
+            monitorpointname,T_BAS_WaterStationInfo.Longitude,T_BAS_WaterStationInfo.Latitude,'1' isstop
+            FROM T_BAS_WaterStationInfo
+            UNION
+            SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,'' pollutionid,''
+            PollutionName,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName
+            monitorpointname,T_BAS_OtherMonitorPoint.Longitude,T_BAS_OtherMonitorPoint.Latitude,'1' isstop
+            FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode NOT IN (9,10,52)
+            ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+            alltable.FK_MonitorPointTypeCode
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON alltable.monitorpointid = relation.FK_MonitorPointID
+            </if>
+            WHERE
+            T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode not IN (1,37,9,10,52)
+            AND T_BAS_DeviceStatus.Status is NOT NULL
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            union
+            select
+            CASE WHEN twater.isstop ='0' THEN '4' WHEN twater.isstop='1' THEN T_BAS_DeviceStatus.Status END Status,
+            T_BAS_DeviceStatus.DGIMN,twater.PollutionName,
+            <choose>
+                <when test="ishavepropertys !=null">
+                    CASE twater.FK_MonitorPointTypeCode WHEN 'yqygoutput' THEN '1' ELSE twater.FK_MonitorPointTypeCode
+                    END FK_MonitorPointTypeCode,
+                </when>
+                <otherwise>
+                    twater.FK_MonitorPointTypeCode,
+                </otherwise>
+            </choose>
+            twater.pollutionid,twater.monitorpointid,twater.monitorpointname,twater.Longitude,twater.Latitude,AlarmLevel
+            from T_BAS_DeviceStatus LEFT JOIN
+            (SELECT T_BAS_WaterOutputInfo.DGIMN,
+            <choose>
+                <when test="ishavepropertys !=null">
+                    CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN (CASE WHEN
+                    (T_BAS_WaterOutputInfo.FK_OutputProperty is NOT NULL AND T_BAS_WaterOutputInfo.FK_OutputProperty =
+                    2) THEN 'yqygoutput' ELSE '1' END )
+                    WHEN
+                    OutPutType = 3 THEN '37' END FK_MonitorPointTypeCode,
+                </when>
+                <otherwise>
+                    CASE WHEN (OutPutType ! = 3 or outputtype is null) THEN '1' WHEN
+                    OutPutType = 3 THEN 37 END FK_MonitorPointTypeCode,
+                </otherwise>
+            </choose>
+            T_BAS_WaterOutputInfo.FK_Pollutionid pollutionid,T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.PK_ID
+            monitorpointid,T_BAS_WaterOutputInfo.OutputName monitorpointname,T_BAS_WaterOutputInfo.OutputLongitude
+            Longitude,T_BAS_WaterOutputInfo.OutputLatitude Latitude,
+            case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+            and ((convert(varchar(20),getdate(),120)<![CDATA[<=]]> convert(varchar(20),stop.endtime,120)) OR
+            stop.endtime IS NULL )) THEN '0' else '1' end isstop
+            FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+            T_BAS_Pollution.PK_PollutionID
+            LEFT JOIN ( SELECT
+            sp.PK_ID,
+            sp.FK_Pollutionid,sp.FK_Outputid,sp.FK_MonitorPointType,sp.StartTime,CASE
+            WHEN sp.RecoveryProductionTime IS NOT NULL THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120) ELSE
+            CONVERT (VARCHAR(20), sp.endtime, 120) END EndTime
+            FROM
+            T_BAS_StopProductionInfo sp
+            WHERE
+            (sp.FK_Outputid IS NOT null and sp.FK_MonitorPointType IS NOT NULL) and
+            CONVERT (VARCHAR(20), getdate(), 120) >= CONVERT (VARCHAR (20),sp.starttime,120)
+            AND ((CONVERT (VARCHAR(20), getdate(), 120) <![CDATA[<=]]> (CASE WHEN sp.RecoveryProductionTime IS NOT NULL
+            THEN
+            CONVERT (VARCHAR (20),sp.RecoveryProductionTime,120)
+            WHEN sp.endtime IS NOT NULL THEN CONVERT (VARCHAR(20), sp.endtime, 120) END
+            )) OR (sp.endtime IS NULL AND sp.RecoveryProductionTime IS NULL) )
+            and sp.FK_MonitorPointType in(1,37)
+            ) stop on T_BAS_WaterOutputInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+            T_BAS_WaterOutputInfo.PK_ID) twater ON T_BAS_DeviceStatus.DGIMN = twater.DGIMN
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON twater.monitorpointid = relation.FK_MonitorPointID
+            </if>
+            WHERE
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                twater.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            union
+            SELECT
+            CASE
+            WHEN other.isstop = '0' THEN
+            '4'
+            WHEN other.isstop = '1' THEN
+            CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+            END Status,
+            T_BAS_DeviceStatus.DGIMN,
+            other.PollutionName,
+            other.FK_MonitorPointTypeCode,
+            other.pollutionid,
+            other.monitorpointid,
+            other.monitorpointname,
+            other.Longitude,
+            other.Latitude,
+            AlarmLevel
+            FROM
+            T_BAS_DeviceStatus
+            JOIN (SELECT
+            T_BAS_OtherMonitorPoint.DGIMN,
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,
+            '' pollutionid,
+            '' PollutionName,
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,
+            T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+            T_BAS_OtherMonitorPoint.Longitude,
+            T_BAS_OtherMonitorPoint.Latitude,
+            '1' isstop
+            FROM T_BAS_OtherMonitorPoint
+            WHERE
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =52
+            ) other ON T_BAS_DeviceStatus.DGIMN = other.DGIMN
+            LEFT JOIN PUB_CODE_MonitorPointType ON other.FK_MonitorPointTypeCode = PUB_CODE_MonitorPointType.Code WHERE
+            PUB_CODE_MonitorPointType.IsUsed = 1
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND other.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </if>
+        <if test="iscategory == '0'.toString() ">
+            <if test="isshow == '1'.toString() ">
+                UNION all
+            </if>
+            SELECT
+            CASE
+            WHEN other.isstop = '0' THEN
+            '4'
+            WHEN other.isstop = '1' THEN
+            T_BAS_DeviceStatus.Status
+            END Status,
+            T_BAS_DeviceStatus.DGIMN,
+            other.PollutionName,
+            other.FK_MonitorPointTypeCode,
+            other.pollutionid,
+            other.monitorpointid,
+            other.monitorpointname,
+            other.Longitude,
+            other.Latitude,
+            AlarmLevel
+            FROM
+            T_BAS_DeviceStatus
+            JOIN (SELECT
+            T_BAS_OtherMonitorPoint.DGIMN,
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,
+            '' pollutionid,
+            '' PollutionName,
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,
+            T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+            T_BAS_OtherMonitorPoint.Longitude,
+            T_BAS_OtherMonitorPoint.Latitude,
+            CASE WHEN T_BAS_OtherMonitorPoint.MonitorPointCategory = 1 THEN '1'
+            when T_BAS_OtherMonitorPoint.MonitorPointCategory = 2 then '2' end Category,
+            '1' isstop
+            FROM T_BAS_OtherMonitorPoint
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10)
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+            </if>
+            WHERE
+            T_BAS_OtherMonitorPoint.MonitorPointCategory IN (1, 2)
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+            ) other ON T_BAS_DeviceStatus.DGIMN = other.DGIMN
+        </if>
+        <if test="iscategory == '2'.toString() ">
+            <if test="isshow == '1'.toString() ">
+                UNION all
+            </if>
+            SELECT
+            CASE
+            WHEN other.isstop = '0' THEN
+            '4'
+            WHEN other.isstop = '1' THEN
+            T_BAS_DeviceStatus.Status
+            END Status,
+            T_BAS_DeviceStatus.DGIMN,
+            other.PollutionName,
+            other.FK_MonitorPointTypeCode,
+            other.pollutionid,
+            other.monitorpointid,
+            other.monitorpointname,
+            other.Longitude,
+            other.Latitude,
+            AlarmLevel
+            FROM
+            T_BAS_DeviceStatus
+            JOIN (SELECT
+            T_BAS_OtherMonitorPoint.DGIMN,
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,
+            '' pollutionid,
+            '' PollutionName,
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,
+            T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+            T_BAS_OtherMonitorPoint.Longitude,
+            T_BAS_OtherMonitorPoint.Latitude,
+            '1' isstop
+            FROM T_BAS_OtherMonitorPoint
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10)
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+            </if>
+            WHERE
+            T_BAS_OtherMonitorPoint.MonitorPointCategory =2
+            AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode in (9,10)
+            ) other ON T_BAS_DeviceStatus.DGIMN = other.DGIMN
+        </if>
+        <if test="iscategory == '1'.toString() ">
+            <if test="isshow == '1'.toString() ">
+                UNION all
+            </if>
+            SELECT
+            CASE
+            WHEN other.isstop = '0' THEN
+            '4'
+            WHEN other.isstop = '1' THEN
+            T_BAS_DeviceStatus.Status
+            END Status,
+            T_BAS_DeviceStatus.DGIMN,
+            other.PollutionName,
+            other.FK_MonitorPointTypeCode,
+            other.pollutionid,
+            other.monitorpointid,
+            other.monitorpointname,
+            other.Longitude,
+            other.Latitude,
+            AlarmLevel
+            FROM
+            T_BAS_DeviceStatus
+            JOIN (SELECT
+            T_BAS_OtherMonitorPoint.DGIMN,
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,
+            '' pollutionid,
+            '' PollutionName,
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID monitorpointid,
+            T_BAS_OtherMonitorPoint.MonitorPointName monitorpointname,
+            T_BAS_OtherMonitorPoint.Longitude,
+            T_BAS_OtherMonitorPoint.Latitude,
+            '1' isstop
+            FROM T_BAS_OtherMonitorPoint
+            <if test="userid !=null and userid!=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+                AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10)
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+            </if>
+            WHERE
+            T_BAS_OtherMonitorPoint.MonitorPointCategory = 1
+            AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode in (9,10)
+            ) other ON T_BAS_DeviceStatus.DGIMN = other.DGIMN
+        </if>
+        ) pointtable
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+            <if test="statuslist != null and statuslist.size>0 ">
+                AND pointtable.Status in
+                <foreach collection="statuslist" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+        </trim>
+        ORDER BY pointtable.FK_MonitorPointTypeCode,pointtable.monitorpointname
+    </select>
+
+
+    <!--
+        author:xsm
+        description: 根据监测类型和点位状态获取点位信息(根据数据权限筛选)
+        param:
+        date: 2020/05/11 20:48
+       -->
+    <select id="getMonitorPointCategoryTypeByParamMap" resultType="map" parameterType="map">
+        SELECT PUB_CODE_MonitorPointType.Code,
+        PUB_CODE_MonitorPointType.Name,PUB_CODE_MonitorPointType.OrderIndex
+        FROM T_BAS_OtherMonitorPoint
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10)
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation. FK_MonitorPointID
+        </if>
+        JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN PUB_CODE_MonitorPointType ON T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =
+        PUB_CODE_MonitorPointType.Code AND PUB_CODE_MonitorPointType.IsUsed = 1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointcategory !=null and monitorpointcategory!=''">
+                T_BAS_OtherMonitorPoint.MonitorPointCategory = #{monitorpointcategory}
+            </if>
+        </trim>
+        GROUP BY PUB_CODE_MonitorPointType.Code,
+        PUB_CODE_MonitorPointType.Name,PUB_CODE_MonitorPointType.OrderIndex
+        ORDER BY PUB_CODE_MonitorPointType.OrderIndex
+    </select>
+
+
+    <!--
+   author:xsm
+   description: 根据监测类型统计安全监测点的在线离线状态
+   param:
+   date: 2020/03/03 10:23
+    -->
+    <select id="countSecurityMonitorPointAllStatusNumByTypes" resultType="map" parameterType="map">
+        SELECT Status,COUNT(allt.DGIMN) num
+        from
+        ( select
+        T_BAS_DeviceStatus.Status,
+        T_BAS_DeviceStatus.DGIMN
+        from T_BAS_DeviceStatus
+        LEFT JOIN (
+        SELECT T_AQ_StorageTankInfo.DGIMN,30 FK_MonitorPointTypeCode,T_AQ_StorageTankInfo.PK_ID monitorpointid FROM
+        T_AQ_StorageTankInfo
+        UNION
+        SELECT T_AQ_HazardSourceProductDevice.DGIMN,57 FK_MonitorPointTypeCode,T_AQ_HazardSourceProductDevice.PK_ID
+        monitorpointid FROM T_AQ_HazardSourceProductDevice
+        UNION
+        SELECT DGIMN,FK_MonitorPointTypeCode,T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID monitorpointid FROM
+        T_AQ_RiskAreaMonitorPoint WHERE T_AQ_RiskAreaMonitorPoint.FK_MonitorPointTypeCode != 54
+        ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+        alltable.FK_MonitorPointTypeCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltable.monitorpointid = relation. FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode !=52
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND T_BAS_DeviceStatus.Status is NOT NULL
+                AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ) allt
+        GROUP BY
+        allt.Status
+        ORDER BY allt.Status
+    </select>
+
+    <!--
+ author:xsm
+ description: 根据监测类型和点位状态获取点位信息(包含经纬度)
+ param:
+ date: 2020/03/04 9:05
+-->
+    <select id="getAllSecurityMonitorPointInfoByParamForHomePage" resultType="map" parameterType="map">
+        select
+        Status,DGIMN,PollutionName,ShorterName,FK_MonitorPointTypeCode,pollutionid,monitorpointid,monitorpointname,Longitude,Latitude,parentid
+        FROM
+        (select
+        T_BAS_DeviceStatus.Status,
+        T_BAS_DeviceStatus.DGIMN,alltable.PollutionName,alltable.ShorterName,alltable.FK_MonitorPointTypeCode,alltable.pollutionid,alltable.monitorpointid,alltable.monitorpointname,alltable.Longitude,alltable.Latitude,alltable.parentid
+        from T_BAS_DeviceStatus
+        right JOIN (
+        SELECT T_AQ_StorageTankInfo.DGIMN,30 FK_MonitorPointTypeCode,T_BAS_Pollution.PK_PollutionID
+        pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_AQ_StorageTankInfo.PK_ID monitorpointid,
+        (CAST(T_AQ_StorageTankAreaInfo.StorageTankAreaName as varchar(20))+'-'+CAST(T_AQ_StorageTankInfo.StorageTankCode
+        as varchar(20)))AS
+        monitorpointname,T_AQ_StorageTankInfo.Longitude,T_AQ_StorageTankInfo.Latitude,T_AQ_StorageTankAreaInfo.PK_ID
+        parentid
+        FROM T_AQ_StorageTankInfo
+        JOIN T_AQ_StorageTankAreaInfo on T_AQ_StorageTankInfo.FK_StorageTankAreaID=T_AQ_StorageTankAreaInfo.PK_ID
+        JOIN T_BAS_Pollution ON T_AQ_StorageTankAreaInfo.FK_PollutionID=T_BAS_Pollution.PK_PollutionID
+        UNION all
+        SELECT T_AQ_HazardSourceProductDevice.DGIMN,57 FK_MonitorPointTypeCode,T_BAS_Pollution.PK_PollutionID
+        pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_AQ_HazardSourceProductDevice.PK_ID
+        monitorpointid,
+        T_AQ_HazardSourceProductDevice.DeviceName
+        monitorpointname,T_AQ_HazardSourceProductDevice.Longitude,T_AQ_HazardSourceProductDevice.Latitude,T_AQ_MajorHazardSources.PK_ID
+        parentid
+        FROM T_AQ_HazardSourceProductDevice
+        JOIN T_AQ_MajorHazardSources on
+        T_AQ_HazardSourceProductDevice.FK_MajorHazardSourcesId=T_AQ_MajorHazardSources.PK_ID
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID = T_AQ_MajorHazardSources.FK_PollutionID
+        UNION all
+        SELECT DGIMN, FK_MonitorPointTypeCode,T_BAS_Pollution.PK_PollutionID
+        pollutionid,T_BAS_Pollution.PollutionName,T_BAS_Pollution.ShorterName,T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID
+        monitorpointid,
+        T_AQ_RiskAreaMonitorPoint.MonitorPointName
+        monitorpointname,T_AQ_RiskAreaMonitorPoint.Longitude,T_AQ_RiskAreaMonitorPoint.Latitude,T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID
+        parentid
+        FROM T_AQ_RiskAreaMonitorPoint
+        JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID = T_AQ_RiskAreaMonitorPoint.Fk_PollutionID
+        ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+        alltable.FK_MonitorPointTypeCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltable.monitorpointid = relation.FK_MonitorPointID
+        </if>
+        WHERE
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode!=52
+        AND T_BAS_DeviceStatus.Status is NOT NULL
+        ) pointtable
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype != null and monitorpointtype !=''">
+                AND pointtable.FK_MonitorPointTypeCode= #{monitorpointtype}
+            </if>
+            <if test="monitorpointid != null and monitorpointid !=''">
+                AND pointtable.monitorpointid= #{monitorpointid}
+            </if>
+            <if test="dgimn != null and dgimn !=''">
+                AND pointtable.DGIMN= #{dgimn}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND pointtable.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="statuslist != null and statuslist.size>0 ">
+                AND pointtable.Status in
+                <foreach collection="statuslist" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="fkpollutionid!=null and fkpollutionid!=''">
+                and pollutionid=#{fkpollutionid}
+            </if>
+        </trim>
+        ORDER BY pointtable.FK_MonitorPointTypeCode,pointtable.monitorpointname
+    </select>
+
+
+    <select id="getDeviceStatusDataByParam" resultType="map" parameterType="map">
+        SELECT DISTINCT
+        t1.DGIMN dgimn,
+        t1.FK_MonitorPointTypeCode monitorpointtype
+        FROM
+        T_BAS_DeviceStatus t1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND t1.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="getOnLinePoints" resultType="String" parameterType="String">
+       SELECT
+            PK_ID
+        FROM
+            T_BAS_DeviceStatus
+        WHERE
+            Status != #{status}
+    </select>
+
+
+    <select id="getAllHBMonitorPointDataList" resultType="map" parameterType="map">
+        SELECT tt.* ,dev.Status onlinestatus,mpt.Name monitorpointtypename,dev.AlarmLevel FROM (
+        select
+        t1.pk_id monitorpointid,
+        t1.outputname as monitorpointname,
+        t1.dgimn,
+        t2.pollutionname,
+        t2.pk_pollutionid as pollutionid,
+        t2.shortername,
+        t2.shortername + '-' + t1.outputname AS customname,
+        t1.OutputLongitude Longitude,
+        t1.OutputLatitude Latitude,
+        1 as category,
+        '环保' as categoryname,
+        case t1.outputtype
+        when 3 then
+        37
+        else
+        1
+        end monitorpointtype
+        from
+        t_bas_wateroutputinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        union
+        select
+        t1.pk_id monitorpointid,
+        t1.outputname as monitorpointname,
+        t1.dgimn,
+        t2.pollutionname,
+        t2.pk_pollutionid as pollutionid,
+        t2.shortername,
+        t2.shortername + '-' + t1.outputname AS customname,
+        t1.OutputLongitude Longitude,
+        t1.OutputLatitude Latitude,
+        1 as category,
+        '环保' as categoryname,
+        fk_monitorpointtypecode monitorpointtype
+        from
+        t_bas_gasoutputinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        union
+        select
+        t1.pk_airid monitorpointid,
+        t1.monitorpointname as monitorpointname,
+        t1.dgimn,
+        '' as pollutionname,
+        '' as pollutionid,
+        '' as shortername,
+        t1.monitorpointname AS customname,
+        t1.Longitude,
+        t1.Latitude,
+        1 as category,
+        '环保' as categoryname,
+        5 as monitorpointtype
+        from
+        t_bas_airmonitorstation t1
+        union
+        select
+        t1.PK_WaterStationID monitorpointid,
+        t1.monitorpointname as monitorpointname,
+        t1.dgimn,
+        '' as pollutionname,
+        '' as pollutionid,
+        '' as shortername,
+        t1.monitorpointname AS customname,
+        t1.Longitude,
+        t1.Latitude,
+        1 as category,
+        '环保' as categoryname,
+        6 as monitorpointtype
+        from
+        T_BAS_WaterStationInfo t1
+        union
+        select
+        t1.pk_monitorpointid monitorpointid,
+        t1.monitorpointname as monitorpointname,
+        t1.dgimn,
+        '' as pollutionname,
+        '' as shortername,
+        '' as pollutionid,
+        t1.monitorpointname AS customname,
+        t1.Longitude,
+        t1.Latitude,
+        1 as category,
+        '环保' as categoryname,
+        fk_monitorpointtypecode as monitorpointtype
+        from
+        t_bas_othermonitorpoint t1
+        union
+        select
+        t1.pk_id monitorpointid,
+        t1.monitorpointname as monitorpointname,
+        t1.dgimn,
+        t2.pollutionname,
+        t2.pk_pollutionid as pollutionid,
+        t2.shortername,
+        t2.shortername + '-'+ t1.monitorpointname AS customname,
+        t1.Longitude,
+        t1.Latitude,
+        1 as category,
+        '环保' as categoryname,
+        t1.fk_monitorpointtypecode monitorpointtype
+        from
+        t_bas_unorganizedmonitorpointinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        ) tt join T_BAS_DeviceStatus dev ON tt.dgimn = dev.DGIMN AND tt.monitorpointtype = dev.FK_MonitorPointTypeCode
+        LEFT JOIN PUB_CODE_MonitorPointType mpt ON tt.monitorpointtype = mpt.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="customname!=null and customname!='' ">
+                and tt.customname like concat('%',#{customname},'%')
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND tt.monitorpointtype = #{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0">
+                AND tt.monitorpointtype in
+                <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionid != null and pollutionid!=''">
+                AND tt.pollutionid = #{pollutionid}
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and tt.dgimn in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by tt.monitorpointtype,tt.customname
+    </select>
+
+
+    <select id="getAllHBMonitorPointDataListByParam" resultType="map" parameterType="map">
+        SELECT
+        <if test="pagesize!=null and pagesize!='' ">
+            TOP ${pagesize}
+        </if>
+        *
+        FROM
+        (SELECT distinct ROW_NUMBER() OVER (ORDER BY
+        <choose>
+            <when test="sortdata!=null and !sortdata.isEmpty()">
+                <foreach collection="sortdata.entrySet()" item="value" index="key">
+                    tt.${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                tt.customname
+            </otherwise>
+        </choose>
+        ) AS RowNumber,tt.* from(
+        SELECT distinct table1.dgimn,table1.customname,table1.customname monitorpointname,dev.Status onlinestatus,
+        case dev.Status when 1 then '正常' when 0 then '离线' when 2 then
+        '超标' when 3 then '异常' END onlinestatusname,
+        dev.FK_MonitorPointTypeCode monitorpointtype,mpt.Name
+        monitorpointtypename
+        FROM (
+        select
+        t1.dgimn,
+        t2.shortername + '-' + t1.outputname AS customname
+        from
+        t_bas_wateroutputinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        union
+        select
+        t1.dgimn,
+        t2.shortername + '-' + t1.outputname AS customname
+        from
+        t_bas_gasoutputinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        union
+        select
+        t1.dgimn,
+        t1.monitorpointname AS customname
+        from
+        t_bas_airmonitorstation t1
+        union
+        select
+        t1.dgimn,
+        t1.monitorpointname AS customname
+        from
+        T_BAS_WaterStationInfo t1
+        union
+        select
+        t1.dgimn,
+        t1.monitorpointname AS customname
+        from
+        t_bas_othermonitorpoint t1 where t1.FK_MonitorPointTypeCode !=52
+        union
+        select
+        t1.dgimn,
+        t2.shortername + '-'+ t1.monitorpointname AS customname
+        from
+        t_bas_unorganizedmonitorpointinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        ) table1 join T_BAS_DeviceStatus dev ON table1.dgimn = dev.DGIMN
+        JOIN PUB_CODE_MonitorPointType mpt ON dev.FK_MonitorPointTypeCode = mpt.Code
+        union
+        SELECT DISTINCT
+        tqx.dgimn,
+        tqx.monitorpointname,
+        tqx.monitorpointname customname,
+        dev.Status onlinestatus,
+        CASE
+        dev.Status
+        WHEN 1 THEN
+        '正常'
+        WHEN 0 THEN
+        '离线'
+        WHEN 2 THEN
+        '超标'
+        WHEN 3 THEN
+        '异常'
+        END onlinestatusname,
+        dev.FK_MonitorPointTypeCode monitorpointtype,
+        mpt.Name monitorpointtypename
+        FROM t_bas_othermonitorpoint tqx
+        JOIN T_BAS_DeviceStatus dev ON tqx.dgimn = dev.DGIMN and dev.FK_MonitorPointTypeCode =52
+        JOIN PUB_CODE_MonitorPointType mpt ON dev.FK_MonitorPointTypeCode = mpt.Code
+        )tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="customname!=null and customname!='' ">
+                and tt.customname like concat('%',#{customname},'%')
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND tt.monitorpointtype = #{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0">
+                AND tt.monitorpointtype in
+                <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ) as A
+        <if test="pagesize!=null and pagesize!='' ">
+            WHERE RowNumber > ${(pagenum-1)*pagesize}
+        </if>
+        order by
+        <choose>
+            <when test="sortdata!=null and !sortdata.isEmpty()">
+                <foreach collection="sortdata.entrySet()" item="value" index="key">
+                    ${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                A.customname
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--
+ * @author: xsm
+ * @date: 2019/11/15 0015 上午 10:21
+ * @Description: 自定义查询条件获取贮罐信息条数
+ * @updateUser:
+ * @updateDate:
+ * @updateDescription:
+-->
+    <select id="getHBMonitorPointInfoNumByParamMap" resultType="Long" parameterType="map">
+        SELECT
+        count(0)
+        FROM
+        (SELECT DISTINCT tt.*,dev.Status onlinestatus,
+        case dev.Status when 1 then '正常' when 0 then '离线' when 2 then
+        '超标' when 3 then '异常' END onlinestatusname,
+        dev.FK_MonitorPointTypeCode monitorpointtype,mpt.Name
+        monitorpointtypename from
+        (
+        select
+        t1.dgimn,
+        t2.shortername + '-' + t1.outputname AS customname
+        from
+        t_bas_wateroutputinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        union
+        select
+        t1.dgimn,
+        t2.shortername + '-' + t1.outputname AS customname
+        from
+        t_bas_gasoutputinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        union
+        select
+        t1.dgimn,
+        t1.monitorpointname AS customname
+        from
+        t_bas_airmonitorstation t1
+        union
+        select
+        t1.dgimn,
+        t1.monitorpointname AS customname
+        from
+        T_BAS_WaterStationInfo t1
+        union
+        select
+        t1.dgimn,
+        t1.monitorpointname AS customname
+        from
+        t_bas_othermonitorpoint t1 where t1.FK_MonitorPointTypeCode !=52
+        union
+        select
+        t1.dgimn,
+        t2.shortername + '-'+ t1.monitorpointname AS customname
+        from
+        t_bas_unorganizedmonitorpointinfo t1
+        inner join t_bas_pollution t2 on t1.fk_pollutionid = t2.pk_pollutionid
+        ) tt join T_BAS_DeviceStatus dev ON tt.dgimn = dev.DGIMN
+        JOIN PUB_CODE_MonitorPointType mpt ON dev.FK_MonitorPointTypeCode = mpt.Code
+        union
+        SELECT DISTINCT
+        tqx.dgimn,
+        tqx.monitorpointname customname,
+        dev.Status onlinestatus,
+        CASE
+        dev.Status
+        WHEN 1 THEN
+        '正常'
+        WHEN 0 THEN
+        '离线'
+        WHEN 2 THEN
+        '超标'
+        WHEN 3 THEN
+        '异常'
+        END onlinestatusname,
+        dev.FK_MonitorPointTypeCode monitorpointtype,
+        mpt.Name monitorpointtypename
+        FROM t_bas_othermonitorpoint tqx
+        JOIN T_BAS_DeviceStatus dev ON tqx.dgimn = dev.DGIMN and dev.FK_MonitorPointTypeCode =52
+        JOIN PUB_CODE_MonitorPointType mpt ON dev.FK_MonitorPointTypeCode = mpt.Code
+        ) table1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="customname!=null and customname!='' ">
+                and table1.customname like concat('%',#{customname},'%')
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND table1.monitorpointtype = #{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0">
+                AND table1.monitorpointtype in
+                <foreach collection="monitorpointtypes" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+    </select>
+
+
+    <!--
+    author:xsm
+    description: 统计各类型点位在线、超标、异常数量(管委会首页GIS)
+    param:
+    date: 2021/09/14 11:58
+    -->
+    <select id="getAllMonitorTypesForManagementHomeMap" resultType="map" parameterType="map">
+        SELECT COUNT (allt.DGIMN) totalnum,
+        sum(case when allt.Status=1 then 1 else 0 end) onlinenum,
+        sum(case when allt.Status=0 then 1 else 0 end) offnum,
+        sum(case when allt.overstatus=1 then 1 else 0 end) overnum,
+        sum(case when allt.earlystatus=1 then 1 else 0 end) earlynum,
+        sum(case when allt.exceptionstatus=1 then 1 else 0 end) exceptionnum,
+        convert(int,allt.FK_MonitorPointTypeCode) monitorpointtypecode,
+        PUB_CODE_MonitorPointType.Name monitorpointtypename
+        from
+        (
+        select
+        CASE WHEN (T_BAS_DeviceStatus.Status =2 AND T_BAS_DeviceStatus.AlarmLevel!=0) THEN 1 ELSE 0 END overstatus,
+        CASE WHEN (T_BAS_DeviceStatus.Status =2 AND T_BAS_DeviceStatus.AlarmLevel =0) THEN 1 ELSE 0 END earlystatus,
+        CASE WHEN T_BAS_DeviceStatus.Status =3 THEN 1 ELSE 0 END exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,alltype.FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN
+        (
+        SELECT T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.PK_ID
+        monitorpointid FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        UNION
+        SELECT T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid
+        FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '1'
+        UNION
+        SELECT T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.PK_ID monitorpointid FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID WHERE
+        T_BAS_WaterOutputInfo.outputtype = '3'
+        UNION
+        SELECT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        monitorpointid FROM T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON
+        T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = '40'
+        UNION
+        SELECT T_BAS_AirMonitorStation.DGIMN,'5' FK_MonitorPointTypeCode,T_BAS_AirMonitorStation.PK_AirID
+        monitorpointid FROM T_BAS_AirMonitorStation
+        UNION
+        SELECT T_BAS_WaterStationInfo.DGIMN,'6' FK_MonitorPointTypeCode,T_BAS_WaterStationInfo.PK_WaterStationID
+        monitorpointid FROM T_BAS_WaterStationInfo
+        UNION
+        SELECT
+        T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        monitorpointid FROM T_BAS_OtherMonitorPoint WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode NOT
+        IN (52)
+        ) alltype
+        ON T_BAS_DeviceStatus.DGIMN = alltype.DGIMN
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltype.monitorpointid = relation. FK_MonitorPointID
+        </if>
+        WHERE T_BAS_DeviceStatus.FK_MonitorPointTypeCode IS NOT NULL AND T_BAS_DeviceStatus.DGIMN IS NOT NULL
+        UNION ALL
+        select
+        0 overstatus,
+        0 earlystatus,
+        0 exceptionstatus,
+        CASE WHEN T_BAS_DeviceStatus.Status IN (2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,'52' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        ) allt
+        join PUB_CODE_MonitorPointType on allt.FK_MonitorPointTypeCode =PUB_CODE_MonitorPointType.Code
+        and PUB_CODE_MonitorPointType.IsUsed = 1
+        GROUP BY
+        allt.FK_MonitorPointTypeCode,PUB_CODE_MonitorPointType.Name
+        ORDER BY convert(int,FK_MonitorPointTypeCode)
+    </select>
+
+
+    <!--
+    author:xsm
+    description: 统计各类型点位在线、总数(监控管理)
+    param:
+    date: 2022/01/11 13:52
+    -->
+    <select id="countAllPointStatusNumForMonitorType" resultType="map" parameterType="map">
+        SELECT COUNT (allt.DGIMN) totalnum,
+        sum(case when allt.Status=1 then 1 else 0 end) onlinenum,
+        CASE WHEN tmonitor.MonitoringClass is NULL THEN 0 ELSE tmonitor.MonitoringClass END monitoringclass,
+        convert(int,allt.FK_MonitorPointTypeCode) monitorpointtypecode,
+        tmonitor.Name monitorpointtypename
+        from
+        (
+        select
+        CASE WHEN T_BAS_DeviceStatus.Status IN (1,2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END Status,
+        T_BAS_DeviceStatus.DGIMN,
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus
+        WHERE T_BAS_DeviceStatus.FK_MonitorPointTypeCode IS NOT NULL AND T_BAS_DeviceStatus.DGIMN IS NOT NULL AND
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode != 52
+        UNION ALL
+        select
+        CASE WHEN T_BAS_DeviceStatus.Status IN (1,2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END
+        Status,T_BAS_DeviceStatus.DGIMN,'52' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        ) allt
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            DGIMN
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            DGIMN
+            ) relation ON allt.DGIMN = relation. DGIMN
+        </if>
+        join (
+        select
+        Code,
+        IsUsed,
+        Category,
+        MonitoringClass,
+        OrderIndex,
+        CASE WHEN (PUB_CODE_MonitorPointType.MainName IS NOT NULL AND PUB_CODE_MonitorPointType.MainName!='') THEN
+        PUB_CODE_MonitorPointType.MainName ELSE PUB_CODE_MonitorPointType.Name END Name
+        from PUB_CODE_MonitorPointType) tmonitor on allt.FK_MonitorPointTypeCode =tmonitor.Code
+        and tmonitor.IsUsed = 1 and tmonitor.Category = 1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitoringclass  =='yes'">
+                tmonitor.MonitoringClass is not null
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND allt.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        GROUP BY
+        allt.FK_MonitorPointTypeCode,tmonitor.Name,tmonitor.MonitoringClass,tmonitor.OrderIndex
+        ORDER BY tmonitor.MonitoringClass,tmonitor.OrderIndex
+    </select>
+
+    <!--
+    author:xsm
+    description: 获取挂图作战监测类型
+    param:
+    date: 2022/02/14 15:51
+    -->
+    <select id="getAllWallChartOperationMonitorTypes" resultType="map" resultMap="typemap">
+        SELECT
+        allt.FK_MonitorPointTypeCode monitorpointtypecode,
+        tmonitor.Name monitorpointtypename
+        from
+        (
+        select
+        T_BAS_DeviceStatus.DGIMN,
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus
+        WHERE T_BAS_DeviceStatus.FK_MonitorPointTypeCode IS NOT NULL AND T_BAS_DeviceStatus.DGIMN IS NOT NULL AND
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode != 52
+        UNION ALL
+        select
+        T_BAS_DeviceStatus.DGIMN,'52' FK_MonitorPointTypeCode
+        from T_BAS_DeviceStatus JOIN T_BAS_OtherMonitorPoint ON T_BAS_DeviceStatus.DGIMN = T_BAS_OtherMonitorPoint.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = 52
+        ) allt
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            DGIMN
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            DGIMN
+            ) relation ON allt.DGIMN = relation. DGIMN
+        </if>
+        join (
+        select
+        Code,
+        IsUsed,
+        Category,
+        MonitoringClass,
+        OrderIndex,
+        CASE WHEN (PUB_CODE_MonitorPointType.MainName IS NOT NULL AND PUB_CODE_MonitorPointType.MainName!='') THEN
+        PUB_CODE_MonitorPointType.MainName ELSE PUB_CODE_MonitorPointType.Name END Name
+        from PUB_CODE_MonitorPointType) tmonitor on allt.FK_MonitorPointTypeCode =tmonitor.Code
+        and tmonitor.IsUsed = 1 and tmonitor.Category = 1 AND tmonitor.MonitoringClass is not NULL
+        GROUP BY
+        allt.FK_MonitorPointTypeCode,tmonitor.Name,tmonitor.OrderIndex
+        ORDER BY tmonitor.OrderIndex
+    </select>
+
+    <!--
+        author:xsm
+        description: 根据监测类型获取MN号
+        param:
+        time: 2022/02/15 09:00
+      -->
+    <select id="getEnvPointMnDataByParam" parameterType="map" resultType="map">
+        select t.FK_MonitorPointTypeCode typecode,
+        CASE WHEN (t2.MainName IS NOT NULL AND t2.MainName!='') THEN t2.MainName ELSE t2.Name END pointname,
+        t.DGIMN
+        from T_BAS_DeviceStatus t
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            DGIMN
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            DGIMN
+            ) relation ON t.DGIMN = relation. DGIMN
+        </if>
+        <if test="wsoutputs != null and wsoutputs.size>0 ">
+            JOIN (
+            SELECT T_BAS_GASOutPutInfo.DGIMN
+            FROM
+            T_BAS_GASOutPutInfo
+            UNION ALL
+            SELECT T_BAS_WaterOutputInfo.DGIMN
+            FROM
+            T_BAS_WaterOutputInfo
+            WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+            AND T_BAS_WaterOutputInfo.FK_OutputProperty NOT IN
+            <foreach collection="wsoutputs" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+            ) alloutput on t.DGIMN = alloutput.DGIMN
+        </if>
+        left join PUB_CODE_MonitorPointType t2 on t.FK_MonitorPointTypeCode = t2.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t.Status is NOT NULL
+            <if test="dgimn != null and dgimn!=''">
+                AND t.DGIMN = #{dgimn}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND t.FK_MonitorPointTypeCode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getMonitorTypeListByParam" parameterType="map" resultType="map">
+        select
+        code,
+        name,
+        mainname,themetype,orderindex
+        from
+        pub_code_monitorpointtype
+
+        <trim prefix="where" prefixOverrides="AND|OR">
+            IsUsed = '1'
+            <if test="themetypes != null and themetypes.size>0 ">
+                and themetype in
+                <foreach collection="themetypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+            and code is not null
+        </trim>
+        ORDER BY orderindex
+    </select>
+
+    <!--
+           author:xsm
+           description: 根据自定义参数获取点位数据
+           param:
+           time: 2022/02/15 09:00
+         -->
+    <select id="getEnvPointInfoDataByParam" parameterType="map" resultType="map">
+        SELECT *,tmonitor.Name mainname FROM (
+        select
+        CASE WHEN alltable.isstop ='0' THEN 4 WHEN alltable.isstop='1' THEN T_BAS_DeviceStatus.Status END
+        onlinestatus,
+        case when T_BAS_DeviceStatus.Status = 1 THEN 1
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN 2
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN 3
+        ELSE 4 end orderstatus,
+        T_BAS_DeviceStatus.DGIMN dgimn,
+        alltable.ShorterName shortername,
+        alltable.PollutionName pollutionname,
+        alltable.pointname,
+        alltable.FK_MonitorPointTypeCode fkmonitorpointtypecode,
+        alltable.pollutionid,
+        alltable.monitorpointid,
+        alltable.monitorpointname,
+        alltable.Longitude longitude,
+        alltable.Latitude latitude,
+        alltable.MonitorPointCategory,
+        CASE WHEN alltable.MonitorPointCategory = 1 THEN '敏感点'
+        when alltable.MonitorPointCategory = 2 then '传输点'
+        when alltable.MonitorPointCategory = 3 then '厂界点'
+        ELSE '' end MonitorPointCategoryName
+        from T_BAS_DeviceStatus
+        JOIN (
+        SELECT
+        T_BAS_GASOutPutInfo.DGIMN,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode,T_BAS_GASOutPutInfo.FK_Pollutionid
+        pollutionid,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PollutionName,T_BAS_GASOutPutInfo.OutputName
+        pointname,T_BAS_GASOutPutInfo.PK_ID
+        monitorpointid,T_BAS_Pollution.ShorterName+'_'+T_BAS_GASOutPutInfo.OutputName
+        monitorpointname,T_BAS_GASOutPutInfo.OutputLongitude
+        Longitude,T_BAS_GASOutPutInfo.OutputLatitude Latitude,null MonitorPointCategory,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        AND (
+        (
+        CONVERT ( VARCHAR ( 20 ), getdate( ), 120 ) &lt;= (
+        CASE
+        WHEN stop.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT ( VARCHAR ( 20 ), stop.RecoveryProductionTime, 120 )
+        WHEN stop.endtime IS NOT NULL THEN
+        CONVERT ( VARCHAR ( 20 ), stop.endtime, 120 )
+        END
+        )
+        )
+        OR ( stop.endtime IS NULL AND stop.RecoveryProductionTime IS NULL )
+        )) THEN '0' else '1' end
+        isstop
+        FROM T_BAS_GASOutPutInfo JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT PK_ID,
+        FK_Pollutionid,
+        FK_Outputid,
+        FK_MonitorPointType,
+        StartTime,
+        EndTime,
+        StopProductionRemark,
+        FK_StopProductionType,
+        convert(varchar(20),RecoveryProductionTime,120) RecoveryProductionTime,
+        RecoveryProductionReason
+        FROM (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_Outputid ORDER BY EndTime DESC) rn FROM
+        T_BAS_StopProductionInfo
+        where (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT
+        NULL)) tt
+        WHERE
+        tt.rn = 1
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            and tt.FK_MonitorPointType in
+            <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        ) stop on T_BAS_GASOutPutInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_GASOutPutInfo.PK_ID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputpropertys != null and outputpropertys.size>0 ">
+                AND T_BAS_GASOutPutInfo.fk_outputproperty in
+                <foreach collection="outputpropertys" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        UNION
+        SELECT
+        T_BAS_WaterOutputInfo.DGIMN,'1' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.FK_Pollutionid
+        pollutionid,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutputName
+        pointname,T_BAS_WaterOutputInfo.PK_ID
+        monitorpointid,T_BAS_Pollution.ShorterName+'_'+T_BAS_WaterOutputInfo.OutputName
+        monitorpointname,T_BAS_WaterOutputInfo.OutputLongitude
+        Longitude,T_BAS_WaterOutputInfo.OutputLatitude Latitude,null MonitorPointCategory,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        AND (
+        (
+        CONVERT ( VARCHAR ( 20 ), getdate( ), 120 ) &lt;= (
+        CASE
+        WHEN stop.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT ( VARCHAR ( 20 ), stop.RecoveryProductionTime, 120 )
+        WHEN stop.endtime IS NOT NULL THEN
+        CONVERT ( VARCHAR ( 20 ), stop.endtime, 120 )
+        END
+        )
+        )
+        OR ( stop.endtime IS NULL AND stop.RecoveryProductionTime IS NULL )
+        )) THEN '0' else '1' end
+        isstop
+        FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT PK_ID,
+        FK_Pollutionid,
+        FK_Outputid,
+        FK_MonitorPointType,
+        StartTime,
+        EndTime,
+        StopProductionRemark,
+        FK_StopProductionType,
+        convert(varchar(20),RecoveryProductionTime,120) RecoveryProductionTime,
+        RecoveryProductionReason
+        FROM (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_Outputid ORDER BY EndTime DESC) rn FROM
+        T_BAS_StopProductionInfo
+        where (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT
+        NULL)
+        ) tt
+        WHERE
+        tt.rn = 1
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            and tt.FK_MonitorPointType in
+            <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        ) stop on T_BAS_WaterOutputInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_WaterOutputInfo.PK_ID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        <if test="inputoroutputs != null and inputoroutputs.size>0 ">
+            AND T_BAS_WaterOutputInfo.FK_OutputProperty = 6 AND T_BAS_WaterOutputInfo.InputorOutput in
+            <foreach collection="inputoroutputs" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        <!-- <choose>
+             <when test="inputoroutputs != null and inputoroutputs.size>0 ">
+                 AND T_BAS_WaterOutputInfo.FK_OutputProperty = 6 AND T_BAS_WaterOutputInfo.InputorOutput in
+                 <foreach collection="inputoroutputs" close=")" open="(" separator="," item="item">
+                     #{item}
+                 </foreach>
+             </when>
+             <otherwise>
+                 AND(T_BAS_WaterOutputInfo.FK_OutputProperty IS NULL OR T_BAS_WaterOutputInfo.FK_OutputProperty != 6)
+             </otherwise>
+         </choose>-->
+        UNION
+        SELECT
+        T_BAS_WaterOutputInfo.DGIMN,'37' FK_MonitorPointTypeCode,T_BAS_WaterOutputInfo.FK_Pollutionid
+        pollutionid,T_BAS_Pollution.ShorterName,T_BAS_Pollution.PollutionName,T_BAS_WaterOutputInfo.OutputName
+        pointname,T_BAS_WaterOutputInfo.PK_ID
+        monitorpointid,T_BAS_Pollution.ShorterName+'_'+T_BAS_WaterOutputInfo.OutputName
+        monitorpointname,T_BAS_WaterOutputInfo.OutputLongitude
+        Longitude,T_BAS_WaterOutputInfo.OutputLatitude Latitude,null MonitorPointCategory,
+        case when (convert(varchar(20),getdate(),120)>= convert(varchar(20),stop.starttime,120)
+        AND (
+        (
+        CONVERT ( VARCHAR ( 20 ), getdate( ), 120 ) &lt;= (
+        CASE
+        WHEN stop.RecoveryProductionTime IS NOT NULL THEN
+        CONVERT ( VARCHAR ( 20 ), stop.RecoveryProductionTime, 120 )
+        WHEN stop.endtime IS NOT NULL THEN
+        CONVERT ( VARCHAR ( 20 ), stop.endtime, 120 )
+        END
+        )
+        )
+        OR ( stop.endtime IS NULL AND stop.RecoveryProductionTime IS NULL )
+        )) THEN '0' else '1' end
+        isstop
+        FROM T_BAS_WaterOutputInfo JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid =
+        T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN (SELECT PK_ID,
+        FK_Pollutionid,
+        FK_Outputid,
+        FK_MonitorPointType,
+        StartTime,
+        EndTime,
+        StopProductionRemark,
+        FK_StopProductionType,
+        convert(varchar(20),RecoveryProductionTime,120) RecoveryProductionTime,
+        RecoveryProductionReason
+        FROM (
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY FK_Outputid ORDER BY EndTime DESC) rn FROM
+        T_BAS_StopProductionInfo
+        where (T_BAS_StopProductionInfo.FK_Outputid IS NOT null and T_BAS_StopProductionInfo.FK_MonitorPointType IS NOT
+        NULL)
+        ) tt
+        WHERE
+        tt.rn = 1
+        <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+            and tt.FK_MonitorPointType in
+            <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        ) stop on T_BAS_WaterOutputInfo.FK_Pollutionid = stop.FK_Pollutionid AND stop.FK_Outputid =
+        T_BAS_WaterOutputInfo.PK_ID
+        WHERE T_BAS_WaterOutputInfo.OutPutType = 3
+        UNION
+        SELECT T_BAS_AirMonitorStation.DGIMN,5 FK_MonitorPointTypeCode,'' pollutionid,''
+        ShorterName,'' PollutionName,T_BAS_AirMonitorStation.MonitorPointName pointname,T_BAS_AirMonitorStation.PK_AirID
+        monitorpointid,T_BAS_AirMonitorStation.MonitorPointName
+        monitorpointname,T_BAS_AirMonitorStation.Longitude,T_BAS_AirMonitorStation.Latitude,null
+        MonitorPointCategory,'1' stop
+        FROM T_BAS_AirMonitorStation
+        UNION
+        SELECT T_BAS_WaterStationInfo.DGIMN,6 FK_MonitorPointTypeCode,'' pollutionid,''
+        ShorterName,'' PollutionName,T_BAS_WaterStationInfo.MonitorPointName
+        pointname,T_BAS_WaterStationInfo.PK_WaterStationID
+        monitorpointid,T_BAS_WaterStationInfo.MonitorPointName
+        monitorpointname,T_BAS_WaterStationInfo.Longitude,T_BAS_WaterStationInfo.Latitude,null MonitorPointCategory,'1'
+        stop
+        FROM T_BAS_WaterStationInfo
+        UNION
+        SELECT T_BAS_OtherMonitorPoint.DGIMN,T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode,'' pollutionid,''
+        ShorterName,'' PollutionName,T_BAS_OtherMonitorPoint.MonitorPointName
+        pointname,T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        monitorpointid,T_BAS_OtherMonitorPoint.MonitorPointName
+        monitorpointname,T_BAS_OtherMonitorPoint.Longitude,T_BAS_OtherMonitorPoint.Latitude,T_BAS_OtherMonitorPoint.MonitorPointCategory,'1'
+        stop
+        FROM T_BAS_OtherMonitorPoint
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="categorys != null and categorys.size>0 ">
+                AND T_BAS_OtherMonitorPoint.MonitorPointCategory in
+                <foreach collection="categorys" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ) alltable ON alltable.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode =
+        alltable.FK_MonitorPointTypeCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON alltable.monitorpointid = relation.FK_MonitorPointID
+        </if>
+        where
+        T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+        AND T_BAS_DeviceStatus.Status is NOT NULL
+        ) tt
+        join
+        (
+        select
+        Code,
+        IsUsed,
+        Category,
+        MonitoringClass,
+        OrderIndex,
+        CASE WHEN (PUB_CODE_MonitorPointType.MainName IS NOT NULL AND PUB_CODE_MonitorPointType.MainName!='') THEN
+        PUB_CODE_MonitorPointType.MainName ELSE PUB_CODE_MonitorPointType.Name END Name
+        from PUB_CODE_MonitorPointType) tmonitor
+        on tt.fkmonitorpointtypecode = tmonitor.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            tmonitor.MonitoringClass is not null and tmonitor.IsUsed = 1
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND tt.fkmonitorpointtypecode = #{monitorpointtype}
+            </if>
+            <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+                AND tt.fkmonitorpointtypecode in
+                <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND tt.monitorpointname LIKE  concat('%', #{monitorpointname},'%')
+            </if>
+            <if test="pointname != null and pointname!=''">
+                AND ( ShorterName + '_' + PointName ) LIKE concat('%', #{pointname},'%')
+            </if>
+
+            <if test="statuslist != null and statuslist.size>0 ">
+                AND tt.onlinestatus in
+                <foreach collection="statuslist" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by
+        <choose>
+            <when test="sortdata!=null and !sortdata.isEmpty()">
+                <foreach collection="sortdata.entrySet()" item="value" index="key">
+                    ${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                tt.orderstatus,tt.monitorpointname
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--
+           author:xsm
+           description: 根据自定义参数获取空气点位数据
+           param:
+           time: 2022/02/15 09:00
+         -->
+    <select id="getEnvAirPointInfoDataByParam" parameterType="map" resultType="map">
+        SELECT * FROM (
+        select
+        T_BAS_DeviceStatus.Status onlinestatus,
+        case when T_BAS_DeviceStatus.Status = 1 THEN 1
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN 2
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN 3
+        ELSE 4 end orderstatus,
+        T_BAS_DeviceStatus.DGIMN dgimn,
+        5 fkmonitorpointtypecode,
+        T_BAS_AirMonitorStation.PK_AirID monitorpointid,
+        T_BAS_AirMonitorStation.MonitorPointName monitorpointname,
+        T_BAS_AirMonitorStation.Longitude longitude,
+        T_BAS_AirMonitorStation.Latitude latitude,
+        t.name controllevelname,
+        T_BAS_AirMonitorStation.FK_ControlLevelCode
+        from T_BAS_DeviceStatus
+        JOIN T_BAS_AirMonitorStation
+        ON T_BAS_AirMonitorStation.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = 5
+        left join PUB_CODE_AirControlLevel t on t.code = T_BAS_AirMonitorStation.FK_ControlLevelCode
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_AirMonitorStation.PK_AirID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+            AND T_BAS_DeviceStatus.Status is NOT NULL
+            <if test="pointtypes != null and pointtypes.size>0 ">
+                AND T_BAS_AirMonitorStation.PointType in
+                <foreach collection="pointtypes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and T_BAS_AirMonitorStation.MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+            <if test="controllevels != null and controllevels.size>0 ">
+                AND T_BAS_AirMonitorStation.FK_ControlLevelCode in
+                <foreach collection="controllevels" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="statuslist != null and statuslist.size>0 ">
+                AND T_BAS_DeviceStatus.Status in
+                <foreach collection="statuslist" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="fkcontrollevelcodes != null and fkcontrollevelcodes.size>0 ">
+                AND T_BAS_AirMonitorStation.FK_ControlLevelCode in
+                <foreach collection="fkcontrollevelcodes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ) tt
+        order by
+        <choose>
+            <when test="sortdata!=null and !sortdata.isEmpty()">
+                <foreach collection="sortdata.entrySet()" item="value" index="key">
+                    ${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                tt.orderstatus,tt.monitorpointname
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--
+           author:xsm
+           description: 根据自定义参数获取水质点位数据
+           param:
+           time: 2022/02/15 09:00
+         -->
+    <select id="getEnvWaterQualityPointInfoDataByParam" parameterType="map" resultType="map">
+        SELECT * FROM (
+        select
+        T_BAS_DeviceStatus.Status onlinestatus,
+        case when T_BAS_DeviceStatus.Status = 1 THEN 1
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN 2
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN 3
+        ELSE 4 end orderstatus,
+        T_BAS_DeviceStatus.DGIMN dgimn,
+        6 fkmonitorpointtypecode,
+        T_BAS_WaterStationInfo.PK_WaterStationID monitorpointid,
+        T_BAS_WaterStationInfo.MonitorPointName monitorpointname,
+        T_BAS_WaterStationInfo.Longitude longitude,
+        T_BAS_WaterStationInfo.Latitude latitude
+        from T_BAS_DeviceStatus
+        JOIN T_BAS_WaterStationInfo
+        ON T_BAS_WaterStationInfo.DGIMN=T_BAS_DeviceStatus.DGIMN AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = 6
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_WaterStationInfo.PK_WaterStationID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            T_BAS_DeviceStatus.FK_MonitorPointTypeCode is NOT NULL
+            AND T_BAS_DeviceStatus.Status is NOT NULL
+            <if test="fkcontrollevelcodes != null and fkcontrollevelcodes.size>0 ">
+                AND T_BAS_WaterStationInfo.FK_ControlLevelCode in
+                <foreach collection="fkcontrollevelcodes" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and T_BAS_WaterStationInfo.MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+            <if test="statuslist != null and statuslist.size>0 ">
+                AND T_BAS_DeviceStatus.Status in
+                <foreach collection="statuslist" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ) tt
+        order by
+        <choose>
+            <when test="sortdata!=null and !sortdata.isEmpty()">
+                <foreach collection="sortdata.entrySet()" item="value" index="key">
+                    ${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                tt.orderstatus,tt.monitorpointname
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--
+       author:xsm
+       description: 获取所以监测类型
+       param:
+       time: 2022/03/31 09:00
+     -->
+    <select id="getAllMonitorPointTypeData" resultType="map">
+        select t.Code typecode,
+        CASE  WHEN (t.MainName IS NOT  NULL AND t.MainName!='') THEN t.MainName ELSE t.Name END typename
+        from  PUB_CODE_MonitorPointType t
+       WHERE  t.IsUsed =1 AND MonitoringClass IS NOT NULL
+    </select>
+
+
+    <!--
+          author:xsm
+          description: 获取在线报警点位
+          param:
+          time: 2022/07/15 10:54
+        -->
+    <select id="getRealTimeAlarmStatusDgimns" parameterType="map" resultType="map">
+        SELECT
+        T_BAS_DeviceStatus.Status onlinestatus,
+        T_BAS_DeviceStatus.dgimn
+        from
+        T_BAS_DeviceStatus
+        <trim prefix="where" prefixOverrides="AND|OR">
+            T_BAS_DeviceStatus.Status = 2
+            AND T_BAS_DeviceStatus.dgimn is NOT NULL
+        </trim>
+    </select>
+
+</mapper>

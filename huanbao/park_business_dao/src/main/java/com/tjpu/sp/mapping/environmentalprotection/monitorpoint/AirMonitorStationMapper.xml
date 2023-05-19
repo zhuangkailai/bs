@@ -1,0 +1,1170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.AirMonitorStationMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirMonitorStationVO">
+        <id column="PK_AirID" property="pkAirid" jdbcType="VARCHAR"/>
+        <result column="FK_RegionCode" property="fkRegioncode" jdbcType="VARCHAR"/>
+        <result column="MonitorPointCode" property="monitorpointcode" jdbcType="VARCHAR"/>
+        <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR"/>
+        <result column="FK_ControlLevelCode" property="fkControllevelcode" jdbcType="VARCHAR"/>
+        <result column="FK_AirFunClassCode" property="fkAirfunclasscode" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="Address" property="address" jdbcType="VARCHAR"/>
+        <result column="PointType" property="pointtype" jdbcType="NUMERIC"/>
+        <result column="Year" property="year" jdbcType="NUMERIC"/>
+        <result column="Status" property="status" jdbcType="NUMERIC"/>
+        <result column="DGIMN" property="dgimn" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="pollutantSetMap" type="com.tjpu.sp.model.environmentalprotection.monitorpoint.PollutantSetDataVO">
+        <id column="standardid" property="pkId" jdbcType="VARCHAR"/>
+        <result column="pollutantcode" property="pollutantcode" jdbcType="VARCHAR"/>
+        <result column="alarmtype" property="alarmtype" jdbcType="NUMERIC"/>
+        <result column="standardminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+        <result column="standardmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        <collection property="alarmLevelDataVOList"
+                    ofType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AlarmLevelDataVO">
+            <id column="alarmid" property="pkId" jdbcType="VARCHAR"/>
+            <result column="concenalarmminvalue" property="standardminvalue" jdbcType="DOUBLE"/>
+            <result column="concenalarmmaxvalue" property="standardmaxvalue" jdbcType="DOUBLE"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_AirID, FK_RegionCode, MonitorPointCode, MonitorPointName, FK_ControlLevelCode, 
+    FK_AirFunClassCode, Longitude, Latitude, Address, PointType, Year, Status, DGIMN, 
+    UpdateTime, UpdateUser
+  </sql>
+
+    <!--
+                 author:lip
+                 description: 获取空气污染物设置信息
+                 param:
+                 date: 2020/05/20 14:32
+               -->
+    <select id="getPollutantSetDataListByParam" parameterType="map" resultMap="pollutantSetMap">
+     SELECT
+        t2.pk_dataid AS standardid,
+        t2.fk_pollutantcode AS pollutantcode,
+        t2.alarmtype,
+        t2.standardminvalue,
+        t2.standardmaxvalue,
+        t3.FK_AlarmLevelCode AS alarmid,
+        t3.concenalarmminvalue,
+        t3.concenalarmmaxvalue
+    FROM
+        T_BAS_AirMonitorStation t1
+        INNER JOIN T_BAS_AirStationPollutantSet t2 ON t1.PK_AirID = t2.FK_AirMonintPointID
+        and t1.PK_AirID = #{monitorpointid}
+        LEFT JOIN t_bas_earlywarningset t3 ON t3.fk_outputid = t1.PK_AirID
+        AND t3.fk_pollutantcode = t2.fk_pollutantcode
+    </select>
+
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_AirMonitorStation
+        where PK_AirID = #{pkAirid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_AirMonitorStation
+    where PK_AirID = #{pkAirid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirMonitorStationVO">
+    insert into T_BAS_AirMonitorStation (PK_AirID, FK_RegionCode, MonitorPointCode, 
+      MonitorPointName, FK_ControlLevelCode, FK_AirFunClassCode, 
+      Longitude, Latitude, Address, 
+      PointType, Year, Status, 
+      DGIMN, UpdateTime, UpdateUser
+      )
+    values (#{pkAirid,jdbcType=VARCHAR}, #{fkRegioncode,jdbcType=VARCHAR}, #{monitorpointcode,jdbcType=VARCHAR}, 
+      #{monitorpointname,jdbcType=VARCHAR}, #{fkControllevelcode,jdbcType=VARCHAR}, #{fkAirfunclasscode,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{address,jdbcType=VARCHAR}, 
+      #{pointtype,jdbcType=NUMERIC}, #{year,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC}, 
+      #{dgimn,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirMonitorStationVO">
+        insert into T_BAS_AirMonitorStation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkAirid != null">
+                PK_AirID,
+            </if>
+            <if test="fkRegioncode != null">
+                FK_RegionCode,
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode,
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName,
+            </if>
+            <if test="fkControllevelcode != null">
+                FK_ControlLevelCode,
+            </if>
+            <if test="fkAirfunclasscode != null">
+                FK_AirFunClassCode,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="address != null">
+                Address,
+            </if>
+            <if test="pointtype != null">
+                PointType,
+            </if>
+            <if test="year != null">
+                Year,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkAirid != null">
+                #{pkAirid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRegioncode != null">
+                #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="fkControllevelcode != null">
+                #{fkControllevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkAirfunclasscode != null">
+                #{fkAirfunclasscode,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="pointtype != null">
+                #{pointtype,jdbcType=NUMERIC},
+            </if>
+            <if test="year != null">
+                #{year,jdbcType=NUMERIC},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirMonitorStationVO">
+        update T_BAS_AirMonitorStation
+        <set>
+            <if test="fkRegioncode != null">
+                FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="fkControllevelcode != null">
+                FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkAirfunclasscode != null">
+                FK_AirFunClassCode = #{fkAirfunclasscode,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="address != null">
+                Address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="pointtype != null">
+                PointType = #{pointtype,jdbcType=NUMERIC},
+            </if>
+            <if test="year != null">
+                Year = #{year,jdbcType=NUMERIC},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="dgimn != null">
+                DGIMN = #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_AirID = #{pkAirid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.AirMonitorStationVO">
+    update T_BAS_AirMonitorStation
+    set FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+      MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+      FK_ControlLevelCode = #{fkControllevelcode,jdbcType=VARCHAR},
+      FK_AirFunClassCode = #{fkAirfunclasscode,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      Address = #{address,jdbcType=VARCHAR},
+      PointType = #{pointtype,jdbcType=NUMERIC},
+      Year = #{year,jdbcType=NUMERIC},
+      Status = #{status,jdbcType=NUMERIC},
+      DGIMN = #{dgimn,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_AirID = #{pkAirid,jdbcType=VARCHAR}
+  </update>
+
+    <!-- lip 2021/5/31 16:19 -->
+    <update id="setTimeDataByParam" parameterType="map">
+        UPDATE t1 set
+        t1.AlarmControlTimes = #{alarmcontroltimes},
+        t1.ZeroValueTimes = #{zerovaluetimes},
+        t1.ContinuityValueTimes = #{continuityvaluetimes}
+        FROM
+        T_BAS_AirStationPollutantSet t1
+        INNER JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID = t2.PK_AirID
+        where t2.DGIMN = #{dgimn}
+        and t1.fk_pollutantcode = #{pollutantcode}
+    </update>
+
+
+
+    <!--
+        author:zhangzc
+        description: 获取空气站点信息
+        param:
+        date: 2019/5/28 17:54
+      -->
+    <select id="getOnlineAirStationInfoByParamMap" parameterType="map" resultType="map">
+        SELECT
+        T_BAS_AirMonitorStation.PK_AirID AS pk_id,
+        T_BAS_AirMonitorStation.PK_AirID AS monitorpointid,
+        T_BAS_AirMonitorStation.MonitorPointName AS monitorpointname,
+        T_BAS_AirMonitorStation.MonitorPointName AS outputname,
+        T_BAS_AirMonitorStation.DGIMN AS dgimn,
+        '5' monitorpointtype,
+        '空气' monitorpointtypename,
+        T_BAS_AirMonitorStation.Longitude,
+        T_BAS_AirMonitorStation.Latitude,
+        T_BAS_DeviceStatus.Status AS onlinestatus,
+        case when (T_BAS_AirMonitorStation.Status = 0) then 6 ELSE (case when T_BAS_DeviceStatus.Status = 1 THEN 1
+        WHEN T_BAS_DeviceStatus.Status = 0 THEN 2
+        WHEN T_BAS_DeviceStatus.Status = 2 THEN 3
+        WHEN T_BAS_DeviceStatus.Status = 3 THEN 4 end) end orderstatus,
+        case T_BAS_DeviceStatus.Status when 1 then '正常' when 0 then '离线' when 2 then
+        '超标' when 3 then '异常' END  onlinestatusname,
+        T_BAS_DeviceStatus.AlarmLevel,
+        T_BAS_AirMonitorStation.status,
+        t.name controllevelname,
+        T_BAS_AirMonitorStation.FK_ControlLevelCode
+        FROM
+        T_BAS_AirMonitorStation JOIN  T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+
+        left join PUB_CODE_AirControlLevel t on t.code = T_BAS_AirMonitorStation.FK_ControlLevelCode
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = 5
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_AirMonitorStation.PK_AirID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_AirMonitorStation.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="customname!=null and customname != ''">
+                AND T_BAS_AirMonitorStation.MonitorPointName LIKE CONCAT('%',#{customname},'%')
+            </if>
+            <if test="searchname!=null and searchname != ''">
+                AND T_BAS_AirMonitorStation.MonitorPointName LIKE CONCAT('%',#{searchname},'%')
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and T_BAS_AirMonitorStation.DGIMN = #{dgimn}
+            </if>
+            <if test="controllevels !=null and controllevels!=''">
+                and T_BAS_AirMonitorStation.FK_ControlLevelCode in
+                <foreach collection="controllevels.split(',')" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and T_BAS_AirMonitorStation.dgimn in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pointstatus!=null and pointstatus!='' ">
+                and T_BAS_AirMonitorStation.status = #{pointstatus}
+            </if>
+            <if test="monitorpointid != null and monitorpointid!=''">
+                AND T_BAS_AirMonitorStation.PK_AirID = #{monitorpointid}
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and PK_AirID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="airids !=null and airids.size>0">
+                and PK_AirID in
+                <foreach collection="airids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and T_BAS_DeviceStatus.status in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        /*ORDER BY T_BAS_AirMonitorStation.MonitorPointName desc*/
+        ORDER BY T_BAS_AirMonitorStation.MonitorPointCode
+    </select>
+
+
+    <!--
+        author:lip
+        description: 获取空气站点信息（分页使用，列不可以重复）
+        param:
+        date: 2019/5/28 17:54
+      -->
+    <select id="getAirStationInfoByParamMap" parameterType="map" resultType="map">
+        SELECT
+        T_BAS_AirMonitorStation.PK_AirID AS pk_id,
+        T_BAS_AirMonitorStation.PK_AirID AS monitorpointid,
+        T_BAS_AirMonitorStation.MonitorPointName AS monitorpointname,
+        T_BAS_AirMonitorStation.MonitorPointName AS outputname,
+        T_BAS_AirMonitorStation.DGIMN AS dgimn,
+        '5' monitorpointtype,
+        T_BAS_DeviceStatus.Status AS onlinestatus,
+        T_BAS_AirMonitorStation.status
+        FROM
+        T_BAS_AirMonitorStation,
+        T_BAS_DeviceStatus
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_AirMonitorStation.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and T_BAS_AirMonitorStation.DGIMN = #{dgimn}
+            </if>
+
+            <if test="dgimns !=null and dgimns.size>0">
+                and T_BAS_AirMonitorStation.dgimn in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="monitorpointid != null and monitorpointid!=''">
+                AND T_BAS_AirMonitorStation.PK_AirID = #{monitorpointid}
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and PK_AirID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="airids !=null and airids.size>0">
+                and PK_AirID in
+                <foreach collection="airids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and T_BAS_DeviceStatus.status in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY T_BAS_AirMonitorStation.MonitorPointName
+    </select>
+
+
+    <select id="countTotalByParam" parameterType="map" resultType="long">
+        select count(*) from T_BAS_AirMonitorStation
+        JOIN T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN=T_BAS_DeviceStatus.DGIMN
+        and T_BAS_DeviceStatus.status is not null
+        <if test="userid !=null and userid!=''">
+            JOIN (
+            SELECT
+            DGIMN
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            DGIMN
+            ) relation ON T_BAS_DeviceStatus.DGIMN = relation.DGIMN
+        </if>
+
+    </select>
+    <!--
+        author:chengzq
+        description: 获取所有空气站
+        param:
+        date: 2019/06/04 17:47
+    -->
+    <select id="getAllAirMonitorStation" resultType="map">
+        select
+        PK_AirID pkid,
+        PK_AirID,
+        FK_RegionCode,
+        MonitorPointCode,
+        MonitorPointName,
+        MonitorPointName OutputName,
+        MonitorPointName outputname,
+        FK_ControlLevelCode,
+        FK_AirFunClassCode,
+        Longitude,
+        Latitude,
+        Address,
+        PointType,
+        YEAR,
+        T_BAS_DeviceStatus.Status OnlineStatus,
+        T_BAS_AirMonitorStation.DGIMN,
+        T_BAS_AirMonitorStation.Status,
+        T_BAS_AirMonitorStation.UpdateTime,
+        T_BAS_AirMonitorStation.UpdateUser
+        from T_BAS_AirMonitorStation
+        JOIN (SELECT *, case T_BAS_DeviceStatus.Status when 1 then 1 when 2 then 2 when 3 then 3 when 0 then 4 else 5 end orderstatus
+        from
+        T_BAS_DeviceStatus) as T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                AND MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+            <if test="id!=null and id!='' ">
+                and T_BAS_AirMonitorStation.PK_AirID = #{id}
+            </if>
+            <if test="pkidlist!=null and pkidlist.size>0">
+                and T_BAS_AirMonitorStation.PK_AirID in
+                <foreach collection="pkidlist" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pkids!=null and pkids.size>0">
+                and T_BAS_AirMonitorStation.PK_AirID in
+                <foreach collection="pkids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        <if test="orderfield != null and orderfield =='status'">
+            order by T_BAS_DeviceStatus.orderstatus
+        </if>
+    </select>
+
+
+    <!--  author:xsm description: 根据监测点名称获取空气站的基本信息和点位状态 date: 2019/06/11 13:04 -->
+    <select id="getAirStationInfosByMonitorPointNameAndType" parameterType="map" resultType="map">
+        select t1.PK_AirID,
+        t1.MonitorPointCode,
+        t1.MonitorPointName,
+        t3.Name airfunclassname,
+        t4.Name controllevelname,
+        t1.Longitude,
+        t1.Latitude,
+        t1.Address,
+        t1.Year,
+        t2.status,
+        case t1.PointType
+        when 0 then '背景点'
+        when 1 then '监测点'
+        else ''
+        end pointtype
+        from T_BAS_AirMonitorStation t1 JOIN T_BAS_DeviceStatus t2 ON t1.DGIMN = t2.DGIMN
+        LEFT JOIN PUB_CODE_AirFunClass t3 ON t1.FK_AirFunClassCode = t3.Code
+        LEFT JOIN PUB_CODE_ControlLeve t4 ON t1.FK_ControlLevelCode = t4.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND t1.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND t2.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </if>
+        </trim>
+        ORDER BY t1.MonitorPointName
+    </select>
+
+
+    <!--  author:xsm description: 获取监测点下所有监测因子 date: 2019/06/11 13:04 -->
+    <select id="getAirStationAllPollutantsByIDAndType" parameterType="map" resultType="map">
+        select DISTINCT t2.FK_PollutantCode code,t3.name,
+        t2.standardmaxvalue,
+        t2.standardminvalue,
+        t3.OrderIndex,
+        t3.PollutantUnit
+        from T_BAS_AirMonitorStation t1 JOIN T_BAS_AirStationPollutantSet t2 ON t1.PK_AirID = t2.FK_AirMonintPointID
+        JOIN PUB_CODE_PollutantFactor t3 ON t2.FK_PollutantCode = t3.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pkidlist!=null and pkidlist.size>0">
+                and t1.PK_AirID in
+                <foreach collection="pkidlist" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND t3.PollutantType = #{monitorpointtype}
+            </if>
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                and t1.monitorpointname like concat('%',#{monitorpointname},'%')
+            </if>
+        </trim>
+        ORDER BY t3.OrderIndex
+    </select>
+
+    <!--  author:xsm description: 根据监测点ID获取该监测点在线监测设备基础信息 date: 2019/06/12 16:04 -->
+    <select id="getAirStationDeviceStatusByID" parameterType="map" resultType="map">
+        select
+           t2.PK_ID,
+           t2.DGIMN,
+           t2.FK_MonitorPointTypeCode,
+           t2.Status,
+           t2.UpdateTime,
+           t2.UpdateUser
+        from T_BAS_AirMonitorStation t1 JOIN T_BAS_DeviceStatus t2 ON t1.DGIMN = t2.DGIMN
+        where t1.PK_AirID = #{pkid}
+    </select>
+
+
+    <!--  author:xsm description: 根据监测点ID获取附件表对应关系 date: 2019/06/16 15:04 -->
+    <select id="getfileIdsByID" parameterType="map" resultType="map">
+         select
+                 t1.FK_ImgID,
+				t2.FilePath
+        from T_BAS_AirMonitorStation t1 JOIN T_BAS_FileInfo t2 ON t1.FK_ImgID = t2.FileFlag
+        where t1.PK_AirID = #{pkid}
+    </select>
+
+
+    <!--  author:xsm description: 获取所有监测点信息和点位监测状态 date: 2019/06/21 17:25 -->
+    <select id="getAllMonitorAirStationAndStatusInfo" resultType="map">
+       select
+            T_BAS_AirMonitorStation.PK_AirID pkid,
+            T_BAS_AirMonitorStation.Longitude,
+            T_BAS_AirMonitorStation.Latitude,
+            T_BAS_AirMonitorStation.MonitorPointName outputname ,
+            T_BAS_AirMonitorStation.MonitorPointName,
+            T_BAS_AirMonitorStation.MonitorPointCode,
+            T_BAS_DeviceStatus.DGIMN,
+            T_BAS_DeviceStatus.FK_MonitorPointTypeCode,
+            T_BAS_DeviceStatus.Status
+            from T_BAS_AirMonitorStation join T_BAS_DeviceStatus
+        ON T_BAS_AirMonitorStation.DGIMN=T_BAS_DeviceStatus.DGIMN
+    </select>
+
+
+    <!--  author:xsm description: 根据其它类型的监测点的ID和类型编码获取关联的空气监测点信息 date: 2019/06/26 19:19 -->
+    <select id="getAirMnByOtherMonitorPointIdAndType" parameterType="map" resultType="map">
+        select
+        T_BAS_AirMonitorStation.PK_AirID pkid,
+        T_BAS_AirMonitorStation.Longitude,
+        T_BAS_AirMonitorStation.Latitude,
+        T_BAS_AirMonitorStation.MonitorPointName,
+        T_BAS_AirMonitorStation.MonitorPointCode,
+        T_BAS_AirMonitorStation.DGIMN
+        from T_BAS_AirMonitorStation,T_BAS_WeatherDataRelationInfo
+        WHERE T_BAS_AirMonitorStation.PK_AirID=T_BAS_WeatherDataRelationInfo.FK_AirStationID
+        AND  T_BAS_WeatherDataRelationInfo.FK_OtherStationID = #{monitorpointid}
+        AND  T_BAS_WeatherDataRelationInfo.FK_MonitorPointType = #{pointtype}
+    </select>
+
+    <!--  author:xsm description: 根据监测点名称和MN号获取空气监测点信息 date: 2019/07/08 11:45 -->
+    <select id="selectAirStationInfoByPointNameAndDgimn" parameterType="map" resultType="map">
+        select
+        *
+        from T_BAS_AirMonitorStation
+        where T_BAS_AirMonitorStation.MonitorPointName = #{monitorpointname}
+        <if test="dgimn != null and dgimn!=''">
+            AND T_BAS_AirMonitorStation.DGIMN = #{dgimn}
+        </if>
+    </select>
+
+
+    <!--  author:xsm description: 根据自定义参数获取空气站点MN号和污染物信息 date: 2019/07/08 11:45 -->
+    <select id="getAirMonitorStationDgimnAndPollutantInfosByParam" parameterType="map" resultType="map">
+        select
+        DISTINCT
+        T_BAS_AirMonitorStation.PK_AirID PK_ID,
+        T_BAS_AirMonitorStation.MonitorPointName,
+        T_BAS_AirMonitorStation.DGIMN,
+        T_BAS_AirMonitorStation.Latitude,
+        T_BAS_AirMonitorStation.Longitude,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_EarlyWarningSet.FK_AlarmLevelCode,
+        T_BAS_AirStationPollutantSet.AlarmType,
+        T_BAS_AirStationPollutantSet.StandardMinValue,
+        T_BAS_AirStationPollutantSet.StandardMaxValue,
+        T_BAS_AirStationPollutantSet.ExceptionMinValue,
+        T_BAS_AirStationPollutantSet.ExceptionMaxValue,
+        T_BAS_DeviceStatus.Status,
+        T_BAS_EarlyWarningSet.ConcenAlarmMaxValue
+        FROM
+        T_BAS_AirMonitorStation
+        JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_AirMonitorStation.DGIMN
+        JOIN T_BAS_AirStationPollutantSet ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+        T_BAS_AirMonitorStation.PK_AirID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_AirStationPollutantSet.FK_PollutantCode
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        LEFT JOIN T_BAS_EarlyWarningSet ON T_BAS_AirMonitorStation.PK_AirID = T_BAS_EarlyWarningSet.FK_OutPutID AND
+        PUB_CODE_PollutantFactor.Code =T_BAS_EarlyWarningSet.FK_PollutantCode
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        AND PUB_CODE_PollutantFactor.PollutantType =#{monitorpointtype}
+        <if test="monitorpointname!=null and monitorpointname!='' ">
+            and T_BAS_AirMonitorStation.MonitorPointName like concat('%',#{monitorpointname},'%')
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="dgimn!=null and dgimn!='' ">
+            and T_BAS_AirMonitorStation.DGIMN = #{dgimn}
+        </if>
+        <if test="pollutantname!=null and pollutantname!='' ">
+            and PUB_CODE_PollutantFactor.Name like concat('%',#{pollutantname},'%')
+        </if>
+        <if test="outputid!=null and outputid!='' ">
+            and T_BAS_AirMonitorStation.PK_AirID = #{outputid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            and T_BAS_AirMonitorStation.PK_AirID = #{monitorpointid}
+        </if>
+        ORDER BY
+        T_BAS_AirMonitorStation.MonitorPointName,PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+
+
+    <!--  author:xsm description: 根据恶臭点位的MN号获取关联的空气监测点信息 date: 2019/06/26 19:19 -->
+    <select id="getAirStationsByMN" parameterType="map" resultType="map">
+        SELECT
+        datas.PK_ID,datas.MonitorPointName,datas.stenchmn,datas.airmn from
+        (SELECT T_BAS_OtherMonitorPoint.PK_MonitorPointID PK_ID,T_BAS_OtherMonitorPoint.MonitorPointName,
+        T_BAS_OtherMonitorPoint.DGIMN stenchmn,case when T_BAS_AirMonitorStation.DGIMN IS null THEN
+        T_BAS_OtherMonitorPoint.DGIMN ELSE T_BAS_AirMonitorStation.DGIMN end airmn
+        FROM
+        T_BAS_OtherMonitorPoint
+        LEFT JOIN T_BAS_WeatherDataRelationInfo on T_BAS_OtherMonitorPoint.PK_MonitorPointID =
+        T_BAS_WeatherDataRelationInfo.FK_OtherStationID
+        and T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = T_BAS_WeatherDataRelationInfo.FK_MonitorPointType
+        LEFT JOIN T_BAS_AirMonitorStation on T_BAS_AirMonitorStation.PK_AirID =
+        T_BAS_WeatherDataRelationInfo.FK_AirStationID
+        WHERE T_BAS_OtherMonitorPoint.DGIMN IS NOT NULL
+        AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode in (9,10)
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.PK_ID,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName,
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN stenchmn,case when T_BAS_AirMonitorStation.DGIMN IS null THEN
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN ELSE T_BAS_AirMonitorStation.DGIMN end airmn
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo
+        LEFT JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_WeatherDataRelationInfo on T_BAS_UnorganizedMonitorPointInfo.PK_ID =
+        T_BAS_WeatherDataRelationInfo.FK_OtherStationID
+        and T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =
+        T_BAS_WeatherDataRelationInfo.FK_MonitorPointType
+        LEFT JOIN T_BAS_AirMonitorStation on T_BAS_AirMonitorStation.PK_AirID =
+        T_BAS_WeatherDataRelationInfo.FK_AirStationID
+        WHERE T_BAS_UnorganizedMonitorPointInfo.DGIMN IS NOT NULL AND
+        T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =40) datas
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="dgimns!=null and dgimns.size>0">
+                and datas.stenchmn in
+                <foreach collection="dgimns" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="getAirStationPollutants" resultType="java.util.Map">
+        SELECT DISTINCT
+        T_BAS_AirMonitorStation.PK_AirID AS OutPutID,
+        T_BAS_AirMonitorStation.MonitorPointName AS OutPutName,
+        T_BAS_DeviceStatus.DGIMN AS MN,
+        T_BAS_AirStationPollutantSet.ConcentrationChangeWarnPercent AS Rate,
+
+        T_BAS_AirStationPollutantSet.StandardMinValue,
+        T_BAS_AirStationPollutantSet.StandardMaxValue,
+        T_BAS_AirStationPollutantSet.AlarmType,
+        T_BAS_AirStationPollutantSet.ChangeBaseValue,
+
+        PUB_CODE_PollutantFactor.PollutantUnit,
+        PUB_CODE_PollutantFactor.Code AS PollutantCode,
+        PUB_CODE_PollutantFactor.OrderIndex AS OrderIndex,
+        PUB_CODE_PollutantFactor.Name AS PollutantName
+        FROM
+        T_BAS_AirMonitorStation
+        JOIN T_BAS_AirStationPollutantSet ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+        T_BAS_AirMonitorStation.PK_AirID
+        JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_AirMonitorStation.DGIMN
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_AirStationPollutantSet.FK_PollutantCode
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        <if test="monitorpointname!=null and monitorpointname!='' ">
+            and T_BAS_AirMonitorStation.MonitorPointName like concat('%',#{monitorpointname},'%')
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="mn!=null and mn!='' ">
+            AND T_BAS_DeviceStatus.DGIMN = #{mn}
+        </if>
+        ORDER BY
+        T_BAS_AirMonitorStation.MonitorPointName
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过自定义参数获取所有空气站
+        param:
+        date: 2019/06/04 17:47
+    -->
+    <select id="getAllAirMonitorStationByParams" resultType="map" parameterType="map">
+        select
+        PK_AirID pk_id,
+        monitorpointname,
+        '${monitortype}' fk_monitorpointtypecode,
+        t_bas_airmonitorstation.dgimn
+        from T_BAS_AirMonitorStation
+        <if test="userid !=null and userid!=''">
+        JOIN (
+        SELECT
+        FK_MonitorPointID
+        FROM
+        T_BAS_UserMonitorPointRelationData
+        WHERE
+        T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+        AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType=5
+        GROUP BY
+        FK_MonitorPointID
+        ) relation ON T_BAS_AirMonitorStation.PK_AirID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointname!=null and monitorpointname!='' ">
+                AND MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="countOnlineOutPut" parameterType="map" resultType="map">
+
+        select * from
+        (
+        <!--废水 -->
+        SELECT
+        '${onlinewatername}' name,
+        1 code,
+        1 orderindex,
+        COUNT ( 1 ) COUNT
+        FROM
+        t_bas_wateroutputinfo,
+        t_bas_pollution,
+        t_bas_devicestatus
+        WHERE
+        t_bas_wateroutputinfo.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        AND fk_pollutionid = pk_pollutionid
+        AND ( outputtype != '3' OR outputtype IS NULL ) UNION
+        <!--雨水 -->
+        SELECT
+        '${rainname}',
+        37,
+        2,
+        COUNT ( 1 )
+        FROM
+        t_bas_wateroutputinfo,
+        t_bas_pollution,
+        t_bas_devicestatus
+        WHERE
+        t_bas_wateroutputinfo.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        AND fk_pollutionid = pk_pollutionid
+        AND outputtype = '3' UNION
+        <!--废气 -->
+        SELECT
+        '${onlinegasname}',
+        2,
+        3,
+        COUNT ( 1 )
+        FROM
+        t_bas_gasoutputinfo,
+        t_bas_pollution,
+        t_bas_devicestatus
+        WHERE
+        t_bas_gasoutputinfo.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        AND fk_pollutionid = pk_pollutionid
+        AND t_bas_gasoutputinfo.FK_MonitorPointTypeCode = t_bas_devicestatus.FK_MonitorPointTypeCode
+        AND t_bas_gasoutputinfo.FK_MonitorPointTypeCode= 2
+        UNION
+        <!--烟气 -->
+        SELECT
+        '${smokename}',
+        22,
+        4,
+        COUNT ( 1 )
+        FROM
+        t_bas_gasoutputinfo,
+        t_bas_pollution,
+        t_bas_devicestatus
+        WHERE
+        t_bas_gasoutputinfo.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        AND fk_pollutionid = pk_pollutionid
+        AND t_bas_gasoutputinfo.FK_MonitorPointTypeCode = t_bas_devicestatus.FK_MonitorPointTypeCode
+        AND t_bas_gasoutputinfo.FK_MonitorPointTypeCode= 22
+        UNION
+        <!--厂界恶臭 -->
+        SELECT
+        '${onlineunstenchname}',
+        40,
+        9,
+        COUNT ( 1 )
+        FROM
+        t_bas_unorganizedmonitorpointinfo,
+        t_bas_pollution,
+        t_bas_devicestatus
+        WHERE
+        t_bas_unorganizedmonitorpointinfo.dgimn= t_bas_devicestatus.dgimn
+        AND fk_pollutionid = pk_pollutionid
+        AND t_bas_devicestatus.status IS NOT NULL
+        AND t_bas_unorganizedmonitorpointinfo.fk_monitorpointtypecode = 40 UNION
+        <!--厂界小型站 -->
+        SELECT
+        '${onlineunmininame}',
+        41,
+        10,
+        COUNT ( 1 )
+        FROM
+        t_bas_unorganizedmonitorpointinfo,
+        t_bas_pollution,
+        t_bas_devicestatus
+        WHERE
+        t_bas_unorganizedmonitorpointinfo.dgimn= t_bas_devicestatus.dgimn
+        AND fk_pollutionid = pk_pollutionid
+        AND t_bas_devicestatus.status IS NOT NULL
+        AND t_bas_unorganizedmonitorpointinfo.fk_monitorpointtypecode = 41 UNION
+        <!--杨尘 -->
+        SELECT
+        '${onlineundustname}',
+        12,
+        7,
+        COUNT ( 1 ) COUNT
+        FROM
+        t_bas_othermonitorpoint b
+        JOIN t_bas_devicestatus ON b.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        where b.fk_monitorpointtypecode = 12 UNION
+        <!--恶臭 -->
+        SELECT
+        '${stenchname}',
+        9,
+        7,
+        COUNT ( 1 ) COUNT
+        FROM
+        t_bas_othermonitorpoint b
+        JOIN t_bas_devicestatus ON b.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        WHERE
+        b.fk_monitorpointtypecode= 9 UNION
+        <!--voc -->
+        SELECT
+        '${vocname}',
+        10,
+        6,
+        COUNT ( 1 ) COUNT
+        FROM
+        t_bas_othermonitorpoint b
+        JOIN t_bas_devicestatus ON b.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        WHERE
+        b.fk_monitorpointtypecode= 10 UNION
+        <!--视频 -->
+        SELECT
+        '${videoname}',
+        39,
+        8,
+        COUNT ( pk_vediocameraid )
+        FROM
+        t_bas_videocamera UNION
+        <!--空气 -->
+        SELECT
+        '${airname}',
+        5,
+        5,
+        COUNT ( 1 )
+        FROM
+        t_bas_airmonitorstation,
+        t_bas_devicestatus
+        WHERE
+        t_bas_airmonitorstation.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        UNION
+        <!--水质 -->
+        SELECT
+        '${waterautoname}',
+        6,
+        11,
+        COUNT ( 1 )
+        FROM
+        T_BAS_WaterStationInfo,
+        t_bas_devicestatus
+        WHERE
+        T_BAS_WaterStationInfo.dgimn= t_bas_devicestatus.dgimn
+        AND T_BAS_WaterStationInfo.status IS NOT NULL
+        UNION
+        <!--气象 -->
+        SELECT
+        '${meteoname}',
+        52,
+        12,
+        COUNT ( 1 ) COUNT
+        FROM
+        t_bas_othermonitorpoint
+        JOIN t_bas_devicestatus ON t_bas_othermonitorpoint.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        WHERE
+        t_bas_othermonitorpoint.fk_monitorpointtypecode= 52
+        <!--微站 -->
+        /*UNION SELECT
+        '${microstationname}',
+        33,
+        13,
+        COUNT ( 1 ) COUNT
+        FROM
+        t_bas_othermonitorpoint b
+        JOIN t_bas_devicestatus ON b.dgimn= t_bas_devicestatus.dgimn
+        AND t_bas_devicestatus.status IS NOT NULL
+        WHERE
+        b.fk_monitorpointtypecode= 33*/
+        )t
+        order by t.orderindex
+
+    </select>
+
+    <select id="getMonitorPollutantByParam" resultType="java.util.Map">
+        SELECT DISTINCT
+        T_BAS_AirMonitorStation.DGIMN,
+        PUB_CODE_PollutantFactor.Code
+        FROM
+        T_BAS_AirMonitorStation
+        JOIN T_BAS_AirStationPollutantSet ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+        T_BAS_AirMonitorStation.PK_AirID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_AirStationPollutantSet.FK_PollutantCode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="mns!=null and mns.size>0">
+                and T_BAS_AirMonitorStation.DGIMN in
+                <foreach collection="mns" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            and PUB_CODE_PollutantFactor.IsUsed = 1
+        </trim>
+    </select>
+
+    <!--
+     * @author: lip
+     * @date: 2020/3/6 0006 上午 11:10
+     * @Description: 自定义查询参数获取站点监测标准值
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getMonitorStandardByParam" resultType="java.util.Map">
+        SELECT
+            t2.StandardMaxValue as standardvalue,
+            t3.ConcenAlarmMaxValue as earlyvalue
+        FROM
+            T_BAS_AirMonitorStation t1
+            left join T_BAS_AirStationPollutantSet t2 ON t1.PK_AirID = t2.FK_AirMonintPointID
+            left join T_BAS_EarlyWarningSet t3 on t3.FK_OutPutID = t1.PK_AirID and t2.FK_PollutantCode = t3.FK_PollutantCode
+            and t3.FK_AlarmLevelCode  =  #{alarmlevelcode}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="pollutantcode!=null and pollutantcode!='' ">
+                AND  t2.FK_PollutantCode =  #{pollutantcode}
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                AND   t1.DGIMN  =  #{dgimn}
+            </if>
+        </trim>
+    </select>
+
+    <!--
+            author:xsm
+            description: 获取空气站点信息
+            param:
+            date: 2019/5/28 17:54
+          -->
+    <select id="getALLAirStationInfoByParamMap" parameterType="map" resultType="map">
+        SELECT
+        T_BAS_AirMonitorStation.PK_AirID AS pk_id,
+        T_BAS_AirMonitorStation.PK_AirID AS monitorpointid,
+        T_BAS_AirMonitorStation.MonitorPointName AS monitorpointname,
+        T_BAS_AirMonitorStation.MonitorPointName AS outputname,
+        T_BAS_AirMonitorStation.DGIMN dgimn,
+        '5' monitorpointtype,
+        T_BAS_DeviceStatus.Status AS onlinestatus,
+        case T_BAS_DeviceStatus.Status when '1' then '正常' when '0' then '离线' when '2' then '超标' when '3' then '异常' end
+        onlinestatusname,
+        CONVERT (VARCHAR (20),T_BAS_DeviceStatus.UpdateTime,120) updatetime,
+        T_BAS_AirMonitorStation.status
+        FROM
+        T_BAS_AirMonitorStation JOIN T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_AirMonitorStation.PK_AirID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_AirMonitorStation.MonitorPointName LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="devicestatus!=null and devicestatus!='' ">
+                and T_BAS_DeviceStatus.status = #{devicestatus}
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and T_BAS_AirMonitorStation.DGIMN = #{dgimn}
+            </if>
+            <if test="monitorpointid != null and monitorpointid!=''">
+                AND T_BAS_AirMonitorStation.PK_AirID = #{monitorpointid}
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and PK_AirID in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="airids !=null and airids.size>0">
+                and PK_AirID in
+                <foreach collection="airids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and T_BAS_DeviceStatus.status in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY T_BAS_AirMonitorStation.MonitorPointName
+    </select>
+
+    <!--
+   * @author: lip
+   * @date: 2021/1/13 0013 下午 2:25
+   * @Description: 获取点位污染物标准信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+    <select id="getPollutantStandardDataListByParam" parameterType="map" resultType="map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        t2.dgimn,
+        t1.alarmtype,
+        t1.standardmaxvalue,
+        t1.standardminvalue,
+        t1.fk_pollutantcode AS pollutantcode,
+        '4' AS alarmleveltype,
+        t1.FK_AirMonintPointID AS monitorpointid
+        FROM
+        T_BAS_AirStationPollutantSet t1
+        INNER JOIN T_BAS_AirMonitorStation t2 ON t1.FK_AirMonintPointID = t2.PK_AirID
+        UNION
+        SELECT
+        t2.dgimn,
+        t3.alarmtype,
+        t1.ConcenAlarmMaxValue AS standardmaxvalue,
+        t1.ConcenAlarmMinValue AS standardminvalue,
+        t1.fk_pollutantcode AS pollutantcode,
+        t1.FK_AlarmLevelCode AS alarmleveltype,
+        t1.FK_OutPutID AS monitorpointid
+        FROM
+        T_BAS_EarlyWarningSet t1
+        INNER JOIN T_BAS_AirMonitorStation t2 ON t1.FK_OutPutID = t2.PK_AirID
+        INNER JOIN T_BAS_AirStationPollutantSet t3 on t3.FK_AirMonintPointID = t2.PK_AirID
+        and t3.FK_PollutantCode = t1.FK_PollutantCode
+
+        ) t
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="outputids!=null and outputids.size>0">
+                t.monitorpointid in
+                <foreach collection="outputids" item="item" close=")" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+    </select>
+
+
+
+</mapper>

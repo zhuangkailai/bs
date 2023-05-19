@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.parkinfo.parkbigevent.ParkBigEventMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.base.parkbigevent.ParkBigEventVO">
+        <id column="PK_BigEventID" jdbcType="VARCHAR" property="pkBigeventid"/>
+        <result column="BigEventYear" jdbcType="NUMERIC" property="bigeventyear"/>
+        <result column="BigEventContent" jdbcType="VARCHAR" property="bigeventcontent"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_BigEventID, BigEventYear, BigEventContent, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_ParkBigEvent
+        where PK_BigEventID = #{pkBigeventid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_ParkBigEvent
+    where PK_BigEventID = #{pkBigeventid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.base.parkbigevent.ParkBigEventVO">
+    insert into T_BAS_ParkBigEvent (PK_BigEventID, BigEventYear, BigEventContent, 
+      UpdateTime, UpdateUser)
+    values (#{pkBigeventid,jdbcType=VARCHAR}, #{bigeventyear,jdbcType=NUMERIC}, #{bigeventcontent,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.base.parkbigevent.ParkBigEventVO">
+        insert into T_BAS_ParkBigEvent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkBigeventid != null">
+                PK_BigEventID,
+            </if>
+            <if test="bigeventyear != null">
+                BigEventYear,
+            </if>
+            <if test="bigeventcontent != null">
+                BigEventContent,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkBigeventid != null">
+                #{pkBigeventid,jdbcType=VARCHAR},
+            </if>
+            <if test="bigeventyear != null">
+                #{bigeventyear,jdbcType=NUMERIC},
+            </if>
+            <if test="bigeventcontent != null">
+                #{bigeventcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.base.parkbigevent.ParkBigEventVO">
+        update T_BAS_ParkBigEvent
+        <set>
+            <if test="bigeventyear != null">
+                BigEventYear = #{bigeventyear,jdbcType=NUMERIC},
+            </if>
+            <if test="bigeventcontent != null">
+                BigEventContent = #{bigeventcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_BigEventID = #{pkBigeventid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.base.parkbigevent.ParkBigEventVO">
+    update T_BAS_ParkBigEvent
+    set BigEventYear = #{bigeventyear,jdbcType=NUMERIC},
+      BigEventContent = #{bigeventcontent,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_BigEventID = #{pkBigeventid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+        author:zhangzc
+        description: 获取大事件信息按时间倒序
+        param:
+        date: 2019/5/9 15:47
+      -->
+    <select id="getDescBigEventsInTime" resultType="java.util.Map">
+    SELECT
+        PK_BigEventID,
+        BigEventYear,
+        BigEventContent
+    FROM
+        T_BAS_ParkBigEvent
+    ORDER BY
+        BigEventYear DESC
+    </select>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.FunctionMapper">
+<!-- 获得污染源编号的存储过程 -->   
+<select id="getPollutionCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreatePollutionCode(
+	    #{EntSocialCreditCode,mode=IN,jdbcType=VARCHAR},
+	    #{RegionCode,mode=IN,jdbcType=VARCHAR},
+	    #{NewPollutionCode,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+<!-- 获得废水排口编号的存储过程 -->
+<select id="getWaterOutputCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreateWaterOutputCode(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{WaterOutputCode,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+
+
+<!-- 获得废水治理设施编号的存储过程 -->
+<select id="getWaterTreatmentnum" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreateWaterTreatmentnum(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{treatmentnum,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+<!-- 获得废气治理设施编号的存储过程 -->
+<select id="getGasTreatmentnum" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreateGasTreatmentnum(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{treatmentnum,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+<!-- 获得废气生产设施编号的存储过程 -->
+<select id="getProductionfacilitynum" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreateProductionfacilitynum(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{productionfacilitynumber,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+
+<!-- 获得噪声检测到编号的存储过程 -->
+<select id="getNoiseCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreateNoiseMonitorPoint(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{monitorpointcode,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+<!-- 获得废气排口编号的存储过程 -->
+<select id="getGasOutputCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_CreateGasOutputCode(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{GasOutputCode,mode=OUT,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+<!-- 根据code和表名称获取code对应的name -->
+<select id="getNameByCodeInTable" resultType="String" parameterType="java.util.Map">
+	SELECT
+	${ForeignKey}||','||${ForeignName}
+	FROM
+		${tableName}
+	WHERE
+		${ForeignKey} IN  
+		<foreach item="item" index="index" collection="codes"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	
+<!-- 获得废水排口编号的存储过程 -->
+<select id="setWaterOutputCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_SetWaterOutputCode(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{pkId,mode=IN,jdbcType=VARCHAR} )
+    }
+</select>
+	
+<!-- 获得废气排口编号的存储过程 -->
+<select id="setGasOutputCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_setGasOutputCode(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	    #{pkId,mode=IN,jdbcType=VARCHAR}
+	    )
+    }
+</select>
+
+<!-- 获得噪声检测到编号的存储过程 -->
+<select id="setNoiseCode" statementType="CALLABLE" parameterType="java.util.Map">
+    {call P_SetNoiseMonitorPoint(
+	    #{pollutioId,mode=IN,jdbcType=VARCHAR},
+	     #{pkId,mode=IN,jdbcType=VARCHAR}
+	    )
+    }
+</select>	
+
+ 
+</mapper>

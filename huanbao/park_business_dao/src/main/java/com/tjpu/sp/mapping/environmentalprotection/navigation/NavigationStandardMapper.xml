@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.navigation.NavigationStandardMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.navigation.NavigationStandardVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="StandardLevel" jdbcType="NUMERIC" property="standardlevel" />
+    <result column="StandardMinValue" jdbcType="DOUBLE" property="standardminvalue" />
+    <result column="StandardMaxValue" jdbcType="DOUBLE" property="standardmaxvalue" />
+    <result column="ColourValue" jdbcType="VARCHAR" property="colourvalue" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkpollutantcode" />
+    <result column="FK_MonitorPointTypeCode" jdbcType="VARCHAR" property="fkmonitorpointtypecode" />
+    <result column="PollutantCategory" jdbcType="NUMERIC" property="pollutantcategory" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, StandardLevel, StandardMinValue, StandardMaxValue, ColourValue, UpdateTime, 
+    UpdateUser,FK_MonitorPointTypeCode,FK_PollutantCode,PollutantCategory
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_NavigationStandard
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_NavigationStandard
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationStandardVO">
+    insert into T_BAS_NavigationStandard (PK_ID, StandardLevel, StandardMinValue, 
+      StandardMaxValue, ColourValue, UpdateTime, 
+      UpdateUser,FK_PollutantCode,FK_MonitorPointTypeCode,PollutantCategory)
+    values (#{pkId,jdbcType=VARCHAR}, #{standardlevel,jdbcType=NUMERIC}, #{standardminvalue,jdbcType=DOUBLE}, 
+      #{standardmaxvalue,jdbcType=DOUBLE}, #{colourvalue,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR},
+      #{fkpollutantcode,jdbcType=VARCHAR},
+      #{fkmonitorpointtypecode,jdbcType=VARCHAR}, #{pollutantcategory,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationStandardVO">
+    insert into T_BAS_NavigationStandard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="standardlevel != null">
+        StandardLevel,
+      </if>
+      <if test="standardminvalue != null">
+        StandardMinValue,
+      </if>
+      <if test="standardmaxvalue != null">
+        StandardMaxValue,
+      </if>
+      <if test="colourvalue != null">
+        ColourValue,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="fkpollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="fkmonitorpointtypecode != null">
+        FK_MonitorPointTypeCode,
+      </if>
+      <if test="pollutantcategory != null">
+        PollutantCategory,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="standardlevel != null">
+        #{standardlevel,jdbcType=NUMERIC},
+      </if>
+      <if test="standardminvalue != null">
+        #{standardminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="standardmaxvalue != null">
+        #{standardmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="colourvalue != null">
+        #{colourvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantcategory != null">
+        #{pollutantcategory,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationStandardVO">
+    update T_BAS_NavigationStandard
+    <set>
+      <if test="standardlevel != null">
+        StandardLevel = #{standardlevel,jdbcType=NUMERIC},
+      </if>
+      <if test="standardminvalue != null">
+        StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="standardmaxvalue != null">
+        StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+      </if>
+      <if test="colourvalue != null">
+        ColourValue = #{colourvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkpollutantcode != null">
+        FK_PollutantCode = #{fkpollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkmonitorpointtypecode != null">
+        FK_MonitorPointTypeCode = #{fkmonitorpointtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutantcategory != null">
+        PollutantCategory = #{pollutantcategory,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.navigation.NavigationStandardVO">
+    update T_BAS_NavigationStandard
+    set StandardLevel = #{standardlevel,jdbcType=NUMERIC},
+      StandardMinValue = #{standardminvalue,jdbcType=DOUBLE},
+      StandardMaxValue = #{standardmaxvalue,jdbcType=DOUBLE},
+      ColourValue = #{colourvalue,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkpollutantcode,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkmonitorpointtypecode,jdbcType=VARCHAR},
+      PollutantCategory = #{pollutantcategory,jdbcType=NUMERIC}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取走航污染物信息
+    param:
+    date: 2020/08/31 15:01
+-->
+  <select id="getNavigationStandardsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_BAS_NavigationStandard.PK_ID,
+    StandardLevel,
+    StandardMinValue,
+    StandardMaxValue,
+    ColourValue,
+    FK_MonitorPointTypeCode,
+    PUB_CODE_MonitorPointType.Name FK_MonitorPointTypeName,
+    FK_PollutantCode,
+    PUB_CODE_PollutantFactor.Name FK_PollutantName,
+    T_BAS_NavigationStandard.PollutantCategory,
+    CASE T_BAS_NavigationStandard.PollutantCategory WHEN 1 THEN '浓度' WHEN 2 THEN '排放量' END  PollutantCategoryName,
+    CONVERT (VARCHAR (20),UpdateTime,120) updatetime,
+    UpdateUser
+    from
+    T_BAS_NavigationStandard
+    left join PUB_CODE_MonitorPointType on FK_MonitorPointTypeCode=PUB_CODE_MonitorPointType.Code
+    left join PUB_CODE_PollutantFactor on T_BAS_NavigationStandard.FK_PollutantCode=PUB_CODE_PollutantFactor.Code and PUB_CODE_PollutantFactor.isused=1 and T_BAS_NavigationStandard.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+    <where>
+      <if test="fkmonitorpointtypes!=null and fkmonitorpointtypes.size>0">
+        and FK_MonitorPointTypeCode in
+        <foreach collection="fkmonitorpointtypes" item="item" separator="," close=")" open="(">
+            #{item}
+        </foreach>
+      </if>
+      <if test="pollutantcategory!=null and pollutantcategory!=''">
+        and T_BAS_NavigationStandard.PollutantCategory = #{pollutantcategory}
+      </if>
+      <if test="polltantname!=null and polltantname!=''">
+        and PUB_CODE_PollutantFactor.name like concat('%',#{polltantname},'%')
+      </if>
+    </where>
+    order by T_BAS_NavigationStandard.StandardLevel
+  </select>
+
+  <!--
+   * @author: lip
+   * @date: 2020/11/24 0024 下午 3:08
+   * @Description: 获取标准颜色数据
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getStandardColorDataByParamMap" resultType="map" parameterType="map">
+    SELECT
+    PK_ID,
+    StandardLevel,
+    StandardMinValue,
+    StandardMaxValue,
+    ColourValue,
+    fk_monitorpointtypecode monitorpointtype
+    from
+    T_BAS_NavigationStandard
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype!=null and monitorpointtype !=''">
+        and fk_monitorpointtypecode = #{monitorpointtype}
+      </if>
+      <if test="pollutantcode!=null and pollutantcode !=''">
+        and fk_pollutantcode = #{pollutantcode}
+      </if>
+      <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+        AND fk_monitorpointtypecode in
+        <foreach collection="monitorpointtypes" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      order by fk_monitorpointtypecode,fk_pollutantcode,StandardLevel
+    </trim>
+  </select>
+
+  <!--
+ author:xsm
+ description: 通过id查询详情
+ param:
+ date: 2019/11/07 18:33
+-->
+  <select id="getNavigationStandardDetailByID" resultType="map" parameterType="string">
+    SELECT
+    PK_ID,
+    StandardLevel,
+    StandardMinValue,
+    StandardMaxValue,
+    ColourValue,
+    CONVERT (VARCHAR (20),UpdateTime,120) updatetime,
+    PollutantCategory,
+    CASE PollutantCategory WHEN 1 THEN '浓度' WHEN 2 THEN '排放量' END  PollutantCategoryName,
+    UpdateUser
+    from
+    T_BAS_NavigationStandard
+    where T_BAS_NavigationStandard.PK_ID = #{pkid}
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 获取所有的走航污染物信息
+    param:
+    date: 2020/08/31 15:01
+-->
+  <select id="getAllNavigationPollutantData" resultType="map" parameterType="map">
+    SELECT
+        Code,
+		Name,
+		PollutantUnit,
+		PollutantCategory
+    from
+    PUB_CODE_PollutantFactor
+		where
+    PUB_CODE_PollutantFactor.IsUsed = 1 AND PUB_CODE_PollutantFactor.PollutantCategory is NOT NULL
+    <if test="pollutanttype!=null and pollutanttype!='' ">
+      and PUB_CODE_PollutantFactor.PollutantType =#{pollutanttype}
+    </if>
+
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取走航污染物信息
+    param:
+    date: 2020/08/31 15:01
+-->
+  <select id="getAllLevelNavigationStandardData" resultType="map" >
+    SELECT
+    StandardLevel,
+    MAX(StandardMinValue) StandardMinValue,
+    MAX(StandardMaxValue) StandardMaxValue,
+    MAX(ColourValue) ColourValue
+    from
+    T_BAS_NavigationStandard
+    WHERE
+    T_BAS_NavigationStandard.FK_MonitorPointTypeCode = 10
+    AND  T_BAS_NavigationStandard.PollutantCategory = 1
+    group by T_BAS_NavigationStandard.StandardLevel
+    ORDER by T_BAS_NavigationStandard.StandardLevel
+  </select>
+
+
+  <select id="CountStandardColorInfoByParamMap" resultType="integer" parameterType="map">
+    select
+    count(*)
+    from
+    T_BAS_NavigationStandard
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutantcategory!=null and pollutantcategory !=''">
+        and PollutantCategory = #{pollutantcategory}
+      </if>
+      <if test="fk_monitorpointtypecode!=null and fk_monitorpointtypecode !=''">
+        and fk_monitorpointtypecode = #{fk_monitorpointtypecode}
+      </if>
+      <if test="fk_pollutantcode!=null and fk_pollutantcode !=''">
+        and fk_pollutantcode = #{fk_pollutantcode}
+      </if>
+      <if test="standardlevel!=null and standardlevel !=''">
+        and standardlevel = #{standardlevel}
+      </if>
+    </trim>
+  </select>
+
+  <!--
+        author:xsm
+        description: 通过监测类型和污染物获取污染物排放标准
+        param:
+        date: 2022/02/17 13:07
+    -->
+  <select id="getPollutanDischargeStandardDataByParam" resultType="map" parameterType="map">
+    SELECT DISTINCT
+    StandardLevel DischargeLevel,
+    StandardMinValue DischargeMinValue,
+    StandardMaxValue DischargeMaxValue,
+    ColourValue,
+    FK_PollutantCode,
+    PUB_CODE_PollutantFactor.Name FK_PollutantName
+    from
+    T_BAS_NavigationStandard
+    left join PUB_CODE_MonitorPointType on T_BAS_NavigationStandard.FK_MonitorPointTypeCode=PUB_CODE_MonitorPointType.Code
+    left join PUB_CODE_PollutantFactor on T_BAS_NavigationStandard.FK_PollutantCode=PUB_CODE_PollutantFactor.Code and PUB_CODE_PollutantFactor.isused=1 and T_BAS_NavigationStandard.FK_MonitorPointTypeCode=PUB_CODE_PollutantFactor.PollutantType
+    <where>
+      <if test="pollutantcategory!=null and pollutantcategory!=''">
+        and T_BAS_NavigationStandard.PollutantCategory = #{pollutantcategory}
+      </if>
+      <if test="monitorpointtypes!=null and monitorpointtypes.size>0">
+        and T_BAS_NavigationStandard.FK_MonitorPointTypeCode in
+        <foreach collection="monitorpointtypes" item="item" separator="," close=")" open="(">
+          #{item}
+        </foreach>
+      </if>
+      <if test="pollutantcode!=null and pollutantcode!=''">
+        and T_BAS_NavigationStandard.FK_PollutantCode = #{pollutantcode}
+      </if>
+    </where>
+    order by FK_PollutantCode,T_BAS_NavigationStandard.StandardLevel
+  </select>
+</mapper>

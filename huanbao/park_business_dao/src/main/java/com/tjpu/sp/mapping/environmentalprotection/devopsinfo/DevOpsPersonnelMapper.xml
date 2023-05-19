@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.devopsinfo.DevOpsPersonnelMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsPersonnelVO">
+    <id column="PK_PersonnelID" jdbcType="VARCHAR" property="pkPersonnelid" />
+    <result column="PersonnelName" jdbcType="VARCHAR" property="personnelname" />
+    <result column="PersonnelSex" jdbcType="INTEGER" property="personnelsex" />
+    <result column="PersonnelPhone" jdbcType="VARCHAR" property="personnelphone" />
+    <result column="PersonnelRole" jdbcType="VARCHAR" property="personnelrole" />
+    <result column="WorkLicenseCode" jdbcType="VARCHAR" property="worklicensecode" />
+    <result column="FK_UserID" jdbcType="VARCHAR" property="fkUserid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="FK_DevOpsUnitID" jdbcType="VARCHAR" property="fkdevopsunitid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_PersonnelID, PersonnelName, PersonnelSex, PersonnelPhone, PersonnelRole, WorkLicenseCode, 
+    FK_UserID, UpdateTime, UpdateUser,FK_DevOpsUnitID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_DevOpsPersonnel
+    where PK_PersonnelID = #{pkPersonnelid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_DevOpsPersonnel
+    where PK_PersonnelID = #{pkPersonnelid,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByDevOpsUnitID" parameterType="java.lang.String">
+    delete from T_BAS_DevOpsPersonnel
+    where FK_DevOpsUnitID = #{fkdevopsunitid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsPersonnelVO">
+    insert into T_BAS_DevOpsPersonnel (PK_PersonnelID, PersonnelName, PersonnelSex, 
+      PersonnelPhone, PersonnelRole, WorkLicenseCode, 
+      FK_UserID, UpdateTime, UpdateUser,FK_DevOpsUnitID
+      )
+    values (#{pkPersonnelid,jdbcType=VARCHAR}, #{personnelname,jdbcType=VARCHAR}, #{personnelsex,jdbcType=INTEGER}, 
+      #{personnelphone,jdbcType=VARCHAR}, #{personnelrole,jdbcType=VARCHAR}, #{worklicensecode,jdbcType=VARCHAR}, 
+      #{fkUserid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+      #{fkdevopsunitid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsPersonnelVO">
+    insert into T_BAS_DevOpsPersonnel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkPersonnelid != null">
+        PK_PersonnelID,
+      </if>
+      <if test="personnelname != null">
+        PersonnelName,
+      </if>
+      <if test="personnelsex != null">
+        PersonnelSex,
+      </if>
+      <if test="personnelphone != null">
+        PersonnelPhone,
+      </if>
+      <if test="personnelrole != null">
+        PersonnelRole,
+      </if>
+      <if test="worklicensecode != null">
+        WorkLicenseCode,
+      </if>
+      <if test="fkUserid != null">
+        FK_UserID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="fkdevopsunitid != null">
+        FK_DevOpsUnitID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkPersonnelid != null">
+        #{pkPersonnelid,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelname != null">
+        #{personnelname,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelsex != null">
+        #{personnelsex,jdbcType=INTEGER},
+      </if>
+      <if test="personnelphone != null">
+        #{personnelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelrole != null">
+        #{personnelrole,jdbcType=VARCHAR},
+      </if>
+      <if test="worklicensecode != null">
+        #{worklicensecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUserid != null">
+        #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkdevopsunitid != null">
+        #{fkdevopsunitid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsPersonnelVO">
+    update T_BAS_DevOpsPersonnel
+    <set>
+      <if test="personnelname != null">
+        PersonnelName = #{personnelname,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelsex != null">
+        PersonnelSex = #{personnelsex,jdbcType=INTEGER},
+      </if>
+      <if test="personnelphone != null">
+        PersonnelPhone = #{personnelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelrole != null">
+        PersonnelRole = #{personnelrole,jdbcType=VARCHAR},
+      </if>
+      <if test="worklicensecode != null">
+        WorkLicenseCode = #{worklicensecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUserid != null">
+        FK_UserID = #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkdevopsunitid != null">
+        FK_DevOpsUnitID = #{fkdevopsunitid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_PersonnelID = #{pkPersonnelid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevOpsPersonnelVO">
+    update T_BAS_DevOpsPersonnel
+    set PersonnelName = #{personnelname,jdbcType=VARCHAR},
+      PersonnelSex = #{personnelsex,jdbcType=INTEGER},
+      PersonnelPhone = #{personnelphone,jdbcType=VARCHAR},
+      PersonnelRole = #{personnelrole,jdbcType=VARCHAR},
+      WorkLicenseCode = #{worklicensecode,jdbcType=VARCHAR},
+      FK_UserID = #{fkUserid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      FK_DevOpsUnitID = #{fkdevopsunitid,jdbcType=VARCHAR}
+    where PK_PersonnelID = #{pkPersonnelid,jdbcType=VARCHAR}
+  </update>
+
+
+  <!-- 统计运维单位所拥有的运维人员数量    author:xsm   date:2022-04-01 09:11  -->
+  <select id="countDevOpsPersonneNumGropuByUnitByParam" parameterType="map" resultType="map">
+    SELECT
+    count(t.PK_PersonnelID) num,t.FK_DevOpsUnitID fkdevopsunitid
+    FROM
+    T_BAS_DevOpsPersonnel t
+    JOIN  T_BAS_DevOpsUnitInfo t1 ON t.FK_DevOpsUnitID = t1.PK_DevOpsUnitID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="unitids != null and unitids.size>0 ">
+        and t.FK_DevOpsUnitID in
+        <foreach item="item" index="index" collection="unitids"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    group by t.FK_DevOpsUnitID
+  </select>
+
+
+  <!-- 获取运维人员列表信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getDevOpsPersonnelListDataByParamMap" parameterType="map" resultType="map">
+    SELECT
+    PK_PersonnelID pkpersonnelid,
+    personnelname,
+    CASE personnelsex WHEN  1 then '男' WHEN  2 then '女' END personnelsex,
+    personnelphone,
+    personnelrole,
+    worklicensecode,
+    FK_UserID fkuserid,
+    t2.User_Account useraccount,
+    FK_DevOpsUnitID fkdevopsunitid,
+    t1.unitname
+    FROM
+    T_BAS_DevOpsPersonnel t
+    JOIN  T_BAS_DevOpsUnitInfo t1 ON  t.FK_DevOpsUnitID = t1.PK_DevOpsUnitID
+    LEFT JOIN  Base_UserInfo t2 ON t.FK_UserID = t2.User_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fkdevopsunitid!=null and fkdevopsunitid!='' ">
+        and t.FK_DevOpsUnitID =  #{fkdevopsunitid}
+      </if>
+      <if test="personnelname!=null and personnelname!='' ">
+        and t.personnelname like concat('%', #{personnelname},'%')
+      </if>
+      <if test="useraccount!=null and useraccount!='' ">
+        and t2.User_Account like concat('%', #{useraccount},'%')
+      </if>
+    </trim>
+    order by t.personnelname
+  </select>
+
+
+  <!-- 根据ID获取运维详情信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getDevOpsPersonnelDetailByID" parameterType="String" resultType="map">
+    SELECT
+    PK_PersonnelID pkpersonnelid,
+    personnelname,
+    CASE personnelsex WHEN  1 then '男' WHEN  2 then '女' END personnelsex,
+    personnelphone,
+    personnelrole,
+    workLicensecode,
+    FK_UserID fkuserid,
+    t2.User_Account useraccount,
+    FK_DevOpsUnitID fkdevopsunitid,
+    t1.unitname,
+    convert(varchar(20),t.UpdateTime,120) updatetime,
+    t.updateuser
+    FROM
+    T_BAS_DevOpsPersonnel t
+    JOIN  T_BAS_DevOpsUnitInfo t1 ON  t.FK_DevOpsUnitID = t1.PK_DevOpsUnitID
+    LEFT JOIN  Base_UserInfo t2 ON t.FK_UserID = t2.User_ID
+    WHERE t.PK_PersonnelID = #{pkPersonnelid,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 根据ID获取运维信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getDevOpsPersonnelByID" parameterType="String" resultType="map">
+    SELECT
+    PK_PersonnelID pkpersonnelid,
+    personnelname,
+    personnelsex ,
+    personnelphone,
+    personnelrole,
+    workLicensecode,
+    FK_UserID fkuserid,
+    t2.User_Account useraccount,
+    FK_DevOpsUnitID fkdevopsunitid,
+    t1.unitname,
+    convert(varchar(20),t.UpdateTime,120) updatetime,
+    t.updateuser
+    FROM
+    T_BAS_DevOpsPersonnel t
+    JOIN  T_BAS_DevOpsUnitInfo t1 ON  t.FK_DevOpsUnitID = t1.PK_DevOpsUnitID
+    LEFT JOIN  Base_UserInfo t2 ON t.FK_UserID = t2.User_ID
+    WHERE t.PK_PersonnelID = #{pkPersonnelid,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.dataconnection.DataConnectionMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.dataconnection.DataConnectionVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CheckTemplateConfigID" jdbcType="VARCHAR" property="fkChecktemplateconfigid" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="LineType" jdbcType="NUMERIC" property="linetype" />
+    <result column="Url" jdbcType="VARCHAR" property="url" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CheckTemplateConfigID, Remark, LineType, Url, OrderIndex, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_DataConnection
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_DataConnection
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByTemplateConfigID" parameterType="java.lang.String">
+    delete from T_GJ_DataConnection
+    where FK_CheckTemplateConfigID = #{fkChecktemplateconfigid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.dataconnection.DataConnectionVO">
+    insert into T_GJ_DataConnection (PK_ID, FK_CheckTemplateConfigID, Remark, 
+      LineType, Url, OrderIndex, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkChecktemplateconfigid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{linetype,jdbcType=NUMERIC}, #{url,jdbcType=VARCHAR}, #{orderindex,jdbcType=NUMERIC}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.dataconnection.DataConnectionVO">
+    insert into T_GJ_DataConnection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkChecktemplateconfigid != null">
+        FK_CheckTemplateConfigID,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="linetype != null">
+        LineType,
+      </if>
+      <if test="url != null">
+        Url,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkChecktemplateconfigid != null">
+        #{fkChecktemplateconfigid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="linetype != null">
+        #{linetype,jdbcType=NUMERIC},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.dataconnection.DataConnectionVO">
+    update T_GJ_DataConnection
+    <set>
+      <if test="fkChecktemplateconfigid != null">
+        FK_CheckTemplateConfigID = #{fkChecktemplateconfigid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="linetype != null">
+        LineType = #{linetype,jdbcType=NUMERIC},
+      </if>
+      <if test="url != null">
+        Url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.dataconnection.DataConnectionVO">
+    update T_GJ_DataConnection
+    set FK_CheckTemplateConfigID = #{fkChecktemplateconfigid,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      LineType = #{linetype,jdbcType=NUMERIC},
+      Url = #{url,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/07/13 0013 下午 17:04
+    * @Description: 批量插入配置检查内容跳转地址
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_GJ_DataConnection (PK_ID, FK_CheckTemplateConfigID, Remark,
+    LineType, Url, OrderIndex,
+    UpdateUser, UpdateTime)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkChecktemplateconfigid,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},
+      #{item.linetype,jdbcType=NUMERIC}, #{item.url,jdbcType=VARCHAR}, #{item.orderindex,jdbcType=NUMERIC},
+      #{item.updateuser,jdbcType=VARCHAR}, #{item.updatetime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <!--
+    author:xsm
+    description: 根据污染源ID、检查日期、检查类型获取检查内容的连接数据
+    param:
+    date: 2021/07/14 11:09
+-->
+  <select id="getCheckContentConnectionDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t1.PK_ID connectionid,
+    t1.FK_CheckTemplateConfigID configid,
+    t1.Remark,
+    t1.LineType,
+    CASE t1.LineType WHEN  1 THEN '表示内部连接' WHEN 2 THEN '外部连接'END linetypename,
+    t1.Url
+    FROM
+    T_GJ_DataConnection t1
+    JOIN  T_GJ_CheckTemplateConfig t2  ON  t1.FK_CheckTemplateConfigID = t2.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checktypecode!=null and checktypecode!='' ">
+        and t2.FK_CheckTypeCode = #{checktypecode}
+      </if>
+    </trim>
+    order by t2.OrderIndex,t1.OrderIndex
+  </select>
+</mapper>

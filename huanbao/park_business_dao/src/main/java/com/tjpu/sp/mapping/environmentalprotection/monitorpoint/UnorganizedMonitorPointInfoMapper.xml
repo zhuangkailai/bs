@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.monitorpoint.UnorganizedMonitorPointInfoMapper">
+    <resultMap id="BaseResultMap"
+               type="com.tjpu.sp.model.environmentalprotection.monitorpoint.UnorganizedMonitorPointInfoVO">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="FK_Pollutionid" property="fkPollutionid" jdbcType="VARCHAR"/>
+        <result column="ProductionName" property="productionname" jdbcType="VARCHAR"/>
+        <result column="MonitorPointCode" property="monitorpointcode" jdbcType="VARCHAR"/>
+        <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR"/>
+        <result column="MonitorPointposition" property="monitorpointposition" jdbcType="VARCHAR"/>
+        <result column="Longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="Latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="FK_MonitorPointTypeCode" property="fkMonitorpointtypecode" jdbcType="VARCHAR"/>
+        <result column="Status" property="status" jdbcType="NUMERIC"/>
+        <result column="DGIMN" property="dgimn" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="fk_Imgid" property="fkImgid" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, ProductionName, MonitorPointCode, MonitorPointName, MonitorPointposition, 
+    Longitude, Latitude, Remark, FK_MonitorPointTypeCode, Status, DGIMN, UpdateTime, 
+    UpdateUser,fk_Imgid
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_UnorganizedMonitorPointInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_UnorganizedMonitorPointInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.UnorganizedMonitorPointInfoVO">
+    insert into T_BAS_UnorganizedMonitorPointInfo (PK_ID, FK_Pollutionid, ProductionName, 
+      MonitorPointCode, MonitorPointName, MonitorPointposition, 
+      Longitude, Latitude, Remark, 
+      FK_MonitorPointTypeCode, Status, DGIMN, 
+      UpdateTime, UpdateUser,fk_Imgid)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{productionname,jdbcType=VARCHAR}, 
+      #{monitorpointcode,jdbcType=VARCHAR}, #{monitorpointname,jdbcType=VARCHAR}, #{monitorpointposition,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, 
+      #{fkMonitorpointtypecode,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{dgimn,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{fkImgid,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.UnorganizedMonitorPointInfoVO">
+        insert into T_BAS_UnorganizedMonitorPointInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_Pollutionid,
+            </if>
+            <if test="productionname != null">
+                ProductionName,
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode,
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName,
+            </if>
+            <if test="monitorpointposition != null">
+                MonitorPointposition,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="dgimn != null">
+                DGIMN,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="fkImgid != null">
+                fk_Imgid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="productionname != null">
+                #{productionname,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointposition != null">
+                #{monitorpointposition,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="dgimn != null">
+                #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="fkImgid != null">
+                #{fkImgid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.UnorganizedMonitorPointInfoVO">
+        update T_BAS_UnorganizedMonitorPointInfo
+        <set>
+            <if test="fkPollutionid != null">
+                FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="productionname != null">
+                ProductionName = #{productionname,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointcode != null">
+                MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointname != null">
+                MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+            </if>
+            <if test="monitorpointposition != null">
+                MonitorPointposition = #{monitorpointposition,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="fkMonitorpointtypecode != null">
+                FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="dgimn != null">
+                DGIMN = #{dgimn,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="fkImgid != null">
+                fk_Imgid = #{fkImgid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.monitorpoint.UnorganizedMonitorPointInfoVO">
+    update T_BAS_UnorganizedMonitorPointInfo
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      ProductionName = #{productionname,jdbcType=VARCHAR},
+      MonitorPointCode = #{monitorpointcode,jdbcType=VARCHAR},
+      MonitorPointName = #{monitorpointname,jdbcType=VARCHAR},
+      MonitorPointposition = #{monitorpointposition,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      Remark = #{remark,jdbcType=VARCHAR},
+      FK_MonitorPointTypeCode = #{fkMonitorpointtypecode,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=NUMERIC},
+      DGIMN = #{dgimn,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      fk_Imgid = #{fkImgid,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+    <select id="countTotalByParam" parameterType="map" resultType="long">
+        select count(*) from T_BAS_UnorganizedMonitorPointInfo,T_BAS_Pollution,T_BAS_DeviceStatus
+        <trim prefix="where" prefixOverrides="AND|OR">
+            T_BAS_UnorganizedMonitorPointInfo.DGIMN=T_BAS_DeviceStatus.DGIMN
+            and FK_Pollutionid = PK_PollutionID and T_BAS_DeviceStatus.status is not null
+            <if test="code!=null and code!='' ">
+                and T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =#{code,jdbcType=VARCHAR}
+            </if>
+        </trim>
+
+    </select>
+
+
+    <!--
+       * @author: lip
+       * @date: 2019/5/22 0022 上午 11:00
+       * @Description: 获取污染源下无组织监测点及状态信息
+       * @updateUser:
+       * @updateDate:
+       * @updateDescription:
+      -->
+    <select id="getOnlineUnorganizedMonitorPointInfoByParamMap" parameterType="map" resultType="java.util.HashMap">
+        SELECT tt.* FROM (
+        select DISTINCT
+        t1.pk_pollutionid,
+        t1.pollutionname,
+        t1.shortername,
+        t2.pk_id,
+        t2.pk_id monitorpointid,
+        t2.fk_pollutionid,
+        <if test="orderfield != null and orderfield =='status'">
+            case when t3.Status = 1 THEN 1
+            WHEN t3.Status = 0 THEN 2
+            WHEN t3.Status = 2 THEN 3
+            WHEN t3.Status = 3 THEN 4 ELSE 6
+            end orderstatus,
+        </if>
+        t2.monitorpointname,
+        t2.monitorpointname outputname,
+        t2.dgimn,
+        t2.FK_MonitorPointTypeCode monitorpointtype,
+        t2.FK_MonitorPointTypeCode fk_monitorpointtypecode,
+        CASE WHEN t2.FK_MonitorPointTypeCode = 40 THEN '厂界点' else '' end MonitorPointCategoryName,
+        t2.Longitude,
+        t2.Latitude,
+        t3.status onlinestatus,
+        case t3.Status when '1' then '正常' when '0' then '离线' when '2' then '超标' when '3' then '异常' end
+        onlinestatusname,
+        t3.AlarmLevel,
+        CONVERT (VARCHAR (20),t3.UpdateTime,120) updatetime,
+        t2.status
+        from
+        t_bas_pollution t1 JOIN t_bas_unorganizedmonitorpointinfo t2 ON t1.pk_pollutionid = t2.fk_pollutionid
+        JOIN t_bas_devicestatus t3 ON t2.dgimn = t3.dgimn
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (40,41)
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON t2.pk_id = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and t2.FK_MonitorPointTypeCode =#{monitorpointtype}
+            </if>
+            <if test="searchname!=null and searchname != ''">
+                AND (t1.pollutionname like concat('%',#{searchname},'%') or t2.monitorpointname like concat('%',#{searchname},'%'))
+            </if>
+            <if test="status!=null and status!='' ">
+                and t3.status =#{status}
+            </if>
+            <if test="pointstatus!=null and pointstatus!='' ">
+                and t2.status = #{pointstatus}
+            </if>
+            <if test="devicestatus!=null and devicestatus!='' ">
+                and t3.status = #{devicestatus}
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and t2.dgimn = #{dgimn}
+            </if>
+            <if test="dgimns !=null and dgimns.size>0">
+                and t2.dgimn in
+                <foreach collection="dgimns" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointname != null and monitorpointname!=''">
+                and t2.monitorpointname LIKE CONCAT('%',#{monitorpointname},'%')
+            </if>
+            <if test="pollutionname != null and pollutionname!=''">
+                and t1.pollutionname LIKE CONCAT('%',#{pollutionname},'%')
+            </if>
+            <if test="shortername != null and shortername!=''">
+                and t1.ShorterName LIKE CONCAT('%',#{shortername},'%')
+            </if>
+            <if test="monitorpointid!=null and monitorpointid!='' ">
+                and t2.pk_id = #{monitorpointid}
+            </if>
+            <if test="outputids !=null and outputids.size>0">
+                and t2.pk_id in
+                <foreach collection="outputids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pollutionids !=null and pollutionids.size>0">
+                and t1.pk_pollutionid in
+                <foreach collection="pollutionids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="onlineoutputstatus !=null and onlineoutputstatus.size>0">
+                and t3.status in
+                <foreach collection="onlineoutputstatus" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        )tt
+        ORDER BY tt.shortername,
+        <if test="orderfield != null and orderfield =='status'">
+            tt.orderstatus,
+        </if>
+        tt.monitorpointname
+    </select>
+
+    <!--
+        author:chengzq
+        description: 获取所有已监测厂界小型站和状态信息
+        param:
+        date: 2019/06/21 15:33
+    -->
+    <select id="getAllMonitorUnMINIAndStatusInfo" resultType="map">
+      select
+         T_BAS_UnorganizedMonitorPointInfo.PK_ID pkid,
+         FK_Pollutionid,
+         pollutionname,
+         MonitorPointName,
+         MonitorPointName outputname,
+         T_BAS_UnorganizedMonitorPointInfo.Longitude,
+         T_BAS_UnorganizedMonitorPointInfo.Latitude,
+         T_BAS_DeviceStatus.DGIMN,
+         T_BAS_DeviceStatus.Status
+     from T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid=T_BAS_Pollution.PK_PollutionID
+      JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN=T_BAS_DeviceStatus.DGIMN
+      WHERE
+      T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode=41
+    </select>
+
+    <!--
+        author:chengzq
+        description: 获取所有已监测厂界扬尘和状态信息
+        param:
+        date: 2019/06/21 15:33
+    -->
+    <select id="getAllMonitorUnDustAndStatusInfo" resultType="map">
+      select
+         T_BAS_UnorganizedMonitorPointInfo.PK_ID pkid,
+         FK_Pollutionid,
+         pollutionname,
+         MonitorPointName,
+         MonitorPointName outputname,
+         T_BAS_UnorganizedMonitorPointInfo.Longitude,
+         T_BAS_UnorganizedMonitorPointInfo.Latitude,
+         T_BAS_DeviceStatus.DGIMN,
+         T_BAS_DeviceStatus.Status
+      from T_BAS_UnorganizedMonitorPointInfo,T_BAS_Pollution,T_BAS_DeviceStatus
+      WHERE T_BAS_UnorganizedMonitorPointInfo.DGIMN=T_BAS_DeviceStatus.DGIMN
+      and T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid=T_BAS_Pollution.PK_PollutionID
+      and T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode=12
+    </select>
+    <!--
+        author:chengzq
+        description: 获取所有已监测厂界恶臭和状态信息
+        param:
+        date: 2019/06/21 15:33
+    -->
+    <select id="getAllMonitorUnstenchAndStatusInfo" resultType="map">
+      select
+         T_BAS_UnorganizedMonitorPointInfo.PK_ID pkid,
+         FK_Pollutionid,
+         pollutionname,
+         MonitorPointName,
+          MonitorPointName outputname,
+         T_BAS_UnorganizedMonitorPointInfo.Longitude,
+         T_BAS_UnorganizedMonitorPointInfo.Latitude,
+         T_BAS_DeviceStatus.DGIMN,
+         T_BAS_DeviceStatus.Status
+      from T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid=T_BAS_Pollution.PK_PollutionID
+      JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN=T_BAS_DeviceStatus.DGIMN
+      WHERE
+      T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode=40
+      ORDER BY pollutionname,MonitorPointName
+    </select>
+
+    <!--
+        author:chengzq
+        description: 通过监测点名称，污染源id获取监测点
+        param:
+        date: 2019/06/25 15:09
+    -->
+    <select id="selectByPollutionidAndOutputName" resultType="java.util.Map">
+        select  * from  T_BAS_UnorganizedMonitorPointInfo
+        where MonitorPointName=#{monitorpointname}
+        and FK_Pollutionid=#{pollutionid}
+    </select>
+
+    <!--  author:xsm description: 获取监测点下所有监测因子 date: 2019/06/27 14:04 -->
+    <select id="getEntBoundaryAllPollutantsByIDAndType" parameterType="map" resultType="map">
+        select DISTINCT t2.FK_PollutantCode code,t3.name,
+        t2.standardmaxvalue,
+        t2.standardminvalue,
+        t3.PollutantUnit,
+        t3.OrderIndex
+        from T_BAS_UnorganizedMonitorPointInfo t1 JOIN T_BAS_GasOutPutPollutantSet t2 ON t1.PK_ID = t2.FK_GasOutPutID
+        JOIN PUB_CODE_PollutantFactor t3 ON t2.FK_PollutantCode = t3.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.FK_MonitorPointTypeCode = #{monitorpointtype}
+            <if test="pkidlist!=null and pkidlist.size>0">
+                and t1.PK_ID in
+                <foreach collection="pkidlist" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="monitorpointtype != null and monitorpointtype!=''">
+                AND t3.PollutantType = #{monitorpointtype}
+            </if>
+        </trim>
+        ORDER BY t3.OrderIndex
+    </select>
+
+
+    <!--  author:xsm description: 根据监测点ID和监测点类型获取该监测点信息 date: 2019/06/27 17:02 -->
+    <select id="getOutPutUnorganizedInfoByIDAndType" parameterType="map" resultType="map">
+        select
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID pkid,
+        T_BAS_UnorganizedMonitorPointInfo.Longitude,
+        T_BAS_UnorganizedMonitorPointInfo.Latitude,
+        T_BAS_Pollution.pollutionname pollution,
+        T_BAS_Pollution.PollutionName,
+        T_BAS_Pollution.PK_PollutionID AS pollutionid,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName OutputName,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName outputname,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointCode,
+        T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode,
+        T_BAS_DeviceStatus.Status OnlineStatus,
+        T_BAS_DeviceStatus.orderstatus,
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN
+        from T_BAS_UnorganizedMonitorPointInfo join T_BAS_Pollution on
+        T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID=T_BAS_Pollution.PK_PollutionID
+        JOIN  (SELECT *, case T_BAS_DeviceStatus.Status when 1 then 1 when 2 then 2 when 3 then 3 when 0 then 4 else 5 end orderstatus
+        from
+        T_BAS_DeviceStatus) as T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_UnorganizedMonitorPointInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointid != null and monitorpointid!=''">
+                AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = #{monitorpointid}
+            </if>
+            <if test="id != null and id!=''">
+                AND T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = #{id}
+            </if>
+            <if test="pointtype != null and pointtype!=''">
+                AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = #{pointtype}
+            </if>
+            <if test="monitorpointname != null and monitorpointname!=''">
+                AND T_BAS_UnorganizedMonitorPointInfo.MonitorPointName like concat('%',#{monitorpointname},'%')
+            </if>
+            <if test="pollutionname != null and pollutionname!=''">
+                AND T_BAS_Pollution.pollutionname like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="pkidlist!=null and pkidlist.size>0">
+                and T_BAS_UnorganizedMonitorPointInfo.PK_ID in
+                <foreach collection="pkidlist" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pkids!=null and pkids.size>0">
+                and T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID in
+                <foreach collection="pkids" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        <choose>
+            <when test="orderfield =='status'">
+                order by T_BAS_DeviceStatus.orderstatus,T_BAS_Pollution.PollutionName
+            </when>
+            <otherwise>
+                ORDER by T_BAS_Pollution.PollutionName,LEN(
+                T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+                ),T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--
+     author:xsm
+     description: 获取厂界监测点相关污染物和企业信息(厂界数据超限报警)
+     param:
+     date: 2019/07/12 16:51
+ -->
+    <select id="getUnorganizedDgimnAndPollutantInfosByParam" resultType="map" parameterType="map">
+        select
+        DISTINCT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PollutionName PollutionName,
+        T_BAS_UnorganizedMonitorPointInfo.Latitude,
+        T_BAS_UnorganizedMonitorPointInfo.Longitude,
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName,
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        PUB_CODE_PollutantFactor.OrderIndex,
+        T_BAS_EarlyWarningSet.FK_AlarmLevelCode,
+        T_BAS_GasOutPutPollutantSet.AlarmType,
+        T_BAS_GasOutPutPollutantSet.StandardMinValue,
+        T_BAS_GasOutPutPollutantSet.StandardMaxValue,
+        T_BAS_GasOutPutPollutantSet.ExceptionMinValue,
+        T_BAS_GasOutPutPollutantSet.ExceptionMaxValue,
+        T_BAS_DeviceStatus.Status,
+        T_BAS_EarlyWarningSet.ConcenAlarmMaxValue
+        FROM
+        T_BAS_Pollution
+        JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID =
+        T_BAS_Pollution.PK_PollutionID
+        JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_UnorganizedMonitorPointInfo.DGIMN
+        JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        AND T_BAS_GasOutPutPollutantSet.FK_GasOutPutID = T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        LEFT JOIN T_BAS_EarlyWarningSet ON T_BAS_Pollution.PK_PollutionID = T_BAS_EarlyWarningSet.FK_PollutionID AND
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_BAS_EarlyWarningSet.FK_OutPutID AND PUB_CODE_PollutantFactor.Code
+        =T_BAS_EarlyWarningSet.FK_PollutantCode
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        AND PUB_CODE_PollutantFactor.PollutantType =#{monitorpointtype}
+        AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =#{monitorpointtype}
+        <if test="pollutionname!=null and pollutionname!='' ">
+            and T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+        </if>
+        <if test="monitorpointname!=null and monitorpointname!='' ">
+            and T_BAS_UnorganizedMonitorPointInfo.MonitorPointName like concat('%',#{monitorpointname},'%')
+        </if>
+        <if test="pollutantname!=null and pollutantname!='' ">
+            and PUB_CODE_PollutantFactor.Name like concat('%',#{pollutantname},'%')
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="pollutionid!=null and pollutionid!='' ">
+            and T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="dgimn!=null and dgimn!='' ">
+            and T_BAS_UnorganizedMonitorPointInfo.DGIMN = #{dgimn}
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="outputid!=null and outputid!='' ">
+            and T_BAS_UnorganizedMonitorPointInfo.PK_ID = #{outputid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            and T_BAS_UnorganizedMonitorPointInfo.PK_ID = #{monitorpointid}
+        </if>
+        ORDER BY
+        T_BAS_Pollution.PollutionName,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName,PUB_CODE_PollutantFactor.OrderIndex
+    </select>
+    <!--
+        author:zhangzc
+        description: 获取无组织排口相关的企业、排口、污染物信息（厂界小型站，厂界恶臭）
+        param:
+        date: 2019/7/30 15:25
+      -->
+    <select id="getUnorganizedPollutionOutPutPollutants" resultType="java.util.Map">
+        SELECT DISTINCT
+        T_BAS_Pollution.PK_PollutionID AS PollutionID,
+        T_BAS_Pollution.PollutionName,
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID AS OutPutID,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName AS OutPutName,
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN AS MN,
+        T_BAS_GasOutPutPollutantSet.ConcentrationChangeWarnPercent AS Rate,
+        T_BAS_GasOutPutPollutantSet.StandardMinValue,
+        T_BAS_GasOutPutPollutantSet.StandardMaxValue,
+        T_BAS_GasOutPutPollutantSet.AlarmType,
+        T_BAS_GasOutPutPollutantSet.ChangeBaseValue,
+        PUB_CODE_PollutantFactor.PollutantUnit,
+        PUB_CODE_PollutantFactor.Code AS PollutantCode,
+        PUB_CODE_PollutantFactor.OrderIndex AS OrderIndex,
+        PUB_CODE_PollutantFactor.Name AS PollutantName
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        JOIN T_BAS_DeviceStatus ON T_BAS_DeviceStatus.DGIMN = T_BAS_UnorganizedMonitorPointInfo.DGIMN
+        JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        AND T_BAS_GasOutPutPollutantSet.FK_GasOutPutID = T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        PUB_CODE_PollutantFactor.IsUsed = 1
+        AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = #{monitortype}
+        <if test="pollutionname!=null and pollutionname!='' ">
+            and T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+        </if>
+        <if test="pollutionid!=null and pollutionid!='' ">
+            and T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="pollutantcode!=null and pollutantcode!='' ">
+            and PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+        </if>
+        <if test="outputname!=null and outputname!='' ">
+            and T_BAS_UnorganizedMonitorPointInfo.MonitorPointName like concat('%',#{outputname},'%')
+        </if>
+        <if test="mn!=null and mn!='' ">
+            AND T_BAS_DeviceStatus.DGIMN = #{mn}
+        </if>
+        ORDER BY
+        T_BAS_Pollution.PollutionName
+    </select>
+
+
+    <!--
+        author:chengzq
+        description: 通过味道code和mn号集合查询厂界恶臭信息
+        param:
+        date: 2019/10/28 15:35
+    -->
+    <select id="selectFactStenchInfoBySmellCodeAndMns" parameterType="map" resultType="map">
+        SELECT
+        tt.FK_PollutantCode,
+        tt.fk_pollutionid,
+        tt.FK_GasOutPutID from(
+        SELECT DISTINCT
+        T_BAS_GasOutPutPollutantSet.FK_PollutantCode,
+        PUB_CODE_PollutantSmell.code,
+        T_BAS_UnorganizedMonitorPointInfo.dgimn,
+        T_BAS_GasOutPutPollutantSet.fk_pollutionid,
+        T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+        FROM
+        PUB_CODE_PollutantSmell
+        JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutantCode=
+        PUB_CODE_PollutantSmell.FK_PollutantCode
+        JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_UnorganizedMonitorPointInfo.PK_ID=
+        T_BAS_GasOutPutPollutantSet.FK_GasOutPutID and T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode=40
+        UNION
+        SELECT DISTINCT
+        T_BAS_ParticularPollutants.FK_PollutantCode,
+        PUB_CODE_PollutantSmell.code,
+        T_BAS_OtherMonitorPoint.dgimn,
+        '' fk_pollutionid,
+        T_BAS_ParticularPollutants.FK_OutPutID FK_GasOutPutID
+        FROM
+        PUB_CODE_PollutantSmell
+        JOIN T_BAS_ParticularPollutants ON T_BAS_ParticularPollutants.FK_PollutantCode=
+        PUB_CODE_PollutantSmell.FK_PollutantCode
+        JOIN T_BAS_OtherMonitorPoint ON T_BAS_OtherMonitorPoint.PK_MonitorPointID=
+        T_BAS_ParticularPollutants.FK_OutPutID
+        AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =9)tt
+        <where>
+            <if test="smellcode!=null and smellcode!='' ">
+                and tt.code=#{smellcode}
+            </if>
+            <if test="dgimns!=null and dgimns.size>0">
+                and tt.dgimn in
+                <foreach collection="dgimns" close="(" open=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getMonitorPollutantByParam" resultType="java.util.Map">
+        SELECT DISTINCT
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN,
+        PUB_CODE_PollutantFactor.Code
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo
+        JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_GasOutPutID =
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID
+        JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="mns!=null and mns.size>0">
+                and T_BAS_UnorganizedMonitorPointInfo.DGIMN in
+                <foreach collection="mns" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            and PUB_CODE_PollutantFactor.IsUsed = 1
+        </trim>
+    </select>
+
+    <!--
+        author:chengzq
+        description: 删除状态表中垃圾数据
+        param:
+        date: 2019/11/04 13:20
+    -->
+    <delete id="deleteGarbageData">
+        delete
+        FROM
+            T_BAS_DeviceStatus
+        WHERE
+            dgimn NOT IN ( SELECT T_BAS_DeviceStatus.dgimn FROM T_BAS_DeviceStatus JOIN T_BAS_UnorganizedMonitorPointInfo ON T_BAS_DeviceStatus.DGIMN= T_BAS_UnorganizedMonitorPointInfo.DGIMN)
+        and
+            FK_MonitorPointTypeCode in (40,41,38)
+    </delete>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.parkinfo.parkintroduce.ParkIntroduceMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.base.parkintroduce.ParkIntroduceVO">
+        <id column="PK_ParkIntroduceID" jdbcType="VARCHAR" property="pkParkintroduceid"/>
+        <result column="ParkIntroduce" jdbcType="VARCHAR" property="parkintroduce"/>
+        <result column="FK_ParkMapFileID" jdbcType="VARCHAR" property="fkParkmapfileid"/>
+        <result column="MainIndustry" jdbcType="VARCHAR" property="mainindustry"/>
+        <result column="AuxiliaryIndustry" jdbcType="VARCHAR" property="auxiliaryindustry"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ParkIntroduceID, ParkIntroduce, FK_ParkMapFileID, MainIndustry, AuxiliaryIndustry,
+    UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_ParkIntroduce
+        where PK_ParkIntroduceID = #{pkParkintroduceid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_ParkIntroduce
+    where PK_ParkIntroduceID = #{pkParkintroduceid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.base.parkintroduce.ParkIntroduceVO">
+    insert into T_BAS_ParkIntroduce (PK_ParkIntroduceID, ParkIntroduce, 
+      FK_ParkMapFileID, MainIndustry, AuxiliaryIndustry, 
+      UpdateTime, UpdateUser)
+    values (#{pkParkintroduceid,jdbcType=VARCHAR}, #{parkintroduce,jdbcType=VARCHAR}, 
+      #{fkParkmapfileid,jdbcType=VARCHAR}, #{mainindustry,jdbcType=VARCHAR}, #{auxiliaryindustry,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.base.parkintroduce.ParkIntroduceVO">
+        insert into T_BAS_ParkIntroduce
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkParkintroduceid != null">
+                PK_ParkIntroduceID,
+            </if>
+            <if test="parkintroduce != null">
+                ParkIntroduce,
+            </if>
+            <if test="fkParkmapfileid != null">
+                FK_ParkMapFileID,
+            </if>
+            <if test="mainindustry != null">
+                MainIndustry,
+            </if>
+            <if test="auxiliaryindustry != null">
+                AuxiliaryIndustry,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkParkintroduceid != null">
+                #{pkParkintroduceid,jdbcType=VARCHAR},
+            </if>
+            <if test="parkintroduce != null">
+                #{parkintroduce,jdbcType=VARCHAR},
+            </if>
+            <if test="fkParkmapfileid != null">
+                #{fkParkmapfileid,jdbcType=VARCHAR},
+            </if>
+            <if test="mainindustry != null">
+                #{mainindustry,jdbcType=VARCHAR},
+            </if>
+            <if test="auxiliaryindustry != null">
+                #{auxiliaryindustry,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.base.parkintroduce.ParkIntroduceVO">
+        update T_BAS_ParkIntroduce
+        <set>
+            <if test="parkintroduce != null">
+                ParkIntroduce = #{parkintroduce,jdbcType=VARCHAR},
+            </if>
+            <if test="fkParkmapfileid != null">
+                FK_ParkMapFileID = #{fkParkmapfileid,jdbcType=VARCHAR},
+            </if>
+            <if test="mainindustry != null">
+                MainIndustry = #{mainindustry,jdbcType=VARCHAR},
+            </if>
+            <if test="auxiliaryindustry != null">
+                AuxiliaryIndustry = #{auxiliaryindustry,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ParkIntroduceID = #{pkParkintroduceid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.base.parkintroduce.ParkIntroduceVO">
+    update T_BAS_ParkIntroduce
+    set ParkIntroduce = #{parkintroduce,jdbcType=VARCHAR},
+      FK_ParkMapFileID = #{fkParkmapfileid,jdbcType=VARCHAR},
+      MainIndustry = #{mainindustry,jdbcType=VARCHAR},
+      AuxiliaryIndustry = #{auxiliaryindustry,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ParkIntroduceID = #{pkParkintroduceid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+        author: zhangzc
+        description: 获取最新一条园区介绍信息
+        param:
+        date: 2019/5/9 14:20
+      -->
+    <select id="getLastParkIntroduceInfo" resultType="java.util.HashMap">
+    SELECT
+        TOP 1 PK_ParkIntroduceID,
+        ParkIntroduce,
+        FK_ParkMapFileID,
+        MainIndustry,
+        T_BAS_FileInfo.FilePath,
+        AuxiliaryIndustry
+    FROM
+        T_BAS_ParkIntroduce
+    LEFT JOIN T_BAS_FileInfo ON T_BAS_ParkIntroduce.FK_ParkMapFileID = T_BAS_FileInfo.FileFlag
+    ORDER BY
+        T_BAS_ParkIntroduce.UpdateTime DESC
+    </select>
+</mapper>

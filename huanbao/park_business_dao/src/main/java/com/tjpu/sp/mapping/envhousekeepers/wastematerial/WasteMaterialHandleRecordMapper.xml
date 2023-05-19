@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.wastematerial.WasteMaterialHandleRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.wastematerial.WasteMaterialHandleRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_Pollutionid" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_WasteMaterialCode" jdbcType="VARCHAR" property="fkWastematerialcode" />
+    <result column="RecordDate" jdbcType="TIMESTAMP" property="recorddate" />
+    <result column="GeneratedNum" jdbcType="DOUBLE" property="generatednum" />
+    <result column="SCPersonCharge" jdbcType="VARCHAR" property="scpersoncharge" />
+    <result column="ReceiptNum" jdbcType="VARCHAR" property="receiptnum" />
+    <result column="InventoryBalance" jdbcType="VARCHAR" property="inventorybalance" />
+    <result column="ZCPersonCharge" jdbcType="VARCHAR" property="zcpersoncharge" />
+    <result column="ReceivingUnit" jdbcType="VARCHAR" property="receivingunit" />
+    <result column="OutsourceHandleNum" jdbcType="DOUBLE" property="outsourcehandlenum" />
+    <result column="TransferNumber" jdbcType="VARCHAR" property="transfernumber" />
+    <result column="TransferTime" jdbcType="TIMESTAMP" property="transfertime" />
+    <result column="WWPersonCharge" jdbcType="VARCHAR" property="wwpersoncharge" />
+    <result column="SelfDisposalNum" jdbcType="DOUBLE" property="selfdisposalnum" />
+    <result column="ZXPersonCharge" jdbcType="VARCHAR" property="zxpersoncharge" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_Pollutionid, FK_WasteMaterialCode, RecordDate, GeneratedNum, SCPersonCharge, 
+    ReceiptNum, InventoryBalance, ZCPersonCharge, ReceivingUnit, OutsourceHandleNum, 
+    TransferNumber, TransferTime, WWPersonCharge, SelfDisposalNum, ZXPersonCharge, UpdateTime, 
+    UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_WasteMaterialHandleRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_WasteMaterialHandleRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteHandleRecordByEntIDAndCode" parameterType="map">
+    delete from T_GJ_WasteMaterialHandleRecord
+    where FK_Pollutionid = #{pollutionid} and FK_WasteMaterialCode = #{fkwastematerialcode}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.wastematerial.WasteMaterialHandleRecordVO">
+    insert into T_GJ_WasteMaterialHandleRecord (PK_ID, FK_Pollutionid, FK_WasteMaterialCode, 
+      RecordDate, GeneratedNum, SCPersonCharge, 
+      ReceiptNum, InventoryBalance, ZCPersonCharge, 
+      ReceivingUnit, OutsourceHandleNum, TransferNumber, 
+      TransferTime, WWPersonCharge, SelfDisposalNum, 
+      ZXPersonCharge, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkWastematerialcode,jdbcType=VARCHAR}, 
+      #{recorddate,jdbcType=TIMESTAMP}, #{generatednum,jdbcType=DOUBLE}, #{scpersoncharge,jdbcType=VARCHAR}, 
+      #{receiptnum,jdbcType=VARCHAR}, #{inventorybalance,jdbcType=VARCHAR}, #{zcpersoncharge,jdbcType=VARCHAR}, 
+      #{receivingunit,jdbcType=VARCHAR}, #{outsourcehandlenum,jdbcType=DOUBLE}, #{transfernumber,jdbcType=VARCHAR}, 
+      #{transfertime,jdbcType=TIMESTAMP}, #{wwpersoncharge,jdbcType=VARCHAR}, #{selfdisposalnum,jdbcType=DOUBLE}, 
+      #{zxpersoncharge,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.wastematerial.WasteMaterialHandleRecordVO">
+    insert into T_GJ_WasteMaterialHandleRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid,
+      </if>
+      <if test="fkWastematerialcode != null">
+        FK_WasteMaterialCode,
+      </if>
+      <if test="recorddate != null">
+        RecordDate,
+      </if>
+      <if test="generatednum != null">
+        GeneratedNum,
+      </if>
+      <if test="scpersoncharge != null">
+        SCPersonCharge,
+      </if>
+      <if test="receiptnum != null">
+        ReceiptNum,
+      </if>
+      <if test="inventorybalance != null">
+        InventoryBalance,
+      </if>
+      <if test="zcpersoncharge != null">
+        ZCPersonCharge,
+      </if>
+      <if test="receivingunit != null">
+        ReceivingUnit,
+      </if>
+      <if test="outsourcehandlenum != null">
+        OutsourceHandleNum,
+      </if>
+      <if test="transfernumber != null">
+        TransferNumber,
+      </if>
+      <if test="transfertime != null">
+        TransferTime,
+      </if>
+      <if test="wwpersoncharge != null">
+        WWPersonCharge,
+      </if>
+      <if test="selfdisposalnum != null">
+        SelfDisposalNum,
+      </if>
+      <if test="zxpersoncharge != null">
+        ZXPersonCharge,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWastematerialcode != null">
+        #{fkWastematerialcode,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddate != null">
+        #{recorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="generatednum != null">
+        #{generatednum,jdbcType=DOUBLE},
+      </if>
+      <if test="scpersoncharge != null">
+        #{scpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptnum != null">
+        #{receiptnum,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorybalance != null">
+        #{inventorybalance,jdbcType=VARCHAR},
+      </if>
+      <if test="zcpersoncharge != null">
+        #{zcpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingunit != null">
+        #{receivingunit,jdbcType=VARCHAR},
+      </if>
+      <if test="outsourcehandlenum != null">
+        #{outsourcehandlenum,jdbcType=DOUBLE},
+      </if>
+      <if test="transfernumber != null">
+        #{transfernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transfertime != null">
+        #{transfertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wwpersoncharge != null">
+        #{wwpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="selfdisposalnum != null">
+        #{selfdisposalnum,jdbcType=DOUBLE},
+      </if>
+      <if test="zxpersoncharge != null">
+        #{zxpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.wastematerial.WasteMaterialHandleRecordVO">
+    update T_GJ_WasteMaterialHandleRecord
+    <set>
+      <if test="fkPollutionid != null">
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWastematerialcode != null">
+        FK_WasteMaterialCode = #{fkWastematerialcode,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddate != null">
+        RecordDate = #{recorddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="generatednum != null">
+        GeneratedNum = #{generatednum,jdbcType=DOUBLE},
+      </if>
+      <if test="scpersoncharge != null">
+        SCPersonCharge = #{scpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptnum != null">
+        ReceiptNum = #{receiptnum,jdbcType=VARCHAR},
+      </if>
+      <if test="inventorybalance != null">
+        InventoryBalance = #{inventorybalance,jdbcType=VARCHAR},
+      </if>
+      <if test="zcpersoncharge != null">
+        ZCPersonCharge = #{zcpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingunit != null">
+        ReceivingUnit = #{receivingunit,jdbcType=VARCHAR},
+      </if>
+      <if test="outsourcehandlenum != null">
+        OutsourceHandleNum = #{outsourcehandlenum,jdbcType=DOUBLE},
+      </if>
+      <if test="transfernumber != null">
+        TransferNumber = #{transfernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transfertime != null">
+        TransferTime = #{transfertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wwpersoncharge != null">
+        WWPersonCharge = #{wwpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="selfdisposalnum != null">
+        SelfDisposalNum = #{selfdisposalnum,jdbcType=DOUBLE},
+      </if>
+      <if test="zxpersoncharge != null">
+        ZXPersonCharge = #{zxpersoncharge,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.wastematerial.WasteMaterialHandleRecordVO">
+    update T_GJ_WasteMaterialHandleRecord
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_WasteMaterialCode = #{fkWastematerialcode,jdbcType=VARCHAR},
+      RecordDate = #{recorddate,jdbcType=TIMESTAMP},
+      GeneratedNum = #{generatednum,jdbcType=DOUBLE},
+      SCPersonCharge = #{scpersoncharge,jdbcType=VARCHAR},
+      ReceiptNum = #{receiptnum,jdbcType=VARCHAR},
+      InventoryBalance = #{inventorybalance,jdbcType=VARCHAR},
+      ZCPersonCharge = #{zcpersoncharge,jdbcType=VARCHAR},
+      ReceivingUnit = #{receivingunit,jdbcType=VARCHAR},
+      OutsourceHandleNum = #{outsourcehandlenum,jdbcType=DOUBLE},
+      TransferNumber = #{transfernumber,jdbcType=VARCHAR},
+      TransferTime = #{transfertime,jdbcType=TIMESTAMP},
+      WWPersonCharge = #{wwpersoncharge,jdbcType=VARCHAR},
+      SelfDisposalNum = #{selfdisposalnum,jdbcType=DOUBLE},
+      ZXPersonCharge = #{zxpersoncharge,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+  author:xsm
+  description: 通过自定义参数查询危废处置记录
+  param:
+  date: 2021/08/18 13:39
+-->
+  <select id="getWasteMaterialHandleRecordByParamMap" resultType="map" parameterType="map">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    FK_WasteMaterialCode fkwastematerialcode,
+    PUB_CODE_WasteMaterial.Name wastematerialname,
+    CONVERT (VARCHAR (10),t.RecordDate,120) RecordDate,
+    GeneratedNum,
+    SCPersonCharge,
+    ReceiptNum,
+    InventoryBalance,
+    ZCPersonCharge,
+    ReceivingUnit,
+    OutsourceHandleNum,
+    TransferNumber,
+    CONVERT (VARCHAR (10),t.TransferTime,120) TransferTime,
+    WWPersonCharge,
+    SelfDisposalNum,
+    ZXPersonCharge,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_WasteMaterialHandleRecord t
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_WasteMaterial ON t.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.Fk_PollutionID = #{pollutionid}
+      </if>
+      <if test="fkwastematerialcode !=null and fkwastematerialcode !='' ">
+        and t.FK_WasteMaterialCode = #{fkwastematerialcode}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordDate,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t.RecordDate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by t.RecordDate desc
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 通过id获取危废处置记录详情
+ param:
+ date: 2021/08/18 13:39
+-->
+  <select id="getWasteMaterialHandleRecordDetailByID" resultType="map" parameterType="string">
+    SELECT
+    t.PK_ID pkid,
+    FK_Pollutionid fkpollutionid,
+    T_BAS_Pollution.PollutionName,
+    FK_WasteMaterialCode fkwastematerialcode,
+    PUB_CODE_WasteMaterial.Name wastematerialname,
+    CONVERT (VARCHAR (10),t.RecordDate,120) RecordDate,
+    GeneratedNum,
+    SCPersonCharge,
+    ReceiptNum,
+    InventoryBalance,
+    ZCPersonCharge,
+    ReceivingUnit,
+    OutsourceHandleNum,
+    TransferNumber,
+    CONVERT (VARCHAR (10),t.TransferTime,120) TransferTime,
+    WWPersonCharge,
+    SelfDisposalNum,
+    ZXPersonCharge,
+    CONVERT (VARCHAR (20),t.UpdateTime,120) UpdateTime,
+    t.UpdateUser
+    FROM
+    T_GJ_WasteMaterialHandleRecord t
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    LEFT JOIN PUB_CODE_WasteMaterial ON t.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.Code
+    where t.PK_ID = #{pkid}
+  </select>
+
+
+  <!--
+  author:xsm
+  description: 通过自定义参数获取危废表头信息
+  param:
+  date: 2021/08/18 13:39
+-->
+  <select id="WasteMaterialTitleNameByParam" resultType="map" parameterType="map">
+    SELECT top 1
+    p.PollutionName,
+    p.ShorterName,
+    PUB_CODE_WasteMaterial.Name wastematerialname
+    FROM
+    T_BAS_Pollution p LEFT JOIN
+    T_GJ_WasteMaterialHandleRecord t ON t.FK_PollutionID = p.PK_PollutionID
+    LEFT JOIN PUB_CODE_WasteMaterial ON t.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.Fk_PollutionID = #{pollutionid}
+      </if>
+      <if test="fkwastematerialcode !=null and fkwastematerialcode !='' ">
+        and t.FK_WasteMaterialCode = #{fkwastematerialcode}
+      </if>
+    </trim>
+  </select>
+
+  <!--
+author:xsm
+description: 通过id获取危险废物树数据
+param:
+date: 2021/08/18 13:39
+-->
+  <select id="getWasteMaterialTreeByParam" resultType="map" parameterType="map">
+    SELECT
+    t.FK_WasteMaterialCode id,PUB_CODE_WasteMaterial.Name label,'child' type
+    FROM
+    T_GJ_WasteMaterialHandleRecord t
+    JOIN T_BAS_Pollution ON t.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    JOIN PUB_CODE_WasteMaterial ON t.FK_WasteMaterialCode = PUB_CODE_WasteMaterial.Code
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid !=null and pollutionid !='' ">
+        and t.FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="fkwastematerialname !=null and fkwastematerialname !='' ">
+        and PUB_CODE_WasteMaterial.Name like concat('%',#{fkwastematerialname},'%')
+      </if>
+    </trim>
+    GROUP BY t.FK_WasteMaterialCode,PUB_CODE_WasteMaterial.Name,PUB_CODE_WasteMaterial.OrderIndex
+    ORDER BY PUB_CODE_WasteMaterial.OrderIndex,t.FK_WasteMaterialCode
+  </select>
+</mapper>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.envquality.AirCityHourDataMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.envquality.AirCityHourDataVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="MonitorTime" property="monitortime" jdbcType="TIMESTAMP" />
+    <result column="FK_StationCode" property="fkStationcode" jdbcType="VARCHAR" />
+    <result column="FK_RegionCode" property="fkRegioncode" jdbcType="VARCHAR" />
+    <result column="SO2" property="so2" jdbcType="NUMERIC" />
+    <result column="IAQI_SO2" property="iaqiSo2" jdbcType="NUMERIC" />
+    <result column="NO2" property="no2" jdbcType="NUMERIC" />
+    <result column="IAQI_NO2" property="iaqiNo2" jdbcType="NUMERIC" />
+    <result column="O3" property="o3" jdbcType="NUMERIC" />
+    <result column="IAQI_O3" property="iaqiO3" jdbcType="NUMERIC" />
+    <result column="O3_8H" property="o38h" jdbcType="NUMERIC" />
+    <result column="IAQI_O3_8H" property="iaqiO38h" jdbcType="NUMERIC" />
+    <result column="CO" property="co" jdbcType="DOUBLE" />
+    <result column="IAQI_CO" property="iaqiCo" jdbcType="NUMERIC" />
+    <result column="PM10" property="pm10" jdbcType="NUMERIC" />
+    <result column="IAQI_PM10" property="iaqiPm10" jdbcType="NUMERIC" />
+    <result column="PM10_24H" property="pm1024h" jdbcType="NUMERIC" />
+    <result column="IAQI_PM10_24H" property="iaqiPm1024h" jdbcType="NUMERIC" />
+    <result column="PM25" property="pm25" jdbcType="NUMERIC" />
+    <result column="IAQI_PM25" property="iaqiPm25" jdbcType="NUMERIC" />
+    <result column="PM25_24H" property="pm2524h" jdbcType="NUMERIC" />
+    <result column="IAQI_PM25_24H" property="iaqiPm2524h" jdbcType="NUMERIC" />
+    <result column="AQI" property="aqi" jdbcType="NUMERIC" />
+    <result column="PrimaryPollutant" property="primarypollutant" jdbcType="VARCHAR" />
+    <result column="Quality" property="quality" jdbcType="VARCHAR" />
+    <result column="InPark" property="inpark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, MonitorTime, FK_StationCode, FK_RegionCode, SO2, IAQI_SO2, NO2, IAQI_NO2, 
+    O3, IAQI_O3, O3_8H, IAQI_O3_8H, CO, IAQI_CO, PM10, IAQI_PM10, PM10_24H, IAQI_PM10_24H, 
+    PM25, IAQI_PM25, PM25_24H, IAQI_PM25_24H, AQI, PrimaryPollutant, Quality, InPark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_EnvQuality_AirCityHourData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_EnvQuality_AirCityHourData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.envquality.AirCityHourDataVO" >
+    insert into T_EnvQuality_AirCityHourData (PK_ID, MonitorTime, FK_StationCode, 
+      FK_RegionCode, SO2, IAQI_SO2, 
+      NO2, IAQI_NO2, O3, IAQI_O3, 
+      O3_8H, IAQI_O3_8H, CO, 
+      IAQI_CO, PM10, IAQI_PM10, 
+      PM10_24H, IAQI_PM10_24H, PM25, 
+      IAQI_PM25, PM25_24H, IAQI_PM25_24H, 
+      AQI, PrimaryPollutant, Quality, 
+      InPark)
+    values (#{pkId,jdbcType=VARCHAR}, #{monitortime,jdbcType=TIMESTAMP}, #{fkStationcode,jdbcType=VARCHAR}, 
+      #{fkRegioncode,jdbcType=VARCHAR}, #{so2,jdbcType=NUMERIC}, #{iaqiSo2,jdbcType=NUMERIC}, 
+      #{no2,jdbcType=NUMERIC}, #{iaqiNo2,jdbcType=NUMERIC}, #{o3,jdbcType=NUMERIC}, #{iaqiO3,jdbcType=NUMERIC}, 
+      #{o38h,jdbcType=NUMERIC}, #{iaqiO38h,jdbcType=NUMERIC}, #{co,jdbcType=DOUBLE}, 
+      #{iaqiCo,jdbcType=NUMERIC}, #{pm10,jdbcType=NUMERIC}, #{iaqiPm10,jdbcType=NUMERIC}, 
+      #{pm1024h,jdbcType=NUMERIC}, #{iaqiPm1024h,jdbcType=NUMERIC}, #{pm25,jdbcType=NUMERIC}, 
+      #{iaqiPm25,jdbcType=NUMERIC}, #{pm2524h,jdbcType=NUMERIC}, #{iaqiPm2524h,jdbcType=NUMERIC}, 
+      #{aqi,jdbcType=NUMERIC}, #{primarypollutant,jdbcType=VARCHAR}, #{quality,jdbcType=VARCHAR}, 
+      #{inpark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.envquality.AirCityHourDataVO" >
+    insert into T_EnvQuality_AirCityHourData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="monitortime != null" >
+        MonitorTime,
+      </if>
+      <if test="fkStationcode != null" >
+        FK_StationCode,
+      </if>
+      <if test="fkRegioncode != null" >
+        FK_RegionCode,
+      </if>
+      <if test="so2 != null" >
+        SO2,
+      </if>
+      <if test="iaqiSo2 != null" >
+        IAQI_SO2,
+      </if>
+      <if test="no2 != null" >
+        NO2,
+      </if>
+      <if test="iaqiNo2 != null" >
+        IAQI_NO2,
+      </if>
+      <if test="o3 != null" >
+        O3,
+      </if>
+      <if test="iaqiO3 != null" >
+        IAQI_O3,
+      </if>
+      <if test="o38h != null" >
+        O3_8H,
+      </if>
+      <if test="iaqiO38h != null" >
+        IAQI_O3_8H,
+      </if>
+      <if test="co != null" >
+        CO,
+      </if>
+      <if test="iaqiCo != null" >
+        IAQI_CO,
+      </if>
+      <if test="pm10 != null" >
+        PM10,
+      </if>
+      <if test="iaqiPm10 != null" >
+        IAQI_PM10,
+      </if>
+      <if test="pm1024h != null" >
+        PM10_24H,
+      </if>
+      <if test="iaqiPm1024h != null" >
+        IAQI_PM10_24H,
+      </if>
+      <if test="pm25 != null" >
+        PM25,
+      </if>
+      <if test="iaqiPm25 != null" >
+        IAQI_PM25,
+      </if>
+      <if test="pm2524h != null" >
+        PM25_24H,
+      </if>
+      <if test="iaqiPm2524h != null" >
+        IAQI_PM25_24H,
+      </if>
+      <if test="aqi != null" >
+        AQI,
+      </if>
+      <if test="primarypollutant != null" >
+        PrimaryPollutant,
+      </if>
+      <if test="quality != null" >
+        Quality,
+      </if>
+      <if test="inpark != null" >
+        InPark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="monitortime != null" >
+        #{monitortime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkStationcode != null" >
+        #{fkStationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRegioncode != null" >
+        #{fkRegioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="so2 != null" >
+        #{so2,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiSo2 != null" >
+        #{iaqiSo2,jdbcType=NUMERIC},
+      </if>
+      <if test="no2 != null" >
+        #{no2,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiNo2 != null" >
+        #{iaqiNo2,jdbcType=NUMERIC},
+      </if>
+      <if test="o3 != null" >
+        #{o3,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiO3 != null" >
+        #{iaqiO3,jdbcType=NUMERIC},
+      </if>
+      <if test="o38h != null" >
+        #{o38h,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiO38h != null" >
+        #{iaqiO38h,jdbcType=NUMERIC},
+      </if>
+      <if test="co != null" >
+        #{co,jdbcType=DOUBLE},
+      </if>
+      <if test="iaqiCo != null" >
+        #{iaqiCo,jdbcType=NUMERIC},
+      </if>
+      <if test="pm10 != null" >
+        #{pm10,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm10 != null" >
+        #{iaqiPm10,jdbcType=NUMERIC},
+      </if>
+      <if test="pm1024h != null" >
+        #{pm1024h,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm1024h != null" >
+        #{iaqiPm1024h,jdbcType=NUMERIC},
+      </if>
+      <if test="pm25 != null" >
+        #{pm25,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm25 != null" >
+        #{iaqiPm25,jdbcType=NUMERIC},
+      </if>
+      <if test="pm2524h != null" >
+        #{pm2524h,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm2524h != null" >
+        #{iaqiPm2524h,jdbcType=NUMERIC},
+      </if>
+      <if test="aqi != null" >
+        #{aqi,jdbcType=NUMERIC},
+      </if>
+      <if test="primarypollutant != null" >
+        #{primarypollutant,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null" >
+        #{quality,jdbcType=VARCHAR},
+      </if>
+      <if test="inpark != null" >
+        #{inpark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.envquality.AirCityHourDataVO" >
+    update T_EnvQuality_AirCityHourData
+    <set >
+      <if test="monitortime != null" >
+        MonitorTime = #{monitortime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkStationcode != null" >
+        FK_StationCode = #{fkStationcode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkRegioncode != null" >
+        FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      </if>
+      <if test="so2 != null" >
+        SO2 = #{so2,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiSo2 != null" >
+        IAQI_SO2 = #{iaqiSo2,jdbcType=NUMERIC},
+      </if>
+      <if test="no2 != null" >
+        NO2 = #{no2,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiNo2 != null" >
+        IAQI_NO2 = #{iaqiNo2,jdbcType=NUMERIC},
+      </if>
+      <if test="o3 != null" >
+        O3 = #{o3,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiO3 != null" >
+        IAQI_O3 = #{iaqiO3,jdbcType=NUMERIC},
+      </if>
+      <if test="o38h != null" >
+        O3_8H = #{o38h,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiO38h != null" >
+        IAQI_O3_8H = #{iaqiO38h,jdbcType=NUMERIC},
+      </if>
+      <if test="co != null" >
+        CO = #{co,jdbcType=DOUBLE},
+      </if>
+      <if test="iaqiCo != null" >
+        IAQI_CO = #{iaqiCo,jdbcType=NUMERIC},
+      </if>
+      <if test="pm10 != null" >
+        PM10 = #{pm10,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm10 != null" >
+        IAQI_PM10 = #{iaqiPm10,jdbcType=NUMERIC},
+      </if>
+      <if test="pm1024h != null" >
+        PM10_24H = #{pm1024h,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm1024h != null" >
+        IAQI_PM10_24H = #{iaqiPm1024h,jdbcType=NUMERIC},
+      </if>
+      <if test="pm25 != null" >
+        PM25 = #{pm25,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm25 != null" >
+        IAQI_PM25 = #{iaqiPm25,jdbcType=NUMERIC},
+      </if>
+      <if test="pm2524h != null" >
+        PM25_24H = #{pm2524h,jdbcType=NUMERIC},
+      </if>
+      <if test="iaqiPm2524h != null" >
+        IAQI_PM25_24H = #{iaqiPm2524h,jdbcType=NUMERIC},
+      </if>
+      <if test="aqi != null" >
+        AQI = #{aqi,jdbcType=NUMERIC},
+      </if>
+      <if test="primarypollutant != null" >
+        PrimaryPollutant = #{primarypollutant,jdbcType=VARCHAR},
+      </if>
+      <if test="quality != null" >
+        Quality = #{quality,jdbcType=VARCHAR},
+      </if>
+      <if test="inpark != null" >
+        InPark = #{inpark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.envquality.AirCityHourDataVO" >
+    update T_EnvQuality_AirCityHourData
+    set MonitorTime = #{monitortime,jdbcType=TIMESTAMP},
+      FK_StationCode = #{fkStationcode,jdbcType=VARCHAR},
+      FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      SO2 = #{so2,jdbcType=NUMERIC},
+      IAQI_SO2 = #{iaqiSo2,jdbcType=NUMERIC},
+      NO2 = #{no2,jdbcType=NUMERIC},
+      IAQI_NO2 = #{iaqiNo2,jdbcType=NUMERIC},
+      O3 = #{o3,jdbcType=NUMERIC},
+      IAQI_O3 = #{iaqiO3,jdbcType=NUMERIC},
+      O3_8H = #{o38h,jdbcType=NUMERIC},
+      IAQI_O3_8H = #{iaqiO38h,jdbcType=NUMERIC},
+      CO = #{co,jdbcType=DOUBLE},
+      IAQI_CO = #{iaqiCo,jdbcType=NUMERIC},
+      PM10 = #{pm10,jdbcType=NUMERIC},
+      IAQI_PM10 = #{iaqiPm10,jdbcType=NUMERIC},
+      PM10_24H = #{pm1024h,jdbcType=NUMERIC},
+      IAQI_PM10_24H = #{iaqiPm1024h,jdbcType=NUMERIC},
+      PM25 = #{pm25,jdbcType=NUMERIC},
+      IAQI_PM25 = #{iaqiPm25,jdbcType=NUMERIC},
+      PM25_24H = #{pm2524h,jdbcType=NUMERIC},
+      IAQI_PM25_24H = #{iaqiPm2524h,jdbcType=NUMERIC},
+      AQI = #{aqi,jdbcType=NUMERIC},
+      PrimaryPollutant = #{primarypollutant,jdbcType=VARCHAR},
+      Quality = #{quality,jdbcType=VARCHAR},
+      InPark = #{inpark,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+
+
+</mapper>

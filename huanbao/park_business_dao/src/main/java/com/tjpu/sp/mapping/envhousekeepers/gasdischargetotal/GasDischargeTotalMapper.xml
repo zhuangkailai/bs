@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.gasdischargetotal.GasDischargeTotalMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.gasdischargetotal.GasDischargeTotalVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="PollutantType" jdbcType="VARCHAR" property="pollutanttype" />
+    <result column="Year" jdbcType="NUMERIC" property="year" />
+    <result column="CountType" jdbcType="NUMERIC" property="counttype" />
+    <result column="DischargeValue" jdbcType="DOUBLE" property="dischargevalue" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, FK_PollutantCode, PollutantType, Year, CountType, DischargeValue, 
+    UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_GasDischargeTotal
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_GasDischargeTotal
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByPollutionIDAndPollutantCode" parameterType="map">
+    delete from T_GJ_GasDischargeTotal
+    where FK_PollutionID = #{pollutionid,jdbcType=VARCHAR} and FK_PollutantCode = #{pollutantcode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.gasdischargetotal.GasDischargeTotalVO">
+    insert into T_GJ_GasDischargeTotal (PK_ID, FK_PollutionID, FK_PollutantCode, 
+      PollutantType, Year, CountType, 
+      DischargeValue, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, 
+      #{pollutanttype,jdbcType=VARCHAR}, #{year,jdbcType=NUMERIC}, #{counttype,jdbcType=NUMERIC},
+      #{dischargevalue,jdbcType=DOUBLE}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.gasdischargetotal.GasDischargeTotalVO">
+    insert into T_GJ_GasDischargeTotal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="pollutanttype != null">
+        PollutantType,
+      </if>
+      <if test="year != null">
+        Year,
+      </if>
+      <if test="counttype != null">
+        CountType,
+      </if>
+      <if test="dischargevalue != null">
+        DischargeValue,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutanttype != null">
+        #{pollutanttype,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=NUMERIC},
+      </if>
+      <if test="counttype != null">
+        #{counttype,jdbcType=NUMERIC},
+      </if>
+      <if test="dischargevalue != null">
+        #{dischargevalue,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.gasdischargetotal.GasDischargeTotalVO">
+    update T_GJ_GasDischargeTotal
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pollutanttype != null">
+        PollutantType = #{pollutanttype,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        Year = #{year,jdbcType=NUMERIC},
+      </if>
+      <if test="counttype != null">
+        CountType = #{counttype,jdbcType=NUMERIC},
+      </if>
+      <if test="dischargevalue != null">
+        DischargeValue = #{dischargevalue,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.gasdischargetotal.GasDischargeTotalVO">
+    update T_GJ_GasDischargeTotal
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      PollutantType = #{pollutanttype,jdbcType=VARCHAR},
+      Year = #{year,jdbcType=NUMERIC},
+      CountType = #{counttype,jdbcType=NUMERIC},
+      DischargeValue = #{dischargevalue,jdbcType=DOUBLE},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--
+       author:xsm
+       description: 通过自定义参数获取企业大气污染总排放许可量信息
+       param:
+       date: 2021/08/16 13:54
+   -->
+  <select id="getGasDischargeTotalByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_GJ_GasDischargeTotal.FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.pollutionname,
+    T_GJ_GasDischargeTotal.FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    T_GJ_GasDischargeTotal.PollutantType,
+    T_GJ_GasDischargeTotal.Year,
+    T_GJ_GasDischargeTotal.CountType,
+    T_GJ_GasDischargeTotal.DischargeValue
+    FROM
+    T_GJ_GasDischargeTotal JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID =T_GJ_GasDischargeTotal.FK_PollutionID
+    LEFT JOIN  PUB_CODE_PollutantFactor ON T_GJ_GasDischargeTotal.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+    AND T_GJ_GasDischargeTotal.PollutantType = PUB_CODE_PollutantFactor.PollutantType
+    <trim prefix="where" prefixOverrides="AND|OR">
+    <if test="pollutionid!=null and pollutionid!='' ">
+      and T_GJ_GasDischargeTotal.FK_PollutionID=#{pollutionid}
+    </if>
+      <if test="pollutantcode!=null and pollutantcode!='' ">
+        and T_GJ_GasDischargeTotal.FK_PollutantCode=#{pollutantcode}
+      </if>
+      <if test="flowyear!=null and flowyear!='' ">
+        and T_GJ_GasDischargeTotal.Year=#{flowyear}
+      </if>
+      <if test="startyear != null and startyear !=''">
+        AND CONVERT (VARCHAR (4),T_GJ_GasDischargeTotal.Year,120) >= #{startyear}
+      </if>
+      <if test="endyear != null and endyear !=''">
+        AND CONVERT (VARCHAR (4),T_GJ_GasDischargeTotal.Year,120) <![CDATA[<=]]> #{endyear}
+      </if>
+    </trim>
+    order by PUB_CODE_PollutantFactor.OrderIndex
+  </select>
+
+  <!--
+   * @author: xsm
+   * @date: 2021/08/16 17:03
+   * @Description: 批量插入企业大气污染总排放许可量信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_GJ_GasDischargeTotal (PK_ID, FK_PollutionID, FK_PollutantCode,
+    PollutantType, Year, CountType,
+    DischargeValue, UpdateTime, UpdateUser
+    )
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR}, #{item.fkPollutantcode,jdbcType=VARCHAR},
+      #{item.pollutanttype,jdbcType=VARCHAR}, #{item.year,jdbcType=NUMERIC}, #{item.counttype,jdbcType=NUMERIC},
+      #{item.dischargevalue,jdbcType=DOUBLE}, #{item.updatetime,jdbcType=TIMESTAMP}, #{item.updateuser,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+
+
+</mapper>

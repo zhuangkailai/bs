@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.RolesMapper">
+    <resultMap id="BaseResultMap" type="com.pub.model.RolesVO">
+        <id column="Roles_ID" jdbcType="NVARCHAR" property="rolesId"/>
+        <result column="ParentId" jdbcType="NVARCHAR" property="parentId"/>
+        <result column="Roles_Name" jdbcType="NVARCHAR" property="rolesName"/>
+        <result column="Role_Restriction" jdbcType="NVARCHAR" property="roleRestriction"/>
+        <result column="Roles_Remark" jdbcType="NVARCHAR" property="rolesRemark"/>
+        <result column="AllowEdit" jdbcType="INTEGER" property="allowEdit"/>
+        <result column="AllowDelete" jdbcType="INTEGER" property="allowDelete"/>
+        <result column="SortCode" jdbcType="INTEGER" property="sortCode"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark"/>
+        <result column="CreateDate" jdbcType="DATE" property="createDate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifyDate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Roles_ID, ParentId, Roles_Name, Role_Restriction, Roles_Remark, AllowEdit, AllowDelete, 
+    SortCode, DeleteMark, CreateDate, CreateUserId, CreateUserName, ModifyDate, ModifyUserId, 
+    ModifyUserName
+  </sql>
+
+
+    <delete id="deleteTopRoleAuth" parameterType="java.lang.String">
+      DELETE FROM Base_RoleRight WHERE Roles_ID = #{topRoleId}
+    </delete>
+
+
+    <delete id="deleteRoleAuthForAddMenu" parameterType="java.util.List">
+        DELETE FROM Base_RoleRight WHERE Menu_Id IN
+        <foreach collection="menuids" item="menuid" open="(" separator="," close=")">
+            #{menuid}
+        </foreach>
+        AND (Button_Id IS NULL OR Button_Id = '')
+    </delete>
+
+
+
+    <select id="getSonRoleIDsForChangeParentRoleAuth" parameterType="java.lang.String" resultType="java.lang.String">
+     WITH temp_menu (
+        Roles_ID,
+        ParentId
+    ) AS (
+        SELECT
+            Roles_ID,
+            ParentId
+        FROM
+            Base_Roles
+        WHERE
+            Roles_ID = #{roleid}
+        UNION ALL
+            SELECT
+                a.Roles_ID,
+                a.ParentId
+            FROM
+                Base_Roles a
+            INNER JOIN temp_menu b ON a.ParentId = b.Roles_ID
+    ) SELECT
+        Roles_ID
+    FROM
+        temp_menu
+    </select>
+
+
+    <insert id="resetTopRoleAuth" parameterType="java.lang.String">
+    INSERT INTO Base_RoleRight (
+        RoleRight_ID,
+        Roles_ID,
+        Menu_Id,
+        Button_Id
+    ) SELECT
+        NEWID(),
+        #{topRoleId},
+        t2.Menu_Id,
+        t2.Button_ID
+    FROM
+        (
+            SELECT
+                Base_SysMenu.Menu_Id,
+                Base_Button.Button_ID
+            FROM
+                Base_SysMenu,
+                Base_MenuButton,
+                Base_Button
+            WHERE
+                Base_SysMenu.Menu_Id = Base_MenuButton.Menu_Id
+            AND Base_Button.Button_ID = Base_MenuButton.Button_Id
+            UNION
+                SELECT
+                    Base_SysMenu.Menu_Id,
+                    NULL AS Button_ID
+                FROM
+                    Base_SysMenu
+        ) t2
+    </insert>
+
+    <select id="getTopRoleVO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_Roles
+        WHERE
+        (
+        Roles_ID = ParentId or (
+        ParentId IS NULL
+        OR ParentId = ''
+        )
+        )
+    </select>
+
+</mapper>

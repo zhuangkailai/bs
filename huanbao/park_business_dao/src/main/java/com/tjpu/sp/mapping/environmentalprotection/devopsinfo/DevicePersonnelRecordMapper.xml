@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.devopsinfo.DevicePersonnelRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevicePersonnelRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_EntDevOpsID" jdbcType="VARCHAR" property="fkEntdevopsid" />
+    <result column="FK_PersonnelID" jdbcType="VARCHAR" property="fkPersonnelid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_EntDevOpsID, FK_PersonnelID, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_DevicePersonnelRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_DevicePersonnelRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByUnitIDAndPersonnelID" parameterType="map">
+    delete from T_BAS_DevicePersonnelRecord
+    where
+    FK_PersonnelID = #{personnelid}
+    AND FK_EntDevOpsID IN
+     (SELECT
+    T_BAS_EntDevOpsInfo.PK_ID
+    FROM
+    T_BAS_EntDevOpsInfo
+    WHERE  T_BAS_EntDevOpsInfo.DevOpsUnit = #{unitid}
+    AND
+     (CONVERT (VARCHAR(10), getdate(), 120) >= CONVERT (VARCHAR (10),T_BAS_EntDevOpsInfo.DevOpsStartDate,120)
+      AND CONVERT (VARCHAR(10), getdate(), 120) <![CDATA[<=]]> CONVERT (VARCHAR (10),T_BAS_EntDevOpsInfo.DevOpsEndDate,120))
+    )
+  </delete>
+
+  <delete id="deleteByEntDevOpsID" parameterType="String">
+    delete from T_BAS_DevicePersonnelRecord
+    where
+    FK_EntDevOpsID = #{fkEntdevopsid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevicePersonnelRecordVO">
+    insert into T_BAS_DevicePersonnelRecord (PK_ID, FK_EntDevOpsID, FK_PersonnelID, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkEntdevopsid,jdbcType=VARCHAR}, #{fkPersonnelid,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevicePersonnelRecordVO">
+    insert into T_BAS_DevicePersonnelRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkEntdevopsid != null">
+        FK_EntDevOpsID,
+      </if>
+      <if test="fkPersonnelid != null">
+        FK_PersonnelID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkEntdevopsid != null">
+        #{fkEntdevopsid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPersonnelid != null">
+        #{fkPersonnelid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevicePersonnelRecordVO">
+    update T_BAS_DevicePersonnelRecord
+    <set>
+      <if test="fkEntdevopsid != null">
+        FK_EntDevOpsID = #{fkEntdevopsid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPersonnelid != null">
+        FK_PersonnelID = #{fkPersonnelid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.devopsinfo.DevicePersonnelRecordVO">
+    update T_BAS_DevicePersonnelRecord
+    set FK_EntDevOpsID = #{fkEntdevopsid,jdbcType=VARCHAR},
+      FK_PersonnelID = #{fkPersonnelid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+    * @author: xsm
+    * @date: 2022/04/01 0001 下午 14:25
+    * @Description: 批量插入运维点位、人员关系记录
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_DevicePersonnelRecord (PK_ID, FK_EntDevOpsID, FK_PersonnelID,
+    UpdateTime, UpdateUser)
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId,jdbcType=VARCHAR}, #{item.fkEntdevopsid,jdbcType=VARCHAR}, #{item.fkPersonnelid,jdbcType=VARCHAR},
+      #{item.updatetime,jdbcType=TIMESTAMP}, #{item.updateuser,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+  <!-- 获取运维人员运维的点位信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getEntDevOpsIdDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t.FK_EntDevOpsID fkentdevopsid
+    FROM
+    T_BAS_DevicePersonnelRecord t
+    JOIN  T_BAS_EntDevOpsInfo t1 ON  t.FK_EntDevOpsID = t1.PK_ID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="unitid!=null and unitid!='' ">
+        and t1.DevOpsUnit =  #{unitid}
+      </if>
+      <if test="personnelid!=null and personnelid!='' ">
+        and t.FK_PersonnelID = #{personnelid}
+      </if>
+
+    </trim>
+  </select>
+
+
+  <!-- 获取运维点关联的运维人员信息    author:xsm   date:2022-04-01 09:11  -->
+  <select id="getPersonnelIdDataByParam" parameterType="map" resultType="map">
+    SELECT
+    t.FK_PersonnelID fkpersonnelid
+    FROM
+    T_BAS_DevicePersonnelRecord t
+    JOIN  T_BAS_EntDevOpsInfo t1 ON  t.FK_EntDevOpsID = t1.PK_ID
+    JOIN T_BAS_DevOpsPersonnel t2 ON  t.FK_PersonnelID = t2.PK_PersonnelID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="entdevopsid!=null and entdevopsid!='' ">
+        and t.FK_EntDevOpsID = #{entdevopsid}
+      </if>
+
+    </trim>
+  </select>
+</mapper>

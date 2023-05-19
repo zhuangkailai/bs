@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.parkinfo.assets.AssetsMapper">
+
+
+  <!--
+      author:chengzq
+      description: 通过年份获取主要经济指标及金额信息
+      param:
+      date: 2020/11/12 17:01
+  -->
+  <select id="getAssertsTypeInfoByYear" resultType="map" parameterType="string">
+      SELECT
+          PUB_CODE_AssetsType.code,
+          PUB_CODE_AssetsType.Name,
+          t.assets
+      FROM
+          PUB_CODE_AssetsType
+          LEFT JOIN ( SELECT FK_AssetsType, assets FROM T_BAS_Assets WHERE YEAR = #{year} ) t ON PUB_CODE_AssetsType.code= t.FK_AssetsType
+  </select>
+
+  <!--
+      author:chengzq
+      description: 获取逐年的净利情况
+      param:
+      date: 2020/11/12 17:03
+  -->
+  <select id="getAssretsInfos" resultType="map">
+    SELECT
+        year,
+        Assets
+    FROM
+        T_BAS_Assets
+    WHERE
+        FK_AssetsType = 3
+    ORDER BY
+    YEAR
+  </select>
+
+    <!--
+        author:chengzq
+        description: 获取主导产业聚集度信息
+        param:
+        date: 2020/11/16 09:57
+    -->
+  <select id="getPrimeIndustryAssretsInfos" resultType="map">
+      SELECT
+        year,
+        PrimeIndustryAsset,
+        Assets
+      FROM
+        T_BAS_Assets
+      WHERE
+        FK_AssetsType = 4
+      ORDER BY
+      YEAR
+  </select>
+</mapper>

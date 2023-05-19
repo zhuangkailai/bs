@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.EntExecuteReportMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.EntExecuteReportVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="ReportType" jdbcType="VARCHAR" property="reporttype" />
+    <result column="ReportName" jdbcType="VARCHAR" property="reportname" />
+    <result column="ReportTime" jdbcType="TIMESTAMP" property="reporttime" />
+    <result column="FK_FileId" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, ReportType, ReportName, ReportTime, FK_FileId, UpdateUser, 
+    UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_EntExecuteReport
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_EntExecuteReport
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.EntExecuteReportVO">
+    insert into T_GJ_EntExecuteReport (PK_ID, FK_PollutionID, ReportType, 
+      ReportName, ReportTime, FK_FileId, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{reporttype,jdbcType=VARCHAR}, 
+      #{reportname,jdbcType=VARCHAR}, #{reporttime,jdbcType=TIMESTAMP}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntExecuteReportVO">
+    insert into T_GJ_EntExecuteReport
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="reporttype != null">
+        ReportType,
+      </if>
+      <if test="reportname != null">
+        ReportName,
+      </if>
+      <if test="reporttime != null">
+        ReportTime,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileId,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null">
+        #{reporttype,jdbcType=VARCHAR},
+      </if>
+      <if test="reportname != null">
+        #{reportname,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null">
+        #{reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.EntExecuteReportVO">
+    update T_GJ_EntExecuteReport
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null">
+        ReportType = #{reporttype,jdbcType=VARCHAR},
+      </if>
+      <if test="reportname != null">
+        ReportName = #{reportname,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null">
+        ReportTime = #{reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileId = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.EntExecuteReportVO">
+    update T_GJ_EntExecuteReport
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      ReportType = #{reporttype,jdbcType=VARCHAR},
+      ReportName = #{reportname,jdbcType=VARCHAR},
+      ReportTime = #{reporttime,jdbcType=TIMESTAMP},
+      FK_FileId = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+      pk_id,
+      fk_pollutionid,
+      reporttype,
+      reportname,
+      fk_fileid,
+      convert ( varchar ( 10 ), reporttime, 120 ) reporttime,
+      convert ( varchar ( 19 ), UpdateTime, 120 ) updateTime
+    from
+      t_gj_entexecutereport
+    <where>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and FK_PollutionID = #{pollutionid}
+      </if>
+      <if test="reporttype!=null and reporttype!='' ">
+        and reporttype = #{reporttype}
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),reporttime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),reporttime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="reportname!=null and reportname!='' ">
+        and reportname like concat('%', #{reportname},'%')
+      </if>
+      <if test="reporttypes!=null and reporttypes.size>0">
+        and reporttype in
+        <foreach collection="reporttypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by reporttime DESC
+  </select>
+
+  <select id="countExecuteReportData" parameterType="map" resultType="map">
+    SELECT COUNT
+    ( DISTINCT t2.FK_PollutionID ) tjnum,
+    COUNT ( DISTINCT t1.PK_PollutionID ) totalnum
+    FROM
+    T_BAS_Pollution t1
+    LEFT JOIN T_GJ_EntExecuteReport t2 ON t2.FK_PollutionID = t1.PK_PollutionID
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t2.reporttime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t2.reporttime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+
+  </select>
+
+
+
+
+  <!--获取企业最新执行报告信息 lip 2022/10/18 9:07 -->
+  <select id="getEntLastExecuteDataByParamMap" parameterType="map" resultType="map">
+    select
+    t.pk_pollutionid,
+    t.pollutionname,
+    t4.name industrytypename,
+    t5.name regionname,
+    convert ( varchar ( 10 ), t1.reporttime, 120 ) uploadtime,
+    t1.reporttype
+    from
+    t_bas_pollution t
+    left join pub_code_industrytype t4 on t4.code = t.fk_industrytype
+    left join pub_code_region t5 on t5.code = t.fk_region
+    left join (
+      SELECT
+      t.fk_pollutionid,
+      MAX ( t.reporttime ) reporttime,
+      MAX ( t.reporttype ) reporttype
+      FROM
+      t_gj_entexecutereport t
+      GROUP BY
+      t.fk_pollutionid
+    ) t1 on t.pk_pollutionid = t1.fk_pollutionid
+
+    <where>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.reporttime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !='' ">
+        and CONVERT (VARCHAR (10),t1.reporttime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="nostarttime != null and nostarttime !=''">
+        AND (CONVERT (VARCHAR (10),t1.reporttime,120) <![CDATA[<]]> #{nostarttime} or t1.reporttime is null )
+      </if>
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and t.pollutionname like concat('%', #{pollutionname},'%')
+      </if>
+    </where>
+    order  by  t1.reporttime desc
+  </select>
+
+</mapper>

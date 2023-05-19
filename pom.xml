@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.example</groupId>
+  <artifactId>bs</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Quick Start Archetype</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+
+<!--以上代码是一个 Maven 项目的 POM (Project Object Model) 文件，用于配置 Maven 项目。以下是每个元素的具体功能：
+
+<modelVersion>：指定 POM 模型的版本，这里是 4.0.0。
+<groupId>：标识项目所属的组织或公司，这里是 "org.example"。
+<artifactId>：项目或模块的名称，这里是 "bs"。
+<packaging>：指定项目生成的构建产物类型，这里是 JAR 文件。
+<version>：指定项目的版本号，这里是 1.0-SNAPSHOT。
+<name>：项目的可读名称，这里是 "Maven Quick Start Archetype"。
+<url>：项目主页或文档的 URL，这里是 "http://maven.apache.org"。
+<dependencies>：列出项目所需的依赖项，这里只有一个依赖项：JUnit 版本为 3.8.1，用于测试。<scope> 元素指定这个依赖项只在构建的 "test" 阶段中需要使用。-->
+

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.RolesMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.RolesVO">
+        <id column="Roles_ID" jdbcType="NVARCHAR" property="rolesId"/>
+        <result column="ParentId" jdbcType="NVARCHAR" property="parentId"/>
+        <result column="Roles_Name" jdbcType="NVARCHAR" property="rolesName"/>
+        <result column="Role_Restriction" jdbcType="NVARCHAR" property="roleRestriction"/>
+        <result column="Roles_Remark" jdbcType="NVARCHAR" property="rolesRemark"/>
+        <result column="AllowEdit" jdbcType="INTEGER" property="allowEdit"/>
+        <result column="AllowDelete" jdbcType="INTEGER" property="allowDelete"/>
+        <result column="SortCode" jdbcType="INTEGER" property="sortCode"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark"/>
+        <result column="CreateDate" jdbcType="DATE" property="createDate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifyDate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Roles_ID, ParentId, Roles_Name, Role_Restriction, Roles_Remark, AllowEdit, AllowDelete, 
+    SortCode, DeleteMark, CreateDate, CreateUserId, CreateUserName, ModifyDate, ModifyUserId, 
+    ModifyUserName
+  </sql>
+
+    <!--
+      author: zzc
+      date: 2018/7/17 11:41
+      Description: 删除顶级角色权限
+      param:
+      return:
+     -->
+    <delete id="deleteTopRoleAuth" parameterType="java.lang.String">
+      DELETE FROM Base_RoleRight WHERE Roles_ID = #{topRoleId}
+    </delete>
+
+    <!--
+ * @author: zhangzc
+ * @date: 2018/6/2 19:18
+ * @Description: 根据角色ID集合获取角色拥有的功能权限
+ * @updateUser:
+ * @updateDate:
+ * @updateDescription:
+ -->
+    <select id="getRoleAuthByRoleIDs" resultType="map">
+        SELECT Menu_Id,Button_Id FROM Base_RoleRight
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="roleids != null and roleids.size > 0">
+                and roles_id in
+                <foreach collection="roleids" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="getRoleAuthByRoleID" resultType="map">
+        SELECT Menu_Id,Button_Id FROM Base_RoleRight
+        WHERE  roles_id = #{roleid}
+    </select>
+
+
+    <!--
+       description: 添加菜单时删除角色权限
+       param:
+       author: ZhangZhangChao
+       date: 2019/1/10 11:01
+   -->
+    <delete id="deleteRoleAuthForAddMenu" parameterType="java.util.List">
+        DELETE FROM Base_RoleRight WHERE Menu_Id IN
+        <foreach collection="menuids" item="menuid" open="(" separator="," close=")">
+            #{menuid}
+        </foreach>
+        AND (Button_Id IS NULL OR Button_Id = '')
+    </delete>
+
+
+    <!--
+        description: 角色权限改变时获取子角色ID
+        param:
+        author: ZhangZhangChao
+        date: 2019/1/10 14:11
+    -->
+    <select id="getSonRoleIDsForChangeParentRoleAuth" parameterType="java.lang.String" resultType="java.lang.String">
+     WITH temp_menu (
+        Roles_ID,
+        ParentId
+    ) AS (
+        SELECT
+            Roles_ID,
+            ParentId
+        FROM
+            Base_Roles
+        WHERE
+            Roles_ID = #{roleid}
+        UNION ALL
+            SELECT
+                a.Roles_ID,
+                a.ParentId
+            FROM
+                Base_Roles a
+            INNER JOIN temp_menu b ON a.ParentId = b.Roles_ID
+    ) SELECT
+        Roles_ID
+    FROM
+        temp_menu
+    </select>
+
+    <!--
+      author: zzc
+      date: 2018/7/17 11:42
+      Description: 顶级角色赋予所有权限
+      param:
+      return:
+     -->
+
+    <insert id="resetTopRoleAuth" parameterType="java.lang.String">
+    INSERT INTO Base_RoleRight (
+        RoleRight_ID,
+        Roles_ID,
+        Menu_Id,
+        Button_Id
+    ) SELECT
+        NEWID(),
+        #{topRoleId},
+        t2.Menu_Id,
+        t2.Button_ID
+    FROM
+        (
+            SELECT
+                Base_SysMenu.Menu_Id,
+                Base_Button.Button_ID
+            FROM
+                Base_SysMenu,
+                Base_MenuButton,
+                Base_Button
+            WHERE
+                Base_SysMenu.Menu_Id = Base_MenuButton.Menu_Id
+            AND Base_Button.Button_ID = Base_MenuButton.Button_Id
+            UNION
+                SELECT
+                    Base_SysMenu.Menu_Id,
+                    NULL AS Button_ID
+                FROM
+                    Base_SysMenu
+        ) t2
+    </insert>
+
+    <!--
+      author: zhangzc
+      date: 2018/6/21 13:59
+      Description: 获取角色列表信息
+      param:
+      return:
+     -->
+    <select id="getRoleTreeData" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_Roles
+        WHERE DeleteMark!=1 OR DeleteMark IS NULL
+        order by SortCode
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_Roles
+        where Roles_ID = #{rolesId,jdbcType=NVARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_Roles
+    where Roles_ID = #{rolesId,jdbcType=NVARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.auth.model.system.RolesVO">
+    insert into Base_Roles (Roles_ID, ParentId, Roles_Name, 
+      Role_Restriction, Roles_Remark, AllowEdit, 
+      AllowDelete, SortCode, DeleteMark, 
+      CreateDate, CreateUserId, CreateUserName, 
+      ModifyDate, ModifyUserId, ModifyUserName
+      )
+    values (#{rolesId,jdbcType=NVARCHAR}, #{parentId,jdbcType=NVARCHAR}, #{rolesName,jdbcType=NVARCHAR}, 
+      #{roleRestriction,jdbcType=NVARCHAR}, #{rolesRemark,jdbcType=NVARCHAR}, #{allowEdit,jdbcType=INTEGER}, 
+      #{allowDelete,jdbcType=INTEGER}, #{sortCode,jdbcType=INTEGER}, #{deleteMark,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=DATE}, #{createUserId,jdbcType=NVARCHAR}, #{createUserName,jdbcType=NVARCHAR}, 
+      #{modifyDate,jdbcType=DATE}, #{modifyUserId,jdbcType=NVARCHAR}, #{modifyUserName,jdbcType=NVARCHAR}
+      )
+  </insert>
+
+
+    <!--
+        description: 获取顶级角色
+        param:
+        author: ZhangZhangChao
+        date: 2019/1/10 10:48
+    -->
+    <select id="getTopRoleVO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_Roles
+        WHERE
+        (
+        Roles_ID = ParentId or (
+        ParentId IS NULL
+        OR ParentId = ''
+        )
+        )
+    </select>
+
+
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.RolesVO">
+        insert into Base_Roles
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rolesId != null">
+                Roles_ID,
+            </if>
+            <if test="parentId != null">
+                ParentId,
+            </if>
+            <if test="rolesName != null">
+                Roles_Name,
+            </if>
+            <if test="roleRestriction != null">
+                Role_Restriction,
+            </if>
+            <if test="rolesRemark != null">
+                Roles_Remark,
+            </if>
+            <if test="allowEdit != null">
+                AllowEdit,
+            </if>
+            <if test="allowDelete != null">
+                AllowDelete,
+            </if>
+            <if test="sortCode != null">
+                SortCode,
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark,
+            </if>
+            <if test="createDate != null">
+                CreateDate,
+            </if>
+            <if test="createUserId != null">
+                CreateUserId,
+            </if>
+            <if test="createUserName != null">
+                CreateUserName,
+            </if>
+            <if test="modifyDate != null">
+                ModifyDate,
+            </if>
+            <if test="modifyUserId != null">
+                ModifyUserId,
+            </if>
+            <if test="modifyUserName != null">
+                ModifyUserName,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rolesId != null">
+                #{rolesId,jdbcType=NVARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=NVARCHAR},
+            </if>
+            <if test="rolesName != null">
+                #{rolesName,jdbcType=NVARCHAR},
+            </if>
+            <if test="roleRestriction != null">
+                #{roleRestriction,jdbcType=NVARCHAR},
+            </if>
+            <if test="rolesRemark != null">
+                #{rolesRemark,jdbcType=NVARCHAR},
+            </if>
+            <if test="allowEdit != null">
+                #{allowEdit,jdbcType=INTEGER},
+            </if>
+            <if test="allowDelete != null">
+                #{allowDelete,jdbcType=INTEGER},
+            </if>
+            <if test="sortCode != null">
+                #{sortCode,jdbcType=INTEGER},
+            </if>
+            <if test="deleteMark != null">
+                #{deleteMark,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate,jdbcType=DATE},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                #{modifyUserName,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.RolesVO">
+        update Base_Roles
+        <set>
+            <if test="parentId != null">
+                ParentId = #{parentId,jdbcType=NVARCHAR},
+            </if>
+            <if test="rolesName != null">
+                Roles_Name = #{rolesName,jdbcType=NVARCHAR},
+            </if>
+            <if test="roleRestriction != null">
+                Role_Restriction = #{roleRestriction,jdbcType=NVARCHAR},
+            </if>
+            <if test="rolesRemark != null">
+                Roles_Remark = #{rolesRemark,jdbcType=NVARCHAR},
+            </if>
+            <if test="allowEdit != null">
+                AllowEdit = #{allowEdit,jdbcType=INTEGER},
+            </if>
+            <if test="allowDelete != null">
+                AllowDelete = #{allowDelete,jdbcType=INTEGER},
+            </if>
+            <if test="sortCode != null">
+                SortCode = #{sortCode,jdbcType=INTEGER},
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark = #{deleteMark,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                CreateDate = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="createUserId != null">
+                CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="createUserName != null">
+                CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                ModifyDate = #{modifyDate,jdbcType=DATE},
+            </if>
+            <if test="modifyUserId != null">
+                ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where Roles_ID = #{rolesId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.RolesVO">
+    update Base_Roles
+    set ParentId = #{parentId,jdbcType=NVARCHAR},
+      Roles_Name = #{rolesName,jdbcType=NVARCHAR},
+      Role_Restriction = #{roleRestriction,jdbcType=NVARCHAR},
+      Roles_Remark = #{rolesRemark,jdbcType=NVARCHAR},
+      AllowEdit = #{allowEdit,jdbcType=INTEGER},
+      AllowDelete = #{allowDelete,jdbcType=INTEGER},
+      SortCode = #{sortCode,jdbcType=INTEGER},
+      DeleteMark = #{deleteMark,jdbcType=INTEGER},
+      CreateDate = #{createDate,jdbcType=DATE},
+      CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+      CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+      ModifyDate = #{modifyDate,jdbcType=DATE},
+      ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+      ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR}
+    where Roles_ID = #{rolesId,jdbcType=NVARCHAR}
+  </update>
+    <!--根据菜单id查询是否有权限chengzq -->
+    <select id="getAuthByMenuId" parameterType="string" resultType="map">
+      SELECT * FROM Base_RoleRight where Menu_Id=#{menuid} and roles_id=#{rolesid} and Button_Id is null;
+    </select>
+    <!--查询所有角色父菜单下拥有权限的子菜单chengzq -->
+    <select id="getAllAuthByParentId" resultType="map" parameterType="string">
+        select * from Base_RoleRight where Menu_Id in(SELECT Menu_Id FROM Base_SysMenu where ParentId=#{parentid}) and Button_Id is null and roles_id=#{rolesid} ORDER BY Roles_ID;
+    </select>
+
+    <!--通过角色和菜单删除权限 -->
+    <delete id="deleteByRoleAndMenu" parameterType="map">
+        delete  from Base_RoleRight where roles_id=#{rolesid}
+        <if test="menuid!=null and menuid.size>0">
+            and menu_id in
+            <foreach collection="menuid" separator="," close=")" item="item" open="(">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <insert id="insertRolesRight" parameterType="map">
+      insert into Base_RoleRight (RoleRight_ID,Roles_ID,Menu_Id)  values (NEWID(),#{rolesid},#{menuid})
+    </insert>
+    <!--获取所有角色 -->
+    <select id="getAllRole" resultType="map">
+        SELECT Roles_ID FROM [dbo].[Base_Roles] GROUP BY Roles_ID
+    </select>
+</mapper>

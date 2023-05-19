@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entemissioncontribution.EntEmissionContributionMapper">
+    <resultMap id="BaseResultMap" type="map">
+        <id column="PK_ID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="FK_PollutionId" property="fkpollutionid" jdbcType="VARCHAR"/>
+        <result column="PK_PollutionID" property="pkpollutionid" jdbcType="VARCHAR"/>
+        <result column="PollutionName" property="pollutionname" jdbcType="VARCHAR"/>
+        <result column="ShorterName" property="shortername" jdbcType="VARCHAR"/>
+        <result column="ContributionRatio" property="contributionratio" jdbcType="DOUBLE"/>
+        <result column="FK_PollutantCodes" property="fkpollutantcodes" jdbcType="VARCHAR"/>
+        <result column="pollutantname" property="pollutantname" jdbcType="VARCHAR"/>
+        <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    T_BAS_EntEmissionContribution.PK_ID,
+    T_BAS_EntEmissionContribution.FK_PollutionId,
+    case when T_BAS_EntEmissionContribution.ContributionRatio is null then 0 else T_BAS_EntEmissionContribution.ContributionRatio end ContributionRatio,
+    T_BAS_EntEmissionContribution.FK_PollutantCodes,
+    stuff((
+    select distinct '、'+PUB_CODE_PollutantFactor.Name from PUB_CODE_PollutantFactor
+    where charindex(','+PUB_CODE_PollutantFactor.Code+',',','+T_BAS_EntEmissionContribution.fk_PollutantCodes+',')>0
+    and PUB_CODE_PollutantFactor.PollutantType in(2,22)
+    for xml path('')),1,1,'') as pollutantname,
+    T_BAS_EntEmissionContribution.UpdateUser,
+    convert(varchar(19),T_BAS_EntEmissionContribution.UpdateTime,120)UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_BAS_EntEmissionContribution
+        where PK_ID = #{pkid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntEmissionContribution
+    where PK_ID = #{pkid}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.entemissioncontribution.EntEmissionContributionVO">
+    insert into T_BAS_EntEmissionContribution
+    (PK_ID,
+    FK_PollutionId,
+    ContributionRatio,
+    FK_PollutantCodes,
+    UpdateUser,
+    UpdateTime
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkpollutionid,jdbcType=VARCHAR},
+    #{contributionratio,jdbcType=DOUBLE},
+    #{fkpollutantcodes,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.entemissioncontribution.EntEmissionContributionVO">
+    update T_BAS_EntEmissionContribution
+    set
+    FK_PollutionId=#{fkpollutionid,jdbcType=VARCHAR},
+    ContributionRatio=#{contributionratio,jdbcType=DOUBLE},
+    FK_PollutantCodes=#{fkpollutantcodes,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+    <!--
+       author:chengzq
+       description: 通过自定义参数获取企业排放贡献信息
+       param:
+       date: 2021/05/10 18:05
+   -->
+    <select id="getEntEmissionContributionByParamMap" parameterType="map" resultMap="BaseResultMap">
+        select
+        <if test="pagesize!=null and pagesize!='' ">
+            TOP ${pagesize}
+        </if>
+        *
+        FROM
+        (SELECT distinct ROW_NUMBER() OVER (ORDER BY tt.pk_id) AS RowNumber,tt.*
+        FROM
+        (
+        select
+        PollutionName,
+        ShorterName,
+        PK_PollutionID,
+        <include refid="Base_Column_List"/>
+        from T_BAS_EntEmissionContribution
+        left
+        join T_BAS_Pollution on T_BAS_EntEmissionContribution.FK_PollutionId=PK_PollutionID
+        ) as tt
+        <where>
+            <if test="pkid!=null and pkid!='' ">
+                AND tt.PK_ID = #{pkid}
+            </if>
+            <if test="pollutionname!=null and pollutionname!='' ">
+                AND PollutionName like concat('%',#{pollutionname},'%')
+            </if>
+            <if test="pollutantname!=null and pollutantname!='' ">
+                AND pollutantname like concat('%',#{pollutantname},'%')
+            </if>
+        </where>
+        ) as A
+        <if test="pagesize!=null and pagesize!='' ">
+            WHERE RowNumber > ${(pagenum-1)*pagesize}
+        </if>
+        order by ContributionRatio desc
+    </select>
+
+
+    <select id="countEntEmissionContributionByParamMap" parameterType="map" resultType="int">
+        select
+          count(0) count
+        from (
+            select
+              *
+            from (
+                select
+                PollutionName,
+                ShorterName,
+                PK_PollutionID,
+                <include refid="Base_Column_List"/>
+                from T_BAS_EntEmissionContribution
+                left join T_BAS_Pollution on T_BAS_EntEmissionContribution.FK_PollutionId=PK_PollutionID
+            )t
+            <where>
+                <if test="pkid!=null and pkid!='' ">
+                    AND T_BAS_EntEmissionContribution.PK_ID = #{pkid}
+                </if>
+                <if test="pollutionname!=null and pollutionname!='' ">
+                    AND PollutionName like concat('%',#{pollutionname},'%')
+                </if>
+                <if test="pollutantname!=null and pollutantname!='' ">
+                    AND pollutantname like concat('%',#{pollutantname},'%')
+                </if>
+            </where>
+        )t
+    </select>
+
+    <select id="getEntEmissionContributionInfoByParamMap" parameterType="map" resultMap="BaseResultMap">
+        select
+        PollutionName,
+        ShorterName,
+        PK_PollutionID,
+        <include refid="Base_Column_List"/>
+        from T_BAS_EntEmissionContribution
+        right join T_BAS_Pollution on T_BAS_EntEmissionContribution.FK_PollutionId=PK_PollutionID
+        <where>
+            <if test="eventtime!=null and eventtime!=''">
+                and  PK_PollutionID not in(
+                    SELECT
+                    FK_Pollutionid
+                    FROM
+                    ( SELECT FK_Pollutionid, StartTime, CASE WHEN RecoveryProductionTime IS NULL THEN EndTime ELSE RecoveryProductionTime END EndTime FROM T_BAS_StopProductionInfo ) t
+                    WHERE
+                    CONVERT ( VARCHAR ( 19 ), #{eventtime}, 120 ) >= CONVERT ( VARCHAR ( 19 ), StartTime, 120 )
+                    AND CONVERT ( VARCHAR ( 19 ), #{eventtime}, 120 ) <![CDATA[<=]]> CONVERT ( VARCHAR ( 19 ), EndTime, 120 )
+                )
+            </if>
+            <if test="pkid!=null and pkid!='' ">
+                AND T_BAS_EntEmissionContribution.PK_ID = #{pkid}
+            </if>
+            <if test="fkpollutionids!=null and fkpollutionids.size>0">
+                AND PK_PollutionID in
+                <foreach collection="fkpollutionids" item="item" separator="," close=")" open="(">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

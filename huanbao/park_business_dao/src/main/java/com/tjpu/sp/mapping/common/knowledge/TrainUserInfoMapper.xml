@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.knowledge.TrainUserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.knowledge.TrainUserInfoVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_TrainId" jdbcType="VARCHAR" property="fkTrainid" />
+    <result column="FK_UserId" jdbcType="VARCHAR" property="fkUserid" />
+    <result column="StudyTime" jdbcType="TIMESTAMP" property="studytime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_TrainId, FK_UserId, StudyTime, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_TrainUserInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_TrainUserInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.common.knowledge.TrainUserInfoVO">
+    insert into T_BAS_TrainUserInfo (PK_ID, FK_TrainId, FK_UserId, 
+      StudyTime, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkTrainid,jdbcType=VARCHAR}, #{fkUserid,jdbcType=VARCHAR}, 
+      #{studytime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.knowledge.TrainUserInfoVO">
+    insert into T_BAS_TrainUserInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkTrainid != null">
+        FK_TrainId,
+      </if>
+      <if test="fkUserid != null">
+        FK_UserId,
+      </if>
+      <if test="studytime != null">
+        StudyTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTrainid != null">
+        #{fkTrainid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUserid != null">
+        #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="studytime != null">
+        #{studytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.knowledge.TrainUserInfoVO">
+    update T_BAS_TrainUserInfo
+    <set>
+      <if test="fkTrainid != null">
+        FK_TrainId = #{fkTrainid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkUserid != null">
+        FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="studytime != null">
+        StudyTime = #{studytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.knowledge.TrainUserInfoVO">
+    update T_BAS_TrainUserInfo
+    set FK_TrainId = #{fkTrainid,jdbcType=VARCHAR},
+      FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+      StudyTime = #{studytime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

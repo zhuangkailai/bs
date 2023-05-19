@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.petitionlettercomplaint.PetitionLetterComplaintMapper">
+    <resultMap id="BaseResultMap"
+               type="com.tjpu.sp.model.environmentalprotection.petitionlettercomplaint.PetitionLetterComplaintVO">
+        <id column="PK_PetitionId" jdbcType="VARCHAR" property="pkPetitionid"/>
+        <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid"/>
+        <result column="PetitionCode" jdbcType="VARCHAR" property="petitioncode"/>
+        <result column="PetitionTime" jdbcType="VARCHAR" property="petitiontime"/>
+        <result column="PersonName" jdbcType="VARCHAR" property="personname"/>
+        <result column="Persontel" jdbcType="VARCHAR" property="persontel"/>
+        <result column="EventTitle" jdbcType="VARCHAR" property="eventtitle"/>
+        <result column="FK_PetitionKindCode" jdbcType="VARCHAR" property="fkPetitionkindcode"/>
+        <result column="FK_EnerLvlCode" jdbcType="VARCHAR" property="fkEnerlvlcode"/>
+        <result column="PetitionObject" jdbcType="VARCHAR" property="petitionobject"/>
+        <result column="Address" jdbcType="VARCHAR" property="address"/>
+        <result column="Description" jdbcType="VARCHAR" property="description"/>
+        <result column="NoteTime" jdbcType="VARCHAR" property="notetime"/>
+        <result column="NotePersionName" jdbcType="VARCHAR" property="notepersionname"/>
+        <result column="NoteUnit" jdbcType="VARCHAR" property="noteunit"/>
+        <result column="TransactUnit" jdbcType="VARCHAR" property="transactunit"/>
+        <result column="TransactPersion" jdbcType="VARCHAR" property="transactpersion"/>
+        <result column="FK_PetitionType" jdbcType="VARCHAR" property="fkPetitiontype"/>
+        <result column="FK_RegionCode" jdbcType="VARCHAR" property="fkRegioncode"/>
+        <result column="Latitude" jdbcType="DOUBLE" property="latitude"/>
+        <result column="Longitude" jdbcType="DOUBLE" property="longitude"/>
+        <result column="Status" jdbcType="VARCHAR" property="status"/>
+        <result column="ReplyTime" jdbcType="VARCHAR" property="replytime"/>
+        <result column="ReplyResult" jdbcType="VARCHAR" property="replyresult"/>
+        <result column="Remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+        <result column="UpdateTime" jdbcType="VARCHAR" property="updatetime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_PetitionId, FK_PollutionID, PetitionCode, PetitionTime, PersonName, Persontel, EventTitle,
+    FK_PetitionKindCode, FK_EnerLvlCode, PetitionObject, Address, Description, NoteTime, 
+    NotePersionName, NoteUnit, TransactUnit, TransactPersion, FK_PetitionType, FK_RegionCode, 
+    Latitude, Longitude, Status, ReplyTime, ReplyResult, Remark, UpdateUser,UpdateTime
+  </sql>
+    <sql id="Base_Column_ListTwo">
+    PK_PetitionId, FK_PollutionID, PetitionCode, convert(varchar(20),T_XFTS_PetitionInfo.PetitionTime,120) PetitionTime, PersonName, Persontel, EventTitle,
+    FK_PetitionKindCode, FK_EnerLvlCode, PetitionObject, Address, Description, convert(varchar(10),T_XFTS_PetitionInfo.NoteTime,120) NoteTime,
+    NotePersionName, NoteUnit, TransactUnit, TransactPersion, FK_PetitionType, FK_RegionCode,
+    Latitude, Longitude, Status, convert(varchar(10),T_XFTS_PetitionInfo.ReplyTime,120) ReplyTime, ReplyResult, Remark,UpdateUser,convert(varchar(20),T_XFTS_PetitionInfo.UpdateTime,120) UpdateTime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_ListTwo"/>
+        from T_XFTS_PetitionInfo
+        where PK_PetitionId = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_XFTS_PetitionInfo
+    where PK_PetitionId = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert"
+            parameterType="com.tjpu.sp.model.environmentalprotection.petitionlettercomplaint.PetitionLetterComplaintVO">
+    insert into T_XFTS_PetitionInfo (PK_PetitionId, FK_PollutionID, PetitionCode,
+      PetitionTime, PersonName, Persontel, 
+      EventTitle, FK_PetitionKindCode, FK_EnerLvlCode, 
+      PetitionObject, Address, Description, 
+      NoteTime, NotePersionName, NoteUnit, 
+      TransactUnit, TransactPersion, FK_PetitionType, 
+      FK_RegionCode, Latitude, Longitude, 
+      Status, ReplyTime, ReplyResult, 
+      Remark,UpdateUser, UpdateTime)
+    values (#{pkPetitionid,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{petitioncode,jdbcType=VARCHAR},
+      #{petitiontime,jdbcType=VARCHAR}, #{personname,jdbcType=VARCHAR}, #{persontel,jdbcType=VARCHAR},
+      #{eventtitle,jdbcType=VARCHAR}, #{fkPetitionkindcode,jdbcType=VARCHAR}, #{fkEnerlvlcode,jdbcType=VARCHAR}, 
+      #{petitionobject,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{notetime,jdbcType=VARCHAR}, #{notepersionname,jdbcType=VARCHAR}, #{noteunit,jdbcType=VARCHAR},
+      #{transactunit,jdbcType=VARCHAR}, #{transactpersion,jdbcType=VARCHAR}, #{fkPetitiontype,jdbcType=VARCHAR}, 
+      #{fkRegioncode,jdbcType=VARCHAR}, #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, 
+      #{status,jdbcType=VARCHAR}, #{replytime,jdbcType=VARCHAR}, #{replyresult,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},#{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.petitionlettercomplaint.PetitionLetterComplaintVO">
+        insert into T_XFTS_PetitionInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkPetitionid != null">
+                PK_PetitionId,
+            </if>
+            <if test="fkPollutionid != null">
+                FK_PollutionID,
+            </if>
+            <if test="petitioncode != null">
+                PetitionCode,
+            </if>
+            <if test="petitiontime != null">
+                PetitionTime,
+            </if>
+            <if test="personname != null">
+                PersonName,
+            </if>
+            <if test="persontel != null">
+                Persontel,
+            </if>
+            <if test="eventtitle != null">
+                EventTitle,
+            </if>
+            <if test="fkPetitionkindcode != null">
+                FK_PetitionKindCode,
+            </if>
+            <if test="fkEnerlvlcode != null">
+                FK_EnerLvlCode,
+            </if>
+            <if test="petitionobject != null">
+                PetitionObject,
+            </if>
+            <if test="address != null">
+                Address,
+            </if>
+            <if test="description != null">
+                Description,
+            </if>
+            <if test="notetime != null">
+                NoteTime,
+            </if>
+            <if test="notepersionname != null">
+                NotePersionName,
+            </if>
+            <if test="noteunit != null">
+                NoteUnit,
+            </if>
+            <if test="transactunit != null">
+                TransactUnit,
+            </if>
+            <if test="transactpersion != null">
+                TransactPersion,
+            </if>
+            <if test="fkPetitiontype != null">
+                FK_PetitionType,
+            </if>
+            <if test="fkRegioncode != null">
+                FK_RegionCode,
+            </if>
+            <if test="latitude != null">
+                Latitude,
+            </if>
+            <if test="longitude != null">
+                Longitude,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="replytime != null">
+                ReplyTime,
+            </if>
+            <if test="replyresult != null">
+                ReplyResult,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkPetitionid != null">
+                #{pkPetitionid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPollutionid != null">
+                #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="petitioncode != null">
+                #{petitioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="petitiontime != null">
+                #{petitiontime,jdbcType=VARCHAR},
+            </if>
+            <if test="personname != null">
+                #{personname,jdbcType=VARCHAR},
+            </if>
+            <if test="persontel != null">
+                #{persontel,jdbcType=VARCHAR},
+            </if>
+            <if test="eventtitle != null">
+                #{eventtitle,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPetitionkindcode != null">
+                #{fkPetitionkindcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkEnerlvlcode != null">
+                #{fkEnerlvlcode,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionobject != null">
+                #{petitionobject,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="notetime != null">
+                #{notetime,jdbcType=VARCHAR},
+            </if>
+            <if test="notepersionname != null">
+                #{notepersionname,jdbcType=VARCHAR},
+            </if>
+            <if test="noteunit != null">
+                #{noteunit,jdbcType=VARCHAR},
+            </if>
+            <if test="transactunit != null">
+                #{transactunit,jdbcType=VARCHAR},
+            </if>
+            <if test="transactpersion != null">
+                #{transactpersion,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPetitiontype != null">
+                #{fkPetitiontype,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRegioncode != null">
+                #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="replytime != null">
+                #{replytime,jdbcType=VARCHAR},
+            </if>
+            <if test="replyresult != null">
+                #{replyresult,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.tjpu.sp.model.environmentalprotection.petitionlettercomplaint.PetitionLetterComplaintVO">
+        update T_XFTS_PetitionInfo
+        <set>
+            <if test="fkPollutionid != null">
+                FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+            </if>
+            <if test="petitioncode != null">
+                PetitionCode = #{petitioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="petitiontime != null">
+                PetitionTime = #{petitiontime,jdbcType=VARCHAR},
+            </if>
+            <if test="personname != null">
+                PersonName = #{personname,jdbcType=VARCHAR},
+            </if>
+            <if test="persontel != null">
+                Persontel = #{persontel,jdbcType=VARCHAR},
+            </if>
+            <if test="eventtitle != null">
+                EventTitle = #{eventtitle,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPetitionkindcode != null">
+                FK_PetitionKindCode = #{fkPetitionkindcode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkEnerlvlcode != null">
+                FK_EnerLvlCode = #{fkEnerlvlcode,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionobject != null">
+                PetitionObject = #{petitionobject,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                Address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                Description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="notetime != null">
+                NoteTime = #{notetime,jdbcType=VARCHAR},
+            </if>
+            <if test="notepersionname != null">
+                NotePersionName = #{notepersionname,jdbcType=VARCHAR},
+            </if>
+            <if test="noteunit != null">
+                NoteUnit = #{noteunit,jdbcType=VARCHAR},
+            </if>
+            <if test="transactunit != null">
+                TransactUnit = #{transactunit,jdbcType=VARCHAR},
+            </if>
+            <if test="transactpersion != null">
+                TransactPersion = #{transactpersion,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPetitiontype != null">
+                FK_PetitionType = #{fkPetitiontype,jdbcType=VARCHAR},
+            </if>
+            <if test="fkRegioncode != null">
+                FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                Latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="longitude != null">
+                Longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="replytime != null">
+                ReplyTime = #{replytime,jdbcType=VARCHAR},
+            </if>
+            <if test="replyresult != null">
+                ReplyResult = #{replyresult,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_PetitionId = #{pkPetitionid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.tjpu.sp.model.environmentalprotection.petitionlettercomplaint.PetitionLetterComplaintVO">
+    update T_XFTS_PetitionInfo
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      PetitionCode = #{petitioncode,jdbcType=VARCHAR},
+      PetitionTime = #{petitiontime,jdbcType=VARCHAR},
+      PersonName = #{personname,jdbcType=VARCHAR},
+      Persontel = #{persontel,jdbcType=VARCHAR},
+      EventTitle = #{eventtitle,jdbcType=VARCHAR},
+      FK_PetitionKindCode = #{fkPetitionkindcode,jdbcType=VARCHAR},
+      FK_EnerLvlCode = #{fkEnerlvlcode,jdbcType=VARCHAR},
+      PetitionObject = #{petitionobject,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      NoteTime = #{notetime,jdbcType=VARCHAR},
+      NotePersionName = #{notepersionname,jdbcType=VARCHAR},
+      NoteUnit = #{noteunit,jdbcType=VARCHAR},
+      TransactUnit = #{transactunit,jdbcType=VARCHAR},
+      TransactPersion = #{transactpersion,jdbcType=VARCHAR},
+      FK_PetitionType = #{fkPetitiontype,jdbcType=VARCHAR},
+      FK_RegionCode = #{fkRegioncode,jdbcType=VARCHAR},
+      Latitude = #{latitude,jdbcType=DOUBLE},
+      Longitude = #{longitude,jdbcType=DOUBLE},
+      Status = #{status,jdbcType=VARCHAR},
+      ReplyTime = #{replytime,jdbcType=VARCHAR},
+      ReplyResult = #{replyresult,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+       UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR}
+    where PK_PetitionId = #{pkPetitionid,jdbcType=VARCHAR}
+  </update>
+
+    <!--
+     author:xsm
+     description: 通过自定义参数获取投诉案件信息
+     param:
+     date: 2019/10/16 17:28
+  -->
+    <select id="getPetitionLetterComplaintsByParamMap" resultType="map" parameterType="map">
+        SELECT
+        PK_PetitionId pkPetitionid,
+        EventTitle eventtitle,
+        PetitionObject petitionobject,
+        convert(varchar(20),T_XFTS_PetitionInfo.PetitionTime,120) petitiontime,
+        PUB_CODE_EnerLvl.Name enerlvlname,
+        PUB_CODE_PetitionKind.Name petitionkindname,
+        PUB_CODE_PetitionType.Name petitiontypename
+        from
+        T_XFTS_PetitionInfo
+        LEFT JOIN PUB_CODE_EnerLvl ON T_XFTS_PetitionInfo.FK_EnerLvlCode = PUB_CODE_EnerLvl.Code
+        LEFT JOIN PUB_CODE_PetitionKind ON T_XFTS_PetitionInfo.FK_PetitionKindCode = PUB_CODE_PetitionKind.Code
+        LEFT JOIN PUB_CODE_PetitionType ON T_XFTS_PetitionInfo.FK_PetitionType = PUB_CODE_PetitionType.Code
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+                and T_XFTS_PetitionInfo.Fk_PollutionID = #{fk_pollutionid}
+            </if>
+            <if test="petitionkindcodes !=null and petitionkindcodes.size>0 ">
+                and T_XFTS_PetitionInfo.FK_PetitionKindCode in
+                <foreach collection="petitionkindcodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="enerlvlcodes !=null and enerlvlcodes.size>0 ">
+                and T_XFTS_PetitionInfo.FK_EnerLvlCode in
+                <foreach collection="enerlvlcodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="petitiontypecodes !=null and petitiontypecodes.size>0 ">
+                and T_XFTS_PetitionInfo.FK_PetitionType in
+                <foreach collection="petitiontypecodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="regioncodes !=null and regioncodes.size>0 ">
+                and T_XFTS_PetitionInfo.FK_RegionCode in
+                <foreach collection="regioncodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by T_XFTS_PetitionInfo.PetitionTime DESC ,T_XFTS_PetitionInfo.EventTitle
+    </select>
+
+    <!--
+       author:xsm
+       description: 通过id查询投诉案件详情
+       param:
+       date: 2019/10/16 18:53
+   -->
+    <select id="getPetitionLetterComplaintDetailByID" resultType="map" parameterType="string">
+     SELECT
+		PK_PetitionId pkid,
+		T_BAS_Pollution.PollutionName,
+		PetitionCode,
+		PersonName,
+		Persontel,
+		EventTitle,
+		PetitionObject,
+		T_XFTS_PetitionInfo.Address,
+		Description,
+        NotePersionName,
+		NoteUnit,
+		TransactUnit,
+		TransactPersion,
+		FK_PetitionType,
+		FK_RegionCode,
+        T_XFTS_PetitionInfo.Latitude,
+		T_XFTS_PetitionInfo.Longitude,
+		Status,
+		ReplyResult,
+		T_XFTS_PetitionInfo.UpdateUser,
+		T_XFTS_PetitionInfo.Remark,
+		convert(varchar(20),T_XFTS_PetitionInfo.PetitionTime,120) PetitionTime,
+		convert(varchar(10),T_XFTS_PetitionInfo.NoteTime,120) NoteTime,
+		convert(varchar(10),T_XFTS_PetitionInfo.ReplyTime,120) ReplyTime,
+		convert(varchar(20),T_XFTS_PetitionInfo.UpdateTime,120) UpdateTime,
+        PUB_CODE_EnerLvl.Name enerlvlname,
+        PUB_CODE_PetitionKind.Name petitionkindname,
+        PUB_CODE_PetitionType.Name petitiontypename
+    from
+    T_XFTS_PetitionInfo
+    LEFT JOIN PUB_CODE_EnerLvl ON T_XFTS_PetitionInfo.FK_EnerLvlCode = PUB_CODE_EnerLvl.Code
+    LEFT JOIN PUB_CODE_PetitionKind ON T_XFTS_PetitionInfo.FK_PetitionKindCode = PUB_CODE_PetitionKind.Code
+    LEFT JOIN PUB_CODE_PetitionType ON T_XFTS_PetitionInfo.FK_PetitionType = PUB_CODE_PetitionType.Code
+   JOIN T_BAS_Pollution ON T_XFTS_PetitionInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where T_XFTS_PetitionInfo.PK_PetitionId = #{pkid}
+  </select>
+    <!--
+       author:liyc
+       description: 通过企业id统计信访投诉信息
+       param:
+       date: 2019/11/05 17:24
+   -->
+    <select id="countLetterComplaintByPollutionId" parameterType="java.lang.String" resultType="map">
+        SELECT
+        t2.Code,
+        t2.Name,
+        t1.FK_PetitionType type,
+        COUNT ( PK_PetitionId ) VALUE
+        FROM
+            T_XFTS_PetitionInfo t1
+            JOIN PUB_CODE_PetitionType t2 ON t1.FK_PetitionType= t2.Code
+            WHERE t1.FK_PollutionID=#{pollutionid}
+            GROUP BY
+            t2.Code,
+            t2.Name,
+            t1.FK_PetitionType
+    </select>
+</mapper>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.report.AnalysisReportDataMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportDataVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="ReportType" jdbcType="NUMERIC" property="reporttype" />
+    <result column="AnalysisReportEndTime" jdbcType="TIMESTAMP" property="analysisreportendtime" />
+    <result column="AnalysisReportStartTime" jdbcType="TIMESTAMP" property="analysisreportstarttime" />
+    <result column="ReportMakeDate" jdbcType="DATE" property="reportmakedate" />
+    <result column="ReportAttributeCode" jdbcType="VARCHAR" property="reportattributecode" />
+    <result column="ReportAttributeValue" jdbcType="VARCHAR" property="reportattributevalue" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, ReportType, AnalysisReportEndTime, AnalysisReportStartTime, ReportMakeDate, 
+    ReportAttributeCode, ReportAttributeValue, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_AnalysisReportData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+    <!--
+     * @author: lip
+     * @date: 2019/8/26 0026 下午 2:43
+     * @Description: 自定义查询条件获取熟悉数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+  <select id="getReportAttributeDataByParam" parameterType="map" resultType="java.util.Map">
+    SELECT DISTINCT
+      t1.reportattributename,t2.reportattributevalue,t1.reportattributecode
+    FROM
+      t_config_analysisreportconfiginfo t1 LEFT JOIN
+      t_bas_analysisreportdata t2 on
+      t1.reportattributecode = t2.reportattributecode
+      and t1.reporttype = t2.reporttype
+
+
+      <if test="reportmakedate != null">
+        and ReportMakeDate = #{reportmakedate}
+      </if>
+      <if test="analysisreportstarttime != null and analysisreportstarttime!=''">
+        and CONVERT (
+        VARCHAR (100),
+        AnalysisReportStartTime,
+        120
+        ) &gt;= #{analysisreportstarttime}
+      </if>
+      <if test="analysisreportendtime != null and analysisreportendtime!=''">
+        and CONVERT (
+        VARCHAR (100),
+        AnalysisReportEndTime,
+        120
+        ) &lt;= #{analysisreportendtime}
+      </if>
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="reporttype != null">
+        and t1.ReportType = #{reporttype}
+      </if>
+    </trim>
+  </select> 
+  
+  <!--统计报告数据 lip 2022/3/14 14:54 -->
+  <select id="countReportDataByParam" parameterType="map" resultType="java.util.Map">
+    select count
+    ( t.pk_id ) countnum,
+    t.reporttype
+    from
+    t_bas_analysisreportdata t
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="year != null">
+        and  convert ( varchar ( 4 ), t.reportmakedate, 120 ) = #{year}
+      </if>
+    </trim>
+    <if test="reporttypes!=null and reporttypes.size>0">
+        and t.reporttype in
+      <foreach collection="reporttypes" separator="," close=")" open="(" item="item">
+        #{item}
+      </foreach>
+
+    </if>
+    group by t.reporttype
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_AnalysisReportData
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <!--
+   * @author: lip
+   * @date: 2019/8/26 0026 下午 4:23
+   * @Description: 批量插入数据
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_AnalysisReportData
+    (  PK_ID, ReportType, AnalysisReportEndTime, AnalysisReportStartTime, ReportMakeDate,
+    ReportAttributeCode, ReportAttributeValue, UpdateTime, UpdateUser
+    )
+    values
+    <foreach collection="list" item="items" index="index" separator=",">
+      (
+      #{items.pkId},
+      #{items.reporttype},
+      #{items.analysisreportendtime},
+      #{items.analysisreportstarttime},
+      #{items.reportmakedate},
+      #{items.reportattributecode},
+      #{items.reportattributevalue},
+      #{items.updatetime},
+      #{items.updateuser}
+      )
+    </foreach>
+  </insert>
+    <!--
+     * @author: lip
+     * @date: 2019/8/26 0026 下午 2:43
+     * @Description: 自定义查询条件删除数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <delete id="deleteReportAttributeDataByParam" parameterType="map">
+        delete from T_BAS_AnalysisReportData
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="reporttype != null">
+                and ReportType = #{reporttype}
+            </if>
+            <if test="reportmakedate != null">
+                and ReportMakeDate = #{reportmakedate}
+            </if>
+            <if test="analysisreportstarttime != null and analysisreportstarttime!=''">
+                and CONVERT (
+                VARCHAR (100),
+                AnalysisReportStartTime,
+                120
+                ) &gt;= #{analysisreportstarttime}
+            </if>
+            <if test="analysisreportendtime != null and analysisreportendtime!=''">
+                and CONVERT (
+                VARCHAR (100),
+                AnalysisReportEndTime,
+                120
+                ) &lt;= #{analysisreportendtime}
+            </if>
+
+        </trim>
+  </delete>
+
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportDataVO">
+    insert into T_BAS_AnalysisReportData (PK_ID, ReportType, AnalysisReportEndTime, 
+      AnalysisReportStartTime, ReportMakeDate, 
+      ReportAttributeCode, ReportAttributeValue, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{reporttype,jdbcType=NUMERIC}, #{analysisreportendtime,jdbcType=TIMESTAMP}, 
+      #{analysisreportstarttime,jdbcType=TIMESTAMP}, #{reportmakedate,jdbcType=DATE}, 
+      #{reportattributecode,jdbcType=VARCHAR}, #{reportattributevalue,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportDataVO">
+    insert into T_BAS_AnalysisReportData
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="reporttype != null">
+        ReportType,
+      </if>
+      <if test="analysisreportendtime != null">
+        AnalysisReportEndTime,
+      </if>
+      <if test="analysisreportstarttime != null">
+        AnalysisReportStartTime,
+      </if>
+      <if test="reportmakedate != null">
+        ReportMakeDate,
+      </if>
+      <if test="reportattributecode != null">
+        ReportAttributeCode,
+      </if>
+      <if test="reportattributevalue != null">
+        ReportAttributeValue,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null">
+        #{reporttype,jdbcType=NUMERIC},
+      </if>
+      <if test="analysisreportendtime != null">
+        #{analysisreportendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="analysisreportstarttime != null">
+        #{analysisreportstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportmakedate != null">
+        #{reportmakedate,jdbcType=DATE},
+      </if>
+      <if test="reportattributecode != null">
+        #{reportattributecode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportattributevalue != null">
+        #{reportattributevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportDataVO">
+    update T_BAS_AnalysisReportData
+    <set>
+      <if test="reporttype != null">
+        ReportType = #{reporttype,jdbcType=NUMERIC},
+      </if>
+      <if test="analysisreportendtime != null">
+        AnalysisReportEndTime = #{analysisreportendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="analysisreportstarttime != null">
+        AnalysisReportStartTime = #{analysisreportstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportmakedate != null">
+        ReportMakeDate = #{reportmakedate,jdbcType=DATE},
+      </if>
+      <if test="reportattributecode != null">
+        ReportAttributeCode = #{reportattributecode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportattributevalue != null">
+        ReportAttributeValue = #{reportattributevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.report.AnalysisReportDataVO">
+    update T_BAS_AnalysisReportData
+    set ReportType = #{reporttype,jdbcType=NUMERIC},
+      AnalysisReportEndTime = #{analysisreportendtime,jdbcType=TIMESTAMP},
+      AnalysisReportStartTime = #{analysisreportstarttime,jdbcType=TIMESTAMP},
+      ReportMakeDate = #{reportmakedate,jdbcType=DATE},
+      ReportAttributeCode = #{reportattributecode,jdbcType=VARCHAR},
+      ReportAttributeValue = #{reportattributevalue,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

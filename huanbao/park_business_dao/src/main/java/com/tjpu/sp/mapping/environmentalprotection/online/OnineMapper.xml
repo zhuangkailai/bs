@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.online.OnlineMapper">
+
+
+    <!--
+      author:zzc
+      description: 根据监测点类型获取监测点信息以及污染物信息
+      param:
+      date: 2019/8/12 15:44
+    -->
+    <select id="getOutPutsAndPollutantsByParam" resultType="java.util.Map">
+        <if test="monitorpointtype ==1">
+            SELECT DISTINCT
+            T_BAS_WaterOutputInfo.DGIMN,
+            T_BAS_WaterOutputInfo.PK_ID,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_WaterOutputInfo
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_WaterOutputInfo.PK_ID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            AND (
+            T_BAS_WaterOutputInfo.OutPutType != 3
+            OR T_BAS_WaterOutputInfo.OutPutType IS NULL
+            )
+            LEFT JOIN T_BAS_WaterOutPutPollutantSet ON T_BAS_WaterOutPutPollutantSet.FK_PollutionID =
+            T_BAS_WaterOutputInfo.FK_Pollutionid
+            AND T_BAS_WaterOutputInfo.PK_ID = T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_WaterOutPutPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==37">
+            SELECT DISTINCT
+            T_BAS_WaterOutputInfo.DGIMN,
+            T_BAS_WaterOutputInfo.PK_ID,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_WaterOutputInfo
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_WaterOutputInfo.PK_ID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            AND T_BAS_WaterOutputInfo.OutPutType = 3
+            LEFT JOIN T_BAS_WaterOutPutPollutantSet ON T_BAS_WaterOutPutPollutantSet.FK_PollutionID =
+            T_BAS_WaterOutputInfo.FK_Pollutionid
+            AND T_BAS_WaterOutputInfo.PK_ID = T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_WaterOutPutPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==2 or monitorpointtype == 22">
+            SELECT DISTINCT
+            T_BAS_GasOutputInfo.DGIMN,
+            T_BAS_GasOutputInfo.PK_ID,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_GasOutputInfo
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_GasOutputInfo.PK_ID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_GasOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID =
+            T_BAS_GasOutputInfo.FK_Pollutionid
+            AND T_BAS_GasOutputInfo.PK_ID = T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+                AND T_BAS_GasOutputInfo.FK_MonitorPointTypeCode = #{monitorpointtype}
+            </trim>
+        </if>
+        <if test="monitorpointtype ==41 or monitorpointtype ==40">
+            SELECT DISTINCT
+            T_BAS_UnorganizedMonitorPointInfo.PK_ID,
+            T_BAS_UnorganizedMonitorPointInfo.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_UnorganizedMonitorPointInfo
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_UnorganizedMonitorPointInfo.PK_ID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID =
+            T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+            AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+            AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            <trim prefix="where" prefixOverrides="AND|OR">
+                AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = #{monitorpointtype}
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==9 or monitorpointtype ==10 or monitorpointtype ==33  or monitorpointtype ==12">
+            SELECT DISTINCT
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID PK_ID,
+            T_BAS_OtherMonitorPoint.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_OtherMonitorPoint
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==52">
+            SELECT DISTINCT
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID PK_ID,
+            T_BAS_OtherMonitorPoint.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            CASE  WHEN  T_BAS_DeviceStatus.Status in(2,3) THEN 1 ELSE T_BAS_DeviceStatus.Status END Status
+            FROM
+            T_BAS_OtherMonitorPoint
+            JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==5">
+            SELECT DISTINCT
+            T_BAS_AirMonitorStation.PK_AirID PK_ID,
+            T_BAS_AirMonitorStation.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_AirMonitorStation
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_AirMonitorStation.PK_AirID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_AirMonitorStation.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_AirStationPollutantSet ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+            T_BAS_AirMonitorStation.PK_AirID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_AirStationPollutantSet.FK_PollutantCode
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==6">
+            SELECT DISTINCT
+            T_BAS_WaterStationInfo.PK_WaterStationID PK_ID,
+            T_BAS_WaterStationInfo.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_WaterStationInfo
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_BAS_WaterStationInfo.PK_WaterStationID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_BAS_WaterStationInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+            T_BAS_WaterStationInfo.PK_WaterStationID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_WaterStationPollutantSet.FK_PollutantCode
+            AND T_BAS_DeviceStatus.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==30">
+            SELECT DISTINCT
+            T_AQ_StorageTankInfo.PK_ID,
+            T_AQ_StorageTankInfo.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_AQ_StorageTankInfo
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_AQ_StorageTankInfo.PK_ID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_AQ_StorageTankInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_AQ_StorageTankSet ON T_AQ_StorageTankInfo.PK_ID = T_AQ_StorageTankSet.FK_StorageTankID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_AQ_StorageTankSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==57">
+            SELECT DISTINCT
+            T_AQ_HazardSourceProductDevice.PK_ID,
+            T_AQ_HazardSourceProductDevice.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_AQ_HazardSourceProductDevice
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_AQ_HazardSourceProductDevice.PK_ID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_AQ_HazardSourceProductDevice.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_AQ_ProductDevicePollutantSet ON T_AQ_HazardSourceProductDevice.PK_ID = T_AQ_ProductDevicePollutantSet.FK_ProductDeviceID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_AQ_ProductDevicePollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+        </if>
+        <if test="monitorpointtype ==54 or monitorpointtype ==55 or monitorpointtype ==56">
+            SELECT DISTINCT
+            T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID PK_ID,
+            T_AQ_RiskAreaMonitorPoint.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_AQ_RiskAreaMonitorPoint
+            <if test="datauserid != null and datauserid !=''">
+                JOIN (
+                SELECT
+                FK_MonitorPointID
+                FROM
+                T_BAS_UserMonitorPointRelationData
+                WHERE
+                T_BAS_UserMonitorPointRelationData.FK_UserID = #{datauserid}
+                and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+                GROUP BY
+                FK_MonitorPointID
+                ) relation ON T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID = relation.FK_MonitorPointID
+            </if>
+            JOIN T_BAS_DeviceStatus ON T_AQ_RiskAreaMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            left JOIN T_AQ_RiskArea on T_AQ_RiskArea.PK_ID=T_AQ_RiskAreaMonitorPoint.FK_RiskAreaID
+            LEFT JOIN T_AQ_RiskAreaMonitorPointPollutantSet ON T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID = T_AQ_RiskAreaMonitorPointPollutantSet.FK_RiskAreaMonintID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code = T_AQ_RiskAreaMonitorPointPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+                <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                    AND T_AQ_RiskAreaMonitorPoint.FK_MonitorPointTypeCode = #{monitorpointtype}
+                </if>
+            </trim>
+        </if>
+    </select>
+
+
+
+    <select id="getStinkPointStateAndPollutantsByParam" resultType="java.util.Map">
+            SELECT DISTINCT
+            T_BAS_UnorganizedMonitorPointInfo.PK_ID,
+            T_BAS_UnorganizedMonitorPointInfo.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_UnorganizedMonitorPointInfo
+            JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID =
+            T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+            AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+            AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            and PUB_CODE_PollutantFactor.PollutantType = #{entmonitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = #{entmonitorpointtype}
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+            union
+            SELECT DISTINCT
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID PK_ID,
+            T_BAS_OtherMonitorPoint.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_DeviceStatus.Status
+            FROM
+            T_BAS_OtherMonitorPoint
+            JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+            AND T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = T_BAS_DeviceStatus.FK_MonitorPointTypeCode
+            AND T_BAS_DeviceStatus.Status IS NOT NULL
+            LEFT JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+            T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+            AND PUB_CODE_PollutantFactor.IsUsed = 1
+            AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+            <trim prefix="where" prefixOverrides="AND|OR">
+                AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+                <if test="pollutantcode!=null and pollutantcode!='' ">
+                    AND PUB_CODE_PollutantFactor.Code = #{pollutantcode}
+                </if>
+            </trim>
+
+    </select>
+
+
+    <select id="getGasMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_GASOutPutInfo.PK_ID pointid,
+        T_BAS_GASOutPutInfo.OutPutName AS PointName,
+        T_BAS_GASOutPutInfo.DGIMN
+        FROM
+        T_BAS_GASOutPutInfo
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            From T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_GASOutPutInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID =
+        T_BAS_GasOutputInfo.FK_Pollutionid
+        AND T_BAS_GasOutputInfo.PK_ID = T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+        WHERE
+        T_BAS_GASOutPutInfo.DGIMN IS NOT NULL
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!=''">
+            and T_BAS_GASOutPutInfo.PK_ID =#{monitorpointid}
+        </if>
+        and T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode = #{monitorpointtype}
+    </select>
+
+
+    <select id="getOutPutsAndPollutantAlarmSetByParam" resultType="java.util.Map">
+       SELECT
+            DISTINCT
+            t1.fk_wateroutputid gasoutputid,
+            t4.code pollutantcode,
+            t4.name pollutantname,
+            t4.orderindex,
+            t1.standardmaxvalue,
+            t1.standardminvalue,
+            t6.concenalarmmaxvalue,
+            t6.concenalarmminvalue
+        FROM
+            T_BAS_waterOutPutPollutantSet t1
+        INNER JOIN T_BAS_Pollution t2 ON t1.FK_PollutionID = t2.PK_PollutionID
+        INNER JOIN T_BAS_waterOutputInfo t3 ON t1.FK_waterOutPutID = t3.PK_ID and (t3.outputtype ='3' )
+        INNER JOIN PUB_CODE_PollutantFactor t4 ON t1.FK_PollutantCode = t4.Code
+        AND t4.isused = '1'
+        AND t4.PollutantType = '37'
+        LEFT JOIN T_BAS_EarlyWarningSet t6 ON t6.FK_OutPutID = t1.FK_waterOutPutID
+        AND t6.FK_PollutionID = t1.FK_PollutionID
+        AND t6.FK_PollutantCode = t1.FK_PollutantCode
+        LEFT JOIN PUB_CODE_AlarmLevel t7 ON t7.Code = t6.FK_AlarmLevelCode and t7.Code = '0'
+
+        ORDER BY
+            t4.orderindex
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/10/30 0030 下午 5:01
+     * @Description: 定义查询条件获取设备状态表数据
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getDeviceStatusDataByParam" resultType="java.util.Map">
+        select
+        t_bas_devicestatus.pk_id,
+        t_bas_devicestatus.dgimn,
+        t_bas_devicestatus.fk_monitorpointtypecode,
+        t_bas_devicestatus.status
+        from
+            t_bas_devicestatus
+        <if test="userid!=null and userid!='' ">
+        JOIN (SELECT
+            case when  T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (1,37) then T_BAS_WaterOutputInfo.dgimn
+            when T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (2,22) then T_BAS_GASOutPutInfo.dgimn
+            when T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (40,41) then T_BAS_UnorganizedMonitorPointInfo.dgimn
+            when T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (9,10,33,12) then T_BAS_OtherMonitorPoint.dgimn
+            when T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (5) then T_BAS_AirMonitorStation.dgimn
+            when T_BAS_UserMonitorPointRelationData.FK_MonitorPointType in (6) then T_BAS_WaterStationInfo.dgimn end dgimn
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            LEFT JOIN T_BAS_GASOutPutInfo on T_BAS_UserMonitorPointRelationData.FK_MonitorPointID=T_BAS_GASOutPutInfo.PK_ID
+            LEFT JOIN T_BAS_WaterOutputInfo on T_BAS_UserMonitorPointRelationData.FK_MonitorPointID=T_BAS_WaterOutputInfo.PK_ID
+            LEFT JOIN T_BAS_UnorganizedMonitorPointInfo on T_BAS_UserMonitorPointRelationData.FK_MonitorPointID=T_BAS_UnorganizedMonitorPointInfo.PK_ID
+            LEFT JOIN T_BAS_OtherMonitorPoint on T_BAS_UserMonitorPointRelationData.FK_MonitorPointID=T_BAS_OtherMonitorPoint.PK_MonitorPointID
+            LEFT JOIN T_BAS_WaterStationInfo on T_BAS_UserMonitorPointRelationData.FK_MonitorPointID=T_BAS_WaterStationInfo.PK_WaterStationID
+            LEFT JOIN T_BAS_AirMonitorStation on T_BAS_UserMonitorPointRelationData.FK_MonitorPointID=T_BAS_AirMonitorStation.PK_AirID
+            LEFT JOIN Base_UserInfo on T_BAS_UserMonitorPointRelationData.FK_UserID=Base_UserInfo.User_ID
+            WHERE T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            ) relation ON t_bas_devicestatus. dgimn = relation.dgimn
+        </if>
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t_bas_devicestatus.dgimn is not null
+            and t_bas_devicestatus.fk_monitorpointtypecode is not null
+            <if test="monitorpointtypes!=null and monitorpointtypes.size>0">
+                and t_bas_devicestatus.fk_monitorpointtypecode in
+                <foreach collection="monitorpointtypes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+
+    </select>
+
+
+    <!--
+    * @author: lip
+    * @date: 2019/10/30 0030 下午 5:01
+    * @Description: 自定义查询条件获取rtsp数据
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+    <select id="getMonitorPointRTSPDataByParam" resultType="java.util.Map">
+        select
+            t1.fk_monitorpointoroutputid as monitorpointid,
+            t1.rtsp,
+            t1.PK_VedioCameraID as id,
+            t1.VedioManufactor vediomanufactor,
+            t1.VedioCameraName as name
+        from
+          t_bas_videocamera t1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.fk_monitorpointoroutputid is not null
+            <if test="monitorpointtypes!=null and monitorpointtypes.size>0">
+                and t1.fk_monitorpointtypecode in
+                <foreach collection="monitorpointtypes" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getAirMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_AirMonitorStation.PK_AirID AS ID,
+        T_BAS_AirMonitorStation.PK_AirID AS pointid,
+        T_BAS_AirMonitorStation.DGIMN,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_AirMonitorStation.MonitorPointName AS EntName
+        FROM
+        T_BAS_AirMonitorStation
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_AirMonitorStation.PK_AirID = relation.FK_MonitorPointID
+        </if>
+        LEFT JOIN T_BAS_AirStationPollutantSet ON T_BAS_AirStationPollutantSet.FK_AirMonintPointID =
+        T_BAS_AirMonitorStation.PK_AirID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_AirStationPollutantSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+        WHERE
+        T_BAS_AirMonitorStation.DGIMN IS NOT NULL
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_AirMonitorStation.PK_AirID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_BAS_AirMonitorStation.PK_AirID = #{monitorpointid}
+        </if>
+    </select>
+
+    <!--
+      author:zzc
+      description: 废水
+      param:
+      date: 2019/8/21 13:10
+    -->
+    <select id="getWaterMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_WaterOutputInfo.PK_ID pointid,
+        T_BAS_WaterOutputInfo.OutPutName AS PointName,
+        T_BAS_WaterOutputInfo.DGIMN
+        FROM
+        T_BAS_WaterOutputInfo
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_WaterOutputInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_WaterOutPutPollutantSet ON T_BAS_WaterOutPutPollutantSet.FK_PollutionID =
+        T_BAS_Pollution.PK_PollutionID
+        AND T_BAS_WaterOutputInfo.PK_ID = T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_WaterOutPutPollutantSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+        WHERE
+        T_BAS_WaterOutputInfo.DGIMN IS NOT NULL
+        AND (
+        T_BAS_WaterOutputInfo.OutPutType != 3
+        OR T_BAS_WaterOutputInfo.OutPutType IS NULL
+        )
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!=''">
+            and T_BAS_WaterOutputInfo.PK_ID =#{monitorpointid}
+        </if>
+    </select>
+
+    <!--
+      author:zzc
+      description: 雨水
+      param:
+      date: 2019/8/21 13:10
+    -->
+    <select id="getRainMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_WaterOutputInfo.PK_ID pointid,
+        T_BAS_WaterOutputInfo.OutPutName AS PointName,
+        T_BAS_WaterOutputInfo.DGIMN
+        FROM
+        T_BAS_WaterOutputInfo
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_WaterOutputInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_WaterOutPutPollutantSet ON T_BAS_WaterOutPutPollutantSet.FK_PollutionID =
+        T_BAS_Pollution.PK_PollutionID
+        AND T_BAS_WaterOutputInfo.PK_ID = T_BAS_WaterOutPutPollutantSet.FK_WaterOutPutID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_WaterOutPutPollutantSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = #{monitorpointtype}
+        WHERE
+        T_BAS_WaterOutputInfo.DGIMN IS NOT NULL
+        AND T_BAS_WaterOutputInfo.OutPutType = 3
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!=''">
+            and T_BAS_WaterOutputInfo.PK_ID =#{monitorpointid}
+        </if>
+    </select>
+    <select id="getStinkMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID AS ID,
+        T_BAS_OtherMonitorPoint.DGIMN,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID AS pointid,
+        T_BAS_OtherMonitorPoint.MonitorPointName AS EntName
+        FROM
+        T_BAS_OtherMonitorPoint
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation.FK_MonitorPointID
+        </if>
+        LEFT JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+        WHERE
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = #{monitorpointtype}
+        AND T_BAS_OtherMonitorPoint.DGIMN IS NOT NULL
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_OtherMonitorPoint.PK_MonitorPointID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_BAS_OtherMonitorPoint.PK_MonitorPointID = #{monitorpointid}
+        </if>
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/11/15 0015 上午 9:15
+     * @Description:
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getWaterStationMNSByParam" resultType="java.util.Map">
+        SELECT
+            T_BAS_WaterStationInfo.PK_WaterStationID AS ID,
+            T_BAS_WaterStationInfo.DGIMN,
+            PUB_CODE_PollutantFactor.Code,
+            PUB_CODE_PollutantFactor.Name,
+            T_BAS_WaterStationInfo.PK_WaterStationID AS pointid,
+            T_BAS_WaterStationInfo.MonitorPointName AS EntName
+        FROM
+            T_BAS_WaterStationInfo
+        <if test="userid != null and userid!=''">
+            join (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            AND T_BAS_UserMonitorPointRelationData.FK_MonitorPointType = 6
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON  T_BAS_WaterStationInfo.PK_WaterStationID = relation.FK_MonitorPointID
+        </if>
+            LEFT JOIN T_BAS_WaterStationPollutantSet ON T_BAS_WaterStationPollutantSet.FK_WaterPointID =
+            T_BAS_WaterStationInfo.PK_WaterStationID
+            LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+            T_BAS_WaterStationPollutantSet.FK_PollutantCode
+            AND PUB_CODE_PollutantFactor.PollutantType = '6'
+        WHERE
+        T_BAS_WaterStationInfo.DGIMN IS NOT NULL
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_BAS_WaterStationInfo.PK_WaterStationID = #{monitorpointid}
+        </if>
+    </select>
+
+
+
+    <select id="getVOCMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID AS ID,
+        T_BAS_OtherMonitorPoint.DGIMN,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID AS pointid,
+        T_BAS_OtherMonitorPoint.MonitorPointName AS EntName
+        FROM
+        T_BAS_OtherMonitorPoint
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_OtherMonitorPoint.PK_MonitorPointID = relation.FK_MonitorPointID
+        </if>
+        LEFT JOIN T_BAS_OtherMonitorPointPollutantSet ON T_BAS_OtherMonitorPointPollutantSet.FK_OtherMonintPointID =
+        T_BAS_OtherMonitorPoint.PK_MonitorPointID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_OtherMonitorPointPollutantSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode
+        WHERE
+        T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = #{monitorpointtype}
+        AND T_BAS_OtherMonitorPoint.DGIMN IS NOT NULL
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_OtherMonitorPoint.PK_MonitorPointID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_BAS_OtherMonitorPoint.PK_MonitorPointID = #{monitorpointid}
+        </if>
+    </select>
+
+
+
+
+
+
+
+    <select id="getFactorySmallStationMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID AS pointid,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName AS PointName,
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_UnorganizedMonitorPointInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID =
+        T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+        AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN IS NOT NULL
+        AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = #{monitorpointtype}
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = #{monitorpointid}
+        </if>
+    </select>
+
+    <select id="getFactoryStinkMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_BAS_UnorganizedMonitorPointInfo.PK_ID AS pointid,
+        T_BAS_UnorganizedMonitorPointInfo.MonitorPointName AS PointName,
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_BAS_UnorganizedMonitorPointInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_BAS_GasOutPutPollutantSet ON T_BAS_GasOutPutPollutantSet.FK_PollutionID =
+        T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_BAS_GasOutPutPollutantSet.FK_GasOutPutID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_BAS_GasOutPutPollutantSet.FK_PollutantCode
+        AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        T_BAS_UnorganizedMonitorPointInfo.DGIMN IS NOT NULL
+        AND T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = #{monitorpointtype}
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = #{monitorpointid}
+        </if>
+    </select>
+
+    <!--
+      author:zzc
+      description: 获取气象相关监测点mn号
+      param:
+      date: 2019/8/27 16:45
+    -->
+    <select id="getMnForWeatherByParam" resultType="java.util.Map">
+        <if test="monitorPointType == 40 or monitorPointType == 41">
+            SELECT
+            T_BAS_UnorganizedMonitorPointInfo.MonitorPointName,
+            T_BAS_UnorganizedMonitorPointInfo.DGIMN,
+            case when len(T_BAS_AirMonitorStation.DGIMN)>0 then  T_BAS_AirMonitorStation.DGIMN else T_BAS_UnorganizedMonitorPointInfo.DGIMN end MN
+            FROM
+            T_BAS_UnorganizedMonitorPointInfo
+            LEFT JOIN T_BAS_WeatherDataRelationInfo ON T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =
+            T_BAS_WeatherDataRelationInfo.FK_MonitorPointType
+            AND T_BAS_UnorganizedMonitorPointInfo.PK_ID = T_BAS_WeatherDataRelationInfo.FK_OtherStationID
+            LEFT JOIN T_BAS_AirMonitorStation ON T_BAS_WeatherDataRelationInfo.FK_AirStationID =
+            T_BAS_AirMonitorStation.PK_AirID
+            WHERE
+            T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode = #{monitorPointType}
+        </if>
+        <if test="monitorPointType == 9 or  monitorPointType == 33  or monitorPointType == 12">
+            SELECT
+            T_BAS_OtherMonitorPoint.MonitorPointName,
+            T_BAS_OtherMonitorPoint.DGIMN,
+            case when len(T_BAS_AirMonitorStation.DGIMN)>0 then  T_BAS_AirMonitorStation.DGIMN else T_BAS_OtherMonitorPoint.DGIMN end MN
+            FROM
+            T_BAS_OtherMonitorPoint
+            LEFT JOIN T_BAS_WeatherDataRelationInfo ON T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =
+            T_BAS_WeatherDataRelationInfo.FK_MonitorPointType
+            AND T_BAS_OtherMonitorPoint.PK_MonitorPointID = T_BAS_WeatherDataRelationInfo.FK_OtherStationID
+            LEFT JOIN T_BAS_AirMonitorStation ON T_BAS_WeatherDataRelationInfo.FK_AirStationID =
+            T_BAS_AirMonitorStation.PK_AirID
+            WHERE
+            T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode = #{monitorPointType}
+        </if>
+
+    </select>
+
+    <!-- author:xsm description: 获取企业下排口的MN号和恶臭点位Mn号  date: 2019/07/16 13:20-->
+    <select id="getPollutionOutputMnAndStinkMonitorPointMn" parameterType="map"  resultType="map">
+      SELECT   tt.Pollutionid, tt.PollutionName, tt.DGIMN, tt.outputname, tt.outputid, tt.type, tt.typename FROM (
+        SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_GASOutPutInfo.OutPutName
+        outputname,T_BAS_GASOutPutInfo.PK_ID outputid,'2' type,'gas' typename,2 FK_MonitorPointType
+        FROM
+        T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,'1' type,'water' typename,1 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+        UNION ALL
+        SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_WaterOutputInfo.OutputName
+        outputname,T_BAS_WaterOutputInfo.PK_ID outputid,'37' type,'rain' typename,37 FK_MonitorPointType
+        FROM
+        T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_WaterOutputInfo.OutPutType =3
+        UNION ALL
+        SELECT T_BAS_UnorganizedMonitorPointInfo.FK_Pollutionid
+        Pollutionid,T_BAS_Pollution.PollutionName,T_BAS_DeviceStatus.DGIMN,T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+        outputname,T_BAS_UnorganizedMonitorPointInfo.PK_ID outputid,'40' type,'stink' typename,40 FK_MonitorPointType
+        FROM
+        T_BAS_UnorganizedMonitorPointInfo JOIN T_BAS_DeviceStatus ON T_BAS_UnorganizedMonitorPointInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+        JOIN T_BAS_Pollution ON T_BAS_UnorganizedMonitorPointInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+        WHERE T_BAS_UnorganizedMonitorPointInfo.FK_MonitorPointTypeCode =40
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,
+        T_BAS_DeviceStatus.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName
+        outputname,T_BAS_OtherMonitorPoint.PK_MonitorPointID outputid,'9' type,'stink' typename,9 FK_MonitorPointType
+        FROM
+        T_BAS_OtherMonitorPoint JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =9
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,
+        T_BAS_DeviceStatus.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName
+        outputname,T_BAS_OtherMonitorPoint.PK_MonitorPointID outputid,'12' type,'dust' typename,12 FK_MonitorPointType
+        FROM
+        T_BAS_OtherMonitorPoint JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =12
+        UNION ALL
+        SELECT  '' Pollutionid,'' PollutionName,
+        T_BAS_DeviceStatus.DGIMN,T_BAS_OtherMonitorPoint.MonitorPointName
+        outputname,T_BAS_OtherMonitorPoint.PK_MonitorPointID outputid,'33' type,'micro' typename,33 FK_MonitorPointType
+        FROM
+        T_BAS_OtherMonitorPoint JOIN T_BAS_DeviceStatus ON T_BAS_OtherMonitorPoint.DGIMN = T_BAS_DeviceStatus.DGIMN
+        WHERE T_BAS_OtherMonitorPoint.FK_MonitorPointTypeCode =33
+        ) tt
+        <if test="userid!=null and userid!='' ">
+        join   T_BAS_UserMonitorPointRelationData relation ON  tt.outputid = relation.FK_MonitorPointID AND
+        tt.FK_MonitorPointType = relation.FK_MonitorPointType
+            WHERE relation.FK_UserID = #{userid}
+        </if>
+            </select>
+
+    <select id="getSecurityRiskAreaMonitorPointMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_AQ_RiskAreaMonitorPoint.MonitorPointName AS PointName,
+        T_AQ_RiskAreaMonitorPoint.DGIMN
+        FROM
+        T_AQ_RiskAreaMonitorPoint
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  #{monitorpointtype}
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_BAS_Pollution ON T_AQ_RiskAreaMonitorPoint.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_AQ_RiskAreaMonitorPointPollutantSet ON T_AQ_RiskAreaMonitorPointPollutantSet.FK_RiskAreaMonintID =
+        T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_AQ_RiskAreaMonitorPointPollutantSet.FK_PollutantCode
+        AND T_AQ_RiskAreaMonitorPoint.FK_MonitorPointTypeCode = PUB_CODE_PollutantFactor.PollutantType
+        WHERE
+        T_AQ_RiskAreaMonitorPoint.DGIMN IS NOT NULL
+        AND T_AQ_RiskAreaMonitorPoint.FK_MonitorPointTypeCode = #{monitorpointtype}
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_AQ_RiskAreaMonitorPoint.PK_MonitorPointID = #{monitorpointid}
+        </if>
+    </select>
+
+    <select id="getStorageTankAreaMNSByParam" resultType="java.util.Map">
+        SELECT
+        T_BAS_Pollution.PK_PollutionID,
+        T_BAS_Pollution.PK_PollutionID AS ID,
+        T_BAS_Pollution.PollutionName AS EntName,
+        PUB_CODE_PollutantFactor.Code,
+        PUB_CODE_PollutantFactor.Name,
+        T_AQ_StorageTankInfo.StorageTankCode AS PointName,
+        T_AQ_StorageTankInfo.DGIMN
+        FROM
+        T_AQ_StorageTankInfo
+        <if test="userid != null and userid!=''">
+            JOIN (
+            SELECT
+            FK_MonitorPointID
+            FROM
+            T_BAS_UserMonitorPointRelationData
+            WHERE
+            T_BAS_UserMonitorPointRelationData.FK_UserID = #{userid}
+            and T_BAS_UserMonitorPointRelationData.FK_MonitorPointType =  30
+            GROUP BY
+            FK_MonitorPointID
+            ) relation ON T_AQ_StorageTankInfo.PK_ID = relation.FK_MonitorPointID
+        </if>
+        JOIN T_AQ_StorageTankAreaInfo ON T_AQ_StorageTankInfo.FK_StorageTankAreaID = T_AQ_StorageTankAreaInfo.PK_ID
+        JOIN T_BAS_Pollution ON T_AQ_StorageTankAreaInfo.FK_Pollutionid = T_BAS_Pollution.PK_PollutionID
+        LEFT JOIN T_AQ_StorageTankSet ON T_AQ_StorageTankSet.FK_StorageTankID =
+        T_AQ_StorageTankInfo.PK_ID
+        LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.Code =
+        T_AQ_StorageTankSet.FK_PollutantCode
+        AND PUB_CODE_PollutantFactor.PollutantType = 30
+        WHERE
+        T_AQ_StorageTankInfo.DGIMN IS NOT NULL
+        <if test="pollutionid!=null and pollutionid!='' ">
+            AND T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+        </if>
+        <if test="monitorpointid!=null and monitorpointid!='' ">
+            AND T_AQ_StorageTankInfo.PK_ID = #{monitorpointid}
+        </if>
+    </select>
+</mapper>

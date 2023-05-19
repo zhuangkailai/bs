@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.extand.JGUserRegisterInfoMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.sp.model.extand.JGUserRegisterInfoVO">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="RegId" jdbcType="VARCHAR" property="regid"/>
+        <result column="FK_UserId" jdbcType="VARCHAR" property="fkUserid"/>
+        <result column="AppKey" jdbcType="VARCHAR" property="appkey"/>
+        <result column="PackageName" jdbcType="VARCHAR" property="packagename"/>
+        <result column="DeviceId" jdbcType="VARCHAR" property="deviceid"/>
+        <result column="UserCode" jdbcType="VARCHAR" property="usercode"/>
+        <result column="AppType" jdbcType="NUMERIC" property="apptype"/>
+        <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, RegId, FK_UserId, AppKey, PackageName, DeviceId,UserCode,AppType, UpdateTime, UpdateUser
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_JG_UserRegisterInfo
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--
+     * @author: lip
+     * @date: 2019/8/2 0002 下午 2:54
+     * @Description: 自定义查询条件获取用户注册信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getUserRegisterInfoListByParam" parameterType="map" resultType="map">
+        select
+        t1.regid,t1.fk_userid,t1.usercode,apptype
+        from
+        t_jg_userregisterinfo t1,
+        base_userinfo t2
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.fk_userid = t2.user_id
+            and t1.regid is not null
+            <if test="apptype!=null and apptype!='' ">
+                and AppType = #{apptype}
+            </if>
+        </trim>
+    </select>
+    <!--
+     * @author: lip
+     * @date: 2019/8/2 0002 下午 2:54
+     * @Description: 自定义查询条件获取用户注册信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <select id="getEntRegIdList" parameterType="map" resultType="String">
+    SELECT
+    T2.RegId
+    FROM
+    Base_EntUser t1
+    INNER JOIN T_JG_UserRegisterInfo T2 ON t1.User_Id = T2.FK_UserId
+    WHERE T2.RegId is not null and T2.RegId !=''
+    and t1.Ent_Id = #{pollutionid}
+  </select>
+
+    <!--
+     * @author: lip
+     * @date: 2020/3/12 0012 下午 2:14
+     * @Description: 获取微信端用户的备注名称信息
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+
+    <select id="getUserInfoByPushType" parameterType="java.lang.String" resultType="map">
+        select
+        t1.title,t1.User_ID
+        from
+        base_userinfo t1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            t1.title is not null
+            and CHARINDEX(','+#{pushType}+',' , ','+t1.SendPush+',') > 0
+        </trim>
+    </select>
+
+
+    <select id="getUserPushSetList" resultType="map">
+    SELECT
+      t1.user_id,
+      t1.title,
+      t2.FK_AlarmTypeCode as alarmtype
+    FROM
+      base_userinfo t1
+      INNER JOIN base_userpushset t2 ON t1.user_id = t2.fk_userid
+  </select>
+
+    <!--
+    * @author: lip
+    * @date: 2020/3/12 0012 下午 2:14
+    * @Description: 获取微信端用户的备注名称信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+
+    <select id="getWeChartGroupByParam" parameterType="map" resultType="map">
+        select
+        t1.WechatName,t1.AlarmType,t1.pk_id
+        from
+        T_BAS_WechatPushSet t1
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="AlarmTypes!=null and AlarmTypes.size>0 ">
+                and t1.AlarmType in
+                <foreach collection="AlarmTypes" separator="," open="(" close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getUserPushPhoneByParam" parameterType="map" resultType="String">
+        SELECT
+            t1.phone
+        FROM
+          base_userinfo t1 inner JOIN  T_BAS_UserMonitorPointRelationData t2
+          on t2.FK_UserID = t1.User_ID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="SendPush!=null and SendPush!='' ">
+                and CHARINDEX(','+#{SendPush}+',' , ','+t1.SendPush+',') > 0
+            </if>
+            <if test="dgimn!=null and dgimn!='' ">
+                and t2.DGIMN = #{dgimn}
+            </if>
+            and t1.phone is not null
+        </trim>
+    </select>
+
+
+ <select id="getUserPushDataByParam" parameterType="map" resultType="map">
+        SELECT DISTINCT
+            t1.phone,t2.dgimn
+        FROM
+          base_userinfo t1 inner JOIN  T_BAS_UserMonitorPointRelationData t2
+          on t2.FK_UserID = t1.User_ID
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="SendPush!=null and SendPush!='' ">
+                and CHARINDEX(','+#{SendPush}+',' , ','+t1.SendPush+',') > 0
+            </if>
+            <if test="dgimns!=null and dgimns.size()>0 ">
+                and t2.DGIMN in
+                <foreach collection="dgimns" separator="," open="(" close=")" item="item">
+                  #{item}
+                </foreach>
+            </if>
+            and t1.phone is not null
+        </trim>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_JG_UserRegisterInfo
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+    <!--
+     * @author: lip
+     * @date: 2019/8/2 0002 下午 2:39
+     * @Description: 根据用户ID删除记录
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+    -->
+    <delete id="deleteByUserId" parameterType="java.lang.String">
+    delete from T_JG_UserRegisterInfo
+    where FK_UserId = #{userid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.sp.model.extand.JGUserRegisterInfoVO">
+    insert into T_JG_UserRegisterInfo (PK_ID, RegId, FK_UserId, 
+      AppKey, PackageName, DeviceId, UserCode,AppType,UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR},
+      #{regid,jdbcType=VARCHAR},
+      #{fkUserid,jdbcType=VARCHAR},
+      #{appkey,jdbcType=VARCHAR},
+      #{packagename,jdbcType=VARCHAR},
+      #{deviceid,jdbcType=VARCHAR},
+      #{usercode,jdbcType=VARCHAR},
+      #{apptype,jdbcType=NUMERIC},
+      #{updatetime,jdbcType=TIMESTAMP},
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.sp.model.extand.JGUserRegisterInfoVO">
+        insert into T_JG_UserRegisterInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="regid != null">
+                RegId,
+            </if>
+            <if test="fkUserid != null">
+                FK_UserId,
+            </if>
+            <if test="appkey != null">
+                AppKey,
+            </if>
+            <if test="packagename != null">
+                PackageName,
+            </if>
+            <if test="deviceid != null">
+                DeviceId,
+            </if>
+            <if test="usercode != null">
+                UserCode,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="updateuser != null">
+                UpdateUser,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="regid != null">
+                #{regid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkUserid != null">
+                #{fkUserid,jdbcType=VARCHAR},
+            </if>
+            <if test="appkey != null">
+                #{appkey,jdbcType=VARCHAR},
+            </if>
+            <if test="packagename != null">
+                #{packagename,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceid != null">
+                #{deviceid,jdbcType=VARCHAR},
+            </if>
+            <if test="usercode != null">
+                #{UserCode,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.extand.JGUserRegisterInfoVO">
+        update T_JG_UserRegisterInfo
+        <set>
+            <if test="regid != null">
+                RegId = #{regid,jdbcType=VARCHAR},
+            </if>
+            <if test="fkUserid != null">
+                FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+            </if>
+            <if test="appkey != null">
+                AppKey = #{appkey,jdbcType=VARCHAR},
+            </if>
+            <if test="packagename != null">
+                PackageName = #{packagename,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceid != null">
+                DeviceId = #{deviceid,jdbcType=VARCHAR},
+            </if>
+            <if test="usercode != null">
+                UserCode = #{usercode,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null">
+                UpdateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.extand.JGUserRegisterInfoVO">
+    update T_JG_UserRegisterInfo
+    set RegId = #{regid,jdbcType=VARCHAR},
+      FK_UserId = #{fkUserid,jdbcType=VARCHAR},
+      AppKey = #{appkey,jdbcType=VARCHAR},
+      PackageName = #{packagename,jdbcType=VARCHAR},
+      DeviceId = #{deviceid,jdbcType=VARCHAR},
+      UserCode = #{usercode,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

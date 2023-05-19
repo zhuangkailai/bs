@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.security.cjpz.ProgramExecutionLogMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.cjpz.ProgramExecutionLogVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_PollutionID" jdbcType="VARCHAR" property="fkPollutionid" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="Port" jdbcType="NUMERIC" property="port" />
+    <result column="ErrorsTime" jdbcType="TIMESTAMP" property="errorstime" />
+    <result column="ErrorsLog" jdbcType="VARCHAR" property="errorslog" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_PollutionID, IP, Port, ErrorsTime, ErrorsLog, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_CJ_ProgramExecutionLog
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_CJ_ProgramExecutionLog
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.ProgramExecutionLogVO">
+    insert into T_CJ_ProgramExecutionLog (PK_ID, FK_PollutionID, IP, 
+      Port, ErrorsTime, ErrorsLog, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{port,jdbcType=NUMERIC}, #{errorstime,jdbcType=TIMESTAMP}, #{errorslog,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.ProgramExecutionLogVO">
+    insert into T_CJ_ProgramExecutionLog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null">
+        FK_PollutionID,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="port != null">
+        Port,
+      </if>
+      <if test="errorstime != null">
+        ErrorsTime,
+      </if>
+      <if test="errorslog != null">
+        ErrorsLog,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null">
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=NUMERIC},
+      </if>
+      <if test="errorstime != null">
+        #{errorstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errorslog != null">
+        #{errorslog,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.ProgramExecutionLogVO">
+    update T_CJ_ProgramExecutionLog
+    <set>
+      <if test="fkPollutionid != null">
+        FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        Port = #{port,jdbcType=NUMERIC},
+      </if>
+      <if test="errorstime != null">
+        ErrorsTime = #{errorstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errorslog != null">
+        ErrorsLog = #{errorslog,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.cjpz.ProgramExecutionLogVO">
+    update T_CJ_ProgramExecutionLog
+    set FK_PollutionID = #{fkPollutionid,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      Port = #{port,jdbcType=NUMERIC},
+      ErrorsTime = #{errorstime,jdbcType=TIMESTAMP},
+      ErrorsLog = #{errorslog,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <delete id="clearProgramExecutionLogs">
+    delete from T_CJ_ProgramExecutionLog
+  </delete>
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取程序执行日志信息
+    param:
+    date: 2021/01/13 11:14
+-->
+  <select id="getProgramExecutionLogsByParamMap" resultType="map" parameterType="map">
+    SELECT
+    T_CJ_ProgramExecutionLog.PK_ID,
+    T_CJ_ProgramExecutionLog.FK_PollutionID,
+    T_BAS_Pollution.PollutionName,
+    T_CJ_ProgramExecutionLog.IP,
+    T_CJ_ProgramExecutionLog.Port,
+    CONVERT (VARCHAR (20),T_CJ_ProgramExecutionLog.ErrorsTime,120) ErrorsTime,
+    T_CJ_ProgramExecutionLog.ErrorsLog,
+    T_CJ_ProgramExecutionLog.UpdateUser,
+    CONVERT (VARCHAR (20),T_CJ_ProgramExecutionLog.UpdateTime,120) UpdateTime
+    from
+    T_CJ_ProgramExecutionLog
+    JOIN T_BAS_Pollution ON T_CJ_ProgramExecutionLog.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="fk_pollutionid !=null and fk_pollutionid !='' ">
+        and T_CJ_ProgramExecutionLog.Fk_PollutionID = #{fk_pollutionid}
+      </if>
+      <if test="pollutionname !=null and pollutionname !='' ">
+        and T_BAS_Pollution.PollutionName like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="ip !=null and ip !='' ">
+        and T_CJ_ProgramExecutionLog.IP like concat('%',#{ip},'%')
+      </if>
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),T_CJ_ProgramExecutionLog.ErrorsTime,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),T_CJ_ProgramExecutionLog.ErrorsTime,120) <![CDATA[<=]]> #{endtime}
+      </if>
+    </trim>
+    order by T_CJ_ProgramExecutionLog.ErrorsTime desc
+  </select>
+
+
+  <!--
+ author:xsm
+ description: 通过id查询程序执行日志详情
+ param:
+ date: 2021/01/13 11:14
+-->
+  <select id="getProgramExecutionLogDetailByID" resultType="map" parameterType="string">
+    SELECT
+    T_CJ_ProgramExecutionLog.PK_ID,
+    T_CJ_ProgramExecutionLog.FK_PollutionID,
+    T_BAS_Pollution.PollutionName,
+    T_CJ_ProgramExecutionLog.IP,
+    T_CJ_ProgramExecutionLog.Port,
+    CONVERT (VARCHAR (20),T_CJ_ProgramExecutionLog.ErrorsTime,120) ErrorsTime,
+    T_CJ_ProgramExecutionLog.ErrorsLog,
+    T_CJ_ProgramExecutionLog.UpdateUser,
+    CONVERT (VARCHAR (20),T_CJ_ProgramExecutionLog.UpdateTime,120) UpdateTime
+    from
+    T_CJ_ProgramExecutionLog
+    JOIN T_BAS_Pollution ON T_CJ_ProgramExecutionLog.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    where T_CJ_ProgramExecutionLog.PK_ID = #{pkid}
+  </select>
+</mapper>

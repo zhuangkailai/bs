@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.SysMenuMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.SysMenuVO">
+        <id column="Menu_Id" jdbcType="NVARCHAR" property="menuId"/>
+        <result column="ParentId" jdbcType="NVARCHAR" property="parentId"/>
+        <result column="Menu_Name" jdbcType="NVARCHAR" property="menuName"/>
+        <result column="Menu_Title" jdbcType="NVARCHAR" property="menuTitle"/>
+        <result column="Menu_Img" jdbcType="NVARCHAR" property="menuImg"/>
+        <result column="Menu_Type" jdbcType="INTEGER" property="menuType"/>
+        <result column="NavigateUrl" jdbcType="NVARCHAR" property="navigateUrl"/>
+        <result column="Target" jdbcType="NVARCHAR" property="target"/>
+        <result column="AllowEdit" jdbcType="INTEGER" property="allowEdit"/>
+        <result column="AllowDelete" jdbcType="INTEGER" property="allowDelete"/>
+        <result column="SortCode" jdbcType="INTEGER" property="sortCode"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark"/>
+        <result column="CreateDate" jdbcType="DATE" property="createDate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifyDate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName"/>
+        <result column="Menu_Code" jdbcType="NVARCHAR" property="menuCode"/>
+        <!-- 一对多关联菜单按钮信息表 2018-04-03 lip 添加 -->
+        <collection property="buttonVOs" ofType="com.tjpu.auth.model.system.ButtonVO">
+            <id column="Button_ID" jdbcType="NVARCHAR" property="buttonId"/>
+            <result column="Button_Name" jdbcType="NVARCHAR" property="buttonName"/>
+            <result column="Button_Title" jdbcType="NVARCHAR" property="buttonTitle"/>
+            <result column="Button_Img" jdbcType="NVARCHAR" property="buttonImg"/>
+            <result column="Button_Code" jdbcType="NVARCHAR" property="buttonCode"/>
+            <result column="SortCode" jdbcType="INTEGER" property="sortcode"/>
+            <result column="Button_Type" jdbcType="NVARCHAR" property="buttonType"/>
+            <result column="Button_Remak" jdbcType="NVARCHAR" property="buttonRemak"/>
+            <result column="DeleteMark" jdbcType="INTEGER" property="deletemark"/>
+            <result column="CreateDate" jdbcType="DATE" property="createdate"/>
+            <result column="CreateUserId" jdbcType="NVARCHAR" property="createuserid"/>
+            <result column="CreateUserName" jdbcType="NVARCHAR" property="createusername"/>
+            <result column="ModifyDate" jdbcType="DATE" property="modifydate"/>
+            <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyuserid"/>
+            <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyusername"/>
+            <result column="Button_Style" jdbcType="NVARCHAR" property="buttonStyle"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Menu_Id, ParentId, Menu_Name, Menu_Title, Menu_Img, Menu_Type, NavigateUrl, Target, 
+    AllowEdit, AllowDelete, SortCode, DeleteMark, CreateDate, CreateUserId, CreateUserName, 
+    ModifyDate, ModifyUserId, ModifyUserName,Menu_Code
+  </sql>
+
+    <select id="getMenusByAppID" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        base_sysmenu
+        LEFT JOIN (
+        SELECT DISTINCT
+        am.menuid,
+        am.appid
+        FROM
+        base_appmenu am
+        ) t1 ON t1.menuid = base_sysmenu.menu_id
+        WHERE
+        t1.appid = #{appid}
+        ORDER BY
+        base_sysmenu.sortcode
+    </select>
+    <select id="getSonNodesByParentID" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        base_sysmenu
+        WHERE
+        ParentId = #{parentid}
+        ORDER BY SortCode
+    </select>
+
+    <!--
+    description: 批量修改菜单排序
+    param:
+    create: ZhangZhangChao in 2019/1/3 17:03
+    -->
+    <update id="batchUpdateMenuSortCode">
+        <if test="menudatamap.size() == menuids.size()">
+            UPDATE Base_SysMenu
+            SET SortCode = CASE Menu_Id
+            <foreach collection="menudatamap" item="fieldValue" index="fieldName">
+                WHEN #{fieldName} THEN #{fieldValue}
+            </foreach>
+            END
+            WHERE Menu_Id IN
+            <foreach collection="menuids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </update>
+
+
+    <!--
+    * @author: xsm
+    * @date: 2018/7/15 18:41
+    * @Description: 获取用户权限的菜单名称集合。
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+    -->
+    <select id="getMenuNameByMenuid" resultMap="BaseResultMap">
+        SELECT Menu_Id,Menu_Name
+        FROM Base_SysMenu
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="menuidlist != null">
+                menu_id IN
+                <foreach item="item" index="index" collection="menuidlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+
+    <!--&lt;!&ndash;-->
+    <!--* @author: zhangzc-->
+    <!--* @date: 2018/5/23 14:21-->
+    <!--* @Description: 根据用户id和系统id获取用户在此系统中拥有的菜单权限-->
+    <!--* @updateUser:-->
+    <!--* @updateDate:-->
+    <!--* @updateDescription:-->
+    <!--&ndash;&gt;-->
+    <!--<select id="getMenusByUserIdAndAppId" resultMap="BaseResultMap">-->
+    <!--SELECT-->
+    <!--<include refid="Base_Column_List"/>-->
+    <!--FROM-->
+    <!--Base_SysMenu-->
+    <!--JOIN (-->
+    <!--SELECT DISTINCT-->
+    <!--t1.Menu_Id AS mid-->
+    <!--FROM-->
+    <!--(-->
+    <!--SELECT-->
+    <!--ur.Menu_Id-->
+    <!--FROM-->
+    <!--Base_UserRight ur-->
+    <!--WHERE-->
+    <!--ur.user_id = #{userid}-->
+    <!--UNION-->
+    <!--SELECT-->
+    <!--b.Menu_Id-->
+    <!--FROM-->
+    <!--Base_UserRole a-->
+    <!--LEFT JOIN Base_RoleRight b ON a.Roles_ID = b.Roles_ID-->
+    <!--WHERE-->
+    <!--a.user_id = #{userid}-->
+    <!--) t1-->
+    <!--LEFT JOIN Base_AppMenu am ON am.MenuID = t1.Menu_Id-->
+    <!--WHERE-->
+    <!--am.appid = #{appid}-->
+    <!--) t2 ON Base_SysMenu.Menu_Id = t2.mid-->
+    <!--</select>-->
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_SysMenu
+        where menu_id = #{menuid,jdbcType=NVARCHAR}
+    </select>
+
+
+    <select id="getRootMenuByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_SysMenu
+        where ParentId = #{rootCode,jdbcType=NVARCHAR}
+    </select>
+
+    <!--
+    description: 获取所有的菜单信息
+    create: ZhangZhangChao in 2018/9/26 17:25
+    -->
+    <select id="getMenuList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        Base_SysMenu
+        WHERE
+        (
+        Base_SysMenu.deletemark IS NULL
+        OR Base_SysMenu.deletemark != 1
+        )
+        ORDER BY
+        Base_SysMenu.sortcode
+    </select>
+
+    <!--
+ description: 获取所有的菜单信息
+ create: ZhangZhangChao in 2018/9/26 17:25
+ -->
+    <select id="getMenusByMenuType" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        Base_SysMenu
+        WHERE
+        (
+        Base_SysMenu.deletemark IS NULL
+        OR Base_SysMenu.deletemark != 1
+        )
+        AND (
+        Menu_Type != 0
+        OR Menu_Type IS NULL
+        )
+        ORDER BY
+        Base_SysMenu.sortcode
+    </select>
+    <!--
+        description: 获取所有的菜单信息
+        create: ZhangZhangChao in 2018/9/26 17:25
+        -->
+    <select id="getMenuAndButtonList" resultMap="BaseResultMap">
+       SELECT
+        Base_SysMenu.Menu_Id,
+        Base_SysMenu.Menu_Name,
+        Base_SysMenu.Menu_Type,
+        Base_SysMenu.NavigateUrl,
+        Base_SysMenu.ParentId,
+        Base_Button.Button_Code,
+        Base_Button.Button_Name,
+        Base_Button.Button_ID
+        FROM
+            Base_SysMenu
+        LEFT JOIN Base_MenuButton ON Base_MenuButton.Menu_Id = Base_SysMenu.Menu_Id
+        LEFT JOIN Base_Button ON Base_MenuButton.Button_Id = Base_Button.Button_ID
+        WHERE
+            (
+                Base_SysMenu.deletemark IS NULL
+                OR Base_SysMenu.deletemark = 0
+            )
+        AND (
+            Base_Button.deletemark IS NULL
+            OR Base_Button.deletemark != 1
+        )
+        ORDER BY
+            Base_SysMenu.SortCode,
+            Base_Button.SortCode
+    </select>
+
+
+    <select id="getMenuVOByMenuCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_SysMenu
+        where menu_code = #{menucode,jdbcType=NVARCHAR}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_SysMenu
+    where menu_id = #{menuid,jdbcType=NVARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.auth.model.system.SysMenuVO">
+    insert into Base_SysMenu (Menu_Id, ParentId, Menu_Name, 
+      Menu_Title, Menu_Img, Menu_Type, 
+      NavigateUrl, Target, AllowEdit, 
+      AllowDelete, SortCode, DeleteMark, 
+      CreateDate, CreateUserId, CreateUserName, 
+      ModifyDate, ModifyUserId, ModifyUserName,Menu_Code
+      )
+    values (#{menuId,jdbcType=NVARCHAR}, #{parentId,jdbcType=NVARCHAR}, #{menuName,jdbcType=NVARCHAR}, 
+      #{menuTitle,jdbcType=NVARCHAR}, #{menuImg,jdbcType=NVARCHAR}, #{menuType,jdbcType=INTEGER}, 
+      #{navigateUrl,jdbcType=NVARCHAR}, #{target,jdbcType=NVARCHAR}, #{allowEdit,jdbcType=INTEGER}, 
+      #{allowDelete,jdbcType=INTEGER}, #{sortCode,jdbcType=INTEGER}, #{deleteMark,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=DATE}, #{createUserId,jdbcType=NVARCHAR}, #{createUserName,jdbcType=NVARCHAR}, 
+      #{modifyDate,jdbcType=DATE}, #{modifyUserId,jdbcType=NVARCHAR}, #{modifyUserName,jdbcType=NVARCHAR},#{menuCode,jdbcType=NVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.SysMenuVO">
+        insert into Base_SysMenu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                Menu_Id,
+            </if>
+            <if test="parentId != null">
+                ParentId,
+            </if>
+            <if test="menuName != null">
+                Menu_Name,
+            </if>
+            <if test="menuTitle != null">
+                Menu_Title,
+            </if>
+            <if test="menuImg != null">
+                Menu_Img,
+            </if>
+            <if test="menuType != null">
+                Menu_Type,
+            </if>
+            <if test="navigateUrl != null">
+                NavigateUrl,
+            </if>
+            <if test="target != null">
+                Target,
+            </if>
+            <if test="allowEdit != null">
+                AllowEdit,
+            </if>
+            <if test="allowDelete != null">
+                AllowDelete,
+            </if>
+            <if test="sortCode != null">
+                SortCode,
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark,
+            </if>
+            <if test="createDate != null">
+                CreateDate,
+            </if>
+            <if test="createUserId != null">
+                CreateUserId,
+            </if>
+            <if test="createUserName != null">
+                CreateUserName,
+            </if>
+            <if test="modifyDate != null">
+                ModifyDate,
+            </if>
+            <if test="modifyUserId != null">
+                ModifyUserId,
+            </if>
+            <if test="modifyUserName != null">
+                ModifyUserName,
+            </if>
+            <if test="menuCode != null">
+                Menu_Code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                #{menuId,jdbcType=NVARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuName != null">
+                #{menuName,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuTitle != null">
+                #{menuTitle,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuImg != null">
+                #{menuImg,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuType != null">
+                #{menuType,jdbcType=INTEGER},
+            </if>
+            <if test="navigateUrl != null">
+                #{navigateUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="target != null">
+                #{target,jdbcType=NVARCHAR},
+            </if>
+            <if test="allowEdit != null">
+                #{allowEdit,jdbcType=INTEGER},
+            </if>
+            <if test="allowDelete != null">
+                #{allowDelete,jdbcType=INTEGER},
+            </if>
+            <if test="sortCode != null">
+                #{sortCode,jdbcType=INTEGER},
+            </if>
+            <if test="deleteMark != null">
+                #{deleteMark,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate,jdbcType=DATE},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                #{modifyUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuCode != null">
+                #{menuCode,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.SysMenuVO">
+        update Base_SysMenu
+        <set>
+            <if test="parentId != null">
+                ParentId = #{parentId,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuName != null">
+                Menu_Name = #{menuName,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuTitle != null">
+                Menu_Title = #{menuTitle,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuImg != null">
+                Menu_Img = #{menuImg,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuType != null">
+                Menu_Type = #{menuType,jdbcType=INTEGER},
+            </if>
+            <if test="navigateUrl != null">
+                NavigateUrl = #{navigateUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="target != null">
+                Target = #{target,jdbcType=NVARCHAR},
+            </if>
+            <if test="allowEdit != null">
+                AllowEdit = #{allowEdit,jdbcType=INTEGER},
+            </if>
+            <if test="allowDelete != null">
+                AllowDelete = #{allowDelete,jdbcType=INTEGER},
+            </if>
+            <if test="sortCode != null">
+                SortCode = #{sortCode,jdbcType=INTEGER},
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark = #{deleteMark,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                CreateDate = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="createUserId != null">
+                CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="createUserName != null">
+                CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                ModifyDate = #{modifyDate,jdbcType=DATE},
+            </if>
+            <if test="modifyUserId != null">
+                ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR},
+            </if>
+            <if test="menuCode != null">
+                Menu_Code = #{menuCode,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where Menu_Id = #{menuId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.SysMenuVO">
+    update Base_SysMenu
+    set ParentId = #{parentId,jdbcType=NVARCHAR},
+      Menu_Name = #{menuName,jdbcType=NVARCHAR},
+      Menu_Title = #{menuTitle,jdbcType=NVARCHAR},
+      Menu_Img = #{menuImg,jdbcType=NVARCHAR},
+      Menu_Type = #{menuType,jdbcType=INTEGER},
+      NavigateUrl = #{navigateUrl,jdbcType=NVARCHAR},
+      Target = #{target,jdbcType=NVARCHAR},
+      AllowEdit = #{allowEdit,jdbcType=INTEGER},
+      AllowDelete = #{allowDelete,jdbcType=INTEGER},
+      SortCode = #{sortCode,jdbcType=INTEGER},
+      DeleteMark = #{deleteMark,jdbcType=INTEGER},
+      CreateDate = #{createDate,jdbcType=DATE},
+      CreateUserId = #{createUserId,jdbcType=NVARCHAR},
+      CreateUserName = #{createUserName,jdbcType=NVARCHAR},
+      ModifyDate = #{modifyDate,jdbcType=DATE},
+      ModifyUserId = #{modifyUserId,jdbcType=NVARCHAR},
+      ModifyUserName = #{modifyUserName,jdbcType=NVARCHAR},
+      Menu_Code = #{menuCode,jdbcType=NVARCHAR},
+    where Menu_Id = #{menuId,jdbcType=NVARCHAR}
+  </update>
+
+
+    <select id="getMenuIdByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+         SELECT DISTINCT
+                    t2.*
+                FROM
+                    (
+                        SELECT
+                            t2.Menu_Id
+                        FROM
+                            Base_UserInfo t1,
+                            Base_UserRight t2
+                        WHERE
+                            t1.User_ID = t2.User_ID
+                        AND t1.User_ID = #{userId}
+                        UNION
+                            SELECT
+                                t4.Menu_Id
+                            FROM
+                                Base_UserInfo t1,
+                                Base_Roles t2,
+                                Base_UserRole t3,
+                                Base_RoleRight t4
+                            WHERE
+                                t1.User_ID = #{userId}
+                            AND t1.User_ID = t3.User_ID
+                            AND t3.Roles_ID = t2.Roles_ID
+                            AND t4.Roles_ID = t2.Roles_ID
+                    ) t1,
+                    Base_SysMenu t2
+                WHERE
+                    t1.Menu_Id = t2.Menu_Id
+                AND (
+                    t2.DeleteMark IS NULL
+                    OR t2.DeleteMark = 0
+                )
+    </select>
+    <!--通过父菜单查找所有子菜单minuid chengzq -->
+    <select id="getMenuIdsByParentId" resultType="string" parameterType="string">
+        SELECT Menu_Id FROM Base_SysMenu where ParentId=#{parentid}
+    </select>
+
+
+    <select id="getUserAppsByUserId" resultType="string" parameterType="string">
+        select FK_MenuId from T_BAS_UserApp where FK_UserId =#{userid}
+    </select>
+
+    <!--获取所有菜单 -->
+    <select id="getAllMenu" resultType="map">
+        select * from Base_SysMenu
+    </select>
+
+
+    <select id="getTableDataByParam" parameterType="map" resultType="java.util.HashMap">
+        SELECT DISTINCT top 100
+        ${field}
+        FROM
+        ${tablename}
+        <trim prefix="where" prefixOverrides="AND|OR">
+            ${fk_id} = #{fk_value}
+            <if test="whereString !=null and whereString != ''">
+                and ${whereString}
+            </if>
+        </trim>
+
+        <if test="groupString !=null and groupString != ''">
+            group by ${groupString}
+        </if>
+
+
+    </select>
+
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.tracesamplesimilarity.TraceSampleSimilarityMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_TraceSampleId" property="fktracesampleid" jdbcType="VARCHAR" />
+    <result column="FK_FingerPrintId" property="fkfingerprintid" jdbcType="VARCHAR" />
+    <result column="Similarity" property="similarity" jdbcType="DOUBLE" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="CalculatType" property="calculattype" jdbcType="VARCHAR" />
+    <result column="ProportionSimilarity" property="proportionsimilarity" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_TraceSampleSimilarity.PK_ID,
+    T_BAS_TraceSampleSimilarity.FK_TraceSampleId,
+    T_BAS_TraceSampleSimilarity.FK_FingerPrintId,
+    T_BAS_TraceSampleSimilarity.Similarity,
+    T_BAS_TraceSampleSimilarity.UpdateUser,
+    T_BAS_TraceSampleSimilarity.CalculatType,
+    T_BAS_TraceSampleSimilarity.proportionsimilarity,
+    convert(varchar(19),T_BAS_TraceSampleSimilarity.UpdateTime,120)UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_TraceSampleSimilarity
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_TraceSampleSimilarity
+    where PK_ID = #{pkid}
+  </delete>
+  <delete id="deleteByfktracesampleid" parameterType="java.lang.String" >
+    delete from T_BAS_TraceSampleSimilarity
+    where FK_TraceSampleId = #{fktracesampleid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.tracesamplesimilarity.TraceSampleSimilarityVO" >
+    insert into T_BAS_TraceSampleSimilarity
+    (PK_ID,
+    FK_TraceSampleId,
+    FK_FingerPrintId,
+    Similarity,
+    UpdateUser,
+    CalculatType,
+    proportionsimilarity,
+    UpdateTime
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fktracesampleid,jdbcType=VARCHAR},
+    #{fkfingerprintid,jdbcType=VARCHAR},
+    #{similarity,jdbcType=DOUBLE},
+    #{updateuser,jdbcType=VARCHAR},
+    #{calculattype,jdbcType=VARCHAR},
+    #{proportionsimilarity,jdbcType=DOUBLE},
+    #{updatetime,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.tracesamplesimilarity.TraceSampleSimilarityVO" >
+    update T_BAS_TraceSampleSimilarity
+    set
+    FK_TraceSampleId=#{fktracesampleid,jdbcType=VARCHAR},
+    FK_FingerPrintId=#{fkfingerprintid,jdbcType=VARCHAR},
+    Similarity=#{similarity,jdbcType=DOUBLE},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR},
+    CalculatType=#{calculattype,jdbcType=VARCHAR},
+    proportionsimilarity=#{proportionsimilarity,jdbcType=DOUBLE},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取溯源样品相似度信息
+      param:
+      date: 2020/11/11 18:05
+  -->
+  <select id="getTraceSampleSimilarityByParamMap" parameterType="map" resultMap="BaseResultMap">
+      select
+      tracesample.SampleName,
+      case when fingerprint.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.OutputName
+           when fingerprint.FK_MonitorPointTypeCode in (2,22) then T_BAS_GASOutPutInfo.OutPutName
+           when fingerprint.FK_MonitorPointTypeCode in (38) then T_BAS_UnorganizedMonitorPointInfo.MonitorPointName
+           when fingerprint.FK_MonitorpointId is null then fingerprint.SampleName  else '' end  outputname,
+      fingerprint.Longitude,
+      fingerprint.Latitude,
+      case when fingerprint.FK_MonitorPointTypeCode in (1,37) then T_BAS_WaterOutputInfo.DGIMN
+           when fingerprint.FK_MonitorPointTypeCode in (2,22) then T_BAS_GASOutPutInfo.DGIMN
+           when fingerprint.FK_MonitorPointTypeCode in (38) then T_BAS_UnorganizedMonitorPointInfo.DGIMN else '' end DGIMN,
+      case when fingerprint.FK_MonitorPointTypeCode in (1,37) then waterstatus.Status
+           when fingerprint.FK_MonitorPointTypeCode in (2,22) then gasstatus.Status
+           when fingerprint.FK_MonitorPointTypeCode in (38) then unorgstatus.Status else 0 end Status,
+      PollutionName,
+      case when fingerprint.FK_MonitorPointTypeCode is null then '' else fingerprint.FK_MonitorPointTypeCode end FK_MonitorPointTypeCode,
+      case when fingerprint.FK_MonitorpointId is null then '' else fingerprint.FK_MonitorpointId end FK_MonitorpointId,
+      fingerprint.FK_PollutionId,
+      convert(varchar(16),tracesample.SampleTime,120)traceSampleTime,
+      convert(varchar(16),fingerprint.SampleTime,120)fingerprintTime,
+      <include refid="Base_Column_List"/>
+      from T_BAS_TraceSampleSimilarity
+      join T_BAS_TraceSourceSample tracesample on T_BAS_TraceSampleSimilarity.FK_TraceSampleId=tracesample.PK_ID and (tracesample.IsFingerDatabase !=1 or tracesample.IsFingerDatabase is null)
+      join T_BAS_TraceSourceSample fingerprint on T_BAS_TraceSampleSimilarity.FK_FingerPrintId=fingerprint.PK_ID and fingerprint.IsFingerDatabase =1
+      join T_BAS_Pollution on PK_PollutionID=fingerprint.FK_PollutionId
+      left join T_BAS_WaterOutputInfo on fingerprint.FK_MonitorpointId=T_BAS_WaterOutputInfo.PK_ID and fingerprint.FK_MonitorPointTypeCode in (1,37)
+      left join T_BAS_GASOutPutInfo on fingerprint.FK_MonitorpointId=T_BAS_GASOutPutInfo.PK_ID and fingerprint.FK_MonitorPointTypeCode in (2,22)
+      left join T_BAS_UnorganizedMonitorPointInfo on fingerprint.FK_MonitorpointId=T_BAS_UnorganizedMonitorPointInfo.PK_ID and fingerprint.FK_MonitorPointTypeCode in (38)
+      left join T_BAS_DeviceStatus waterstatus on waterstatus.DGIMN=T_BAS_WaterOutputInfo.DGIMN
+      left join T_BAS_DeviceStatus gasstatus on gasstatus.DGIMN=T_BAS_GASOutPutInfo.DGIMN
+      left join T_BAS_DeviceStatus unorgstatus on unorgstatus.DGIMN=T_BAS_UnorganizedMonitorPointInfo.DGIMN
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_TraceSampleSimilarity.PK_ID = #{pkid}
+        </if>
+        <if test="fktracesampleid!=null and fktracesampleid!='' ">
+          AND T_BAS_TraceSampleSimilarity.FK_TraceSampleId = #{fktracesampleid}
+        </if>
+
+        <if test="starttime!=null and starttime!='' ">
+          AND convert(varchar(16),tracesample.SampleTime,120) >= convert(varchar(16), #{starttime},120)
+        </if>
+        <if test="endtime!=null and endtime!='' ">
+          AND convert(varchar(16),tracesample.SampleTime,120) <![CDATA[<=]]> convert(varchar(16), #{endtime},120)
+        </if>
+        <if test="calculattypes!=null and calculattypes.size>0">
+          and T_BAS_TraceSampleSimilarity.CalculatType in
+          <foreach collection="calculattypes" item="item" separator="," close=")" open="(">
+              #{item}
+          </foreach>
+        </if>
+      </where>
+      order by CalculatType,Similarity desc,proportionsimilarity desc
+  </select>
+</mapper>

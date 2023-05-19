@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.common.standard.StandardInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.common.standard.StandardInfoVO">
+    <id column="PK_StandardID" jdbcType="VARCHAR" property="pkStandardid" />
+    <result column="StandardName" jdbcType="VARCHAR" property="standardname" />
+    <result column="FK_StandardBigTypeCode" jdbcType="VARCHAR" property="fkStandardbigtypecode" />
+    <result column="FK_StandardTypeCode" jdbcType="VARCHAR" property="fkStandardtypecode" />
+    <result column="PublishDate" jdbcType="TIMESTAMP" property="publishdate" />
+    <result column="PublishUnit" jdbcType="VARCHAR" property="publishunit" />
+    <result column="UseDate" jdbcType="TIMESTAMP" property="usedate" />
+    <result column="AbstractContent" jdbcType="VARCHAR" property="abstractcontent" />
+    <result column="KeyWords" jdbcType="VARCHAR" property="keywords" />
+    <result column="ApplicableType" jdbcType="VARCHAR" property="applicabletype" />
+    <result column="ApplyRange" jdbcType="VARCHAR" property="applyrange" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_StandardID, StandardName, FK_StandardBigTypeCode, FK_StandardTypeCode, PublishDate, 
+    PublishUnit, UseDate, AbstractContent, KeyWords, ApplicableType, ApplyRange, FK_FileID, 
+    UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_StandardInfo
+    where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_StandardInfo
+    where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.common.standard.StandardInfoVO">
+    insert into T_BAS_StandardInfo (PK_StandardID, StandardName, FK_StandardBigTypeCode, 
+      FK_StandardTypeCode, PublishDate, PublishUnit, 
+      UseDate, AbstractContent, KeyWords, 
+      ApplicableType, ApplyRange, FK_FileID, 
+      UpdateTime, UpdateUser)
+    values (#{pkStandardid,jdbcType=VARCHAR}, #{standardname,jdbcType=VARCHAR}, #{fkStandardbigtypecode,jdbcType=VARCHAR}, 
+      #{fkStandardtypecode,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, #{publishunit,jdbcType=VARCHAR}, 
+      #{usedate,jdbcType=TIMESTAMP}, #{abstractcontent,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{applicabletype,jdbcType=VARCHAR}, #{applyrange,jdbcType=VARCHAR}, #{fkFileid,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.common.standard.StandardInfoVO">
+    insert into T_BAS_StandardInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkStandardid != null">
+        PK_StandardID,
+      </if>
+      <if test="standardname != null">
+        StandardName,
+      </if>
+      <if test="fkStandardbigtypecode != null">
+        FK_StandardBigTypeCode,
+      </if>
+      <if test="fkStandardtypecode != null">
+        FK_StandardTypeCode,
+      </if>
+      <if test="publishdate != null">
+        PublishDate,
+      </if>
+      <if test="publishunit != null">
+        PublishUnit,
+      </if>
+      <if test="usedate != null">
+        UseDate,
+      </if>
+      <if test="abstractcontent != null">
+        AbstractContent,
+      </if>
+      <if test="keywords != null">
+        KeyWords,
+      </if>
+      <if test="applicabletype != null">
+        ApplicableType,
+      </if>
+      <if test="applyrange != null">
+        ApplyRange,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkStandardid != null">
+        #{pkStandardid,jdbcType=VARCHAR},
+      </if>
+      <if test="standardname != null">
+        #{standardname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardbigtypecode != null">
+        #{fkStandardbigtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardtypecode != null">
+        #{fkStandardtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null">
+        #{publishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishunit != null">
+        #{publishunit,jdbcType=VARCHAR},
+      </if>
+      <if test="usedate != null">
+        #{usedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="abstractcontent != null">
+        #{abstractcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="applicabletype != null">
+        #{applicabletype,jdbcType=VARCHAR},
+      </if>
+      <if test="applyrange != null">
+        #{applyrange,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.common.standard.StandardInfoVO">
+    update T_BAS_StandardInfo
+    <set>
+      <if test="standardname != null">
+        StandardName = #{standardname,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardbigtypecode != null">
+        FK_StandardBigTypeCode = #{fkStandardbigtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkStandardtypecode != null">
+        FK_StandardTypeCode = #{fkStandardtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null">
+        PublishDate = #{publishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishunit != null">
+        PublishUnit = #{publishunit,jdbcType=VARCHAR},
+      </if>
+      <if test="usedate != null">
+        UseDate = #{usedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="abstractcontent != null">
+        AbstractContent = #{abstractcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        KeyWords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="applicabletype != null">
+        ApplicableType = #{applicabletype,jdbcType=VARCHAR},
+      </if>
+      <if test="applyrange != null">
+        ApplyRange = #{applyrange,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.common.standard.StandardInfoVO">
+    update T_BAS_StandardInfo
+    set StandardName = #{standardname,jdbcType=VARCHAR},
+      FK_StandardBigTypeCode = #{fkStandardbigtypecode,jdbcType=VARCHAR},
+      FK_StandardTypeCode = #{fkStandardtypecode,jdbcType=VARCHAR},
+      PublishDate = #{publishdate,jdbcType=TIMESTAMP},
+      PublishUnit = #{publishunit,jdbcType=VARCHAR},
+      UseDate = #{usedate,jdbcType=TIMESTAMP},
+      AbstractContent = #{abstractcontent,jdbcType=VARCHAR},
+      KeyWords = #{keywords,jdbcType=VARCHAR},
+      ApplicableType = #{applicabletype,jdbcType=VARCHAR},
+      ApplyRange = #{applyrange,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_StandardID = #{pkStandardid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getListDataByParamMap" parameterType="map" resultType="map">
+    select
+      t1.pk_standardid,
+      t1.fk_fileid,
+      t1.abstractcontent,
+      t1.applicabletype,
+      t1.applyrange,
+      t1.keywords,
+      t1.standardname,
+      t1.publishunit,
+      convert ( varchar ( 10 ), t1.usedate, 120 ) usedate,
+      convert ( varchar ( 10 ), t1.publishdate, 120 ) publishdate,
+      t2.name as standardtypename
+      from
+      t_bas_standardinfo t1
+      left join pub_code_standardtype t2 on t1.fk_standardtypecode = t2.code
+      and t1.fk_standardbigtypecode = t2.fk_standardbigtypecode
+    <where>
+      t1.fk_standardbigtypecode = #{standardbigtypecode}
+      <if test="starttime != null and starttime !=''">
+        AND CONVERT (VARCHAR (10),t1.usedate,120) >= #{starttime}
+      </if>
+      <if test="endtime != null and endtime !=''">
+        AND CONVERT (VARCHAR (10),t1.usedate,120) <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="standardname!=null and standardname!='' ">
+        and t1.standardname like concat('%', #{standardname},'%')
+      </if>
+      <if test="standardtypes!=null and standardtypes.size>0">
+        and t2.code in
+        <foreach collection="standardtypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    order by t1.publishdate DESC
+  </select>
+
+<!--获取编辑回显或详情数据 lip 2021/8/30 9:37 -->
+  <select id="getEditOrDetailsDataById" parameterType="String" resultType="map">
+   SELECT
+      t1.pk_standardid AS pkstandardid,
+      t1.standardname,
+      t1.fk_standardbigtypecode AS fkstandardbigtypecode,
+      t1.fk_standardtypecode AS fkstandardtypecode,
+      t2.Name AS standardtypename,
+      CONVERT ( VARCHAR ( 10 ), t1.publishdate, 120 ) publishdate,
+      t1.publishunit,
+      CONVERT ( VARCHAR ( 10 ), t1.usedate, 120 ) usedate,
+      t1.abstractcontent,
+      t1.keywords,
+      t1.applicabletype,
+      t1.applyrange,
+      t1.fk_fileid AS fkfileid
+  FROM
+      t_bas_standardinfo t1
+      LEFT JOIN PUB_CODE_StandardType t2 ON t2.Code = t1.FK_StandardTypeCode
+	AND t1.FK_StandardBigTypeCode = t2.FK_StandardBigTypeCode
+      where t1.pk_standardid = #{id}
+  </select>
+
+
+  
+  <!--统计知识库信息 lip 2021/8/27 10:14 -->
+  <select id="countKnowledgeData" parameterType="map" resultType="map">
+      SELECT
+          t1.code AS countcode,
+          t1.name countname,
+          COUNT ( t2.pk_standardid ) countnum,
+          t1.parentcode
+      FROM
+          pub_code_standardbigtype t1
+          LEFT JOIN t_bas_standardinfo t2 ON t2.fk_standardbigtypecode = t1.code
+          where t1.isuse = '1'
+      GROUP BY
+          t1.code,
+          t1.name,
+          t1.parentcode
+      UNION
+      SELECT
+          'kpzs' AS countcode,
+          '科普知识' AS countname,
+          COUNT ( t1.PK_ID ) countnum,
+          'root' as parentcode
+      FROM
+          T_BAS_ScienceKnowledge t1
+          UNION
+      SELECT
+          'yjal' AS countcode,
+          '应急案例' AS countname,
+          COUNT ( t1.PK_ID ) countnum,
+          'root' as parentcode
+      FROM
+          T_BAS_EmergencyCaseInfo t1
+  </select>
+
+
+
+</mapper>

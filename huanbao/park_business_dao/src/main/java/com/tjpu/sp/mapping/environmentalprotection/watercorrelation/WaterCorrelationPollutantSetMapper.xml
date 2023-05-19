@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.watercorrelation.WaterCorrelationPollutantSetMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationPollutantSetVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_WaterCorrelationID" jdbcType="VARCHAR" property="fkWatercorrelationid" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="a" jdbcType="DECIMAL" property="a" />
+    <result column="b" jdbcType="DECIMAL" property="b" />
+    <result column="R" jdbcType="DECIMAL" property="r" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_WaterCorrelationID, FK_PollutantCode, a, b, R,  value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_WaterCorrelationPollutantSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_WaterCorrelationPollutantSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationPollutantSetVO">
+    insert into T_BAS_WaterCorrelationPollutantSet (PK_ID, FK_WaterCorrelationID,
+      FK_PollutantCode,a, b, R,  value)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkWatercorrelationid,jdbcType=VARCHAR},
+      #{fkPollutantcode,jdbcType=VARCHAR},#{a,jdbcType=DECIMAL}, #{b,jdbcType=DECIMAL}, #{r,jdbcType=DECIMAL}, #{value,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationPollutantSetVO">
+    insert into T_BAS_WaterCorrelationPollutantSet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkWatercorrelationid != null">
+        FK_WaterCorrelationID,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="a != null">
+        a,
+      </if>
+      <if test="b != null">
+        b,
+      </if>
+      <if test="r != null">
+        R,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkWatercorrelationid != null">
+        #{fkWatercorrelationid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="a != null">
+        #{a,jdbcType=DECIMAL},
+      </if>
+      <if test="b != null">
+        #{b,jdbcType=DECIMAL},
+      </if>
+      <if test="r != null">
+        #{r,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationPollutantSetVO">
+    update T_BAS_WaterCorrelationPollutantSet
+    <set>
+      <if test="fkWatercorrelationid != null">
+        FK_WaterCorrelationID = #{fkWatercorrelationid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="a != null">
+        a = #{a,jdbcType=DECIMAL},
+      </if>
+      <if test="b != null">
+        b = #{b,jdbcType=DECIMAL},
+      </if>
+      <if test="r != null">
+        R = #{r,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.watercorrelation.WaterCorrelationPollutantSetVO">
+    update T_BAS_WaterCorrelationPollutantSet
+    set FK_WaterCorrelationID = #{fkWatercorrelationid,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      a = #{a,jdbcType=DECIMAL},
+      b = #{b,jdbcType=DECIMAL},
+      R = #{r,jdbcType=DECIMAL},
+      value = #{value,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByParam" parameterType="map" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List"/>
+    from T_BAS_WaterCorrelationPollutantSet
+    where 1=1
+    <if test="fkWatercorrelationid != null">
+      and FK_WaterCorrelationID = #{fkWatercorrelationid,jdbcType=VARCHAR}
+    </if>
+    <if test="fkPollutantcode != null">
+      and FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entpermittendflowlimit.EntPermittedFlowLimitValueMapper" >
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.entpermittendflowlimit.EntPermittedFlowLimitValueVO" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="FK_Pollutionid" property="fkPollutionid" jdbcType="VARCHAR" />
+    <result column="FK_MonitorPointType" property="fkMonitorpointtype" jdbcType="VARCHAR" />
+    <result column="FK_PollutantCode" property="fkPollutantcode" jdbcType="VARCHAR" />
+    <result column="FlowYear" property="flowyear" jdbcType="NUMERIC" />
+    <result column="pollutantname" property="pollutantname" jdbcType="VARCHAR" />
+    <result column="pollutionname" property="pollutionname" jdbcType="VARCHAR" />
+    <result column="TotalFlow" property="totalflow" jdbcType="DOUBLE" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, FK_Pollutionid, FK_MonitorPointType, FK_PollutantCode, FlowYear, TotalFlow, 
+    UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntPermittedFlowLimitValue
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_EntPermittedFlowLimitValue
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="deleteEntWaterFlowInfoByIDAndCode" parameterType="map" >
+    delete from T_BAS_EntPermittedFlowLimitValue
+    where FK_Pollutionid = #{pollutionid} and FK_PollutantCode = #{pollutantcode}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.entpermittendflowlimit.EntPermittedFlowLimitValueVO" >
+    insert into T_BAS_EntPermittedFlowLimitValue (PK_ID, FK_Pollutionid, FK_MonitorPointType, 
+      FK_PollutantCode, FlowYear, TotalFlow, 
+      UpdateTime, UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkPollutionid,jdbcType=VARCHAR}, #{fkMonitorpointtype,jdbcType=VARCHAR}, 
+      #{fkPollutantcode,jdbcType=VARCHAR}, #{flowyear,jdbcType=NUMERIC}, #{totalflow,jdbcType=DOUBLE}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.entpermittendflowlimit.EntPermittedFlowLimitValueVO" >
+    insert into T_BAS_EntPermittedFlowLimitValue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="fkPollutionid != null" >
+        FK_Pollutionid,
+      </if>
+      <if test="fkMonitorpointtype != null" >
+        FK_MonitorPointType,
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode,
+      </if>
+      <if test="flowyear != null" >
+        FlowYear,
+      </if>
+      <if test="totalflow != null" >
+        TotalFlow,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutionid != null" >
+        #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtype != null" >
+        #{fkMonitorpointtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="flowyear != null" >
+        #{flowyear,jdbcType=NUMERIC},
+      </if>
+      <if test="totalflow != null" >
+        #{totalflow,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.entpermittendflowlimit.EntPermittedFlowLimitValueVO" >
+    update T_BAS_EntPermittedFlowLimitValue
+    <set >
+      <if test="fkPollutionid != null" >
+        FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      </if>
+      <if test="fkMonitorpointtype != null" >
+        FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null" >
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="flowyear != null" >
+        FlowYear = #{flowyear,jdbcType=NUMERIC},
+      </if>
+      <if test="totalflow != null" >
+        TotalFlow = #{totalflow,jdbcType=DOUBLE},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.entpermittendflowlimit.EntPermittedFlowLimitValueVO" >
+    update T_BAS_EntPermittedFlowLimitValue
+    set FK_Pollutionid = #{fkPollutionid,jdbcType=VARCHAR},
+      FK_MonitorPointType = #{fkMonitorpointtype,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      FlowYear = #{flowyear,jdbcType=NUMERIC},
+      TotalFlow = #{totalflow,jdbcType=DOUBLE},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:chengzq
+      description: 通过污染源，监测点类型，排放年限查询企业许可排放限值
+      param:
+      date: 2019/06/26 19:28
+  -->
+  <select id="selectByParams" parameterType="map" resultType="map">
+    select * from T_BAS_EntPermittedFlowLimitValue
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and FK_Pollutionid=#{pollutionid}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and FK_MonitorPointType=#{monitorpointtype}
+      </if>
+      <if test="flowyear!=null and flowyear!='' ">
+        and FlowYear=#{flowyear}
+      </if>
+      <if test="pollutantcode!=null and pollutantcode!='' ">
+        and FK_PollutantCode=#{pollutantcode}
+      </if>
+      <if test="pkid!=null and pkid!='' ">
+        and PK_ID=#{pkid}
+      </if>
+    </trim>
+  </select>
+
+  <!--
+      author:chengzq
+      description: 通过自定义参数获取企业许可排放限值信息
+      param:
+      date: 2019/06/27 14:16
+  -->
+  <select id="getEntPermittedFlowLimitInfoByParamMap" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+        T_BAS_EntPermittedFlowLimitValue.pk_id,
+        T_BAS_Pollution.pollutionname,
+        PUB_CODE_MonitorPointType.name FK_MonitorPointType,
+        PUB_CODE_PollutantFactor.name pollutantname,
+        FlowYear,
+        TotalFlow,
+        convert(varchar(19),T_BAS_EntPermittedFlowLimitValue.UpdateTime,120) UpdateTime,
+        T_BAS_EntPermittedFlowLimitValue.UpdateUser
+    FROM
+        T_BAS_EntPermittedFlowLimitValue
+        join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_EntPermittedFlowLimitValue.FK_Pollutionid
+        join PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.Code=T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType
+        join PUB_CODE_PollutantFactor on PUB_CODE_PollutantFactor.Code=T_BAS_EntPermittedFlowLimitValue.FK_PollutantCode and PUB_CODE_PollutantFactor.IsUsed=1 and T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType=PUB_CODE_PollutantFactor.PollutantType
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionname!=null and pollutionname!='' ">
+        and T_BAS_Pollution.pollutionname like concat('%',#{pollutionname},'%')
+      </if>
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_BAS_Pollution.PK_PollutionID = #{pollutionid}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and FK_MonitorPointType=#{monitorpointtype}
+      </if>
+      <if test="starttime!=null and starttime!='' ">
+        and FlowYear >=#{starttime}
+      </if>
+      <if test="endtime!=null and endtime!='' ">
+        and FlowYear <![CDATA[<=]]> #{endtime}
+      </if>
+      <if test="pkid!=null and pkid!='' ">
+        and T_BAS_EntPermittedFlowLimitValue.PK_ID=#{pkid}
+      </if>
+    </trim>
+    order by  T_BAS_Pollution.pollutionname,T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType, FlowYear desc
+  </select>
+
+  <!--
+        author:xsm
+        description: 通过监测点类型，排放年限查询企业许可排放限值
+        param:
+        date: 2019/07/09 18:13
+    -->
+  <select id="getEntPermittedFlowLimitInfoByYearAndType" parameterType="map" resultType="map">
+    select T_BAS_EntPermittedFlowLimitValue.* ,
+    T_BAS_Pollution.pollutionname,
+    PUB_CODE_PollutantFactor.name pollutantname from T_BAS_EntPermittedFlowLimitValue
+    join T_BAS_Pollution on T_BAS_Pollution.PK_PollutionID=T_BAS_EntPermittedFlowLimitValue.FK_Pollutionid
+    join PUB_CODE_MonitorPointType on PUB_CODE_MonitorPointType.Code=T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType
+    join PUB_CODE_PollutantFactor on PUB_CODE_PollutantFactor.Code=T_BAS_EntPermittedFlowLimitValue.FK_PollutantCode and PUB_CODE_PollutantFactor.IsUsed=1 and T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType=PUB_CODE_PollutantFactor.PollutantType AND PUB_CODE_PollutantFactor.IsShowFlow ='1'
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and FK_MonitorPointType=#{monitorpointtype}
+      </if>
+      <if test="flowyear!=null and flowyear!='' ">
+        and FlowYear=#{flowyear}
+      </if>
+    </trim>
+  </select>
+
+  <!-- author:xsm description: 根据年份和类型获取配置有排放量许可预警值的所有企业下废气排口的MN号  date: 2019/07/09 16:22-->
+  <select id="getGasDgimnsByYearAndType" parameterType="map" resultType="map">
+    SELECT t1.FK_Pollutionid,t1.DGIMN
+    FROM
+    T_BAS_GASOutPutInfo t1 JOIN T_BAS_DeviceStatus t2 ON t1.DGIMN = t2.DGIMN
+    WHERE t1.FK_PollutionID IN(
+    select DISTINCT FK_Pollutionid from T_BAS_EntPermittedFlowLimitValue
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and FK_MonitorPointType=#{monitorpointtype}
+      </if>
+      <if test="flowyear!=null and flowyear!='' ">
+        and FlowYear=#{flowyear}
+      </if>
+    </trim>
+    ) and t1.FK_MonitorPointTypeCode = #{monitorpointtype}
+  </select>
+
+    <!-- author:xsm description: 根据年份和类型获取配置有排放量许可预警值的所有企业下废水排口的MN号  date: 2019/07/09 16:22-->
+    <select id="getWaterDgimnsByYearAndType" parameterType="map" resultType="map">
+        SELECT t1.FK_Pollutionid,t1.DGIMN
+        FROM
+        T_BAS_WaterOutputInfo t1 JOIN T_BAS_DeviceStatus t2 ON t1.DGIMN = t2.DGIMN
+        WHERE t1.FK_PollutionID IN(
+        select DISTINCT FK_Pollutionid from T_BAS_EntPermittedFlowLimitValue
+        <trim prefix="where" prefixOverrides="AND|OR">
+            <if test="monitorpointtype!=null and monitorpointtype!='' ">
+                and FK_MonitorPointType=#{monitorpointtype}
+            </if>
+            <if test="flowyear!=null and flowyear!='' ">
+                and FlowYear=#{flowyear}
+            </if>
+        </trim>
+        ) AND  t1.OutPutType=1
+    </select>
+
+
+  <!-- author:xsm description:  获取某企业下单个污染物某一年的许可排放情况  date: 2021/08/13 11:40-->
+  <select id="getOnePollutantPermitFlowDataByParam" parameterType="map" resultType="map">
+    SELECT * FROM (
+    SELECT t.FK_Pollutionid pollutionid, t.FK_PollutantCode,t.FlowYear,max(t.TotalFlow) TotalFlow,1 monitorpointtype
+    FROM
+    T_BAS_EntPermittedFlowLimitValue t
+    JOIN T_BAS_Pollution t1 on t1.PK_PollutionID=t.FK_Pollutionid
+    WHERE t.FK_MonitorPointType = 1
+    GROUP BY FK_Pollutionid,FK_PollutantCode,FlowYear
+    UNION
+    select FK_PollutionID pollutionid,FK_PollutantCode,Year FlowYear,SUM(DischargeValue) TotalFlow,2 monitorpointtype
+    FROM T_GJ_GasDischargeTotal
+    WHERE T_GJ_GasDischargeTotal.PollutantType = 2
+    GROUP BY FK_PollutionID,FK_PollutantCode,Year)tt
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and tt.pollutionid=#{pollutionid}
+      </if>
+      <if test="pollutantcode!=null and pollutantcode!='' ">
+        and tt.FK_PollutantCode=#{pollutantcode}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and tt.monitorpointtype=#{monitorpointtype}
+      </if>
+      <if test="flowyear!=null and flowyear!='' ">
+        and tt.FlowYear=#{flowyear}
+      </if>
+    </trim>
+  </select>
+
+
+  <!-- author:xsm description:  获取废水污染物排放限值  date: 2021/08/13 11:40-->
+  <select id="getEntWaterPermittedFlowLimitInfoByParamMap" parameterType="map" resultType="map">
+    SELECT
+    T_BAS_EntPermittedFlowLimitValue.FK_PollutionID fkpollutionid,
+    T_BAS_Pollution.pollutionname,
+    T_BAS_EntPermittedFlowLimitValue.FK_PollutantCode fkpollutantcode,
+    PUB_CODE_PollutantFactor.Name pollutantname,
+    FlowYear,
+    TotalFlow
+    FROM
+    T_BAS_EntPermittedFlowLimitValue JOIN T_BAS_Pollution ON T_BAS_Pollution.PK_PollutionID =T_BAS_EntPermittedFlowLimitValue.FK_PollutionID
+    LEFT JOIN  PUB_CODE_PollutantFactor ON T_BAS_EntPermittedFlowLimitValue.FK_PollutantCode = PUB_CODE_PollutantFactor.Code
+    AND T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType = PUB_CODE_PollutantFactor.PollutantType
+    <trim prefix="where" prefixOverrides="AND|OR">
+      T_BAS_EntPermittedFlowLimitValue.FK_MonitorPointType =1
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and T_BAS_EntPermittedFlowLimitValue.FK_PollutionID=#{pollutionid}
+      </if>
+      <if test="pollutantcode!=null and pollutantcode!='' ">
+        and T_BAS_EntPermittedFlowLimitValue.FK_PollutantCode=#{pollutantcode}
+      </if>
+      <if test="flowyear!=null and flowyear!='' ">
+        and T_BAS_EntPermittedFlowLimitValue.FlowYear=#{flowyear}
+      </if>
+      <if test="startyear != null and startyear !=''">
+        AND CONVERT (VARCHAR (4),T_BAS_EntPermittedFlowLimitValue.FlowYear,120) >= #{startyear}
+      </if>
+      <if test="endyear != null and endyear !=''">
+        AND CONVERT (VARCHAR (4),T_BAS_EntPermittedFlowLimitValue.FlowYear,120) <![CDATA[<=]]> #{endyear}
+      </if>
+    </trim>
+    order by PUB_CODE_PollutantFactor.OrderIndex
+  </select>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/08/17 0017 上午 08:42
+    * @Description: 批量插入废水污染物排放限值
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_EntPermittedFlowLimitValue (PK_ID, FK_Pollutionid, FK_MonitorPointType,
+    FK_PollutantCode, FlowYear, TotalFlow,
+    UpdateTime, UpdateUser)
+    values
+    <foreach collection="list" separator="," item="item">
+       (#{item.pkId,jdbcType=VARCHAR}, #{item.fkPollutionid,jdbcType=VARCHAR}, #{item.fkMonitorpointtype,jdbcType=VARCHAR},
+      #{item.fkPollutantcode,jdbcType=VARCHAR}, #{item.flowyear,jdbcType=NUMERIC}, #{item.totalflow,jdbcType=DOUBLE},
+      #{item.updatetime,jdbcType=TIMESTAMP}, #{item.updateuser,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+  <!-- author:xsm description: 获取企业下排口的MN号(废水、废气、烟气)  date: 2021/12/20 15:56-->
+  <select id="getEntAllOutputData" parameterType="map" resultType="map">
+    SELECT datas.* FROM(
+    SELECT T_BAS_GASOutPutInfo.FK_Pollutionid
+    pollutionid,T_BAS_Pollution.pollutionname,T_BAS_Pollution.shortername,T_BAS_DeviceStatus.dgimn,T_BAS_GASOutPutInfo.outputname,
+    T_BAS_GASOutPutInfo.PK_ID outputid,T_BAS_GASOutPutInfo.FK_MonitorPointTypeCode type
+    FROM
+    T_BAS_GASOutPutInfo JOIN T_BAS_DeviceStatus ON T_BAS_GASOutPutInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_GASOutPutInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    UNION ALL
+    SELECT T_BAS_WaterOutputInfo.FK_Pollutionid
+    pollutionid,T_BAS_Pollution.pollutionname,T_BAS_Pollution.shortername,T_BAS_DeviceStatus.dgimn,T_BAS_WaterOutputInfo.outputname,
+    T_BAS_WaterOutputInfo.PK_ID outputid,'1' type
+    FROM
+    T_BAS_WaterOutputInfo JOIN T_BAS_DeviceStatus ON T_BAS_WaterOutputInfo.DGIMN = T_BAS_DeviceStatus.DGIMN
+    JOIN T_BAS_Pollution ON T_BAS_WaterOutputInfo.FK_PollutionID = T_BAS_Pollution.PK_PollutionID
+    WHERE (T_BAS_WaterOutputInfo.OutPutType !=3 or T_BAS_WaterOutputInfo.OutPutType is null)
+    )datas
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and datas.pollutionid = #{pollutionid}
+      </if>
+      <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+        and datas.type in
+        <foreach item="item" index="index" collection="monitorpointtypes"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER BY datas.pollutionid,datas.type
+  </select>
+
+  <!--
+    * @author: xsm
+    * @date: 2021/12/22 0022 上午 9:35
+    * @Description: 根据企业ID获取监测点（废水，废气，烟气）监测污染物信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <select id="getEntOutPutPollutantData" parameterType="map" resultType="map">
+    SELECT DISTINCT
+    t1.monitorpointid,
+    t1.pollutantcode,
+    t2.Name AS pollutantname,
+    OrderIndex
+    FROM
+    (
+    SELECT
+    t1.FK_PollutantCode AS pollutantcode,
+    t1.FK_WaterOutPutID AS monitorpointid,
+    '1' AS monitorpointtypecode,
+    t1.FK_PollutionID AS pollutionid
+    FROM
+    T_BAS_WaterOutPutPollutantSet t1
+    JOIN T_BAS_WaterOutputInfo t2 ON t2.PK_ID = t1.FK_WaterOutPutID
+    AND (
+    t2.outputtype IS NULL
+    OR t2.outputtype != '3'
+    )
+    UNION
+    SELECT
+    t1.FK_PollutantCode AS pollutantcode,
+    t1.FK_GasOutPutID AS monitorpointid,
+    t2.FK_MonitorPointTypeCode AS monitorpointtypecode,
+    t1.FK_PollutionID AS pollutionid
+    FROM
+    T_BAS_GasOutPutPollutantSet t1
+    JOIN T_BAS_GasOutputInfo t2 ON t2.PK_ID = t1.FK_GasOutPutID
+    ) t1
+    JOIN PUB_CODE_PollutantFactor t2 ON t1.pollutantcode = t2.Code
+    AND t2.PollutantType = t1.monitorpointtypecode
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="pollutionid!=null and pollutionid!='' ">
+        and t1.pollutionid = #{pollutionid}
+      </if>
+      <if test="monitorpointtypes != null and monitorpointtypes.size>0 ">
+        and t1.monitorpointtypecode in
+        <foreach item="item" index="index" collection="monitorpointtypes"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER BY t2.OrderIndex
+  </select>
+</mapper>

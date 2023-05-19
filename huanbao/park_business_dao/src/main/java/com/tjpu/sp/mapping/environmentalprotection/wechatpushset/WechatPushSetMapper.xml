@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.wechatpushset.WechatPushSetMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.wechatpushset.WechatPushSetVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="WechatName" jdbcType="VARCHAR" property="wechatname" />
+    <result column="AlarmType" jdbcType="VARCHAR" property="alarmtype" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, WechatName, AlarmType, Remark, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_WechatPushSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_WechatPushSet
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <delete id="deleteByWechatName" parameterType="java.lang.String">
+    delete from T_BAS_WechatPushSet
+    where WechatName = #{wechatname,jdbcType=VARCHAR}
+  </delete>
+
+  <!--
+    * @author: xsm
+    * @date: 2020/03/20 0020 下午 14:48
+    * @Description: 批量插入微信群信息推送配置信息
+    * @updateUser:
+    * @updateDate:
+    * @updateDescription:
+   -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into T_BAS_WechatPushSet (PK_ID, WechatName, AlarmType,
+    Remark, UpdateTime, UpdateUser
+    )
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.pkId}, #{item.wechatname}, #{item.alarmtype},
+      #{item.remark}, #{item.updatetime}, #{item.updateuser}
+      )
+    </foreach>
+  </insert>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.wechatpushset.WechatPushSetVO">
+    insert into T_BAS_WechatPushSet (PK_ID, WechatName, AlarmType, 
+      Remark, UpdateTime, UpdateUser
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{wechatname,jdbcType=VARCHAR}, #{alarmtype,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.wechatpushset.WechatPushSetVO">
+    insert into T_BAS_WechatPushSet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="wechatname != null">
+        WechatName,
+      </if>
+      <if test="alarmtype != null">
+        AlarmType,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatname != null">
+        #{wechatname,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmtype != null">
+        #{alarmtype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.wechatpushset.WechatPushSetVO">
+    update T_BAS_WechatPushSet
+    <set>
+      <if test="wechatname != null">
+        WechatName = #{wechatname,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmtype != null">
+        AlarmType = #{alarmtype,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.wechatpushset.WechatPushSetVO">
+    update T_BAS_WechatPushSet
+    set WechatName = #{wechatname,jdbcType=VARCHAR},
+      AlarmType = #{alarmtype,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getWechatPushSetInfosByParamMap" parameterType="map" resultType="java.util.Map">
+    SELECT t1.PK_ID, t1.WechatName, t1.AlarmType, t1.Remark
+     FROM T_BAS_WechatPushSet t1
+    JOIN (SELECT DISTINCT WechatName FROM T_BAS_WechatPushSet
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="wechatname!=null and wechatname!='' ">
+        and T_BAS_WechatPushSet.WechatName like concat('%',#{wechatname},'%')
+      </if>
+      <if test="alarmtypes!=null and alarmtypes.size>0">
+        and T_BAS_WechatPushSet.AlarmType in
+        <foreach collection="alarmtypes" open="(" close=")" item="item" separator=",">
+          #{item}
+        </foreach>
+      </if>
+
+    </trim>
+   ) tt ON t1.WechatName = tt.WechatName
+    ORDER BY t1.WechatName, t1.AlarmType
+  </select>
+</mapper>

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entevaluation.EntEvaluationIndexMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationIndexVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="IndexName" jdbcType="VARCHAR" property="indexname" />
+    <result column="OrderIndex" jdbcType="NUMERIC" property="orderindex" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="Description" jdbcType="VARCHAR" property="description" />
+    <result column="IndexType" jdbcType="VARCHAR" property="indextype" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="Weight" jdbcType="DOUBLE" property="weight" />
+    <result column="Fk_Fileid" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="PagePath" jdbcType="VARCHAR" property="pagepath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, IndexName, OrderIndex, Remark, Description, IndexType,
+    UpdateTime, UpdateUser, Weight, Fk_Fileid, PagePath
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntEvaluationIndex
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntEvaluationIndex
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationIndexVO">
+    insert into T_BAS_EntEvaluationIndex (PK_ID, IndexName,
+      OrderIndex, Remark, Description, 
+      IndexType,
+      UpdateTime, UpdateUser, Weight, 
+      Fk_Fileid, PagePath)
+    values (#{pkId,jdbcType=VARCHAR},  #{indexname,jdbcType=VARCHAR},
+      #{orderindex,jdbcType=NUMERIC}, #{remark,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+     #{indextype,jdbcType=VARCHAR},
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{pagepath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationIndexVO">
+    insert into T_BAS_EntEvaluationIndex
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="indexname != null">
+        IndexName,
+      </if>
+      <if test="orderindex != null">
+        OrderIndex,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="description != null">
+        Description,
+      </if>
+      <if test="indextype != null">
+        IndexType,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="weight != null">
+        Weight,
+      </if>
+      <if test="fkFileid != null">
+        Fk_Fileid,
+      </if>
+      <if test="pagepath != null">
+        PagePath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="indexname != null">
+        #{indexname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="indextype != null">
+        #{indextype,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="pagepath != null">
+        #{pagepath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationIndexVO">
+    update T_BAS_EntEvaluationIndex
+    <set>
+      <if test="indexname != null">
+        IndexName = #{indexname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderindex != null">
+        OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="indextype != null">
+        IndexType = #{indextype,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        Weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="fkFileid != null">
+        Fk_Fileid = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="pagepath != null">
+        PagePath = #{pagepath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationIndexVO">
+    update T_BAS_EntEvaluationIndex
+    set IndexName = #{indexname,jdbcType=VARCHAR},
+      OrderIndex = #{orderindex,jdbcType=NUMERIC},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      IndexType = #{indextype,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      Weight = #{weight,jdbcType=DOUBLE},
+      Fk_Fileid = #{fkFileid,jdbcType=VARCHAR},
+      PagePath = #{pagepath,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+      author:xsm
+      description: 通过自定义参数获取企业评价指标列表信息
+      param:
+      date: 2022/03/04 11:23
+  -->
+  <select id="getEntEvaluationIndexListDataByParamMap" parameterType="map" resultType="map">
+    select
+    PK_ID pkid,
+    IndexName,
+    IndexType,
+    Description
+    from T_BAS_EntEvaluationIndex
+    <where>
+      <if test="indexname!=null and indexname!='' ">
+        T_BAS_EntEvaluationIndex.IndexName like concat('%',#{indexname},'%')
+      </if>
+      <if test="hasindexname!=null and hasindexname!='' ">
+        T_BAS_EntEvaluationIndex.IndexName = #{hasindexname}
+      </if>
+      <if test="indextype!=null and indextype!='' ">
+        T_BAS_EntEvaluationIndex.IndexType  = #{indextype}
+      </if>
+    </where>
+    order by IndexType,IndexName
+  </select>
+
+
+  <!--
+    author:xsm
+    description: 通过自定义参数获取企业评价指标详情信息
+    param:
+    date: 2022/03/04 11:23
+-->
+  <select id="getEntEvaluationIndexDetailById" parameterType="String" resultType="map">
+    select
+    PK_ID pkid,
+    IndexName,
+    OrderIndex,
+    Remark,
+    Description,
+    IndexType,
+    convert(varchar(19),UpdateTime,120) updatetime,
+    UpdateUser,
+    Weight,
+    Fk_Fileid fkfileid,
+    PagePath
+    from T_BAS_EntEvaluationIndex
+    WHERE PK_ID = #{pkId}
+  </select>
+
+  <select id="getEntEvaluationIndexInfos"  resultType="map">
+    select
+    PK_ID pkid,
+    indexname,
+    remark,
+    description,
+    indextype,
+    weight,
+    pagepath
+    from T_BAS_EntEvaluationIndex
+    order by indextype
+  </select>
+
+
+  <select id="getAllEntEvaluationIndexType"  resultType="map">
+    select DISTINCT
+    IndexType id,
+    IndexType labelname
+    from T_BAS_EntEvaluationIndex
+    order by IndexType
+  </select>
+
+
+  <!--
+      author:xsm
+      description: 获取企业评价指标评分页面
+      param:
+      date: 2022/03/04 11:23
+  -->
+  <select id="getEntEvaluationIndexPageData" parameterType="map" resultType="map">
+    select
+    t.PK_ID pkid,
+    t.IndexName,
+    t.Description,
+    t.IndexType,
+    t.PagePath,
+    '' IndexEvaluationScore,
+    ''Remark
+    from T_BAS_EntEvaluationIndex t
+    JOIN T_BAS_SchemeIndexConfig t1 ON t.PK_ID = t1.FK_EvaluationIndexID
+    JOIN T_BAS_EntEvaluationScheme t2 ON t2.PK_SchemeID = t1.FK_SchemeID
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="schemeid!=null and schemeid !='' ">
+        AND t2.PK_SchemeID = #{schemeid}
+      </if>
+    </trim>
+    order by IndexType,IndexName
+  </select>
+</mapper>

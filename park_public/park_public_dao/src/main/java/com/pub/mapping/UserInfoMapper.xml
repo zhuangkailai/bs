@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.pub.model.UserInfoVO">
+        <id column="User_ID" jdbcType="NVARCHAR" property="userId"/>
+        <result column="User_Code" jdbcType="NVARCHAR" property="userCode"/>
+        <result column="User_Account" jdbcType="NVARCHAR" property="userAccount"/>
+        <result column="User_Pwd" jdbcType="NVARCHAR" property="userPwd"/>
+        <result column="User_Name" jdbcType="NVARCHAR" property="userName"/>
+        <result column="User_Sex" jdbcType="INTEGER" property="userSex"/>
+        <result column="User_Sort" jdbcType="NVARCHAR" property="userSort"/>
+        <result column="Title" jdbcType="NVARCHAR" property="title"/>
+        <result column="Email" jdbcType="NVARCHAR" property="email"/>
+        <result column="Theme" jdbcType="NVARCHAR" property="theme"/>
+        <result column="Question" jdbcType="NVARCHAR" property="question"/>
+        <result column="AnswerQuestion" jdbcType="NVARCHAR" property="answerQuestion"/>
+        <result column="CreateDate" jdbcType="DATE" property="createDate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createUserName"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifyDate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyUserId"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyUserName"/>
+        <result column="User_Remark" jdbcType="NVARCHAR" property="userRemark"/>
+        <result column="User_Orderby" jdbcType="INTEGER" property="userOrderby"/>
+        <result column="Phone" jdbcType="NVARCHAR" property="phone"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deleteMark"/>
+        <result column="SendPush" jdbcType="NVARCHAR" property="sendPush"/>
+        <result column="AlarmType" jdbcType="INTEGER" property="alarmType"/>
+        <result column="AlarmTime" jdbcType="NVARCHAR" property="alarmTime"/>
+        <result column="UserType" jdbcType="NVARCHAR" property="userType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        User_ID, User_Code, User_Account, User_Pwd, User_Name, User_Sex, User_Sort, Title,
+        Email, Theme, Question, AnswerQuestion, CreateDate, CreateUserId, CreateUserName,
+        ModifyDate, ModifyUserId, ModifyUserName, User_Remark, User_Orderby, Phone, DeleteMark,
+        SendPush, AlarmType, AlarmTime,UserType
+    </sql>
+
+    <delete id="deleteUserAuthForAddMenu" parameterType="java.util.List">
+        DELETE FROM Base_UserRight WHERE menu_id IN
+        <foreach collection="menuids" item="menuid" open="(" separator="," close=")">
+            #{menuid}
+        </foreach>
+        AND (button_id IS NULL OR button_id = '')
+    </delete>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_UserInfo
+        where user_id = #{userid,jdbcType=NVARCHAR}
+    </select>
+
+    <select id="getSystemAccessTokenByParam" resultType="java.util.HashMap">
+        SELECT
+        *
+        FROM
+        T_SYS_SystemAccessToken
+        where SystemMark = #{systemmark}
+        and SystemToken = #{systemtoken}
+    </select>
+</mapper>

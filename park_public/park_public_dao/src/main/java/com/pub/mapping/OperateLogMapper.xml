@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pub.dao.OperateLogMapper">
+  <resultMap id="BaseResultMap" type="com.pub.model.OperateLogVO">
+    <id column="Base_Operate_Id" jdbcType="NVARCHAR" property="baseOperateId" />
+    <result column="Base_Operate_DB" jdbcType="NVARCHAR" property="baseOperateDb" />
+    <result column="Base_Operate_DT" jdbcType="NVARCHAR" property="baseOperateDt" />
+    <result column="Base_Operate_Type" jdbcType="NVARCHAR" property="baseOperateType" />
+    <result column="Base_Operate_PrimaryKey" jdbcType="NVARCHAR" property="baseOperatePrimaryKey" />
+    <result column="Base_Operate_Content" jdbcType="NVARCHAR" property="baseOperateContent" />
+    <result column="Base_Operate_Person" jdbcType="NVARCHAR" property="baseOperatePerson" />
+    <result column="Base_Operate_DateTime" jdbcType="TIMESTAMP" property="baseOperateDatetime" />
+    <result column="Base_Log_Type" jdbcType="NVARCHAR" property="baseLogType" />
+    <result column="Base_Operate_ConfigId" jdbcType="NVARCHAR" property="baseOperateConfigId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Base_Operate_Id, Base_Operate_DB, Base_Operate_DT, Base_Operate_Type, Base_Operate_PrimaryKey, 
+    Base_Operate_Content, Base_Operate_Person, Base_Operate_DateTime, Base_Log_Type, 
+    Base_Operate_ConfigId
+  </sql>
+
+  <insert id="insert" parameterType="com.pub.model.OperateLogVO">
+    insert into Base_OperateLog (Base_Operate_Id, Base_Operate_DB, Base_Operate_DT, 
+      Base_Operate_Type, Base_Operate_PrimaryKey, 
+      Base_Operate_Content, Base_Operate_Person, 
+      Base_Operate_DateTime, Base_Log_Type, Base_Operate_ConfigId
+      )
+    values (#{baseOperateId,jdbcType=NVARCHAR}, #{baseOperateDb,jdbcType=NVARCHAR}, #{baseOperateDt,jdbcType=NVARCHAR}, 
+      #{baseOperateType,jdbcType=NVARCHAR}, #{baseOperatePrimaryKey,jdbcType=NVARCHAR}, 
+      #{baseOperateContent,jdbcType=NVARCHAR}, #{baseOperatePerson,jdbcType=NVARCHAR}, 
+      #{baseOperateDatetime,jdbcType=TIMESTAMP}, #{baseLogType,jdbcType=NVARCHAR}, #{baseOperateConfigId,jdbcType=NVARCHAR}
+      )
+  </insert>
+
+</mapper>

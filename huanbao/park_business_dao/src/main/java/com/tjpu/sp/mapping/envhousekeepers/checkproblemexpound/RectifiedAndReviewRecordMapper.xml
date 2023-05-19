@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.envhousekeepers.checkproblemexpound.RectifiedAndReviewRecordMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.envhousekeepers.checkproblemexpound.RectifiedAndReviewRecordVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_CheckProblemExpoundID" jdbcType="VARCHAR" property="fkCheckproblemexpoundid" />
+    <result column="ManagementType" jdbcType="NUMERIC" property="managementtype" />
+    <result column="ManagementTime" jdbcType="TIMESTAMP" property="managementtime" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="ManagementUser" jdbcType="VARCHAR" property="managementuser" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_CheckProblemExpoundID, ManagementType, ManagementTime, Remark, ManagementUser, 
+    FK_FileID, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_GJ_RectifiedAndReviewRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_GJ_RectifiedAndReviewRecord
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByCheckProblemExpoundID" parameterType="java.lang.String">
+    delete from T_GJ_RectifiedAndReviewRecord
+    where FK_CheckProblemExpoundID = #{fkCheckproblemexpoundid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.tjpu.sp.model.envhousekeepers.checkproblemexpound.RectifiedAndReviewRecordVO">
+    insert into T_GJ_RectifiedAndReviewRecord (PK_ID, FK_CheckProblemExpoundID, ManagementType, 
+      ManagementTime, Remark, ManagementUser, 
+      FK_FileID, UpdateUser, UpdateTime
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{fkCheckproblemexpoundid,jdbcType=VARCHAR}, #{managementtype,jdbcType=NUMERIC}, 
+      #{managementtime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{managementuser,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkproblemexpound.RectifiedAndReviewRecordVO">
+    insert into T_GJ_RectifiedAndReviewRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkCheckproblemexpoundid != null">
+        FK_CheckProblemExpoundID,
+      </if>
+      <if test="managementtype != null">
+        ManagementType,
+      </if>
+      <if test="managementtime != null">
+        ManagementTime,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="managementuser != null">
+        ManagementUser,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkCheckproblemexpoundid != null">
+        #{fkCheckproblemexpoundid,jdbcType=VARCHAR},
+      </if>
+      <if test="managementtype != null">
+        #{managementtype,jdbcType=NUMERIC},
+      </if>
+      <if test="managementtime != null">
+        #{managementtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="managementuser != null">
+        #{managementuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.envhousekeepers.checkproblemexpound.RectifiedAndReviewRecordVO">
+    update T_GJ_RectifiedAndReviewRecord
+    <set>
+      <if test="fkCheckproblemexpoundid != null">
+        FK_CheckProblemExpoundID = #{fkCheckproblemexpoundid,jdbcType=VARCHAR},
+      </if>
+      <if test="managementtype != null">
+        ManagementType = #{managementtype,jdbcType=NUMERIC},
+      </if>
+      <if test="managementtime != null">
+        ManagementTime = #{managementtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="managementuser != null">
+        ManagementUser = #{managementuser,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.envhousekeepers.checkproblemexpound.RectifiedAndReviewRecordVO">
+    update T_GJ_RectifiedAndReviewRecord
+    set FK_CheckProblemExpoundID = #{fkCheckproblemexpoundid,jdbcType=VARCHAR},
+      ManagementType = #{managementtype,jdbcType=NUMERIC},
+      ManagementTime = #{managementtime,jdbcType=TIMESTAMP},
+      Remark = #{remark,jdbcType=VARCHAR},
+      ManagementUser = #{managementuser,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+  author:xsm
+  description: 通过问题记录ID获取最新整改或复查记录信息
+  param:
+  date: 2021/08/04 10:28
+-->
+  <select id="getLastRectifiedAndReviewRecordByParamMap" parameterType="map" resultType="map">
+    SELECT top 1
+    PK_ID,
+    FK_CheckProblemExpoundID fkcheckproblemexpoundid,
+    ManagementType,
+    convert(varchar(10),T_GJ_RectifiedAndReviewRecord.ManagementTime,120)ManagementTime,
+    Remark,
+    ManagementUser,
+    FK_FileID fkfileid
+    FROM
+    T_GJ_RectifiedAndReviewRecord
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="checkproblemexpoundid!=null and checkproblemexpoundid!='' ">
+        and T_GJ_RectifiedAndReviewRecord.FK_CheckProblemExpoundID  = #{checkproblemexpoundid}
+      </if>
+      <if test="managementtype!=null and managementtype!='' ">
+        and T_GJ_RectifiedAndReviewRecord.ManagementType  = #{managementtype}
+      </if>
+    </trim>
+    order by T_GJ_RectifiedAndReviewRecord.ManagementTime desc,T_GJ_RectifiedAndReviewRecord.UpdateTime desc
+  </select>
+
+
+    <!--
+    author:xsm
+    description: 通过多个问题记录ID获取整改和复查记录信息
+    param:
+    date: 2021/08/04 10:28
+  -->
+    <select id="getRectifiedAndReviewRecordByParamMap" parameterType="map" resultType="map">
+        select
+        tt.FK_CheckProblemExpoundID,
+        tt.ManagementType,
+        convert(varchar(10),tt.ManagementTime,120)ManagementTime,
+        tt.Remark,
+        tt.ManagementUser,
+        tt.FK_FileID fkfileid
+        from (
+        select
+        row_number() over(partition by FK_CheckProblemExpoundID,ManagementType order by ManagementTime DESC, UpdateTime DESC) as rid,
+        T_GJ_RectifiedAndReviewRecord.*
+        from T_GJ_RectifiedAndReviewRecord
+        ) as tt
+        <trim prefix="where" prefixOverrides="AND|OR">
+            tt.rid=1
+            <if test="problemids !=null and problemids.size>0">
+                and tt.FK_CheckProblemExpoundID in
+                <foreach collection="problemids" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+        order by tt.FK_CheckProblemExpoundID,tt.ManagementType
+    </select>
+
+
+  <!--
+    author:xsm
+    description: 通过单个问题记录ID获取所有整改和复查记录信息
+    param:
+    date: 2021/08/04 10:28
+  -->
+  <select id="getHistoryDisposalDataByParamMap" parameterType="map" resultType="map">
+    select
+    tt.ManagementType,
+    convert(varchar(10),tt.ManagementTime,120)ManagementTime,
+    tt.Remark,
+    tt.ManagementUser,
+    tt.FK_FileID fkfileid
+    from T_GJ_RectifiedAndReviewRecord tt
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="managementtype!=null and managementtype!='' ">
+        and tt.ManagementType  = #{managementtype}
+      </if>
+      <if test="problemid!=null and problemid!='' ">
+        and tt.FK_CheckProblemExpoundID  = #{problemid}
+      </if>
+    </trim>
+    order by tt.ManagementTime,tt.UpdateTime
+  </select>
+
+
+  <!--
+   author:xsm
+   description: 通过单个问题记录ID统计所有整改和复查记录信息
+   param:
+   date: 2021/08/04 10:28
+ -->
+  <select id="countEntProblemRectifyReportNumByID" parameterType="String" resultType="map">
+    select
+    count(tt.PK_ID) num ,tt.ManagementType
+    from T_GJ_RectifiedAndReviewRecord tt
+    where
+         tt.FK_CheckProblemExpoundID  = #{fkCheckproblemexpoundid}
+    group by tt.FK_CheckProblemExpoundID,tt.ManagementType
+  </select>
+</mapper>

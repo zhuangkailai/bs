@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.useelectricfacilitymonitorpoint.UseElectricFacilityMonitorPointMapper" >
+  <resultMap id="BaseResultMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_UseElectricFacilityId" property="fkuseelectricfacilityid" jdbcType="VARCHAR" />
+    <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR" />
+    <result column="MonitorStatus" property="monitorstatus" jdbcType="NUMERIC" />
+    <result column="DGIMN" property="dgimn" jdbcType="VARCHAR" />
+    <result column="InstallPosition" property="installposition" jdbcType="VARCHAR" />
+    <result column="PowerOnOffThreshold" property="poweronoffthreshold" jdbcType="DOUBLE" />
+    <result column="LoadOnOffThreshold" property="loadonoffthreshold" jdbcType="DOUBLE" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultListMap" type="map" >
+    <id column="PK_ID" property="pkid" jdbcType="VARCHAR" />
+    <result column="FK_UseElectricFacilityId" property="fkuseelectricfacilityid" jdbcType="VARCHAR" />
+    <result column="MonitorPointName" property="monitorpointname" jdbcType="VARCHAR" />
+    <result column="MonitorStatus" property="monitorstatus" jdbcType="NUMERIC" />
+    <result column="PowerOnOffThreshold" property="poweronoffthreshold" jdbcType="DOUBLE" />
+    <result column="LoadOnOffThreshold" property="loadonoffthreshold" jdbcType="DOUBLE" />
+    <result column="MonitorStatusName" property="monitorstatusname" jdbcType="VARCHAR" />
+    <result column="DGIMN" property="dgimn" jdbcType="VARCHAR" />
+    <result column="InstallPosition" property="installposition" jdbcType="VARCHAR" />
+    <result column="UpdateTime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="UpdateUser" property="updateuser" jdbcType="VARCHAR" />
+    <collection property="pollutants" javaType="java.util.List" ofType="map">
+      <result column="pollutantname" property="pollutantname" jdbcType="VARCHAR" />
+      <result column="pollutantcode" property="pollutantcode" jdbcType="VARCHAR" />
+      <result column="MinThreshold" property="minthreshold" jdbcType="VARCHAR" />
+      <result column="MaxThreshold" property="maxthreshold" jdbcType="NUMERIC" />
+      <result column="AlarmType" property="alarmtype" jdbcType="VARCHAR" />
+      <result column="AlarmTypeName" property="alarmtypename" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    T_BAS_UseElectricFacilityMonitorPoint.PK_ID,
+    T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId,
+    T_BAS_UseElectricFacilityMonitorPoint.MonitorPointName,
+    T_BAS_UseElectricFacilityMonitorPoint.PowerOnOffThreshold,
+    T_BAS_UseElectricFacilityMonitorPoint.LoadOnOffThreshold,
+    T_BAS_UseElectricFacilityMonitorPoint.MonitorStatus,
+    case T_BAS_UseElectricFacilityMonitorPoint.MonitorStatus when 0 then '离线' when 1 then '正常' when 2 then '异常' end MonitorStatusName,
+    T_BAS_UseElectricFacilityMonitorPoint.DGIMN,
+    T_BAS_UseElectricFacilityMonitorPoint.InstallPosition,
+    convert(varchar(19),T_BAS_UseElectricFacilityMonitorPoint.UpdateTime,120)UpdateTime,
+    T_BAS_UseElectricFacilityMonitorPoint.UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BAS_UseElectricFacilityMonitorPoint
+    where PK_ID = #{pkid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BAS_UseElectricFacilityMonitorPoint
+    where PK_ID = #{pkid}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.useelectricfacilitymonitorpoint.UseElectricFacilityMonitorPointVO" >
+    insert into T_BAS_UseElectricFacilityMonitorPoint
+    (PK_ID,
+    FK_UseElectricFacilityId,
+    MonitorPointName,
+    PowerOnOffThreshold,
+    LoadOnOffThreshold,
+    MonitorStatus,
+    DGIMN,
+    InstallPosition,
+    UpdateTime,
+    UpdateUser
+    )
+    values(#{pkid,jdbcType=VARCHAR},
+    #{fkuseelectricfacilityid,jdbcType=VARCHAR},
+    #{monitorpointname,jdbcType=VARCHAR},
+    #{poweronoffthreshold,jdbcType=DOUBLE},
+    #{loadonoffthreshold,jdbcType=DOUBLE},
+    #{monitorstatus,jdbcType=NUMERIC},
+    #{dgimn,jdbcType=VARCHAR},
+    #{installposition,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=VARCHAR},
+    #{updateuser,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.useelectricfacilitymonitorpoint.UseElectricFacilityMonitorPointVO" >
+    update T_BAS_UseElectricFacilityMonitorPoint
+    set
+    FK_UseElectricFacilityId=#{fkuseelectricfacilityid,jdbcType=VARCHAR},
+    MonitorPointName=#{monitorpointname,jdbcType=VARCHAR},
+    PowerOnOffThreshold=#{poweronoffthreshold,jdbcType=DOUBLE},
+    LoadOnOffThreshold=#{loadonoffthreshold,jdbcType=DOUBLE},
+    MonitorStatus=#{monitorstatus,jdbcType=NUMERIC},
+    DGIMN=#{dgimn,jdbcType=VARCHAR},
+    InstallPosition=#{installposition,jdbcType=VARCHAR},
+    UpdateTime=#{updatetime,jdbcType=VARCHAR},
+    UpdateUser=#{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkid}
+  </update>
+
+
+   <!--
+      author:chengzq
+      description: 通过自定义参数获取用电设施监测点信息
+      param:
+      date: 2020/06/18 18:05
+  -->
+  <select id="getUseElectricFacilityMonitorPointByParamMap" parameterType="map" resultMap="ResultListMap">
+      select
+      PUB_CODE_PollutantFactor.name pollutantname,
+      PUB_CODE_PollutantFactor.code pollutantcode,
+      T_BAS_UseElectricFacilityMonitorPointSet.MinThreshold,
+      T_BAS_UseElectricFacilityMonitorPointSet.MaxThreshold,
+      T_BAS_UseElectricFacilityMonitorPointSet.AlarmType,
+      case T_BAS_UseElectricFacilityMonitorPointSet.AlarmType when 1 then '上限报警' when 2 then '下限报警' when 3 then '区间报警' end AlarmTypeName,
+      <include refid="Base_Column_List"/>
+      from T_BAS_UseElectricFacilityMonitorPoint
+      LEFT JOIN T_BAS_UseElectricFacilityMonitorPointSet ON T_BAS_UseElectricFacilityMonitorPointSet.FK_UseElectricFacilityMonitorPointId= T_BAS_UseElectricFacilityMonitorPoint.PK_ID
+      LEFT JOIN PUB_CODE_PollutantFactor ON PUB_CODE_PollutantFactor.code= T_BAS_UseElectricFacilityMonitorPointSet.FK_PollutantCode and PollutantType = 53 and IsUsed = 1
+      <where>
+        <if test="pkid!=null and pkid!='' ">
+          AND T_BAS_UseElectricFacilityMonitorPoint.PK_ID = #{pkid}
+        </if>
+        <if test="fkuseelectricfacilityid!=null and fkuseelectricfacilityid!='' ">
+          AND T_BAS_UseElectricFacilityMonitorPoint.FK_UseElectricFacilityId = #{fkuseelectricfacilityid}
+        </if>
+      </where>
+  </select>
+
+
+
+  <!--
+   * @author: lip
+   * @date: 2020/6/22 0022 下午 4:42
+   * @Description: 自定义查询条件获取用电设施点位数据
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getOnlineMonitorPointListByParam" parameterType="map" resultType="map">
+    select
+	t2.dgimn,
+	t2.monitorpointname,
+    t1.equipmentname,
+    t1.pk_id AS equipmentid,
+    t1.fk_controlpollutionfacilityid as controlpollutionfacilityid,
+	t2.pk_id as monitorpointid
+  from
+        t_bas_useelectricfacility t1
+    inner join t_bas_useelectricfacilitymonitorpoint t2 on t1.pk_id = t2.fk_useelectricfacilityid
+    inner join t_bas_devicestatus t3 on t3.dgimn = t2.dgimn
+
+    <where>
+      <if test="useelectricfacilityid!=null and useelectricfacilityid!='' ">
+        AND t2.FK_UseElectricFacilityId = #{useelectricfacilityid}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and t3.FK_MonitorPointTypeCode = #{monitorpointtype}
+      </if>
+      <if test="monitorpointid!=null and monitorpointid!='' ">
+        and t2.pk_id = #{monitorpointid}
+      </if>
+      <if test="monitorpointids !=null and monitorpointids.size>0">
+        and t2.pk_id in
+        <foreach collection="monitorpointids" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+
+  </select>
+
+
+
+  <!--
+   * @author: lip
+   * @date: 2020/6/22 0022 下午 4:42
+   * @Description: 自定义查询条件获取用电设施点位数据
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getCWAndZWMonitorPointListByParam" parameterType="map" resultType="map">
+    SELECT
+      t1.cwdgimn,t1.cwid,t2.zwid,t2.zwdgimn
+    FROM
+      (
+        SELECT
+        t2.dgimn as cwdgimn,
+        t1.fk_controlpollutionfacilityid AS controlpollutionfacilityid,
+        t1.PK_ID as cwid,
+        t3.FK_MonitorPointTypeCode as monitorpointtype
+        FROM
+        t_bas_useelectricfacility t1
+        INNER JOIN t_bas_useelectricfacilitymonitorpoint t2 ON t1.pk_id = t2.fk_useelectricfacilityid
+        INNER JOIN t_bas_devicestatus t3 ON t3.dgimn = t2.dgimn
+        ) t1
+      LEFT JOIN (
+        SELECT
+        t2.dgimn as zwdgimn,
+        t1.PK_ID as zwid
+        FROM
+        t_bas_useelectricfacility t1
+        INNER JOIN t_bas_useelectricfacilitymonitorpoint t2 ON t1.pk_id = t2.fk_useelectricfacilityid
+        INNER JOIN t_bas_devicestatus t3 ON t3.dgimn = t2.dgimn
+        ) t2 ON t1.controlpollutionfacilityid = t2.zwid
+    <where>
+      <if test="useelectricfacilityid!=null and useelectricfacilityid!='' ">
+        AND t1.cwid = #{useelectricfacilityid}
+      </if>
+      <if test="monitorpointtype!=null and monitorpointtype!='' ">
+        and t1.monitorpointtype = #{monitorpointtype}
+      </if>
+    </where>
+  </select>
+</mapper>

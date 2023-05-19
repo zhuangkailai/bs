@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.entevaluation.EntEvaluationSchemeMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationSchemeVO">
+    <id column="PK_SchemeID" jdbcType="VARCHAR" property="pkSchemeid" />
+    <result column="SchemeName" jdbcType="VARCHAR" property="schemename" />
+    <result column="SchemeRemark" jdbcType="VARCHAR" property="schemeremark" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_SchemeID, SchemeName, SchemeRemark, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_EntEvaluationScheme
+    where PK_SchemeID = #{pkSchemeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_EntEvaluationScheme
+    where PK_SchemeID = #{pkSchemeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationSchemeVO">
+    insert into T_BAS_EntEvaluationScheme (PK_SchemeID, SchemeName, SchemeRemark, 
+      UpdateUser, UpdateTime)
+    values (#{pkSchemeid,jdbcType=VARCHAR}, #{schemename,jdbcType=VARCHAR}, #{schemeremark,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationSchemeVO">
+    insert into T_BAS_EntEvaluationScheme
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkSchemeid != null">
+        PK_SchemeID,
+      </if>
+      <if test="schemename != null">
+        SchemeName,
+      </if>
+      <if test="schemeremark != null">
+        SchemeRemark,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkSchemeid != null">
+        #{pkSchemeid,jdbcType=VARCHAR},
+      </if>
+      <if test="schemename != null">
+        #{schemename,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeremark != null">
+        #{schemeremark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationSchemeVO">
+    update T_BAS_EntEvaluationScheme
+    <set>
+      <if test="schemename != null">
+        SchemeName = #{schemename,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeremark != null">
+        SchemeRemark = #{schemeremark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_SchemeID = #{pkSchemeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.entevaluation.EntEvaluationSchemeVO">
+    update T_BAS_EntEvaluationScheme
+    set SchemeName = #{schemename,jdbcType=VARCHAR},
+      SchemeRemark = #{schemeremark,jdbcType=VARCHAR},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_SchemeID = #{pkSchemeid,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="getEntEvaluationSchemeListDataByParamMap" parameterType="map" resultType="map">
+    select
+    PK_SchemeID pkschemeid,
+    schemename,
+    schemeremark
+    from T_BAS_EntEvaluationScheme
+    <where>
+      <if test="schemename!=null and schemename!='' ">
+        and T_BAS_EntEvaluationScheme.schemename like concat('%', #{schemename},'%')
+      </if>
+      <if test="hasschemename!=null and hasschemename!='' ">
+        and T_BAS_EntEvaluationScheme.schemename = #{hasschemename}
+      </if>
+    </where>
+    order by schemename
+  </select>
+
+  <select id="getEntEvaluationSchemeDetailById" parameterType="String" resultType="map">
+    select
+    PK_SchemeID pkschemeid,
+    schemename,
+    schemeremark,
+    CONVERT(varchar(19), T_BAS_EntEvaluationScheme.UpdateTime,120) AS UpdateTime,
+    UpdateUser
+    from T_BAS_EntEvaluationScheme
+    WHERE T_BAS_EntEvaluationScheme.PK_SchemeID = #{pkSchemeid}
+  </select>
+</mapper>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.SysAppMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.SysAppVO">
+        <id column="AppID" jdbcType="NVARCHAR" property="appId"/>
+        <result column="AppName" jdbcType="NVARCHAR" property="appName"/>
+        <result column="AppDescription" jdbcType="NVARCHAR" property="appDescription"/>
+        <result column="AppVersion" jdbcType="NVARCHAR" property="appVersion"/>
+        <result column="AppUrl" jdbcType="NVARCHAR" property="appUrl"/>
+        <result column="AppLicensed" jdbcType="NVARCHAR" property="appLicensed"/>
+        <result column="AppType" jdbcType="NVARCHAR" property="appType"/>
+        <result column="RegsionIp" jdbcType="NVARCHAR" property="regsionIp"/>
+        <result column="RegsionUrl" jdbcType="NVARCHAR" property="regsionUrl"/>
+        <result column="UpdateUrl" jdbcType="NVARCHAR" property="updateUrl"/>
+        <result column="Sequence" jdbcType="INTEGER" property="sequence"/>
+        <result column="Remark" jdbcType="NVARCHAR" property="remark"/>
+        <result column="ParentID" jdbcType="NVARCHAR" property="parentId"/>
+        <result column="DeleteMark" jdbcType="BIT" property="deleteMark"/>
+        <result column="CreateDate" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="CreateUserID" jdbcType="NVARCHAR" property="createUserId"/>
+        <result column="AppImg" jdbcType="NVARCHAR" property="appImg"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    AppID, AppName, AppDescription, AppVersion, AppUrl, AppLicensed, AppType, RegsionIp, 
+    RegsionUrl, UpdateUrl, Sequence, Remark, ParentID, DeleteMark, CreateDate, CreateUserID,AppImg
+  </sql>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_SysApp
+        where appid = #{appid,jdbcType=NVARCHAR}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_SysApp
+    where AppID = #{appId,jdbcType=NVARCHAR}
+  </delete>
+
+    <insert id="insert" parameterType="com.tjpu.auth.model.system.SysAppVO">
+    insert into Base_SysApp (AppID, AppName, AppDescription, 
+      AppVersion, AppUrl, AppLicensed, 
+      AppType, RegsionIp, RegsionUrl, 
+      UpdateUrl, Sequence, Remark, 
+      ParentID, DeleteMark, CreateDate, 
+      CreateUserID)
+    values (#{appId,jdbcType=NVARCHAR}, #{appName,jdbcType=NVARCHAR}, #{appDescription,jdbcType=NVARCHAR}, 
+      #{appVersion,jdbcType=NVARCHAR}, #{appUrl,jdbcType=NVARCHAR}, #{appLicensed,jdbcType=NVARCHAR}, 
+      #{appType,jdbcType=NVARCHAR}, #{regsionIp,jdbcType=NVARCHAR}, #{regsionUrl,jdbcType=NVARCHAR}, 
+      #{updateUrl,jdbcType=NVARCHAR}, #{sequence,jdbcType=INTEGER}, #{remark,jdbcType=NVARCHAR}, 
+      #{parentId,jdbcType=NVARCHAR}, #{deleteMark,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=NVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.SysAppVO">
+        insert into Base_SysApp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                AppID,
+            </if>
+            <if test="appName != null">
+                AppName,
+            </if>
+            <if test="appDescription != null">
+                AppDescription,
+            </if>
+            <if test="appVersion != null">
+                AppVersion,
+            </if>
+            <if test="appUrl != null">
+                AppUrl,
+            </if>
+            <if test="appLicensed != null">
+                AppLicensed,
+            </if>
+            <if test="appType != null">
+                AppType,
+            </if>
+            <if test="regsionIp != null">
+                RegsionIp,
+            </if>
+            <if test="regsionUrl != null">
+                RegsionUrl,
+            </if>
+            <if test="updateUrl != null">
+                UpdateUrl,
+            </if>
+            <if test="sequence != null">
+                Sequence,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="parentId != null">
+                ParentID,
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark,
+            </if>
+            <if test="createDate != null">
+                CreateDate,
+            </if>
+            <if test="createUserId != null">
+                CreateUserID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                #{appId,jdbcType=NVARCHAR},
+            </if>
+            <if test="appName != null">
+                #{appName,jdbcType=NVARCHAR},
+            </if>
+            <if test="appDescription != null">
+                #{appDescription,jdbcType=NVARCHAR},
+            </if>
+            <if test="appVersion != null">
+                #{appVersion,jdbcType=NVARCHAR},
+            </if>
+            <if test="appUrl != null">
+                #{appUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="appLicensed != null">
+                #{appLicensed,jdbcType=NVARCHAR},
+            </if>
+            <if test="appType != null">
+                #{appType,jdbcType=NVARCHAR},
+            </if>
+            <if test="regsionIp != null">
+                #{regsionIp,jdbcType=NVARCHAR},
+            </if>
+            <if test="regsionUrl != null">
+                #{regsionUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="updateUrl != null">
+                #{updateUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="sequence != null">
+                #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=NVARCHAR},
+            </if>
+            <if test="deleteMark != null">
+                #{deleteMark,jdbcType=BIT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.SysAppVO">
+        update Base_SysApp
+        <set>
+            <if test="appName != null">
+                AppName = #{appName,jdbcType=NVARCHAR},
+            </if>
+            <if test="appDescription != null">
+                AppDescription = #{appDescription,jdbcType=NVARCHAR},
+            </if>
+            <if test="appVersion != null">
+                AppVersion = #{appVersion,jdbcType=NVARCHAR},
+            </if>
+            <if test="appUrl != null">
+                AppUrl = #{appUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="appLicensed != null">
+                AppLicensed = #{appLicensed,jdbcType=NVARCHAR},
+            </if>
+            <if test="appType != null">
+                AppType = #{appType,jdbcType=NVARCHAR},
+            </if>
+            <if test="regsionIp != null">
+                RegsionIp = #{regsionIp,jdbcType=NVARCHAR},
+            </if>
+            <if test="regsionUrl != null">
+                RegsionUrl = #{regsionUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="updateUrl != null">
+                UpdateUrl = #{updateUrl,jdbcType=NVARCHAR},
+            </if>
+            <if test="sequence != null">
+                Sequence = #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="parentId != null">
+                ParentID = #{parentId,jdbcType=NVARCHAR},
+            </if>
+            <if test="deleteMark != null">
+                DeleteMark = #{deleteMark,jdbcType=BIT},
+            </if>
+            <if test="createDate != null">
+                CreateDate = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                CreateUserID = #{createUserId,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where AppID = #{appId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.SysAppVO">
+    update Base_SysApp
+    set AppName = #{appName,jdbcType=NVARCHAR},
+      AppDescription = #{appDescription,jdbcType=NVARCHAR},
+      AppVersion = #{appVersion,jdbcType=NVARCHAR},
+      AppUrl = #{appUrl,jdbcType=NVARCHAR},
+      AppLicensed = #{appLicensed,jdbcType=NVARCHAR},
+      AppType = #{appType,jdbcType=NVARCHAR},
+      RegsionIp = #{regsionIp,jdbcType=NVARCHAR},
+      RegsionUrl = #{regsionUrl,jdbcType=NVARCHAR},
+      UpdateUrl = #{updateUrl,jdbcType=NVARCHAR},
+      Sequence = #{sequence,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      ParentID = #{parentId,jdbcType=NVARCHAR},
+      DeleteMark = #{deleteMark,jdbcType=BIT},
+      CreateDate = #{createDate,jdbcType=TIMESTAMP},
+      CreateUserID = #{createUserId,jdbcType=NVARCHAR}
+    where AppID = #{appId,jdbcType=NVARCHAR}
+  </update>
+</mapper>

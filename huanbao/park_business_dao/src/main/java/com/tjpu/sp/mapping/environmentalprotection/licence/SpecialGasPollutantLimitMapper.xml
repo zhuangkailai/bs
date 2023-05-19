@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.environmentalprotection.licence.SpecialGasPollutantLimitMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.environmentalprotection.licence.SpecialGasPollutantLimitVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="FK_LicenceID" jdbcType="VARCHAR" property="fkLicenceid" />
+    <result column="SituationType" jdbcType="VARCHAR" property="situationtype" />
+    <result column="OutletType" jdbcType="VARCHAR" property="outlettype" />
+    <result column="FK_PollutantCode" jdbcType="VARCHAR" property="fkPollutantcode" />
+    <result column="PermitTimeInterval" jdbcType="VARCHAR" property="permittimeinterval" />
+    <result column="PermitLimit" jdbcType="DOUBLE" property="permitlimit" />
+    <result column="PermitDayLimit" jdbcType="DOUBLE" property="permitdaylimit" />
+    <result column="PermitMonthLimit" jdbcType="DOUBLE" property="permitmonthlimit" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, FK_LicenceID, SituationType, OutletType, FK_PollutantCode, PermitTimeInterval, 
+    PermitLimit, PermitDayLimit, PermitMonthLimit, UpdateUser, UpdateTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_PWXKZ_SpecialGasPollutantLimit
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_PWXKZ_SpecialGasPollutantLimit
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.environmentalprotection.licence.SpecialGasPollutantLimitVO">
+    insert into T_PWXKZ_SpecialGasPollutantLimit (PK_ID, FK_LicenceID, SituationType, 
+      OutletType, FK_PollutantCode, PermitTimeInterval, 
+      PermitLimit, PermitDayLimit, PermitMonthLimit, 
+      UpdateUser, UpdateTime)
+    values (#{pkId,jdbcType=VARCHAR}, #{fkLicenceid,jdbcType=VARCHAR}, #{situationtype,jdbcType=VARCHAR}, 
+      #{outlettype,jdbcType=VARCHAR}, #{fkPollutantcode,jdbcType=VARCHAR}, #{permittimeinterval,jdbcType=VARCHAR}, 
+      #{permitlimit,jdbcType=DOUBLE}, #{permitdaylimit,jdbcType=DOUBLE}, #{permitmonthlimit,jdbcType=DOUBLE}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.SpecialGasPollutantLimitVO">
+    insert into T_PWXKZ_SpecialGasPollutantLimit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="fkLicenceid != null">
+        FK_LicenceID,
+      </if>
+      <if test="situationtype != null">
+        SituationType,
+      </if>
+      <if test="outlettype != null">
+        OutletType,
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode,
+      </if>
+      <if test="permittimeinterval != null">
+        PermitTimeInterval,
+      </if>
+      <if test="permitlimit != null">
+        PermitLimit,
+      </if>
+      <if test="permitdaylimit != null">
+        PermitDayLimit,
+      </if>
+      <if test="permitmonthlimit != null">
+        PermitMonthLimit,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkLicenceid != null">
+        #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="situationtype != null">
+        #{situationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="outlettype != null">
+        #{outlettype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="permittimeinterval != null">
+        #{permittimeinterval,jdbcType=VARCHAR},
+      </if>
+      <if test="permitlimit != null">
+        #{permitlimit,jdbcType=DOUBLE},
+      </if>
+      <if test="permitdaylimit != null">
+        #{permitdaylimit,jdbcType=DOUBLE},
+      </if>
+      <if test="permitmonthlimit != null">
+        #{permitmonthlimit,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.environmentalprotection.licence.SpecialGasPollutantLimitVO">
+    update T_PWXKZ_SpecialGasPollutantLimit
+    <set>
+      <if test="fkLicenceid != null">
+        FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      </if>
+      <if test="situationtype != null">
+        SituationType = #{situationtype,jdbcType=VARCHAR},
+      </if>
+      <if test="outlettype != null">
+        OutletType = #{outlettype,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPollutantcode != null">
+        FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      </if>
+      <if test="permittimeinterval != null">
+        PermitTimeInterval = #{permittimeinterval,jdbcType=VARCHAR},
+      </if>
+      <if test="permitlimit != null">
+        PermitLimit = #{permitlimit,jdbcType=DOUBLE},
+      </if>
+      <if test="permitdaylimit != null">
+        PermitDayLimit = #{permitdaylimit,jdbcType=DOUBLE},
+      </if>
+      <if test="permitmonthlimit != null">
+        PermitMonthLimit = #{permitmonthlimit,jdbcType=DOUBLE},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.environmentalprotection.licence.SpecialGasPollutantLimitVO">
+    update T_PWXKZ_SpecialGasPollutantLimit
+    set FK_LicenceID = #{fkLicenceid,jdbcType=VARCHAR},
+      SituationType = #{situationtype,jdbcType=VARCHAR},
+      OutletType = #{outlettype,jdbcType=VARCHAR},
+      FK_PollutantCode = #{fkPollutantcode,jdbcType=VARCHAR},
+      PermitTimeInterval = #{permittimeinterval,jdbcType=VARCHAR},
+      PermitLimit = #{permitlimit,jdbcType=DOUBLE},
+      PermitDayLimit = #{permitdaylimit,jdbcType=DOUBLE},
+      PermitMonthLimit = #{permitmonthlimit,jdbcType=DOUBLE},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <!--获取列表信息数据 lip 2022/8/8 17:20 -->
+  <select id="getDataListByParam" parameterType="map" resultType="map">
+    select
+    t.pk_id,
+    t2.name as pollutantname,
+    case when t.outlettype = '1' then
+    '主要排放口'
+    when t.outlettype = '2' then
+    '一般排放口'
+    when t.outlettype = '3' then
+    '无组织排放口' else ''
+    end outlettype,
+    t.permitdaylimit,
+    t.permitlimit,
+    t.permitmonthlimit,
+    t.permittimeinterval
+    from
+    t_pwxkz_specialgaspollutantlimit t
+    inner join pub_code_pollutantfactor t2 on t2.code = t.fk_pollutantcode
+    and t2.pollutanttype = '2'
+
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="licenceid!=null and licenceid!=''">
+        and t.FK_LicenceID  = #{licenceid}
+      </if>
+      <if test="situationtype!=null and situationtype!=''">
+        and t.situationtype  = #{situationtype}
+      </if>
+      ORDER BY t.OutletType,t2.OrderIndex
+    </trim>
+  </select>
+
+
+</mapper>

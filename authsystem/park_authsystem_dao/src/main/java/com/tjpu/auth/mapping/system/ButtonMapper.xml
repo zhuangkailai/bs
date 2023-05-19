@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.auth.dao.system.ButtonMapper">
+    <resultMap id="BaseResultMap" type="com.tjpu.auth.model.system.ButtonVO">
+        <id column="Button_ID" jdbcType="NVARCHAR" property="buttonId"/>
+        <result column="Button_Name" jdbcType="NVARCHAR" property="buttonName"/>
+        <result column="Button_Title" jdbcType="NVARCHAR" property="buttonTitle"/>
+        <result column="Button_Img" jdbcType="NVARCHAR" property="buttonImg"/>
+        <result column="Button_Code" jdbcType="NVARCHAR" property="buttonCode"/>
+        <result column="SortCode" jdbcType="INTEGER" property="sortcode"/>
+        <result column="Button_Type" jdbcType="NVARCHAR" property="buttonType"/>
+        <result column="Button_Remak" jdbcType="NVARCHAR" property="buttonRemak"/>
+        <result column="DeleteMark" jdbcType="INTEGER" property="deletemark"/>
+        <result column="CreateDate" jdbcType="DATE" property="createdate"/>
+        <result column="CreateUserId" jdbcType="NVARCHAR" property="createuserid"/>
+        <result column="CreateUserName" jdbcType="NVARCHAR" property="createusername"/>
+        <result column="ModifyDate" jdbcType="DATE" property="modifydate"/>
+        <result column="ModifyUserId" jdbcType="NVARCHAR" property="modifyuserid"/>
+        <result column="ModifyUserName" jdbcType="NVARCHAR" property="modifyusername"/>
+        <result column="Button_Style" jdbcType="NVARCHAR" property="buttonStyle"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Button_ID, Button_Name, Button_Title, Button_Img, Button_Code, SortCode, Button_Type, 
+    Button_Remak, DeleteMark, CreateDate, CreateUserId, CreateUserName, ModifyDate, ModifyUserId, 
+    ModifyUserName,Button_Style
+  </sql>
+
+
+    <!--
+   * @author: xsm
+   * @date: 2018/7/15 11:05
+   * @Description: 获取用户权限的按钮名称集合
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+   -->
+    <select id="getButtonNameByButtonid" resultMap="BaseResultMap">
+        SELECT Button_ID,Button_Name
+        FROM Base_Button
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            <if test="buttonidlist != null">
+                button_id IN
+                <foreach item="item" index="index" collection="buttonidlist"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <!--
+     * @author: zhangzc
+     * @date: 2018/5/24 8:43
+     * @Description: 根据菜单id和用户id获取用户在此菜单上的按钮权限
+     * @updateUser:
+     * @updateDate:
+     * @updateDescription:
+     -->
+    <select id="getButtonsByMenuIdAndUserId" resultMap="BaseResultMap">
+        SELECT
+        button.Button_ID,
+        button.Button_Name,
+        button.Button_Title,
+        button.Button_Img,
+        button.Button_Code,
+        button.SortCode,
+        button.Button_Type,
+        button.Button_Remak,
+        button.DeleteMark,
+        button.CreateDate,
+        button.CreateUserId,
+        button.CreateUserName,
+        button.ModifyDate,
+        button.ModifyUserId,
+        button.ModifyUserName,
+        Button_Style
+        FROM
+        Base_Button button
+        LEFT JOIN (
+        SELECT
+        ur.User_ID,
+        ur.Button_Id,
+        ur.Menu_Id
+        FROM
+        Base_UserRight ur
+        UNION
+        SELECT
+        urole.User_ID,
+        rr.Button_Id,
+        rr.Menu_Id
+        FROM
+        Base_UserRole urole
+        LEFT JOIN Base_RoleRight rr ON urole.Roles_ID = rr.Roles_ID
+        ) t1 ON button.Button_Id = t1.Button_Id
+        <trim prefix="where" prefixOverrides="AND|OR">
+            AND t1.menu_id = #{menuid}
+            AND t1.user_id = #{userid}
+        </trim>
+        order by SortCode
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Base_Button
+        where Button_ID = #{buttonId,jdbcType=NVARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Base_Button
+    where Button_ID = #{buttonId,jdbcType=NVARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tjpu.auth.model.system.ButtonVO">
+    insert into Base_Button (Button_ID, Button_Name, Button_Title, 
+      Button_Img, Button_Code, SortCode, 
+      Button_Type, Button_Remak, DeleteMark, 
+      CreateDate, CreateUserId, CreateUserName, 
+      ModifyDate, ModifyUserId, ModifyUserName,Button_Style
+      )
+    values (#{buttonId,jdbcType=NVARCHAR}, #{buttonName,jdbcType=NVARCHAR}, #{buttonTitle,jdbcType=NVARCHAR}, 
+      #{buttonImg,jdbcType=NVARCHAR}, #{buttonCode,jdbcType=NVARCHAR}, #{sortcode,jdbcType=INTEGER}, 
+      #{buttonType,jdbcType=NVARCHAR}, #{buttonRemak,jdbcType=NVARCHAR}, #{deletemark,jdbcType=INTEGER}, 
+      #{createdate,jdbcType=DATE}, #{createuserid,jdbcType=NVARCHAR}, #{createusername,jdbcType=NVARCHAR}, 
+      #{modifydate,jdbcType=DATE}, #{modifyuserid,jdbcType=NVARCHAR}, #{modifyusername,jdbcType=NVARCHAR}, #{buttonStyle,jdbcType=NVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tjpu.auth.model.system.ButtonVO">
+        insert into Base_Button
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buttonId != null">
+                Button_ID,
+            </if>
+            <if test="buttonName != null">
+                Button_Name,
+            </if>
+            <if test="buttonTitle != null">
+                Button_Title,
+            </if>
+            <if test="buttonImg != null">
+                Button_Img,
+            </if>
+            <if test="buttonCode != null">
+                Button_Code,
+            </if>
+            <if test="sortcode != null">
+                SortCode,
+            </if>
+            <if test="buttonType != null">
+                Button_Type,
+            </if>
+            <if test="buttonRemak != null">
+                Button_Remak,
+            </if>
+            <if test="deletemark != null">
+                DeleteMark,
+            </if>
+            <if test="createdate != null">
+                CreateDate,
+            </if>
+            <if test="createuserid != null">
+                CreateUserId,
+            </if>
+            <if test="createusername != null">
+                CreateUserName,
+            </if>
+            <if test="modifydate != null">
+                ModifyDate,
+            </if>
+            <if test="modifyuserid != null">
+                ModifyUserId,
+            </if>
+            <if test="modifyusername != null">
+                ModifyUserName,
+            </if>
+            <if test="buttonStyle != null">
+                Button_Style,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buttonId != null">
+                #{buttonId,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonName != null">
+                #{buttonName,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonTitle != null">
+                #{buttonTitle,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonImg != null">
+                #{buttonImg,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonCode != null">
+                #{buttonCode,jdbcType=NVARCHAR},
+            </if>
+            <if test="sortcode != null">
+                #{sortcode,jdbcType=INTEGER},
+            </if>
+            <if test="buttonType != null">
+                #{buttonType,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonRemak != null">
+                #{buttonRemak,jdbcType=NVARCHAR},
+            </if>
+            <if test="deletemark != null">
+                #{deletemark,jdbcType=INTEGER},
+            </if>
+            <if test="createdate != null">
+                #{createdate,jdbcType=DATE},
+            </if>
+            <if test="createuserid != null">
+                #{createuserid,jdbcType=NVARCHAR},
+            </if>
+            <if test="createusername != null">
+                #{createusername,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifydate != null">
+                #{modifydate,jdbcType=DATE},
+            </if>
+            <if test="modifyuserid != null">
+                #{modifyuserid,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyusername != null">
+                #{modifyusername,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonStyle != null">
+                #{buttonStyle,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.auth.model.system.ButtonVO">
+        update Base_Button
+        <set>
+            <if test="buttonName != null">
+                Button_Name = #{buttonName,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonTitle != null">
+                Button_Title = #{buttonTitle,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonImg != null">
+                Button_Img = #{buttonImg,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonCode != null">
+                Button_Code = #{buttonCode,jdbcType=NVARCHAR},
+            </if>
+            <if test="sortcode != null">
+                SortCode = #{sortcode,jdbcType=INTEGER},
+            </if>
+            <if test="buttonType != null">
+                Button_Type = #{buttonType,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonRemak != null">
+                Button_Remak = #{buttonRemak,jdbcType=NVARCHAR},
+            </if>
+            <if test="deletemark != null">
+                DeleteMark = #{deletemark,jdbcType=INTEGER},
+            </if>
+            <if test="createdate != null">
+                CreateDate = #{createdate,jdbcType=DATE},
+            </if>
+            <if test="createuserid != null">
+                CreateUserId = #{createuserid,jdbcType=NVARCHAR},
+            </if>
+            <if test="createusername != null">
+                CreateUserName = #{createusername,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifydate != null">
+                ModifyDate = #{modifydate,jdbcType=DATE},
+            </if>
+            <if test="modifyuserid != null">
+                ModifyUserId = #{modifyuserid,jdbcType=NVARCHAR},
+            </if>
+            <if test="modifyusername != null">
+                ModifyUserName = #{modifyusername,jdbcType=NVARCHAR},
+            </if>
+            <if test="buttonStyle != null">
+                Button_Style = #{buttonStyle,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where Button_ID = #{buttonId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tjpu.auth.model.system.ButtonVO">
+    update Base_Button
+    set Button_Name = #{buttonName,jdbcType=NVARCHAR},
+      Button_Title = #{buttonTitle,jdbcType=NVARCHAR},
+      Button_Img = #{buttonImg,jdbcType=NVARCHAR},
+      Button_Code = #{buttonCode,jdbcType=NVARCHAR},
+      SortCode = #{sortcode,jdbcType=INTEGER},
+      Button_Type = #{buttonType,jdbcType=NVARCHAR},
+      Button_Remak = #{buttonRemak,jdbcType=NVARCHAR},
+      DeleteMark = #{deletemark,jdbcType=INTEGER},
+      CreateDate = #{createdate,jdbcType=DATE},
+      CreateUserId = #{createuserid,jdbcType=NVARCHAR},
+      CreateUserName = #{createusername,jdbcType=NVARCHAR},
+      ModifyDate = #{modifydate,jdbcType=DATE},
+      ModifyUserId = #{modifyuserid,jdbcType=NVARCHAR},
+      ModifyUserName = #{modifyusername,jdbcType=NVARCHAR},
+      Button_Style = #{buttonStyle,jdbcType=NVARCHAR}
+    where Button_ID = #{buttonId,jdbcType=NVARCHAR}
+  </update>
+</mapper>

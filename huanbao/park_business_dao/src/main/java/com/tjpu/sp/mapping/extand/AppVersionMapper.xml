@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjpu.sp.dao.extand.AppVersionMapper">
+  <resultMap id="BaseResultMap" type="com.tjpu.sp.model.extand.AppVersionVO">
+    <id column="PK_ID" jdbcType="VARCHAR" property="pkId" />
+    <result column="VersionNum" jdbcType="VARCHAR" property="versionnum" />
+    <result column="VersionDescription" jdbcType="VARCHAR" property="versiondescription" />
+    <result column="FK_FileID" jdbcType="VARCHAR" property="fkFileid" />
+    <result column="QRCode" jdbcType="VARCHAR" property="qrcode" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="UpdateUser" jdbcType="VARCHAR" property="updateuser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, VersionNum, VersionDescription, FK_FileID, QRCode, UpdateTime, UpdateUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BAS_AppVersion
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BAS_AppVersion
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tjpu.sp.model.extand.AppVersionVO">
+    insert into T_BAS_AppVersion (PK_ID, VersionNum, VersionDescription, 
+      FK_FileID, QRCode, UpdateTime, 
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{versionnum,jdbcType=VARCHAR}, #{versiondescription,jdbcType=VARCHAR}, 
+      #{fkFileid,jdbcType=VARCHAR}, #{qrcode,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tjpu.sp.model.extand.AppVersionVO">
+    insert into T_BAS_AppVersion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="versionnum != null">
+        VersionNum,
+      </if>
+      <if test="versiondescription != null">
+        VersionDescription,
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID,
+      </if>
+      <if test="qrcode != null">
+        QRCode,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="updateuser != null">
+        UpdateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="versionnum != null">
+        #{versionnum,jdbcType=VARCHAR},
+      </if>
+      <if test="versiondescription != null">
+        #{versiondescription,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null">
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tjpu.sp.model.extand.AppVersionVO">
+    update T_BAS_AppVersion
+    <set>
+      <if test="versionnum != null">
+        VersionNum = #{versionnum,jdbcType=VARCHAR},
+      </if>
+      <if test="versiondescription != null">
+        VersionDescription = #{versiondescription,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFileid != null">
+        FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null">
+        QRCode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UpdateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tjpu.sp.model.extand.AppVersionVO">
+    update T_BAS_AppVersion
+    set VersionNum = #{versionnum,jdbcType=VARCHAR},
+      VersionDescription = #{versiondescription,jdbcType=VARCHAR},
+      FK_FileID = #{fkFileid,jdbcType=VARCHAR},
+      QRCode = #{qrcode,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <!--
+   * @author: lip
+   * @date: 2019/9/25 0025 下午 1:27
+   * @Description: 获取最新app版本信息
+   * @updateUser:
+   * @updateDate:
+   * @updateDescription:
+  -->
+  <select id="getLastAppVersionInfo" parameterType="map" resultType="map">
+    SELECT
+      t1.VersionNum,t1.VersionDescription,t2.FilePath file_id,
+
+      CONVERT(varchar(19), t1.UpdateTime, 120) AS UpdateTime
+    FROM
+      T_BAS_AppVersion t1
+      LEFT JOIN T_BAS_FileInfo t2 ON t1.FK_FileID = t2.FileFlag
+      AND t2.BusinessType = '14'
+    WHERE
+      t1.VersionNum = (
+      SELECT
+      MAX (VersionNum)
+      FROM
+      T_BAS_AppVersion
+      <trim prefix="where" prefixOverrides="AND|OR">
+        <if test="apptype!=null and apptype !='' ">
+          AND apptype = #{apptype}
+        </if>
+      </trim>
+      )
+      <if test="apptype!=null and apptype !='' ">
+        AND t1.apptype = #{apptype}
+      </if>
+  </select>
+
+  <select id="getVersionListByParam" parameterType="java.lang.String"  resultType="map">
+    SELECT PK_ID pk_id,VersionNum,
+    CASE
+    WHEN AppType = '1' THEN
+    '环保应用'
+    WHEN AppType = '3' THEN
+    '安全环保应急'
+    WHEN AppType = '2' THEN
+    '安全应用'
+    END AppType,VersionDescription,CONVERT(varchar(19), UpdateTime, 120) AS UpdateTime,UpdateUser FROM T_BAS_AppVersion
+    <trim prefix="where" prefixOverrides="AND|OR">
+      <if test="versionnum!=null and versionnum !='' ">
+        AND VersionNum LIKE '%'+'${versionnum}'+'%'
+      </if>
+      <if test="versioncode!=null and versioncode !='' ">
+        AND VersionNum = #{versioncode}
+      </if>
+      <if test="apptype!=null and apptype !='' ">
+
+      and  AppType in
+        <foreach item="item" index="index" collection="apptype.split(',')"  open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </trim>
+    ORDER BY VersionNum DESC
+  </select>
+
+  <insert id="addAppVersion" parameterType="com.tjpu.sp.model.extand.AppVersionVO">
+    insert into T_BAS_AppVersion (PK_ID, VersionNum, VersionDescription,
+      FK_FileID,UpdateTime,
+      UpdateUser)
+    values (#{pkId,jdbcType=VARCHAR}, #{versionnum,jdbcType=VARCHAR}, #{versiondescription,jdbcType=VARCHAR},
+      #{fkFileid,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP},
+      #{updateuser,jdbcType=VARCHAR})
+  </insert>
+
+  <delete id="deleteAppVersionByID" parameterType="java.lang.String">
+    delete from T_BAS_AppVersion
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <update id="updateAppVersion" parameterType="com.tjpu.sp.model.extand.AppVersionVO">
+    update T_BAS_AppVersion
+    set VersionNum = #{versionnum,jdbcType=VARCHAR},
+      VersionDescription = #{versiondescription,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      UpdateUser = #{updateuser,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getAppVersionMaxVersion" resultType="String" parameterType="map">
+      SELECT MAX(VersionNum) VersionNum FROM T_BAS_AppVersion
+      <trim prefix="where" prefixOverrides="AND|OR">
+        <if test="apptype!=null and apptype !='' ">
+          AND apptype = #{apptype}
+        </if>
+      </trim>
+  </select>
+</mapper>
